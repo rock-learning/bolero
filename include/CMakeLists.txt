@@ -1,6 +1,6 @@
-project(behavior_learning)
+project(bolero)
 set(PROJECT_VERSION 1.0)
-set(PROJECT_DESCRIPTION "This is a header only library which includes interfaces for behavior learning libraries.")
+set(PROJECT_DESCRIPTION "This is a header only library which includes interfaces for bolero.")
 include(FindPkgConfig)
 
 cmake_minimum_required(VERSION 2.6)
@@ -14,9 +14,9 @@ set(HEADERS
         src/ParameterizedEnvironment.h
 )
 
-if(BUILD_BEHAVIOR_LEARNING)
+if(BUILD_BOLERO)
   #If we are building as subproject other subprojects may need to know where the includes are
-  set(BEHAVIOR_LEARNING_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE STRING "Include-dir for behavior_learning.")
+  set(BOLERO_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE STRING "Include-dir for bolero.")
 endif()
 
 # Install headers into mars include directory
