@@ -13,12 +13,10 @@ import os
 root_path = '../..'
 
 # Paths are relative from this file
-sys.path.extend([
-    os.path.abspath(root_path),
-    os.path.abspath(root_path + '/doc/source'),
-    os.path.abspath(root_path + '/doc/source/modules/generated'),
-    os.path.abspath(root_path + '/doc/source/sphinxext'),
-])
+sys.path.insert(0, os.path.abspath(root_path))
+sys.path.insert(0, os.path.abspath(root_path + '/doc/source'))
+sys.path.insert(0, os.path.abspath(root_path + '/doc/source/modules/generated'))
+sys.path.insert(0, os.path.abspath(root_path + '/doc/source/sphinxext'))
 
 
 needs_sphinx = '1.0'

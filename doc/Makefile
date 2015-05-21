@@ -53,6 +53,7 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*;
 	rm -rf $(BUILDDIR)/_doxygen/*
+	rm -rf $(SOURCEDIR)/auto_examples/*
 	rm $(SOURCEDIR)/modules/generated/*
 
 html: doxygen notebooks
