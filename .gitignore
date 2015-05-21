@@ -1,6 +1,10 @@
 # Temporary files
 *~
 
+# Temporary test files
+.coverage
+coverageReport
+
 # Binaries
 *.pyc
 build
