@@ -75,6 +75,7 @@ for objective_name in ["Sphere", "SchaffersF7"]:
         plot_objective()
         last_mean = cmaes.mean.copy()
         path.append(last_mean)
+        last_cov = cmaes.var * cmaes.cov
 
         X = np.empty((n_samples_per_update, n_params))
         F = np.empty((n_samples_per_update, 1))
@@ -91,7 +92,7 @@ for objective_name in ["Sphere", "SchaffersF7"]:
         plt.scatter(X[:, 0], X[:, 1], c=weights, cmap=plt.cm.gray)
         plt.scatter(objective.x_opt[0], objective.x_opt[1], s=100, color="r")
 
-        plot_ellipse(cov=cmaes.var * cmaes.cov, mean=last_mean, color="orange")
+        plot_ellipse(cov=last_cov, mean=last_mean, color="orange")
         plot_ellipse(cov=cmaes.var * cmaes.cov, mean=cmaes.mean, color="green")
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
 plt.show()

@@ -8,6 +8,7 @@ environments) either from configuration dictionaries or from YAML files. This
 example shows how we can load an optimizer from a configuration dictionary.
 """
 print(__doc__)
+
 from bolero.utils import from_dict
 
 
