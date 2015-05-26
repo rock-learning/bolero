@@ -46,6 +46,8 @@ Utility functions
    :toctree: modules/generated/
    :template: function.rst
 
+   utils.from_dict
+   utils.from_yaml
    utils.log.get_logger
    utils.dependency.compatible_version
 
