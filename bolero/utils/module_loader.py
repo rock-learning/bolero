@@ -48,8 +48,13 @@ def __load_config_from_file(filename, conf_path=None):
         in the current path.
     """
     if conf_path is None:
-        conf_path = os.environ.get("CONF_PATH", ".")
-    conf_filename = conf_path + os.sep + filename
+        conf_path = os.environ.get("CONF_PATH", None)
+
+    if conf_path is None:
+        conf_filename = filename
+    else:
+        conf_filename = conf_path + os.sep + filename
+
     if os.path.exists(conf_filename):
         config = yaml.load(open(conf_filename, "r"))
         return config
