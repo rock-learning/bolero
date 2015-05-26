@@ -12,7 +12,7 @@ You can search for specific modules, classes or functions in the
 :mod:`bolero.optimizer`: Optimizer
 ==================================
 
-.. automodule:: optimizer
+.. automodule:: bolero.optimizer
     :no-members:
     :no-inherited-members:
 
@@ -34,7 +34,7 @@ Optimizer classes
 :mod:`bolero.utils`: Utilities
 ==============================
 
-.. automodule:: utils
+.. automodule:: bolero.utils
     :no-members:
     :no-inherited-members:
 
