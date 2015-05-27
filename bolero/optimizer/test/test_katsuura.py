@@ -2,7 +2,8 @@
 
 import numpy as np
 from nose.tools import assert_less
-from bolero.optimizer import IPOPCMAESOptimizer, BIPOPCMAESOptimizer
+from bolero.optimizer import (RestartCMAESOptimizer, IPOPCMAESOptimizer,
+                              BIPOPCMAESOptimizer)
 from bolero.environment.objective_functions import Katsuura
 
 
@@ -16,21 +17,28 @@ def eval_loop(x, opt, n_dims, n_evals):
     return results - objective.f_opt
 
 
-def test_ipopcmaes(n_dims=2, n_evals=1500, **kwargs):
+def test_restartcmaes(n_dims=2, n_evals=2000):
     x = np.zeros(n_dims)
-    opt = IPOPCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0,
-                             **kwargs)
+    opt = RestartCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0)
     opt.init(n_dims)
     r = eval_loop(x, opt, n_dims, n_evals)
-    assert_less(-1e1, r.max())
+    assert_less(-1e5, r.max())
     return r
 
 
-def test_bipopcmaes(n_dims=2, n_evals=1500, **kwargs):
+def test_ipopcmaes(n_dims=2, n_evals=3500):
     x = np.zeros(n_dims)
-    opt = BIPOPCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0,
-                              **kwargs)
+    opt = IPOPCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0)
     opt.init(n_dims)
     r = eval_loop(x, opt, n_dims, n_evals)
-    assert_less(-1e1, r.max())
+    assert_less(-1e5, r.max())
+    return r
+
+
+def test_bipopcmaes(n_dims=1, n_evals=1000):
+    x = np.zeros(n_dims)
+    opt = BIPOPCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0)
+    opt.init(n_dims)
+    r = eval_loop(x, opt, n_dims, n_evals)
+    assert_less(-1e5, r.max())
     return r
