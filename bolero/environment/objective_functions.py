@@ -123,7 +123,7 @@ reflects a scalar multiplier in the function definition.
 
 from abc import ABCMeta, abstractmethod
 import numpy as np
-from sklearn.utils import check_random_state
+from bolero.utils import check_random_state
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 

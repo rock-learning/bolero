@@ -19,7 +19,7 @@ class HideExtern(object):
     def __init__(self, stream="stdout"):
         streams = ["stdout", "stderr"]
         if stream not in streams:
-            raise ValueError("'stream' (%r) not in %r" % (stream, streams))
+            raise ValueError("Stream '%s' not in %r" % (stream, streams))
         self.stream = stream
 
         self._target = os.open(os.devnull, os.O_WRONLY)

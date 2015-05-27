@@ -43,6 +43,9 @@ def compatible_version(actual_version_info, operation):
 
     actual_version = map(int, actual_version)
 
+    if not " " in operation:
+        raise ValueError("Wrong operation syntax, must be: OPERATOR VERSION")
+
     op, version = operation.split(" ")
     if not op in ["<", ">", "==", ">=", "<="]:
         raise ValueError("Unknown comparison operator '%s'" % op)

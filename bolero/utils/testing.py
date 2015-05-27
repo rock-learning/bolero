@@ -1,9 +1,9 @@
 from nose.tools import assert_in
 
 
+# Taken from scikit-learn
 def assert_raise_message(exception, message, function, *args, **kwargs):
     """Helper function to test error messages in exceptions"""
-
     try:
         function(*args, **kwargs)
         raise AssertionError("Should have raised %r" % exception(message))
