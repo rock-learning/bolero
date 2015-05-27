@@ -15,7 +15,7 @@
 
 #include <Environment.h>
 
-namespace behavior_learning {
+namespace bolero {
 
   class ParameterizedEnvironment : public virtual Environment {
 
@@ -33,6 +33,6 @@ namespace behavior_learning {
 
   }; // end of class definition ParameterizedEnvironment
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // BL_FRAMEWORK_PARAMETERIZED_ENVIRONMENT_H

@@ -18,7 +18,7 @@
 
 #include <lib_manager/LibInterface.hpp>
 
-namespace behavior_learning {
+namespace bolero {
 
   class Optimizer : public lib_manager::LibInterface {
 
@@ -54,6 +54,6 @@ namespace behavior_learning {
     int libVersion;
   }; // end of class definition Optimizer
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // __BL_OPTIMIZER_H__

@@ -1,6 +1,6 @@
 <package>
     <description brief="bl_loader">
-      A helper plugin to load c++-libraries for behavior_learning framework.
+      A helper plugin to load c++-libraries for bolero.
    </description>
     <depend package="simulation/lib_manager" />
     <depend package="simulation/mars/common/utils" />

@@ -19,7 +19,7 @@
 
 #include "Behavior.h"
 
-namespace behavior_learning {
+namespace bolero {
 
   class BehaviorSearch : public lib_manager::LibInterface {
 
@@ -80,6 +80,6 @@ namespace behavior_learning {
 
   }; // end of class definition BehaviorSearch
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // __BL_BEHAVIOR_SEARCH_H__

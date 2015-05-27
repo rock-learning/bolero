@@ -6,7 +6,7 @@
 #include "Helper.h"
 #include "PyLoadable.h"
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 class PyEnvironment : public Environment, public PyLoadable{
 public:

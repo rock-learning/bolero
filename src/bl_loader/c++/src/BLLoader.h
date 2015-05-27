@@ -12,7 +12,7 @@ namespace lib_manager {
   class LibManager;
 }
 
-namespace behavior_learning {
+namespace bolero {
   class Optimizer;
   class BehaviorSearch;
   class Environment;
@@ -128,7 +128,7 @@ namespace behavior_learning {
     }; // end of class BLLoader
 
   } // end of namespace bl_loader
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif /* BL_LOADER_H */
 

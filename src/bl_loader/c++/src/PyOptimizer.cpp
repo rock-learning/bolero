@@ -4,11 +4,11 @@
 #include <cassert>
 
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
   PyOptimizer::PyOptimizer(lib_manager::LibManager *theManager,
                              std::string libName, int libVersion)
-    : behavior_learning::Optimizer(theManager, libName, libVersion),
+    : bolero::Optimizer(theManager, libName, libVersion),
       py_optimizer(Helper::instance().getClassInstance("optimizer")),
       dimension(0)
   {}

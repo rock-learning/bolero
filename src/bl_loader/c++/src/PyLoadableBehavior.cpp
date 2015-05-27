@@ -14,7 +14,7 @@
 #include <sstream>
 using namespace std;
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 PyLoadableBehavior::PyLoadableBehavior(lib_manager::LibManager *libManager,
                                        const std::string &libName,

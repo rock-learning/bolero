@@ -24,7 +24,7 @@ namespace YAML {
   class Parser;
 }
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 /**
  * Loads python behaviors and wraps them.

@@ -7,7 +7,7 @@
 #include "Helper.h"
 #include "PyLoadable.h"
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 class PyBehaviorSearch : public BehaviorSearch, public PyLoadable {
 public:
@@ -16,11 +16,11 @@ public:
   virtual ~PyBehaviorSearch();
 
   void init(int numInputs, int numOutputs);
-  behavior_learning::Behavior* getNextBehavior();
+  bolero::Behavior* getNextBehavior();
   void setEvaluationFeedback(const double *feedbacks,
                              int numFeedbacks);
   void writeResults(const std::string &resultPath);
-  behavior_learning::Behavior* getBehaviorFromResults(const std::string &resultPath);
+  bolero::Behavior* getBehaviorFromResults(const std::string &resultPath);
   bool isBehaviorLearningDone() const;
 
 private:

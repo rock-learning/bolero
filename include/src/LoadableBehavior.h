@@ -15,7 +15,7 @@
 #include "Behavior.h"
 #include <string>
 
-namespace behavior_learning {
+namespace bolero {
 
   /**
    * A Behavior that can be loaded by the the bl_loader.
@@ -74,6 +74,6 @@ namespace behavior_learning {
 
   }; // end of class definition LoadableBehavior
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif /* LOADABLEBEHAVIOR_H_ */

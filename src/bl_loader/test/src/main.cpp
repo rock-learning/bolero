@@ -3,7 +3,7 @@
 #include <LoadableBehavior.h>
 #include <BLLoader.h>
 
-using namespace behavior_learning;
+using namespace bolero;
 using namespace std;
 
 TEST_CASE( "init test", "[PyLoadableBehavior]" ) {

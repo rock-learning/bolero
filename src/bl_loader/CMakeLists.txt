@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(bl_loader)
 set(PROJECT_VERSION 1.0)
-set(PROJECT_DESCRIPTION "A helper plugin to load c++-libraries for behavior_learning framework.")
+set(PROJECT_DESCRIPTION "A helper plugin to load c++-libraries for bolero.")
 
 include(FindPkgConfig)
 find_package(lib_manager)

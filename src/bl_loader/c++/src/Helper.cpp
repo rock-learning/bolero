@@ -14,7 +14,7 @@
   using namespace std::tr1;
 #endif
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 /**
  * This deleter should be used when managing PyObject with
  * std::tr1::shared_ptr (std::shared_ptr in c++11)

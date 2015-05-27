@@ -16,7 +16,7 @@
 #include <lib_manager/LibInterface.hpp>
 #include <string>
 
-namespace behavior_learning {
+namespace bolero {
 
   class Behavior;
 
@@ -67,6 +67,6 @@ namespace behavior_learning {
 
   }; // end of class definition Environment
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // BL_FRAMEWORK_ENVIRONMENT_H

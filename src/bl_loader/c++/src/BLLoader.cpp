@@ -22,7 +22,7 @@
 using namespace std;
 using lib_manager::LibManager;
 
-namespace behavior_learning {
+namespace bolero {
   namespace bl_loader {
 
     BLLoader::BLLoader() : lib_manager::LibInterface(new LibManager())
@@ -248,4 +248,4 @@ namespace behavior_learning {
     std::cerr << "BLLoader::unloadLibrary() is deprecated and should not be used anymore. It is sufficient to call BLLoader::releaseLibrary(). I.e. you can simply remove the call to unloadLibrary().";
   }
   } // end of namespace bl_loader
-} // end of namespace behavior_learning
+} // end of namespace bolero

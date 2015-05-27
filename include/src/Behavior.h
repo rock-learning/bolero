@@ -16,7 +16,7 @@
 #include <stdexcept>
 #include <cstdio>
 
-namespace behavior_learning {
+namespace bolero {
 
   class Behavior {
 
@@ -55,6 +55,6 @@ namespace behavior_learning {
 
   }; // end of class definition Behavior
 
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // __BL_BEHAVIOR_H__

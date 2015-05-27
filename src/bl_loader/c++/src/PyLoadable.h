@@ -1,5 +1,5 @@
 #pragma once
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 /**
 * Is used by the BLLoader to manage it's loadable python libraries.

@@ -3,11 +3,11 @@
 #include <limits>
 #include <cassert>
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
 		const std::string libName, int libVersion)
-  : behavior_learning::Environment(theManager, libName, libVersion),
+  : bolero::Environment(theManager, libName, libVersion),
     py_environment(Helper::instance().getClassInstance("environment"))
 {}
 

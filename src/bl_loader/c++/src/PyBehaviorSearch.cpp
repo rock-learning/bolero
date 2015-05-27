@@ -3,11 +3,11 @@
 #include "PyBehavior.h"
 #include <cassert>
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
                                      const std::string libName, int libVersion)
-  : behavior_learning::BehaviorSearch(theManager, libName, libVersion),
+  : bolero::BehaviorSearch(theManager, libName, libVersion),
     py_behaviorSearch(Helper::instance().getClassInstance("behavior_search"))
 {}
 
@@ -29,9 +29,9 @@ void PyBehaviorSearch::init(int numInputs, int numOutputs) {
   Py_XDECREF(result);
 }
 
-behavior_learning::Behavior* PyBehaviorSearch::getNextBehavior() {
+bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
   assert(py_behaviorSearch);
-  behavior_learning::Behavior *ret = NULL;
+  bolero::Behavior *ret = NULL;
   PyObject *pResult;
   pResult = PyObject_CallMethod(py_behaviorSearch.get(), (char*)"get_next_behavior",
                                 NULL);
@@ -88,9 +88,9 @@ void PyBehaviorSearch::writeResults(const std::string &resultPath) {
   Py_XDECREF(pResult);
 }
 
-behavior_learning::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &resultPath) {
+bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &resultPath) {
   assert(py_behaviorSearch);
-  behavior_learning::Behavior *ret = NULL;
+  bolero::Behavior *ret = NULL;
   PyObject *pResult = PyObject_CallMethod(py_behaviorSearch.get(),
                                           (char*)"getBehaviorFromResults",
                                           (char*)"s", resultPath.c_str());

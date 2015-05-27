@@ -18,7 +18,7 @@ struct _object;
 typedef _object PyObject;
 #endif
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 /**
  * A managed pointer to PyObject which takes care about
  * memory management and reference counting.

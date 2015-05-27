@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
 PyBehavior::PyBehavior(int numInputs, int numOutputs)
   : Behavior(numInputs, numOutputs)

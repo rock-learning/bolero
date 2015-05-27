@@ -19,9 +19,9 @@ struct _object;
 typedef _object PyObject;
 #endif
 
-namespace behavior_learning { namespace bl_loader {
+namespace bolero { namespace bl_loader {
 
-class PyBehavior : public behavior_learning::Behavior {
+class PyBehavior : public bolero::Behavior {
 public:
   ~PyBehavior();
 
