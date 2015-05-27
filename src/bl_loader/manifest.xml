@@ -1,0 +1,11 @@
+<package>
+    <description brief="bl_loader">
+      A helper plugin to load c++-libraries for behavior_learning framework.
+   </description>
+    <depend package="simulation/lib_manager" />
+    <depend package="simulation/mars/common/utils" />
+    <depend package="learning/behavior_learning/interfaces/c++" />
+    <depend package="external/yaml-cpp" />
+    <rosdep name="numpy" />
+    <rosdep name="python" /> 
+</package>

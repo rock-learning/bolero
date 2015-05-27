@@ -10,3 +10,4 @@
 # NOTE: You need to run cmake again whenever this file changes
 
 include
+src/bl_loader
