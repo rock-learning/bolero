@@ -1,0 +1,6 @@
+<package>
+  <description brief="bolero">
+    Behavior Optimization and Learning for Robots
+  </description>
+  <rosdep name="python" /> 
+</package>

@@ -1,11 +1,10 @@
 <package>
-    <description brief="bl_loader">
-      A helper plugin to load c++-libraries for bolero.
-   </description>
-    <depend package="simulation/lib_manager" />
-    <depend package="simulation/mars/common/utils" />
-    <depend package="bolero" />
-    <depend package="external/yaml-cpp" />
-    <rosdep name="numpy" />
-    <rosdep name="python" /> 
+  <description brief="bl_loader">
+    Loads C++ libraries for bolero.
+  </description>
+  <depend package="bolero" />
+  <depend package="simulation/lib_manager" />
+  <depend package="external/yaml-cpp" />
+  <rosdep name="numpy" />
+  <rosdep name="python" /> 
 </package>
