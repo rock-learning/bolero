@@ -17,19 +17,8 @@ link_directories(${MARS_UTILS_LIBRARY_DIRS})
 add_definitions(${MARS_UTILS_CFLAGS_OTHER})  #flags excluding the ones with -I
 
 
-if(BUILD_BEHAVIOR_LEARNING)
-  #nothing to do, ${BEHAVIOR_LEARNING_INCLUDE_DIRS} has been defined by the parent
-else()
-  pkg_check_modules(BEHAVIOR_LEARNING REQUIRED behavior_learning)
-endif()
-
-if(BUILD_TEST_AS_PART_OF_BL_LOADER)
-    #nothing to do, ${BL_LOADER_INCLUDE_DIRS} has been defined by the parent      
-else()
-    pkg_check_modules(BL_LOADER REQUIRED bl_loader)    
-endif()
-
-include_directories(${BEHAVIOR_LEARNING_INCLUDE_DIRS}) 
+pkg_check_modules(BOLERO REQUIRED bolero)
+include_directories(${BOLERO_INCLUDE_DIRS}) 
 include_directories(${BL_LOADER_INCLUDE_DIRS})   
 include_directories(src)
 
@@ -44,17 +33,8 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 
-if(BUILD_BEHAVIOR_LEARNING)
-  add_dependencies(${PROJECT_NAME} behavior_learning)
-else()
-  #nothing to do here because behavior_learning is a header only library
-endif()
-
-if(BUILD_TEST_AS_PART_OF_BL_LOADER)
-    target_link_libraries(${PROJECT_NAME} bl_loader) 
-else()
-    target_link_libraries(${PROJECT_NAME} ${BL_LOADER_LIBRARIES}) 
-endif()
+add_dependencies(${PROJECT_NAME} BOLERO)
+target_link_libraries(${PROJECT_NAME} ${BL_LOADER_LIBRARIES}) 
 
 
 
