@@ -1,5 +1,5 @@
 <package>
-  <description brief="bolero">
+  <description brief="pybolero">
     Behavior Optimization and Learning for Robots
   </description>
   <rosdep name="python" />

@@ -1,0 +1,9 @@
+<package>
+  <description brief="wrapper">
+    Wrappers for bolero C++ interfaces
+  </description>
+  <rosdep name="python" />
+  <rosdep name="python-dev" />
+  <rosdep name="cython" />
+  <rosdep name="python-numpy" />
+</package>

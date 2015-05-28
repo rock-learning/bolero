@@ -3,7 +3,7 @@
     Loads C++ libraries for bolero.
   </description>
   <depend package="bolero" />
-  <depend package="simulation/lib_manager" />
+  <depend package="lib_manager" />
   <depend package="external/yaml-cpp" />
   <rosdep name="numpy" />
   <rosdep name="python" /> 
