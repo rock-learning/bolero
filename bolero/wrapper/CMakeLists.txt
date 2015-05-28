@@ -49,3 +49,4 @@ add_custom_command(
 
 add_custom_target(python_wrapper_cython ALL DEPENDS ${cython_output})
 
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py DESTINATION .)
