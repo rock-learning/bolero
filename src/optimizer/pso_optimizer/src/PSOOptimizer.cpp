@@ -19,7 +19,7 @@
 
 using namespace configmaps;
 
-namespace behavior_learning {
+namespace bolero {
   namespace pso_optimizer {
     inline void clamp(double *val, double minVal, double maxVal) {
       *val = (*val < minVal) ? minVal : ((*val > maxVal) ? maxVal : *val);
@@ -204,8 +204,8 @@ namespace behavior_learning {
     }
   
   } // end of namespace pso_optimizer
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 
-DESTROY_LIB(behavior_learning::pso_optimizer::PSOOptimizer);
-CREATE_LIB(behavior_learning::pso_optimizer::PSOOptimizer);
+DESTROY_LIB(bolero::pso_optimizer::PSOOptimizer);
+CREATE_LIB(bolero::pso_optimizer::PSOOptimizer);

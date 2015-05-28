@@ -1,8 +1,7 @@
 /**
  * \file PSOOptimizer.h
  * \author Lorenz Quack
- * \brief An implementation of Particle Swarm Optimization (PSO)
- *        for the behavior_learning::Optimizer.
+ * \brief An implementation of Particle Swarm Optimization (PSO).
  *
  * Version 0.1
  */
@@ -16,7 +15,7 @@
 
 #include <Optimizer.h>
 
-namespace behavior_learning {
+namespace bolero {
   namespace pso_optimizer {
 
     class Particle {
@@ -64,6 +63,6 @@ namespace behavior_learning {
     }; // end of class definition PSOOptimizer
 
   } // end of namespace pso_optimizer
-} // end of namespace behavior_learning
+} // end of namespace bolero
 
 #endif // __PSO_OPTIMIZER_H__
