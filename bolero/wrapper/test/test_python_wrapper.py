@@ -41,8 +41,8 @@ def test_load_environment():
     assert_false(env.is_behavior_learning_done())
 
 
-def tst_load_behavior_search():
-    os.environ["BL_CONF_PATH"] = CURRENT_PATH
+def test_load_behavior_search():
+    os.environ["CONF_PATH"] = CURRENT_PATH
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     bhs = bll.acquire_behavior_search("Python")

@@ -30,6 +30,8 @@ Optimizer classes
    optimizer.RestartCMAESOptimizer
    optimizer.IPOPCMAESOptimizer
    optimizer.BIPOPCMAESOptimizer
+   optimizer.NoOptimizer
+   optimizer.RandomOptimizer
 
 :mod:`bolero.utils`: Utilities
 ==============================
