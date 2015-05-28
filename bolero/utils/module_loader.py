@@ -6,6 +6,27 @@ import warnings
 import inspect
 
 
+def optimizer_from_yaml(filename, conf_path=None):
+    """Create optimizer object from YAML configuration file."""
+    print from_yaml(filename, conf_path)
+    return from_yaml(filename, conf_path)["Optimizer"]
+
+
+def behavior_from_yaml(filename, conf_path=None):
+    """Create behavior object from YAML configuration file."""
+    return from_yaml(filename, conf_path)["Behavior"]
+
+
+def behavior_search_from_yaml(filename, conf_path=None):
+    """Create behavior search object from YAML configuration file."""
+    return from_yaml(filename, conf_path)["Behavior Search"]
+
+
+def environment_from_yaml(filename, conf_path=None):
+    """Create environment object from YAML configuration file."""
+    return from_yaml(filename, conf_path)["Environment"]
+
+
 def from_yaml(filename, conf_path=None):
     """Create objects from YAML configuration file.
 

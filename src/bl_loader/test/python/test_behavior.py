@@ -1,4 +1,4 @@
-from representation import Behavior
+from bolero.representation import Behavior
 import numpy
 
 

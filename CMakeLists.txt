@@ -5,7 +5,6 @@ set(PROJECT_VERSION 0.1)
 set(PROJECT_DESCRIPTION "Behavior Optimization and Learning for Robots")
 set(CMAKE_COLOR_MAKEFILE ON)
 
-# Needs to be enabled here because sub projects may use add_test()
 enable_testing()
 
 add_subdirectory("include")

@@ -4,7 +4,7 @@
    </description>
     <depend package="simulation/lib_manager" />
     <depend package="simulation/mars/common/utils" />
-    <depend package="learning/behavior_learning/interfaces/c++" />
+    <depend package="bolero" />
     <depend package="external/yaml-cpp" />
     <rosdep name="numpy" />
     <rosdep name="python" /> 

@@ -231,7 +231,7 @@ void Helper::extractFromCallableInfo(const py_callable_info_t *info, double *buf
 
 PyObjectPtr Helper::getClassInstance(const std::string &name, const std::string& yamlFile) const {
 
-  const std::string moduleName = "tools.python.module_loader";
+  const std::string moduleName = "bolero.utils.module_loader";
   std::string funcName = name + "_from_yaml";
 
   PyObjectPtr pyModuleString = createPyString(moduleName);

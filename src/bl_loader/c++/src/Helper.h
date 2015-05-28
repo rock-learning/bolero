@@ -77,7 +77,7 @@ public:
   /**
    * Create a new instance of a python object.
    * The instance is created by calling <name>_from_yaml() in
-   * tools.python.module_loader.
+   * bolero.utils.module_loader.
    *
    * \param name The kind of object that should be created.
    *             E.g. if name="behavior"
