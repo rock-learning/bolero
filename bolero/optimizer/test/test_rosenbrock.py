@@ -45,7 +45,7 @@ def test_no():
 
 def test_random():
     x = np.zeros(n_dims)
-    opt = RandomOptimizer(x)
+    opt = RandomOptimizer(x, random_state=0)
     opt.init(n_dims)
     r = eval_loop(x, opt, n_dims)
     assert_greater(r.max(), -0.1)

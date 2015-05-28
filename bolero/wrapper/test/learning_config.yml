@@ -2,5 +2,7 @@ BehaviorSearch:
   type: bolero.behavior_search.BlackBoxSearch
   optimizer:
     type: bolero.optimizer.NoOptimizer
+    initial_params: [0]
   behavior:
-    type: bolero.representation.ConstantBehavior
+    type: bolero.representation.DummyBehavior
+    num_outputs: 1

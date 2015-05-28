@@ -3,6 +3,7 @@
 
 import numpy as np
 from .behavior_search import BehaviorSearch, ContextualBehaviorSearch
+from .behavior_search import PickableMixin, FixableMixin
 from bolero.optimizer import Optimizer, ContextualOptimizer
 from bolero.representation import BlackBoxBehavior, DummyBehavior
 from bolero.utils.module_loader import from_dict
@@ -80,7 +81,8 @@ class BlackBoxSearchMixin(object):
         return False
 
 
-class BlackBoxSearch(BlackBoxSearchMixin, BehaviorSearch):
+class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
+                     BehaviorSearch):
     """Combine a black box optimizer with a black box behavior.
 
     Black box in this context means that only a fixed number of parameters
@@ -110,8 +112,8 @@ class BlackBoxSearch(BlackBoxSearchMixin, BehaviorSearch):
 
     def _init_optimizer(self):
         if not isinstance(self.optimizer, Optimizer):
-            raise TypeError("BlackBoxSearch cannot be used with contextual "
-                            "optimizer.")
+            raise TypeError(
+                "BlackBoxSearch cannot be used with contextual optimizer.")
         self.optimizer.init(self.n_params)
 
 
@@ -138,7 +140,8 @@ class JustOptimizer(BlackBoxSearch):
             behavior.num_outputs = n_params
 
 
-class ContextualBlackBoxSearch(BlackBoxSearchMixin, ContextualBehaviorSearch):
+class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
+                               ContextualBehaviorSearch):
     """Combine a contextual black box optimizer with a black box behavior.
 
     Black box in this context means that only a fixed number of parameters

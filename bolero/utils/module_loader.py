@@ -19,7 +19,7 @@ def behavior_from_yaml(filename, conf_path=None):
 
 def behavior_search_from_yaml(filename, conf_path=None):
     """Create behavior search object from YAML configuration file."""
-    return from_yaml(filename, conf_path)["Behavior Search"]
+    return from_yaml(filename, conf_path)["BehaviorSearch"]
 
 
 def environment_from_yaml(filename, conf_path=None):
