@@ -3,7 +3,7 @@ def compatible_version(actual_version_info, operation):
 
     Examples
     --------
-    >>> from tools.python.utils import compatible_version
+    >>> from bolero.utils.dependency import compatible_version
     >>> compatible_version("1", ">= 0.1.2")
     True
     >>> compatible_version("sklearn", "> 0.0.0")
