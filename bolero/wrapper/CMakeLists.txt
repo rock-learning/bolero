@@ -29,8 +29,6 @@ ELSE (WIN32)
   ENDIF (APPLE)
 ENDIF (WIN32)
 
-#configure_file(test/test_library_config.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
-
 find_package(Cython REQUIRED)
 set(cython_sources ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pyx)
 set(cython_output ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.cpp)
@@ -48,5 +46,7 @@ add_custom_command(
   OUTPUT ${cython_output})
 
 add_custom_target(python_wrapper_cython ALL DEPENDS ${cython_output})
+
+configure_file(test/test_library_config.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py DESTINATION .)

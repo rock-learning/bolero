@@ -1,0 +1,6 @@
+BehaviorSearch:
+  type: BlackBoxSearch
+  optimizer:
+    type: NoOptimizer
+  behavior:
+    type: ConstantBehavior

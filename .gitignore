@@ -1,5 +1,7 @@
 # Temporary files
 *~
+build_info.py
+bolero/wrapper/_wrapper.cpp
 
 # Temporary test files
 .coverage
@@ -7,4 +9,5 @@ coverageReport
 
 # Binaries
 *.pyc
+*.so
 build
