@@ -1,11 +1,10 @@
-project(test_py_loadable_behavior)
 cmake_minimum_required(VERSION 2.6)
 
+project(test_py_loadable_behavior)
 set(PROJECT_VERSION 1.0)
 set(PROJECT_DESCRIPTION "")
 
 include(FindPkgConfig)
-
 find_package(lib_manager)
 lib_defaults()
 define_module_info()
@@ -16,11 +15,14 @@ link_directories(${LIB_MANAGER_LIBRARY_DIRS})
 
 pkg_check_modules(BOLERO REQUIRED bolero)
 include_directories(${BOLERO_INCLUDE_DIRS})
+
 include_directories(${BL_LOADER_INCLUDE_DIRS})
+link_directories(${BL_LOADER_LIBRARY_DIRS})
+
 include_directories(src)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} ${MARS_UTILS_LIBRARIES} bl_loader)
+target_link_libraries(${PROJECT_NAME} bl_loader)
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
@@ -60,4 +62,3 @@ configure_file(config/config.yaml.in ${CMAKE_CURRENT_BINARY_DIR}/config.yaml @ON
 configure_file(python/test_behavior.py ${CMAKE_CURRENT_BINARY_DIR}/test_behavior.py @ONLY)
 
 add_test(test_py_loadable_behavior test_py_loadable_behavior)
-

@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
+
 project(bl_loader)
 set(PROJECT_VERSION 1.0)
-set(PROJECT_DESCRIPTION "A helper plugin to load c++-libraries for bolero.")
+set(PROJECT_DESCRIPTION "Loads C++ libraries for bolero.")
 
 enable_testing()
 

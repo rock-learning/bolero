@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
+
 include(FindPkgConfig)
 
 # add the binary tree to the search path for include files
 include_directories("${PROJECT_BINARY_DIR}")
 
-set(BL_LOADER_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE STRING "Include-dir for bl_loader.")
-set(BL_LOADER_LIBRARY_DIRS ${CMAKE_CURRENT_BINARY_DIR} CACHE STRING "lib-dir for bl_loader.")
+set(BL_LOADER_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE STRING "Include dir for bl_loader.")
+set(BL_LOADER_LIBRARY_DIRS ${CMAKE_CURRENT_BINARY_DIR} CACHE STRING "Lib directory for bl_loader.")
 
 pkg_check_modules(LIB_MANAGER "lib_manager")
 include_directories(${LIB_MANAGER_INCLUDE_DIRS})
@@ -19,16 +20,10 @@ pkg_check_modules(YAML "yaml-cpp")
 include_directories(${YAML_INCLUDE_DIRS})
 link_directories(${YAML_LIBRARY_DIRS})
 
-include_directories(
-	src
-)
+include_directories(src)
 
-set(SOURCES
-  src/BLLoader.cpp
-)
-set(HEADERS
-  src/BLLoader.h
-)
+set(SOURCES src/BLLoader.cpp)
+set(HEADERS src/BLLoader.h)
 
 if(PYTHON_SUPPORT)
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
