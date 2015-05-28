@@ -29,7 +29,7 @@ ELSE (WIN32)
   ENDIF (APPLE)
 ENDIF (WIN32)
 
-configure_file(test/test_library_config.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
+#configure_file(test/test_library_config.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
 
 find_package(Cython REQUIRED)
 set(cython_sources ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pyx)
