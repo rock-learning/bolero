@@ -9,6 +9,7 @@ set(HEADERS
         src/Behavior.h
         src/BehaviorSearch.h
         src/Optimizer.h
+        src/ContextualEnvironment.h
         src/Environment.h
         src/LoadableBehavior.h
         src/ParameterizedEnvironment.h
