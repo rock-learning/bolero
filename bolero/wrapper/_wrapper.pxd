@@ -8,7 +8,7 @@ cdef extern from "lib_manager/LibManager.hpp" namespace "lib_manager":
   cdef cppclass LibInterface
 
 
-cdef extern from "Behavior.h" namespace "behavior_learning":
+cdef extern from "Behavior.h" namespace "bolero":
   cdef cppclass Behavior:
     Behavior(int numInputs, int numOutputs)
     void setInputs(double *values, int numInputs)
@@ -18,14 +18,14 @@ cdef extern from "Behavior.h" namespace "behavior_learning":
     void step()
     bool canStep()
 
-cdef extern from "LoadableBehavior.h" namespace "behavior_learning":
+cdef extern from "LoadableBehavior.h" namespace "bolero":
   cdef cppclass LoadableBehavior(Behavior):
     bool initialize(string &initialConfigPath)
     bool configure(string &configPath)
     bool configureYaml(string &yaml)
 
 
-cdef extern from "BehaviorSearch.h" namespace "behavior_learning":
+cdef extern from "BehaviorSearch.h" namespace "bolero":
   cdef cppclass BehaviorSearch:
     BehaviorSearch(LibManager *theManager, string &libName,
                    int libVersion)
@@ -41,7 +41,7 @@ cdef extern from "BehaviorSearch.h" namespace "behavior_learning":
     Behavior* getBehaviorFromResults(string &resultPath)
     bool isBehaviorLearningDone()
 
-cdef extern from "Environment.h" namespace "behavior_learning":
+cdef extern from "Environment.h" namespace "bolero":
   cdef cppclass Environment:
     Environment(LibManager *theManager, string &libName,
                 int libVersion)
@@ -61,13 +61,13 @@ cdef extern from "Environment.h" namespace "behavior_learning":
     bool isBehaviorLearningDone()
     bool isContextual()
 
-cdef extern from "ContextualEnvironment.h" namespace "behavior_learning":
+cdef extern from "ContextualEnvironment.h" namespace "bolero":
   cdef cppclass ContextualEnvironment(Environment):
     double* request_context(double *context, int numContext)
     int get_num_context_dims()
 
 
-cdef extern from "Optimizer.h" namespace "behavior_learning":
+cdef extern from "Optimizer.h" namespace "bolero":
   cdef cppclass Optimizer:
     Optimizer(LibManager *theManager, libName, int libVersion)
     int getLibVersion()
@@ -82,7 +82,7 @@ cdef extern from "Optimizer.h" namespace "behavior_learning":
     void setParameterSetFeedback(vector[double] feedback)
 
 
-cdef extern from "BLLoader.h" namespace "behavior_learning::bl_loader":
+cdef extern from "BLLoader.h" namespace "bolero::bl_loader":
   cdef cppclass BLLoader:
     BLLoader()
     int getLibVersion()
