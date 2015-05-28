@@ -75,9 +75,6 @@ target_link_libraries(${PROJECT_NAME}
                       ${EXTRA_LIBRARIES}
                       ${YAML_LIBRARIES})
 
-
-add_dependencies(${PROJECT_NAME} bolero)
-
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
 else(WIN32)
