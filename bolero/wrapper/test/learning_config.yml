@@ -1,6 +1,6 @@
 BehaviorSearch:
-  type: BlackBoxSearch
+  type: bolero.behavior_search.BlackBoxSearch
   optimizer:
-    type: NoOptimizer
+    type: bolero.optimizer.NoOptimizer
   behavior:
-    type: ConstantBehavior
+    type: bolero.representation.ConstantBehavior
