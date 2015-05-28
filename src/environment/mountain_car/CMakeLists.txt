@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(pso_optimizer)
+project(mountain_car)
 set(PROJECT_VERSION 1.0)
-set(PROJECT_DESCRIPTION "A implementation of Particle Swarm Optimization (PSO).")
+set(PROJECT_DESCRIPTION "Mountain car learning problem.")
 
 include(FindPkgConfig)
 find_package(lib_manager)
@@ -17,19 +17,19 @@ else(WIN32)
         SET(CMAKE_CXX_FLAGS "-fPIC -Wall")
 endif(WIN32)
 
-pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
+pkg_check_modules(LIB_MANAGER REQUIRED "lib_manager")
 include_directories(${LIB_MANAGER_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
 
-pkg_check_modules(CONFIGMAPS REQUIRED configmaps)
-include_directories(${CONFIGMAPS_INCLUDE_DIRS})
-link_directories(${CONFIGMAPS_LIBRARY_DIRS})
+pkg_check_modules(MARS_UTILS REQUIRED "mars_utils")
+include_directories(${MARS_UTILS_INCLUDE_DIRS})
+link_directories(${MARS_UTILS_LIBRARY_DIRS})
 
 pkg_check_modules(BOLERO REQUIRED bolero)
 include_directories(${BOLERO_INCLUDE_DIRS})
 
-set(SOURCES src/PSOOptimizer.cpp)
-set(HEADERS src/PSOOptimizer.h)
+set(SOURCES src/MountainCar.cpp)
+set(HEADERS src/MountainCar.h)
 
 include_directories(src)
 
@@ -37,7 +37,7 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
                       ${LIB_MANAGER_LIBRARIES}
-                      ${CONFIGMAPS_LIBRARIES})
+                      ${MARS_UTILS_LIBRARIES})
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables

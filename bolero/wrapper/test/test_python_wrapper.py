@@ -1,8 +1,7 @@
 import os
 import numpy as np
 from bolero.wrapper import CppBLLoader
-from nose.tools import assert_true, assert_false, assert_equal, assert_almost_equal
-from math import sqrt
+from nose.tools import assert_true, assert_false, assert_equal
 
 
 CURRENT_PATH = os.sep.join(__file__.split(os.sep)[:-1])
@@ -12,7 +11,6 @@ if not CURRENT_PATH:
 
 
 def test_load_optimizer():
-    """Load PSO with the BLLoader."""
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     opt = bll.acquire_optimizer("pso_optimizer")
@@ -20,11 +18,10 @@ def test_load_optimizer():
     params = np.zeros(n_params)
     opt.init(n_params)
     opt.get_next_parameters(params)
-    opt.set_evaluation_feedback(np.array([0]))
+    opt.set_evaluation_feedback(np.zeros(1))
 
 
 def test_load_environment():
-    """Load mountain car environment with the BLLoader."""
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     env = bll.acquire_environment("mountain_car")
@@ -44,7 +41,7 @@ def test_load_environment():
     assert_false(env.is_behavior_learning_done())
 
 
-def test_load_behavior_search():
+def tst_load_behavior_search():
     os.environ["BL_CONF_PATH"] = CURRENT_PATH
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
