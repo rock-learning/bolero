@@ -7,16 +7,13 @@ include_directories("${PROJECT_BINARY_DIR}")
 set(BL_LOADER_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE STRING "Include-dir for bl_loader.")
 set(BL_LOADER_LIBRARY_DIRS ${CMAKE_CURRENT_BINARY_DIR} CACHE STRING "lib-dir for bl_loader.")
 
-if(BUILD_BEHAVIOR_LEARNING)
-  include_directories(${BEHAVIOR_LEARNING_INCLUDE_DIRS})
-else()
-  pkg_check_modules(BL_INTERFACES "behavior_learning")
-  include_directories(${BL_INTERFACES_INCLUDE_DIRS})
-endif()
-
 pkg_check_modules(LIB_MANAGER "lib_manager")
 include_directories(${LIB_MANAGER_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
+
+pkg_check_modules(BOLERO "bolero")
+include_directories(${BOLERO_INCLUDE_DIRS})
+link_directories(${BOLERO_LIBRARY_DIRS})
 
 pkg_check_modules(YAML "yaml-cpp")
 include_directories(${YAML_INCLUDE_DIRS})
@@ -83,13 +80,8 @@ target_link_libraries(${PROJECT_NAME}
                       ${EXTRA_LIBRARIES}
                       ${YAML_LIBRARIES})
 
-if(BUILD_BEHAVIOR_LEARNING)
-  add_dependencies(${PROJECT_NAME} behavior_learning)
-endif()
 
-if(BUILD_BEHAVIOR_LEARNING)
-  add_dependencies(${PROJECT_NAME} behavior_learning)
-endif()
+add_dependencies(${PROJECT_NAME} bolero)
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
@@ -111,4 +103,4 @@ CONFIGURE_FILE(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION lib/pkgconfig)
 
 # Install headers into mars include directory
-install(FILES ${HEADERS} DESTINATION include/behavior_learning/${PROJECT_NAME})
+install(FILES ${HEADERS} DESTINATION include/bolero/${PROJECT_NAME})
