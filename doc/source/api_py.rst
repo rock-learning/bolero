@@ -33,6 +33,25 @@ Optimizer classes
    optimizer.NoOptimizer
    optimizer.RandomOptimizer
 
+:mod:`bolero.representation`: Representation
+============================================
+
+.. automodule:: bolero.representation
+    :no-members:
+    :no-inherited-members:
+
+Optimizer classes
+-----------------
+.. currentmodule:: bolero
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   representation.ConstantBehavior
+   representation.DummyBehavior
+   representation.RandomBehavior
+
 :mod:`bolero.utils`: Utilities
 ==============================
 
