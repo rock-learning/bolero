@@ -39,6 +39,7 @@ namespace bolero {
     // Environment methods
     virtual void init() = 0;
     virtual void reset() = 0;
+    virtual bool isContextual(){return false;}
 
     /**
      * This functions are used for the controller interfacing a
