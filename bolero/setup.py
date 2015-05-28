@@ -10,6 +10,7 @@ def configuration(parent_package="", top_path=None):
     config.add_subpackage("optimizer")
     config.add_subpackage("representation")
     config.add_subpackage("utils")
+    config.add_subpackage("wrapper")
     return config
 
 if __name__ == "__main__":
