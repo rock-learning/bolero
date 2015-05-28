@@ -1,7 +1,7 @@
 """BehaviorSearch interface."""
 
 from abc import ABCMeta, abstractmethod
-from tools import NonContextualException
+from bolero.utils import NonContextualException
 
 
 class ContextualBehaviorSearch(object):
