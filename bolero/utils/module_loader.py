@@ -8,7 +8,6 @@ import inspect
 
 def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create optimizer object from YAML configuration file."""
-    print from_yaml(filename, conf_path)
     return from_yaml(filename, conf_path)["Optimizer"]
 
 
