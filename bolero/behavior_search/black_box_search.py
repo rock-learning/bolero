@@ -4,9 +4,9 @@
 import numpy as np
 from .behavior_search import BehaviorSearch, ContextualBehaviorSearch
 from .behavior_search import PickableMixin, FixableMixin
-from bolero.optimizer import Optimizer, ContextualOptimizer
-from bolero.representation import BlackBoxBehavior, DummyBehavior
-from bolero.utils.module_loader import from_dict
+from ..optimizer import Optimizer, ContextualOptimizer
+from ..representation import BlackBoxBehavior, DummyBehavior
+from ..utils.module_loader import from_dict
 
 
 class BlackBoxSearchMixin(object):

@@ -2,7 +2,7 @@ cimport numpy as np
 import numpy as np
 from libcpp.string cimport string
 cimport _wrapper
-from bolero.utils.log import HideExtern
+from ..utils.log import HideExtern
 
 
 cdef class CppBLLoader:

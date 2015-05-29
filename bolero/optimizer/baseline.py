@@ -2,7 +2,7 @@
 
 import numpy as np
 from .optimizer import Optimizer
-from bolero.utils.validation import check_random_state
+from ..utils.validation import check_random_state
 
 
 class NoOptimizer(Optimizer):
