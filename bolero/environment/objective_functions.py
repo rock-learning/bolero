@@ -4,8 +4,8 @@ Function optimization benchmarks
 ================================
 
 These functions are similar to the ones found at BBOB (Real-Parameter
-Black-Box Optimization Benchmarking). See the following links for more
-details:
+Black-Box Optimization Benchmarking). Code and documentation are based on the
+software. See the following links for more details:
 
 * http://coco.gforge.inria.fr/doku.php
 * http://coco.gforge.inria.fr/doku.php?id=downloads
@@ -118,6 +118,7 @@ for all functions. These properties are not intrinsic, that is
 reflects a scalar multiplier in the function definition.
 """
 
+# Based on BBOB code (copyright 2011 The BBOB Team members)
 # Author: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 
