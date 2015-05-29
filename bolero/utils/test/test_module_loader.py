@@ -38,6 +38,12 @@ def test_load_with_params():
     assert_equal(optimizer.n_samples_per_update, 10)
 
 
+def test_load_missing_type():
+    config = {"key": "value"}
+    config2 = from_dict(config)
+    assert_equal(config, config2)
+
+
 def test_load_with_wrong_params():
     config = {
         "type": "bolero.optimizer.CMAESOptimizer",

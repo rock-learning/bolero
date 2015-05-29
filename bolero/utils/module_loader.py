@@ -142,10 +142,7 @@ def recursive_from_dict(config):
     except KeyError:
         has_explicit_package = False
 
-    try:
-        type_name = c.pop("type")
-    except KeyError:
-        raise ValueError("No type given")
+    type_name = c.pop("type")
 
     if not has_explicit_package:
         type_parts = type_name.split(".")
