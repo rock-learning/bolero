@@ -9,10 +9,6 @@ class ContextualBehaviorSearch(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
     def init(self, n_inputs, n_outputs, n_context_dims):
         """Initialize the behavior search.
 
@@ -105,7 +101,7 @@ class ContextualBehaviorSearch(object):
 
     @abstractmethod
     def get_best_behavior_template(self):
-        """ Return current best estimate of contextual policy. """
+        """Return current best estimate of contextual policy."""
 
 
 class BehaviorSearch(ContextualBehaviorSearch):

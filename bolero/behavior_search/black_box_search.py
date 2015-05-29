@@ -78,7 +78,7 @@ class BlackBoxSearchMixin(object):
             self.optimizer.set_evaluation_feedback(feedbacks)
 
     def is_behavior_learning_done(self):
-        return False
+        return self.optimizer.is_behavior_learning_done()
 
 
 class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,

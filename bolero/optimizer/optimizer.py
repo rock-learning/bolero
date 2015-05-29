@@ -96,8 +96,8 @@ class Optimizer(ContextualOptimizer):
             number of context dimensions. Restricted to 0 for non-contextual
             behavior search.
         """
-        assert n_context_dims == 0, \
-            "Optimizer does not support contextual problems."
+        if n_context_dims != 0:
+            raise ValueError("Optimizer does not support contextual problems.")
         super(Optimizer, self).init(n_params, n_context_dims)
 
     def get_desired_context(self):
