@@ -6,23 +6,23 @@ import warnings
 import inspect
 
 
-def optimizer_from_yaml(filename, conf_path=None):
+def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create optimizer object from YAML configuration file."""
     print from_yaml(filename, conf_path)
     return from_yaml(filename, conf_path)["Optimizer"]
 
 
-def behavior_from_yaml(filename, conf_path=None):
+def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create behavior object from YAML configuration file."""
     return from_yaml(filename, conf_path)["Behavior"]
 
 
-def behavior_search_from_yaml(filename, conf_path=None):
+def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create behavior search object from YAML configuration file."""
     return from_yaml(filename, conf_path)["BehaviorSearch"]
 
 
-def environment_from_yaml(filename, conf_path=None):
+def environment_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create environment object from YAML configuration file."""
     return from_yaml(filename, conf_path)["Environment"]
 
