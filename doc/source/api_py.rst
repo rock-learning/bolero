@@ -9,6 +9,28 @@ This is the class and function reference of the Python API.
 You can search for specific modules, classes or functions in the
 :ref:`genindex`.
 
+:mod:`bolero.behavior_search`: Behavior Search
+==============================================
+
+.. automodule:: bolero.behavior_search
+    :no-members:
+    :no-inherited-members:
+
+Behavior search classes
+-----------------------
+.. currentmodule:: bolero
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   behavior_search.BehaviorSearch
+   behavior_search.ContextualBehaviorSearch
+   behavior_search.BlackBoxSearch
+   behavior_search.ContextualBlackBoxSearch
+   behavior_search.JustOptimizer
+   behavior_search.JustContextualOptimizer
+
 :mod:`bolero.optimizer`: Optimizer
 ==================================
 
@@ -40,8 +62,8 @@ Optimizer classes
     :no-members:
     :no-inherited-members:
 
-Optimizer classes
------------------
+Representation classes
+----------------------
 .. currentmodule:: bolero
 
 .. autosummary::
