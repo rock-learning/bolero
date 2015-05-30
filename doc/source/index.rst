@@ -1,6 +1,10 @@
-======================================================
-bolero - Behavior Optimization and Learning for Robots
-======================================================
+=============================================
+Behavior Optimization and Learning for Robots
+=============================================
+
+.. raw:: html
+
+    <center><img src="_static/logo.svg" width=500px /></center>
 
 About
 =====
