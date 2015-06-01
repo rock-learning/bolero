@@ -12,11 +12,8 @@ optimization because we might get stuck in a local optimum. Both objective
 functions will only have two parameters that have to be optimized in this
 example.
 
-In such low-dimensional, unimodal objective function, basin hopping and
-ACM-ES (which uses a surrogate model to model the objective function internally)
-are comparable, however, ACM-ES would be much better for 5 or more dimensions.
-(a)CMA-ES and REPS are usually the best optimizers without surrogate model
-for this objective.
+aCMA-ES is a little bit faster than CMA-ES in this example and both are
+significantly better than random exploration.
 
 We compare several multimodal variants of CMA-ES on the Katsuura function.
 IPOP (increasing population size) and BIPOP (Bi-population) refer to different
@@ -27,8 +24,8 @@ active update makes a difference in this example.
 print(__doc__)
 
 import numpy as np
-from bolero.optimizer import (CMAESOptimizer, IPOPCMAESOptimizer,
-                              BIPOPCMAESOptimizer)
+from bolero.optimizer import (NoOptimizer, RandomOptimizer, CMAESOptimizer,
+                              IPOPCMAESOptimizer, BIPOPCMAESOptimizer)
 from bolero.environment.objective_functions import Rosenbrock, Katsuura
 import matplotlib.pyplot as plt
 
@@ -50,6 +47,8 @@ n_iter = 800
 x = np.zeros(n_dims)
 
 optimizers = {
+    "None": NoOptimizer(x),
+    "Random": RandomOptimizer(x, random_state=0),
     "CMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0),
     "aCMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), active=True,
                               random_state=0),
