@@ -59,6 +59,7 @@ install(TARGETS ${PROJECT_NAME} ${_INSTALL_DESTINATIONS})
 
 configure_file(config/init.yaml.in ${CMAKE_CURRENT_BINARY_DIR}/init.yaml @ONLY)
 configure_file(config/config.yaml.in ${CMAKE_CURRENT_BINARY_DIR}/config.yaml @ONLY)
+configure_file(config/learning_config.yml.in ${CMAKE_CURRENT_BINARY_DIR}/learning_config.yml @ONLY)
 configure_file(python/test_behavior.py ${CMAKE_CURRENT_BINARY_DIR}/test_behavior.py @ONLY)
 
 add_test(test_py_loadable_behavior test_py_loadable_behavior)

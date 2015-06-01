@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include <LoadableBehavior.h>
 #include <BLLoader.h>
+#include <Optimizer.h>
 
 using namespace bolero;
 using namespace std;
@@ -15,7 +16,6 @@ TEST_CASE( "init test", "[PyLoadableBehavior]" ) {
 }
 
 TEST_CASE( "configure and stepping", "[PyLoadableBehavior]" ) {
-
   bl_loader::BLLoader loader;
   LoadableBehavior* behav = loader.acquireBehavior("TestBehavior");
   REQUIRE_NOTHROW(behav->initialize("init.yaml"));
@@ -55,4 +55,33 @@ TEST_CASE("acquire twice", "[PyLoadableBehavior]") {
   REQUIRE(b == b2);
 }
 
+TEST_CASE( "optimize", "[PyOptimizer]" ) {
+  // Load optimizer that is defined by "learning_config.yml"
+  bl_loader::BLLoader loader;
+  Optimizer* opt = loader.acquireOptimizer("Python");
+
+  int n_params = 3;
+  double params[n_params];
+  int n_feedbacks = 2;
+  double feedback[n_feedbacks];
+
+  // Required step: initialize optimizer
+  opt->init(n_params);
+
+  for(int i = 0; i < 200; i++)
+  {
+    REQUIRE(!opt->isBehaviorLearningDone());
+    // Required step: generate next possible solution
+    opt->getNextParameters(params, n_params);
+
+    // Compute feedback
+    feedback[0] = 10.0 - (params[0] + params[1]);
+    feedback[0] *= -feedback[0];
+    feedback[1] = 5.0 - params[2];
+    feedback[1] *= -feedback[1];
+
+    // Required step: tell the optimizer the performance of the solution
+    opt->setEvaluationFeedback(feedback, n_feedbacks);
+  }
+}
 
