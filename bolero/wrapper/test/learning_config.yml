@@ -6,3 +6,5 @@ BehaviorSearch:
   behavior:
     type: bolero.representation.DummyBehavior
     num_outputs: 1
+Optimizer:
+  type: bolero.optimizer.CMAESOptimizer

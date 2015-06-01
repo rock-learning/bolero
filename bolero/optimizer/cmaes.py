@@ -210,7 +210,7 @@ class CMAESOptimizer(Optimizer):
 
         if self.log_to_stdout or self.log_to_file:
             self.logger.info("Iteration #%d, fitness: %g"
-                             % (self.it, np.sum(feedback)))
+                             % (self.it, self.fitness[k]))
             self.logger.info("Variance %g" % self.var)
 
         if (self.it - self.initial_it) % self.n_samples_per_update == 0:

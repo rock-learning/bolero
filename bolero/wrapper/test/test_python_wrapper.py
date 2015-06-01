@@ -55,3 +55,15 @@ def test_load_behavior_search():
     inputs = np.zeros(n_inputs)
     beh.set_inputs(inputs)
     bhs.set_evaluation_feedback(np.zeros(1))
+
+
+def test_load_python_optimizer():
+    os.environ["CONF_PATH"] = CURRENT_PATH
+    bll = CppBLLoader()
+    bll.load_config_file(LIBRARY_CONFIG_FILE)
+    opt = bll.acquire_optimizer("Python")
+    n_params = 5
+    opt.init(n_params)
+    params = np.empty(n_params)
+    opt.get_next_parameters(params)
+    opt.set_evaluation_feedback(np.zeros(10))

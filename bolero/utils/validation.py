@@ -2,26 +2,6 @@ import numpy as np
 import numbers
 
 
-def is_array_like(obj):
-    """Check if obj is array-like."""
-    return hasattr(obj, "__len__")
-
-
-def is_scalar(obj):
-    """Check if obj is a scalar value."""
-    return isinstance(obj, numbers.Number)
-
-
-def accumulate_feedbacks(feedbacks):
-    """Accumulate feedbacks to one value."""
-    if isinstance(feedbacks, memoryview):
-        tmp = np.ndarray(len(feedbacks))
-        tmp[:] = feedbacks[:]
-        return np.sum(tmp)
-    else:
-        return np.sum(feedbacks)
-
-
 try:
     from sklearn.utils import check_random_state
 except:
