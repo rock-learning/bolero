@@ -70,6 +70,9 @@ Representation classes
    :toctree: modules/generated/
    :template: class.rst
 
+   representation.Behavior
+   representation.BlackBoxBehavior
+   representation.BehaviorTemplate
    representation.ConstantBehavior
    representation.DummyBehavior
    representation.RandomBehavior

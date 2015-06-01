@@ -105,7 +105,7 @@ class ContextualBehaviorSearch(object):
 
 
 class BehaviorSearch(ContextualBehaviorSearch):
-    """BehaviorSearch interface, i.e. common interface of learning algorithm.
+    """BehaviorSearch (learning algorithm) interface.
     """
 
     def init(self, n_inputs, n_outputs, n_context_dims=0):
