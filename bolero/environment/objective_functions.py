@@ -1444,14 +1444,12 @@ def plot_function(name, random_state=None, fig=None, sample_dist=0.2,
 
 
 def _plot_function_lin_contour(f, ax, X, Y, F):
-    """TODO document"""
     ax.set_xlabel("$x_1$")
     ax.set_ylabel("$x_2$")
     ax.contourf(X, Y, F, rstride=1, cstride=1, cmap=plt.cm.jet)
 
 
 def _plot_function_log_contour(f, ax, X, Y, F):
-    """TODO document"""
     F = -np.log(-(F - f.f_opt) + 0.1)
     ax.set_xlabel("$x_1$")
     ax.set_ylabel("$x_2$")
@@ -1459,7 +1457,6 @@ def _plot_function_log_contour(f, ax, X, Y, F):
 
 
 def _plot_function_lin_3d(f, ax, X, Y, F):
-    """TODO document"""
     ax.set_xlabel("$x_1$")
     ax.set_ylabel("$x_2$")
     ax.set_zlabel("$f(x)$")
@@ -1467,7 +1464,6 @@ def _plot_function_lin_3d(f, ax, X, Y, F):
 
 
 def _plot_function_log_3d(f, ax, X, Y, F):
-    """TODO document"""
     F = -np.log(-(F - f.f_opt) + 0.1)
     ax.set_xlabel("$x_1$")
     ax.set_ylabel("$x_2$")
