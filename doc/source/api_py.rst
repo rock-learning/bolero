@@ -9,6 +9,26 @@ This is the class and function reference of the Python API.
 You can search for specific modules, classes or functions in the
 :ref:`genindex`.
 
+:mod:`bolero.environment`: Environment
+======================================
+
+.. automodule:: bolero.environment
+    :no-members:
+    :no-inherited-members:
+
+Environment search classes
+--------------------------
+.. currentmodule:: bolero
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   environment.Environment
+   environment.ContextualEnvironment
+   environment.SetContext
+   environment.ObjectiveFunction
+
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================
 

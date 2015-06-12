@@ -124,9 +124,10 @@ reflects a scalar multiplier in the function definition.
 
 from abc import ABCMeta, abstractmethod
 import numpy as np
-from ..utils import check_random_state
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from ..utils import check_random_state
+from .environment import Environment
 
 
 def generate_x_opt(random_state, n_dims):
@@ -1472,3 +1473,62 @@ def _plot_function_log_3d(f, ax, X, Y, F):
     ax.set_ylabel("$x_2$")
     ax.set_zlabel("$-\log(-(f - f_{opt}) + 0.1)$")
     ax.plot_surface(X, Y, F, rstride=1, cstride=1, cmap=plt.cm.jet, lw=0)
+
+
+class ObjectiveFunction(Environment):
+    """Optimize an objective function.
+
+    Parameters
+    ----------
+    name : string
+        Name of the objective function
+
+    n_params : int
+        Number of dimensions
+
+    random_state : RandomState or int, optional (default: None)
+        Random number generator or seed
+    """
+    def __init__(self, name, n_params, random_state=None):
+        self.name = name
+        self.n_params = n_params
+        self.random_state = random_state
+
+    def init(self):
+        if not self.name in FUNCTIONS:
+            raise ValueError("Unknown function '%s' requested, select one of "
+                             "%s instead" % (self.name, FUNCTIONS.keys()))
+        self.objective = FUNCTIONS[self.name](self.random_state, self.n_params)
+        self.params = np.empty(self.n_params)
+        self.f = np.nan
+
+    def reset(self):
+        self.done = False
+
+    def get_num_inputs(self):
+        return self.n_params
+
+    def get_num_outputs(self):
+        return 0
+
+    def get_outputs(self, _):
+        self.done = True
+
+    def set_inputs(self, values):
+        self.params[:] = values[:]
+
+    def step_action(self):
+        self.f = self.objective.feedback(self.params)
+
+    def is_evaluation_done(self):
+        return self.done
+
+    def get_feedback(self, feedbacks):
+        feedbacks[0] = self.f
+        return 1
+
+    def is_behavior_learning_done(self):
+        return False
+
+    def get_maximum_feedback(self):
+        return self.objective.f_opt
