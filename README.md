@@ -25,6 +25,14 @@ scripts
 and follow the instructions.
 
 
+## Documentation
+
+The documentation can be built in the directory `doc/` with `make`. It will
+be located in `doc/build/html/index.html`. Building the documentation requires
+[doxygen](http://www.stack.nl/~dimitri/doxygen/) and
+[sphinx](http://sphinx-doc.org/).
+
+
 ## License
 
 BOLeRo is distributed under the [GNU Public License (GPL)](https://www.gnu.org/licenses/gpl.html).
