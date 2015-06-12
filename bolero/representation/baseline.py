@@ -2,6 +2,7 @@
 
 import numpy as np
 from .behavior import BlackBoxBehavior
+from ..utils.validation import check_random_state
 
 
 class ConstantBehavior(BlackBoxBehavior):
@@ -204,8 +205,9 @@ class RandomBehavior(BlackBoxBehavior):
     num_outputs : int
         number of outputs
     """
-    def __init__(self, num_inputs, num_outputs):
+    def __init__(self, num_inputs, num_outputs, random_state=None):
         super(RandomBehavior, self).__init__(num_inputs, num_outputs)
+        self.random_state = check_random_state(random_state)
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta-parameters.
@@ -237,7 +239,7 @@ class RandomBehavior(BlackBoxBehavior):
         outputs : array-like, shape = (num_outputs,)
             outputs, e.g. next action, will be updated
         """
-        outputs[:] = np.random.randn(self.num_outputs)
+        outputs[:] = self.random_state.randn(self.num_outputs)
 
     def step(self):
         """Compute output for the received input.

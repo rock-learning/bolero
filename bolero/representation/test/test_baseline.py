@@ -1,7 +1,8 @@
 import numpy as np
-from bolero.representation import ConstantBehavior, DummyBehavior
+from bolero.representation import (ConstantBehavior, DummyBehavior,
+                                   RandomBehavior)
 from bolero.utils.testing import assert_raise_message
-from nose.tools import assert_equal
+from nose.tools import assert_equal, assert_true
 from numpy.testing import assert_array_equal
 
 
@@ -42,3 +43,15 @@ def test_dummy_behavior():
     beh.set_params(params)
     assert_equal(beh.get_n_params(), 2)
     assert_array_equal(beh.get_params(), params)
+
+
+def test_random_behavior():
+    beh = RandomBehavior(4, 5, random_state=0)
+
+    assert_equal(beh.get_n_params(), 0)
+    assert_array_equal(beh.get_params(), np.array([]))
+
+    outputs = np.empty(5)
+    outputs[:] = np.nan
+    beh.get_outputs(outputs)
+    assert_true(np.isfinite(outputs).all())
