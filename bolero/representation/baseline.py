@@ -43,7 +43,7 @@ class ConstantBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        inputs : array-like, shape = [num_inputs,]
+        inputs : array-like, shape = (num_inputs,)
             inputs, e.g. current state of the system
         """
 
@@ -52,7 +52,7 @@ class ConstantBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = [num_outputs,]
+        outputs : array-like, shape = (num_outputs,)
             outputs, e.g. next action, will be updated
         """
         outputs[:] = self.outputs
@@ -121,7 +121,8 @@ class DummyBehavior(BlackBoxBehavior):
         if "initial_params" in kwargs:
             self.params = kwargs["initial_params"].copy()
             num_outputs = len(kwargs["initial_params"])
-
+        else:
+            self.params = None
         super(DummyBehavior, self).__init__(num_inputs, num_outputs)
 
     def get_n_params(self):
@@ -132,6 +133,8 @@ class DummyBehavior(BlackBoxBehavior):
         n_params : int
             Number of parameters that will be optimized.
         """
+        if self.num_outputs <= 0:
+            raise ValueError("Initial parameters have not been set")
         return self.num_outputs
 
     def set_meta_parameters(self, keys, meta_parameters):
@@ -145,6 +148,8 @@ class DummyBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current parameters.
         """
+        if self.params is None:
+            raise ValueError("Initial parameters have not been set")
         return self.params
 
     def set_params(self, params):
@@ -155,6 +160,8 @@ class DummyBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New parameters.
         """
+        if self.num_outputs <= 0:
+            self.num_outputs = len(params)
         self.params = params
 
     def set_inputs(self, inputs):
@@ -218,7 +225,7 @@ class RandomBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        inputs : array-like, shape = [num_inputs,]
+        inputs : array-like, shape = (num_inputs,)
             inputs, e.g. current state of the system
         """
 
@@ -227,7 +234,7 @@ class RandomBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = [num_outputs,]
+        outputs : array-like, shape = (num_outputs,)
             outputs, e.g. next action, will be updated
         """
         outputs[:] = np.random.randn(self.num_outputs)
