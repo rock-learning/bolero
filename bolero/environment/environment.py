@@ -73,18 +73,13 @@ class Environment(object):
         """
 
     @abstractmethod
-    def get_feedback(self, feedbacks):
+    def get_feedback(self):
         """Get the feedbacks for the last evaluation period.
-
-        Parameters
-        ----------
-        feedbacks : array
-            feedback values, will be overwritten
 
         Returns
         -------
-        n_feedbacks : int
-            number of values
+        feedbacks : array
+            Feedback values
         """
 
     @abstractmethod
@@ -98,7 +93,7 @@ class Environment(object):
         """
 
     def get_maximum_feedback(self):
-        """Returns the maximum feedback obtainable."""
+        """Returns the maximum sum of feedbacks obtainable."""
         return 0.0
 
 
@@ -130,7 +125,7 @@ class ContextualEnvironment(Environment):
         """Returns the number of context dimensions."""
 
     def get_maximum_feedback(self, context):
-        """Returns the maximum feedback obtainable in given context."""
+        """Returns the maximum sum of feedbacks obtainable in given context."""
         return 0.0
 
 
@@ -215,17 +210,12 @@ class SetContext(Environment):
     def get_feedback(self, feedbacks):
         """Get the feedbacks for the last evaluation period.
 
-        Parameters
-        ----------
-        feedbacks : array
-            feedback values, will be overwritten
-
         Returns
         -------
-        n_feedbacks : int
-            number of values
+        feedbacks : array
+            Feedback values
         """
-        return self.contextual_environment.get_feedback(feedbacks)
+        return self.contextual_environment.get_feedback()
 
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.

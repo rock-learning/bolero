@@ -1480,16 +1480,16 @@ class ObjectiveFunction(Environment):
 
     Parameters
     ----------
-    name : string
+    name : string, optional (default: 'Sphere')
         Name of the objective function
 
-    n_params : int
+    n_params : int, optional (default: 2)
         Number of dimensions
 
     random_state : RandomState or int, optional (default: None)
         Random number generator or seed
     """
-    def __init__(self, name, n_params, random_state=None):
+    def __init__(self, name="Sphere", n_params=2, random_state=None):
         self.name = name
         self.n_params = n_params
         self.random_state = random_state
@@ -1523,9 +1523,8 @@ class ObjectiveFunction(Environment):
     def is_evaluation_done(self):
         return self.done
 
-    def get_feedback(self, feedbacks):
-        feedbacks[0] = self.f
-        return 1
+    def get_feedback(self):
+        return np.array([self.f])
 
     def is_behavior_learning_done(self):
         return False
