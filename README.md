@@ -1,10 +1,7 @@
-.. figure:: doc/source/_static/logo.svg
-   :scale: 50 %
-   :alt: BOLeRo
+![BOLeRo](doc/source/_static/logo.svg)
 
 
-BOLeRo
-======
+# BOLeRo
 
 BOLeRo (Behavior Learning and Optimization for Robots) provides tools to learn
 behaviors for robots. That includes behavior representations as well as
@@ -16,8 +13,7 @@ integrate in most robotic frameworks, e.g. the robot operating system (ROS) or
 the robot construction kit (Rock).
 
 
-Installation
-------------
+## Installation
 
 In order to install all dependencies and BOLeRo you can use the installation
 scripts
@@ -29,8 +25,6 @@ scripts
 and follow the instructions.
 
 
-License
--------
+## License
 
-BOLeRo is distributed under the `GNU Public License (GPL)
-<https://www.gnu.org/licenses/gpl.html>`_.
+BOLeRo is distributed under the [GNU Public License (GPL)](https://www.gnu.org/licenses/gpl.html).
