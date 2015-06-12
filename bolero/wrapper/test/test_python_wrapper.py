@@ -35,8 +35,8 @@ def test_load_environment():
     env.set_inputs(inputs)
     env.step_action()
     assert_false(env.is_evaluation_done())
-    feedbacks = np.ones(1)
-    assert_equal(1, env.get_feedback(feedbacks))
+    feedbacks = env.get_feedback()
+    assert_equal(len(feedbacks), 1)
     assert_true(np.all(feedbacks == 0))
     assert_false(env.is_behavior_learning_done())
 

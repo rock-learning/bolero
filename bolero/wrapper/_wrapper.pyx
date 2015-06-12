@@ -375,23 +375,20 @@ cdef class CppEnvironment:
         """
         return self.thisptr.isEvaluationDone()
 
-    def get_feedback(self, feedback):
+    def get_feedback(self):
         """Get the feedbacks for the last evaluation period.
-
-        Parameters
-        ----------
-        feedback : array
-            feedback vector, will be modified
 
         Returns
         -------
-        success : bool
-            Has the feedback vector been filled?
+        feedback : array
+            Feedback values
         """
-        cdef np.ndarray[double, ndim=1, mode="c"] tmp = np.ndarray(1000)
-        n_feedbacks = self.thisptr.getFeedback(&tmp[0])
-        feedback[:n_feedbacks] = tmp[:n_feedbacks]
-        return n_feedbacks
+        cdef np.ndarray[double, ndim=1, mode="c"] feedback = np.ndarray(1000)
+        n_feedbacks = self.thisptr.getFeedback(&feedback[0])
+        if n_feedbacks > 1000:
+            raise ValueError("Collected more than 1000 feedbacks, fix the "
+                             "wrapper code")
+        return feedback[:n_feedbacks]
 
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.
@@ -492,23 +489,20 @@ cdef class CppContextualEnvironment:
         """
         return self.thisptr.isEvaluationDone()
 
-    def get_feedback(self, feedback):
+    def get_feedback(self):
         """Get the feedbacks for the last evaluation period.
-
-        Parameters
-        ----------
-        feedback : array
-            feedback vector, will be modified
 
         Returns
         -------
-        success : bool
-            Has the feedback vector been filled?
+        feedback : array
+            Feedback values
         """
-        cdef np.ndarray[double, ndim=1, mode="c"] tmp = np.ndarray(1000)
-        n_feedbacks = self.thisptr.getFeedback(&tmp[0])
-        feedback[:n_feedbacks] = tmp[:n_feedbacks]
-        return n_feedbacks
+        cdef np.ndarray[double, ndim=1, mode="c"] feedback = np.ndarray(1000)
+        n_feedbacks = self.thisptr.getFeedback(&feedback[0])
+        if n_feedbacks > 1000:
+            raise ValueError("Collected more than 1000 feedbacks, fix the "
+                             "wrapper code")
+        return feedback[:n_feedbacks]
 
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.
