@@ -92,9 +92,9 @@ class Environment(object):
             Is the learning of a behavior finished?
         """
 
+    @abstractmethod
     def get_maximum_feedback(self):
         """Returns the maximum sum of feedbacks obtainable."""
-        return 0.0
 
 
 class ContextualEnvironment(Environment):
@@ -124,9 +124,9 @@ class ContextualEnvironment(Environment):
     def get_num_context_dims(self):
         """Returns the number of context dimensions."""
 
+    @abstractmethod
     def get_maximum_feedback(self, context):
         """Returns the maximum sum of feedbacks obtainable in given context."""
-        return 0.0
 
 
 class SetContext(Environment):
