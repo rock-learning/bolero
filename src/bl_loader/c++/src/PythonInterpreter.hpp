@@ -31,8 +31,8 @@ class PythonInterpreter
     shared_ptr<Module> currentModule;
 
     PythonInterpreter();
-    ~PythonInterpreter();
 public:
+    ~PythonInterpreter();
     static const PythonInterpreter& instance();
 
     void addToPythonpath(const std::string& path) const;

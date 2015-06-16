@@ -24,6 +24,8 @@ include_directories(src)
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} bl_loader)
 
+file(COPY config/functions.py DESTINATION .)
+
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
 else(WIN32)

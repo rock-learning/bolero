@@ -50,6 +50,7 @@ if(PYTHON_SUPPORT)
     src/PyBehaviorSearch.cpp
     src/PyLoadableBehavior.cpp
     src/Helper.cpp
+    src/PythonInterpreter.cpp
   )
   set(HEADERS
     ${HEADERS}
@@ -60,6 +61,7 @@ if(PYTHON_SUPPORT)
     src/PyLoadableBehavior.h
     src/Helper.h
     src/PyLoadable.h
+    src/PythonInterpreter.hpp
   )
   set(EXTRA_LIBRARIES
     ${EXTRA_LIBRARIES}

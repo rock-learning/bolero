@@ -3,9 +3,30 @@
 #include <LoadableBehavior.h>
 #include <BLLoader.h>
 #include <Optimizer.h>
+#include <PythonInterpreter.hpp>
 
 using namespace bolero;
+using namespace bolero::bl_loader;
 using namespace std;
+
+
+/*TEST_CASE( "io", "[PythonInterpreter]" ) {
+  const PythonInterpreter python = PythonInterpreter::instance();
+  shared_ptr<Module> functions = python.import("functions");
+  int intResult = functions->function("produce_int").call().returnObject()->asInt();
+  REQUIRE(intResult == 9);
+  double doubleResult = functions->function("produce_double").call().returnObject()->asDouble();
+  REQUIRE(doubleResult == 8.0);
+  bool boolResult = functions->function("produce_bool").call().returnObject()->asBool();
+  REQUIRE(boolResult == true);
+  std::string stringResult = functions->function("produce_string").call().returnObject()->asString();
+  REQUIRE(stringResult == "Test string");
+
+  functions->function("take_int").pass(INT).call(intResult);
+  functions->function("take_double").pass(DOUBLE).call(doubleResult);
+  functions->function("take_bool").pass(BOOL).call(boolResult);
+  functions->function("take_string").pass(STRING).call(&stringResult);
+}*/
 
 TEST_CASE( "init test", "[PyLoadableBehavior]" ) {
   bl_loader::BLLoader loader;
@@ -84,4 +105,3 @@ TEST_CASE( "optimize", "[PyOptimizer]" ) {
     opt->setEvaluationFeedback(feedback, n_feedbacks);
   }
 }
-
