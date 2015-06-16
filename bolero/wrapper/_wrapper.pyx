@@ -344,8 +344,9 @@ cdef class CppEnvironment:
         """
         cdef int n_outputs = self.get_num_outputs()
         cdef np.ndarray[double, ndim=1, mode="c"] outputs = np.ndarray(n_outputs)
-        self.thisptr.getOutputs(&outputs[0], n_outputs)
-        values[:] = outputs
+        if n_outputs > 0:
+            self.thisptr.getOutputs(&outputs[0], n_outputs)
+            values[:] = outputs
 
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
