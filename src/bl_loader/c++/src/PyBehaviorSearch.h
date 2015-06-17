@@ -1,10 +1,9 @@
 #ifndef PY_BEHAVIORSEARCH_H
 #define PY_BEHAVIORSEARCH_H
 
+#include <PythonInterpreter.hpp>
 #include <string>
-
 #include <BehaviorSearch.h>
-#include "Helper.h"
 #include "PyLoadable.h"
 
 namespace bolero { namespace bl_loader {
@@ -13,7 +12,6 @@ class PyBehaviorSearch : public BehaviorSearch, public PyLoadable {
 public:
   PyBehaviorSearch(lib_manager::LibManager *theManager,
                    const std::string libName, int libVersion);
-  virtual ~PyBehaviorSearch();
 
   void init(int numInputs, int numOutputs);
   bolero::Behavior* getNextBehavior();
@@ -25,8 +23,7 @@ public:
 
 private:
   std::string className;
-  PyObjectPtr py_behaviorSearch;
-  py_callable_info_t set_evaluation_feedback;
+  PyObjectPtr behaviorSearch;
 
 }; /* end of class PyBehaviorSearch */
 

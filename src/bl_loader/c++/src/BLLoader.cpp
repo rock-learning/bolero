@@ -1,9 +1,9 @@
 #ifdef PYTHON_SUPPORT
+#include "PythonInterpreter.hpp"
 #include "PyOptimizer.h"
 #include "PyBehaviorSearch.h"
 #include "PyEnvironment.h"
 #include "PyLoadableBehavior.h"
-#include "Helper.h"
 #include "PyLoadable.h"
 #endif /* PYTHON_SUPPORT */
 #include "LoadableBehavior.h"
@@ -28,7 +28,7 @@ namespace bolero {
     BLLoader::BLLoader() : lib_manager::LibInterface(new LibManager())
     {
       #ifdef PYTHON_SUPPORT
-        Helper::instance().addToPyModulePath(".");
+        PythonInterpreter::instance().addToPythonpath(".");
       #endif
       libManager->addLibrary(this);
     }

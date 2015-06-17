@@ -1,4 +1,3 @@
-#include <Python.h>
 #include "PyOptimizer.h"
 #include "Helper.h"
 #include <cassert>
@@ -7,109 +6,48 @@
 namespace bolero { namespace bl_loader {
 
   PyOptimizer::PyOptimizer(lib_manager::LibManager *theManager,
-                             std::string libName, int libVersion)
+                           std::string libName, int libVersion)
     : bolero::Optimizer(theManager, libName, libVersion),
-      py_optimizer(Helper::instance().getClassInstance("optimizer")),
+      optimizer(0),
       dimension(0)
-  {}
-
-  PyOptimizer::~PyOptimizer() {
-    Helper::instance().destroyCallableInfo(&get_next_parameters);
-    Helper::instance().destroyCallableInfo(&get_best_parameters);
-    Helper::instance().destroyCallableInfo(&set_evaluation_feedback);
+  {
+    optimizer = PythonInterpreter::instance()
+        .import("bolero.utils.module_loader")
+        .function("optimizer_from_yaml").call()
+        .returnObject();
   }
 
   void PyOptimizer::init(int dimension) {
-    assert(py_optimizer);
-    PyObject *pResult = PyObject_CallMethod(py_optimizer.get(),(char*)"init",
-                                            (char*)"i", dimension);
-    if(!pResult) {
-      PyErr_Print();
-    }
-    Py_XDECREF(pResult);
-    Helper::instance().createCallableInfo(&get_next_parameters, py_optimizer.get(),
-                       "get_next_parameters", dimension);
-    Helper::instance().createCallableInfo(&get_best_parameters, py_optimizer.get(),
-                       "get_best_parameters", dimension);
-    Helper::instance().createCallableInfo(&set_evaluation_feedback, py_optimizer.get(),
-                       "set_evaluation_feedback", 1);
     this->dimension = dimension;
+    optimizer.method("init").pass(INT).call(dimension);
   }
 
   void PyOptimizer::getNextParameters(double *p, int numP) {
-    assert(py_optimizer);
-    PyObjectPtr memView = Helper::instance().create1dBuffer(p, numP);
-
-    PyObject *pResult = PyObject_CallMethod(
-        py_optimizer.get(),
-        (char*)"get_next_parameters",
-        (char*)"O",
-        memView.get());
-    Py_XDECREF(pResult);
-
-    if(PyErr_Occurred()) {
-      PyErr_Print();
-    }
+    // TODO direct array access
+    optimizer.method("get_next_parameters").pass(ONEDARRAY).call(array);
   }
 
   void PyOptimizer::getBestParameters(double *p, int numP) {
-    assert(py_optimizer);
-    PyObjectPtr memView = Helper::instance().create1dBuffer(p, numP);
-
-    PyObject *pResult = PyObject_CallMethod(
-        py_optimizer.get(),
-        (char*)"get_best_parameters",
-        (char*)"O",
-        memView.get());
-    Py_XDECREF(pResult);
-
-    if(PyErr_Occurred()) {
-      PyErr_Print();
-    }
+    // TODO direct array access
+    optimizer.method("get_best_parameters").pass(ONEDARRAY).call(array);
   }
 
   void PyOptimizer::setEvaluationFeedback(const double *feedbacks,
-                                           int numFeedbacks) {
-    assert(py_optimizer);
-
-    PyObjectPtr memView = Helper::instance().create1dBuffer(feedbacks, numFeedbacks);
-
-    PyObject *pResult = PyObject_CallMethod(
-        py_optimizer.get(),
-        (char*)"set_evaluation_feedback",
-        (char*)"O",
-        memView.get());
-    Py_XDECREF(pResult);
-
-    if(PyErr_Occurred()) {
-      PyErr_Print();
-    }
+                                          int numFeedbacks) {
+    // TODO direct array access
+    optimizer.method("set_evaluation_feedback").pass(ONEDARRAY).call(array);
   }
 
   bool PyOptimizer::isBehaviorLearningDone() const {
-    assert(py_optimizer);
-    PyObject *result;
-    bool ret = false;
-    result = PyObject_CallMethod(py_optimizer.get(),
-                                 (char*)"is_behavior_learning_done", NULL);
-    if(result) {
-      assert(PyBool_Check(result));
-      ret = PyObject_IsTrue(result);
-      Py_DECREF(result);
-    } else {
-      PyErr_Print();
-    }
-    return ret;
+    return optimizer.method("is_behavior_learning_done").call().returnObject().asBool();
   }
 
   std::vector<double*> PyOptimizer::getNextParameterSet() const {
-    fprintf(stderr, "PyOptimizer::getNextParameterSet() not implemented yet!\n");
-    assert(false);
+    throw std::runtime_error("PyOptimizer::getNextParameterSet() not implemented yet!");
   }
 
   void PyOptimizer::setParameterSetFeedback(const std::vector<double> feedback) {
-	fprintf(stderr, "PyOptimizer::setParameterSetFeedback() not implemented yet!\n");
-    assert(false);
+	throw std::runtime_error("PyOptimizer::setParameterSetFeedback() not implemented yet!");
   }
 
 

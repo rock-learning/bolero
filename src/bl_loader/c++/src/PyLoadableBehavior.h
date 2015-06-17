@@ -4,21 +4,13 @@
  */
 
 #pragma once
+#include <PythonInterpreter>
 #include "PyBehavior.h"
 #include <string>
 #include <Behavior.h>
 #include <memory>
-#include "Helper.h"
 #include <LoadableBehavior.h>
 #include "PyLoadable.h"
-
-// forward declare PyObject
-// as suggested on the python mailing list
-// http://mail.python.org/pipermail/python-dev/2003-August/037601.html
-#ifndef PyObject_HEAD
-struct _object;
-typedef _object PyObject;
-#endif
 
 namespace YAML {
   class Parser;
@@ -31,9 +23,8 @@ namespace bolero { namespace bl_loader {
  */
 class PyLoadableBehavior : public LoadableBehavior, public PyLoadable {
 public:
-
   PyLoadableBehavior(lib_manager::LibManager *libManager,
-              const std::string &libName, const int libVersion);
+                     const std::string &libName, const int libVersion);
 
   /**
    * Creates the behavior using module_loader.behavior_from_yaml()
@@ -68,7 +59,6 @@ public:
    */
   virtual bool configureYaml(const std::string& yaml);
 
-
   virtual void setInputs(const double *values, int numInputs);
   virtual void getOutputs(double *values, int numOutputs) const;
 
@@ -81,9 +71,5 @@ private:
 
   /**Wrapper arround py_behavior that implements the 'old' Behavior interface */
   std::auto_ptr<PyBehavior> pyBehavior;
-  /**Handle to the python behavior. The memory is managed by python */
-  PyObjectPtr py_behavior;
-
-
 };
 }}//end namespace

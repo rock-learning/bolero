@@ -1,9 +1,9 @@
 #ifndef PY_BEHAVIOR_H
 #define PY_BEHAVIOR_H
 
+#include <PythonInterpreter.hpp>
 #include <string>
 #include <Behavior.h>
-#include "Helper.h"
 #ifdef NO_TR1
 #include <unordered_map>
 #else
@@ -11,22 +11,12 @@
 #endif
 #include <vector>
 
-// forward declare PyObject
-// as suggested on the python mailing list
-// http://mail.python.org/pipermail/python-dev/2003-August/037601.html
-#ifndef PyObject_HEAD
-struct _object;
-typedef _object PyObject;
-#endif
-
 namespace bolero { namespace bl_loader {
 
 class PyBehavior : public bolero::Behavior {
 public:
-  ~PyBehavior();
-
   // this is the prefered way of construction
-  static PyBehavior* fromPyObject(PyObject *pObj);
+  static PyBehavior* fromPyObject(Object& object);
 
   void setInputs(const double *values, int numInputs);
   void getOutputs(double *values, int numOutputs) const;
@@ -45,19 +35,12 @@ public:
   void step();
   bool canStep() const;
 
-protected:
-  // should only be called by fromPyObject
-  PyBehavior(int numInputs, int numOutputs);
-
 private:
+  PyBehavior(Object& object);
   // disallow copying and assigning
   PyBehavior(const PyBehavior&);
   PyBehavior& operator=(const PyBehavior&);
-
-  PyObjectPtr py_behavior;
-  py_callable_info_t set_inputs;
-  py_callable_info_t get_outputs;
-
+  Object behavior;
 }; /* end of class PyBehavior */
 
 }}

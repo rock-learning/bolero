@@ -7,119 +7,45 @@ namespace bolero { namespace bl_loader {
 
 PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
                                    const std::string libName, int libVersion)
-  : bolero::BehaviorSearch(theManager, libName, libVersion),
-    py_behaviorSearch(Helper::instance().getClassInstance("behavior_search"))
-{}
-
-PyBehaviorSearch::~PyBehaviorSearch() {
-  Helper::instance().destroyCallableInfo(&set_evaluation_feedback);
+  : bolero::BehaviorSearch(theManager, libName, libVersion)
+{
+    behaviorSearch = PythonInterpreter::instance()
+        .import("bolero.utils.module_loader")
+        .function("behavior_search_from_yaml").call()
+        .returnObject();
 }
 
-
 void PyBehaviorSearch::init(int numInputs, int numOutputs) {
-  assert(py_behaviorSearch);
-  PyObject *result;
-  result = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"init", (char*)"ii", numInputs, numOutputs);
-  if(!result) {
-    PyErr_Print();
-  }
-  Helper::instance().createCallableInfo(
-    &set_evaluation_feedback, py_behaviorSearch.get(),
-    "set_evaluation_feedback", 1);
-  Py_XDECREF(result);
+  behaviorSearch.method("init").pass(INT).pass(INT).call(numInputs, numOutputs);
 }
 
 bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
-  assert(py_behaviorSearch);
-  bolero::Behavior *ret = NULL;
-  PyObject *pResult;
-  pResult = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"get_next_behavior", NULL);
-  if(pResult) {
-    ret = PyBehavior::fromPyObject(pResult);
-    Py_DECREF(pResult);
-  } else {
-    PyErr_Print();
-  }
+  shared_ptr<Object> behavior = behaviorSearch
+    .method("get_next_behavior").call().returnObject();
+  bolero::Behavior* ret = PyBehavior::fromPyObject(pResult); // TODO
   return ret;
 }
 
-#ifdef USE_MEMORYVIEWS
-
 void PyBehaviorSearch::setEvaluationFeedback(const double *feedbacks,
                                              int numFeedbacks) {
-  assert(py_behaviorSearch);
-  PyObjectPtr memView = Helper::instance().create1dBuffer(feedbacks, numFeedbacks);
-
-  PyObject *pResult = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"set_evaluation_feedback",
-    (char*)"O", memView.get());
-  Py_XDECREF(pResult);
-
-  if(PyErr_Occurred()) {
-    PyErr_Print();
-  }
+  behaviorSearch.method("set_evaluation_feedback").pass(ONEDARRAY).call(&array); // TODO
 }
-
-#else // USE_MEMORYVIEWS
-
-void PyBehaviorSearch::setEvaluationFeedback(const double *feedbacks,
-                                             int numFeedbacks) {
-  Helper::instance().fillCallableInfo(
-    &set_evaluation_feedback, feedbacks, numFeedbacks);
-  PyObject *pResult = PyObject_CallObject(
-    set_evaluation_feedback.callable, set_evaluation_feedback.argTuple);
-  if(pResult) {
-    Py_DECREF(pResult);
-  } else {
-    PyErr_Print();
-  }
-}
-
-#endif // USE_MEMORYVIEWS
 
 void PyBehaviorSearch::writeResults(const std::string &resultPath) {
-  assert(py_behaviorSearch);
-  PyObject *pResult;
-  pResult = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"write_results", (char*)"s",
-    resultPath.c_str());
-  if(!pResult) {
-    PyErr_Print();
-  }
-  Py_XDECREF(pResult);
+  std::string path = resultPath;
+  behaviorSearch.method("write_results").pass(STRING).call(&path);
 }
 
 bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &resultPath) {
-  assert(py_behaviorSearch);
-  bolero::Behavior *ret = NULL;
-  PyObject *pResult = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"getBehaviorFromResults",
-    (char*)"s", resultPath.c_str());
-  if(pResult) {
-    ret = PyBehavior::fromPyObject(pResult);
-    Py_DECREF(pResult);
-  } else {
-    PyErr_Print();
-  }
-  return ret;
+  std::string path = resultPath;
+  shared_ptr<Object> behavior = behaviorSearch
+    .method("get_behavior_from_results").pass(STRING).call(&path)
+    .returnObject();
+  bolero::Behavior* ret = PyBehavior::fromPyObject(pResult); // TODO
 }
 
 bool PyBehaviorSearch::isBehaviorLearningDone() const {
-  assert(py_behaviorSearch);
-  PyObject *result;
-  bool ret = false;
-  result = PyObject_CallMethod(
-    py_behaviorSearch.get(), (char*)"is_behavior_learning_done", NULL);
-  if(result) {
-    assert(PyBool_Check(result));
-    ret = PyObject_IsTrue(result);
-    Py_DECREF(result);
-  } else {
-    PyErr_Print();
-  }
-  return ret;
+  return behaviorSearch.method("is_behavior_learning_done").call().returnObject().asBool();
 }
 
 }}

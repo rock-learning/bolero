@@ -49,7 +49,6 @@ if(PYTHON_SUPPORT)
     src/PyBehavior.cpp
     src/PyBehaviorSearch.cpp
     src/PyLoadableBehavior.cpp
-    src/Helper.cpp
     src/PythonInterpreter.cpp
   )
   set(HEADERS
@@ -59,7 +58,6 @@ if(PYTHON_SUPPORT)
     src/PyBehavior.h
     src/PyBehaviorSearch.h
     src/PyLoadableBehavior.h
-    src/Helper.h
     src/PyLoadable.h
     src/PythonInterpreter.hpp
   )

@@ -10,28 +10,28 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <iostream> //FIXME remove after testing
 #include <sstream>
 using namespace std;
 
 namespace bolero { namespace bl_loader {
 
-PyLoadableBehavior::PyLoadableBehavior(lib_manager::LibManager *libManager,
-                                       const std::string &libName,
-                                       const int libVersion) :
-                                       LoadableBehavior(libManager, libName, libVersion,
-                                                        0, 0) //numInputs and numOutputs will be set in initialize()
+PyLoadableBehavior::PyLoadableBehavior(
+        lib_manager::LibManager *libManager, const std::string &libName,
+        const int libVersion)
+    : LoadableBehavior(libManager, libName, libVersion, 0, 0)
+    // numInputs and numOutputs will be set in initialize()
 {}
 
 
 bool PyLoadableBehavior::initialize(const std::string& initialConfigPath)
 {
-  //this will throw a runtime_error if instantiation failed
-  py_behavior = Helper::instance().getClassInstance("behavior", initialConfigPath);
+  std::string path = initialConfigPath;
+  behavior = PythonInterpreter::instance()
+      .import("bolero.utils.module_loader")
+      .function("environment_from_yaml").pass(STRING).call(&path)
+      .returnObject();
 
-  pyBehavior.reset(PyBehavior::fromPyObject(py_behavior.get()));
-  setNumInputs(pyBehavior->getNumInputs());
-  setNumOutputs(pyBehavior->getNumOutputs());
+  behavior.method("reset").call();
   return true;
 }
 
@@ -56,25 +56,25 @@ bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
    * and call pyBehavior->setMetaParameters
    */
   YAML::Node doc;
-    if(parser.GetNextDocument(doc)) //we assume that there is only one document
+  if(parser.GetNextDocument(doc)) //we assume that there is only one document
+  {
+    PyBehavior::MetaParameters parameters;
+    for(YAML::Iterator it = doc.begin(); it != doc.end(); ++it)
     {
-      PyBehavior::MetaParameters parameters;
-      for(YAML::Iterator it = doc.begin(); it != doc.end(); ++it)
-      {
-          string key;
-          it.first() >> key;
-          parameters[key] = vector<double>();
-          it.second() >> parameters[key];
-      }
-      pyBehavior->setMetaParameters(parameters);
-      return true;
+        string key;
+        it.first() >> key;
+        parameters[key] = vector<double>();
+        it.second() >> parameters[key];
     }
-    else
-    {
-      //No document in yaml file
-      std::cerr << "Invalid yaml document" << endl;
-      return false;
-    }
+    pyBehavior->setMetaParameters(parameters);
+    return true;
+  }
+  else
+  {
+    //No document in yaml file
+    std::cerr << "Invalid yaml document" << endl;
+    return false;
+  }
 }
 
 void PyLoadableBehavior::setInputs(const double* values, int numInputs)
