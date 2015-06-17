@@ -112,14 +112,14 @@ void throwPythonException()
 struct NdArray
 {
     PyObjectPtr obj;
-    static NdArray make(std::vector<double>& ndarray)
+    static NdArray make(double* array, int size)
     {
         //FIXME Python expects sizeof(double) == 8.
-        npy_intp dims[1] = {(npy_intp)ndarray.size()};
+        npy_intp dims[1] = {(npy_intp) size};
         //FIXME not sure if dims should be stack allocated
         NdArray result = {makePyObjectPtr(
             PyArray_SimpleNewFromData(1, &dims[0], NPY_DOUBLE,
-                                      (void*)(&ndarray[0])))};
+                                      (void*)(array)))};
         return result;
     }
     static const bool check(PyObjectPtr obj) { return PyArray_Check(obj.get()); }
@@ -324,6 +324,7 @@ struct ModuleState
 struct ListBuilderState
 {
     std::list<CppType> types;
+    List list;
 };
 
 void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::vector<PyObjectPtr>& args)
@@ -361,7 +362,14 @@ void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::ve
         case ONEDARRAY:
         {
             std::vector<double>* array = va_arg(cppArgs, std::vector<double>*);
-            args.push_back(NdArray::make(*array).obj);
+            args.push_back(NdArray::make(&array[0], (int)array.size()).obj);
+            break;
+        }
+        case ONEDCARRAY:
+        {
+            double* array = va_arg(cppArgs, double*);
+            const int size = va_arg(cppArgs, int);
+            args.push_back(NdArray::make(array, size).obj);
             break;
         }
         case OBJECT:
@@ -628,6 +636,7 @@ shared_ptr<ListBuilder> PythonInterpreter::listBuilder() const
 ListBuilder::ListBuilder()
     : state(new ListBuilderState)
 {
+    state->list = List::make();
 }
 
 ListBuilder& ListBuilder::pass(CppType type)
@@ -647,11 +656,10 @@ shared_ptr<Object> ListBuilder::build(...)
     toPyObjects(vaList, state->types, args);
     va_end(vaList);
 
-    List list = List::make();
     for(std::vector<PyObjectPtr>::iterator object = args.begin();
         object != args.end(); object++)
     {
-        list.append(*object);
+        state->list.append(*object);
         throwPythonException();
     }
 
@@ -660,7 +668,7 @@ shared_ptr<Object> ListBuilder::build(...)
     throwPythonException();
 
     ObjectState* objectStatePtr = new ObjectState;
-    objectStatePtr->objectPtr = list.obj;
+    objectStatePtr->objectPtr = state->list.obj;
     shared_ptr<ObjectState> objectState = shared_ptr<ObjectState>(
         objectStatePtr);
     return shared_ptr<Object>(new Object(objectState));

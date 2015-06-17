@@ -1,5 +1,6 @@
 #include "PyOptimizer.h"
 #include <cassert>
+#include <stdexcept>
 
 
 namespace bolero { namespace bl_loader {
@@ -21,23 +22,22 @@ namespace bolero { namespace bl_loader {
   }
 
   void PyOptimizer::getNextParameters(double *p, int numP) {
-    // TODO direct array access
-    optimizer->method("get_next_parameters").pass(ONEDARRAY).call(array);
+    optimizer->method("get_next_parameters").pass(ONEDCARRAY).call(p, numP);
   }
 
   void PyOptimizer::getBestParameters(double *p, int numP) {
-    // TODO direct array access
-    optimizer->method("get_best_parameters").pass(ONEDARRAY).call(array);
+    optimizer->method("get_best_parameters").pass(ONEDCARRAY).call(p, numP);
   }
 
   void PyOptimizer::setEvaluationFeedback(const double *feedbacks,
                                           int numFeedbacks) {
-    // TODO direct array access
-    optimizer->method("set_evaluation_feedback").pass(ONEDARRAY).call(array);
+    optimizer->method("set_evaluation_feedback").pass(ONEDCARRAY).call(
+        feedbacks, numFeedbacks);
   }
 
   bool PyOptimizer::isBehaviorLearningDone() const {
-    return optimizer->method("is_behavior_learning_done").call().returnObject().asBool();
+    return optimizer->method("is_behavior_learning_done")
+        .call().returnObject()->asBool();
   }
 
   std::vector<double*> PyOptimizer::getNextParameterSet() const {

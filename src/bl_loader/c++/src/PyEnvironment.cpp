@@ -1,5 +1,6 @@
 #include "PyEnvironment.h"
 #include <limits>
+#include <algorithm>
 #include <cassert>
 
 namespace bolero { namespace bl_loader {
@@ -23,27 +24,28 @@ void PyEnvironment::reset() {
 }
 
 int PyEnvironment::getNumInputs() const {
-  return environment->method("get_num_inputs").call().returnObject().asInt();
+  return environment->method("get_num_inputs").call().returnObject()->asInt();
 }
 
 int PyEnvironment::getNumOutputs() const {
-  return environment->method("get_num_outputs").call().returnObject().asInt();
+  return environment->method("get_num_outputs").call().returnObject()->asInt();
 }
 
 void PyEnvironment::getOutputs(double *values, int numOutputs) const {
-  // TODO
-  environment->method("get_outputs").pass(ONEDARRAY).call(array);
+  environment->method("get_outputs").pass(ONEDCARRAY).call(values, numOutputs);
 }
 
 void PyEnvironment::setInputs(const double *values, int numInputs) {
-  // TODO
-  environment->method("set_inputs").pass(ONEDARRAY).call(array);
+  environment->method("set_inputs").pass(ONEDCARRAY).call(values, numInputs);
 }
 
 int PyEnvironment::getFeedback(double *feedback) const {
-  std::vector<double> feedback = environment.method("get_feedback").call().returnObject().as1dArray();
-  // TODO assign feedback
-  return feedback.size();
+  shared_ptr<Object> result = environment->method("get_feedback")
+    .call().returnObject();
+  shared_ptr<std::vector<double> > feedbackVector = result->as1dArray();
+  const int numFeedbacks = (int) feedbackVector->size();
+  std::copy(feedback, feedback + numFeedbacks, feedbackVector->begin());
+  return numFeedbacks;
 }
 
 void PyEnvironment::stepAction() {
@@ -51,11 +53,13 @@ void PyEnvironment::stepAction() {
 }
 
 bool PyEnvironment::isEvaluationDone() const {
-  return environment->method("is_evaluation_done").call().returnObject().asBool();
+  return environment->method("is_evaluation_done")
+    .call().returnObject()->asBool();
 }
 
 bool PyEnvironment::isBehaviorLearningDone() const {
-  return environment->method("is_behavior_learning_done").call().returnObject().asBool();
+  return environment->method("is_behavior_learning_done")
+    .call().returnObject()->asBool();
 }
 
 }}

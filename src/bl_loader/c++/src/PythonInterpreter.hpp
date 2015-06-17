@@ -43,7 +43,7 @@ public:
 
 enum CppType
 {
-    INT, DOUBLE, BOOL, STRING, ONEDARRAY, OBJECT
+    INT, DOUBLE, BOOL, STRING, ONEDARRAY, ONEDCARRAY, OBJECT
 };
 
 class Object

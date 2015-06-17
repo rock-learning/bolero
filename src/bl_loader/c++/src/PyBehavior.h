@@ -36,7 +36,7 @@ public:
   bool canStep() const;
 
 private:
-  PyBehavior(Object& object);
+  PyBehavior(shared_ptr<Object> behavior);
   // disallow copying and assigning
   PyBehavior(const PyBehavior&);
   PyBehavior& operator=(const PyBehavior&);

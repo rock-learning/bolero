@@ -7,20 +7,18 @@ using namespace std;
 
 namespace bolero { namespace bl_loader {
 
-PyBehavior::PyBehavior(shared_ptr<Object> object)
-  : object(object)
-{}
-
-PyBehavior::PyBehavior(int numInputs, int numOutputs)
-  : Behavior(numInputs, numOutputs)
-{}
+PyBehavior::PyBehavior(shared_ptr<Object> behavior)
+  : Behavior(0, 0), behavior(behavior)
+{
+  // TODO set numInputs/numOutputs
+}
 
 void PyBehavior::setInputs(const double *values, int numInputs) {
-  behavior->method("set_inputs").pass(ONEDARRAY).call(&array); // TODO
+  behavior->method("set_inputs").pass(ONEDCARRAY).call(values, numInputs);
 }
 
 void PyBehavior::getOutputs(double *values, int numOutputs) const {
-  behavior->method("get_outputs").pass(ONEDARRAY).call(&array);
+  behavior->method("get_outputs").pass(ONEDCARRAY).call(values, numOutputs);
 }
 
 void PyBehavior::step() {
@@ -29,24 +27,24 @@ void PyBehavior::step() {
 
 bool PyBehavior::canStep() const
 {
-  return behavior->method("can_step").call().returnObject().asBool();
+  return behavior->method("can_step").call().returnObject()->asBool();
 }
 
 
-PyBehavior* PyBehavior::fromPyObject(Object& object) {
+PyBehavior* PyBehavior::fromPyObject(shared_ptr<Object> object) {
   return new PyBehavior(object);;
 }
 
 void PyBehavior::setMetaParameters(const MetaParameters &params)
 {
-  ListBuilder keys = PythonInterpreter::instance().listBuilder();
-  ListBuilder values = PythonInterpreter::instance().listBuilder();
+  shared_ptr<ListBuilder> keys = PythonInterpreter::instance().listBuilder();
+  shared_ptr<ListBuilder> values = PythonInterpreter::instance().listBuilder();
   shared_ptr<Object> keysObject, valuesObject;
   for(MetaParameters::const_iterator it = params.begin(); it != params.end();
       ++it)
   {
-    keysObject = keys.pass(STRING).call(&it->first);
-    valuesObject = values.pass(ONEDARRAY).call(&it->second);
+    keysObject = keys->pass(STRING).build(&it->first);
+    valuesObject = values->pass(ONEDARRAY).build(&it->second);
   }
 
   behavior->method("set_meta_parameters")
