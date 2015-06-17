@@ -11,12 +11,12 @@ PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
 {
     behaviorSearch = PythonInterpreter::instance()
         .import("bolero.utils.module_loader")
-        .function("behavior_search_from_yaml").call()
+        ->function("behavior_search_from_yaml").call()
         .returnObject();
 }
 
 void PyBehaviorSearch::init(int numInputs, int numOutputs) {
-  behaviorSearch.method("init").pass(INT).pass(INT).call(numInputs, numOutputs);
+  behaviorSearch->method("init").pass(INT).pass(INT).call(numInputs, numOutputs);
 }
 
 bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
@@ -28,12 +28,12 @@ bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
 
 void PyBehaviorSearch::setEvaluationFeedback(const double *feedbacks,
                                              int numFeedbacks) {
-  behaviorSearch.method("set_evaluation_feedback").pass(ONEDARRAY).call(&array); // TODO
+  behaviorSearch->method("set_evaluation_feedback").pass(ONEDARRAY).call(&array); // TODO
 }
 
 void PyBehaviorSearch::writeResults(const std::string &resultPath) {
   std::string path = resultPath;
-  behaviorSearch.method("write_results").pass(STRING).call(&path);
+  behaviorSearch->method("write_results").pass(STRING).call(&path);
 }
 
 bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &resultPath) {
@@ -45,7 +45,7 @@ bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &re
 }
 
 bool PyBehaviorSearch::isBehaviorLearningDone() const {
-  return behaviorSearch.method("is_behavior_learning_done").call().returnObject().asBool();
+  return behaviorSearch->method("is_behavior_learning_done").call().returnObject().asBool();
 }
 
 }}

@@ -32,7 +32,7 @@ public:
   bool isBehaviorLearningDone() const;
 
 private:
-  Object environment;
+  shared_ptr<Object> environment;
 }; /* end of class PyEnvironment */
 
 }}

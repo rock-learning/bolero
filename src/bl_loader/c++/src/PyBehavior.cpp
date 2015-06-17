@@ -7,7 +7,7 @@ using namespace std;
 
 namespace bolero { namespace bl_loader {
 
-PyBehavior::PyBehavior(Object& object)
+PyBehavior::PyBehavior(shared_ptr<Object> object)
   : object(object)
 {}
 
@@ -16,20 +16,20 @@ PyBehavior::PyBehavior(int numInputs, int numOutputs)
 {}
 
 void PyBehavior::setInputs(const double *values, int numInputs) {
-  behavior.method("set_inputs").pass(ONEDARRAY).call(&array); // TODO
+  behavior->method("set_inputs").pass(ONEDARRAY).call(&array); // TODO
 }
 
 void PyBehavior::getOutputs(double *values, int numOutputs) const {
-  behavior.method("get_outputs").pass(ONEDARRAY).call(&array);
+  behavior->method("get_outputs").pass(ONEDARRAY).call(&array);
 }
 
 void PyBehavior::step() {
-  behavior.method("step").call();
+  behavior->method("step").call();
 }
 
 bool PyBehavior::canStep() const
 {
-  return behavior.method("can_step").call().returnObject().asBool();
+  return behavior->method("can_step").call().returnObject().asBool();
 }
 
 
@@ -49,7 +49,7 @@ void PyBehavior::setMetaParameters(const MetaParameters &params)
     valuesObject = values.pass(ONEDARRAY).call(&it->second);
   }
 
-  behavior.method("set_meta_parameters")
+  behavior->method("set_meta_parameters")
     .pass(OBJECT).pass(OBJECT).call(&*keysObject, &*valuesObject);
 }
 

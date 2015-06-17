@@ -10,34 +10,34 @@ PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
 {
     environment = PythonInterpreter::instance()
         .import("bolero.utils.module_loader")
-        .function("environment_from_yaml").call()
+        ->function("environment_from_yaml").call()
         .returnObject();
 }
 
 void PyEnvironment::init() {
-  environment.method("init").call();
+  environment->method("init").call();
 }
 
 void PyEnvironment::reset() {
-  environment.method("reset").call();
+  environment->method("reset").call();
 }
 
 int PyEnvironment::getNumInputs() const {
-  return environment.method("get_num_inputs").call().returnObject().asInt();
+  return environment->method("get_num_inputs").call().returnObject().asInt();
 }
 
 int PyEnvironment::getNumOutputs() const {
-  return environment.method("get_num_outputs").call().returnObject().asInt();
+  return environment->method("get_num_outputs").call().returnObject().asInt();
 }
 
 void PyEnvironment::getOutputs(double *values, int numOutputs) const {
   // TODO
-  environment.method("get_outputs").pass(ONEDARRAY).call(array);
+  environment->method("get_outputs").pass(ONEDARRAY).call(array);
 }
 
 void PyEnvironment::setInputs(const double *values, int numInputs) {
   // TODO
-  environment.method("set_inputs").pass(ONEDARRAY).call(array);
+  environment->method("set_inputs").pass(ONEDARRAY).call(array);
 }
 
 int PyEnvironment::getFeedback(double *feedback) const {
@@ -47,15 +47,15 @@ int PyEnvironment::getFeedback(double *feedback) const {
 }
 
 void PyEnvironment::stepAction() {
-  environment.method("step_action").call();
+  environment->method("step_action").call();
 }
 
 bool PyEnvironment::isEvaluationDone() const {
-  return environment.method("is_evaluation_done").call().returnObject().asBool();
+  return environment->method("is_evaluation_done").call().returnObject().asBool();
 }
 
 bool PyEnvironment::isBehaviorLearningDone() const {
-  return environment.method("is_behavior_learning_done").call().returnObject().asBool();
+  return environment->method("is_behavior_learning_done").call().returnObject().asBool();
 }
 
 }}

@@ -28,7 +28,7 @@ bool PyLoadableBehavior::initialize(const std::string& initialConfigPath)
   std::string path = initialConfigPath;
   behavior = PythonInterpreter::instance()
       .import("bolero.utils.module_loader")
-      .function("environment_from_yaml").pass(STRING).call(&path)
+      ->function("environment_from_yaml").pass(STRING).call(&path)
       .returnObject();
 
   behavior.method("reset").call();

@@ -23,7 +23,7 @@ public:
 
 private:
   std::string className;
-  PyObjectPtr behaviorSearch;
+  shared_ptr<Object> behaviorSearch;
 
 }; /* end of class PyBehaviorSearch */
 

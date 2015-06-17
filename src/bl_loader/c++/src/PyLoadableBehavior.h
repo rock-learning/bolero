@@ -4,7 +4,7 @@
  */
 
 #pragma once
-#include <PythonInterpreter>
+#include <PythonInterpreter.hpp>
 #include "PyBehavior.h"
 #include <string>
 #include <Behavior.h>

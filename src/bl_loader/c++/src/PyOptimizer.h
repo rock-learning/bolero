@@ -35,7 +35,7 @@ namespace bolero { namespace bl_loader {
     virtual void setParameterSetFeedback(const std::vector<double> feedback);
 
   private:
-    Object optimizer;
+    shared_ptr<Object> optimizer;
     size_t dimension;
   }; // end of class definition Py_Optimizer
 

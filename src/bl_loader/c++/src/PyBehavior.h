@@ -16,7 +16,7 @@ namespace bolero { namespace bl_loader {
 class PyBehavior : public bolero::Behavior {
 public:
   // this is the prefered way of construction
-  static PyBehavior* fromPyObject(Object& object);
+  static PyBehavior* fromPyObject(shared_ptr<Object> object);
 
   void setInputs(const double *values, int numInputs);
   void getOutputs(double *values, int numOutputs) const;
@@ -40,7 +40,7 @@ private:
   // disallow copying and assigning
   PyBehavior(const PyBehavior&);
   PyBehavior& operator=(const PyBehavior&);
-  Object behavior;
+  shared_ptr<Object> behavior;
 }; /* end of class PyBehavior */
 
 }}
