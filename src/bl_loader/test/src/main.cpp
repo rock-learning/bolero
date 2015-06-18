@@ -10,8 +10,8 @@ using namespace bolero::bl_loader;
 using namespace std;
 
 
-/*TEST_CASE( "io", "[PythonInterpreter]" ) {
-  const PythonInterpreter python = PythonInterpreter::instance();
+TEST_CASE( "io", "[PythonInterpreter]" ) {
+  const PythonInterpreter& python = PythonInterpreter::instance();
   shared_ptr<Module> functions = python.import("functions");
   int intResult = functions->function("produce_int").call().returnObject()->asInt();
   REQUIRE(intResult == 9);
@@ -26,7 +26,7 @@ using namespace std;
   functions->function("take_double").pass(DOUBLE).call(doubleResult);
   functions->function("take_bool").pass(BOOL).call(boolResult);
   functions->function("take_string").pass(STRING).call(&stringResult);
-}*/
+}
 
 TEST_CASE( "init test", "[PyLoadableBehavior]" ) {
   bl_loader::BLLoader loader;

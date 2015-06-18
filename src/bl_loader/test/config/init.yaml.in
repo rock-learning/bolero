@@ -4,4 +4,3 @@ Behavior:
     num_outputs: 3
     test_value_a: 42
     test_value_b: 44
-   

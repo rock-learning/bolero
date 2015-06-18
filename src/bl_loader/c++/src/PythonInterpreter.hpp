@@ -32,6 +32,7 @@ class PythonInterpreter
     shared_ptr<Module> currentModule;
 
     PythonInterpreter();
+    PythonInterpreter(const PythonInterpreter&) {}
 public:
     ~PythonInterpreter();
     static const PythonInterpreter& instance();
