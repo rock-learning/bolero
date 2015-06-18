@@ -66,10 +66,9 @@ public:
   virtual bool canStep() const;
 
 private:
-
   bool configureFromYamlParser(YAML::Parser& parser);
 
   /**Wrapper arround py_behavior that implements the 'old' Behavior interface */
-  std::auto_ptr<PyBehavior> pyBehavior;
+  shared_ptr<PyBehavior> pyBehavior;
 };
 }}//end namespace

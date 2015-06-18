@@ -21,14 +21,14 @@ void PyBehaviorSearch::init(int numInputs, int numOutputs) {
 
 bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
   shared_ptr<Object> behavior = behaviorSearch
-    .method("get_next_behavior").call().returnObject();
-  bolero::Behavior* ret = PyBehavior::fromPyObject(pResult); // TODO
-  return ret;
+    ->method("get_next_behavior").call().returnObject();
+  return PyBehavior::fromPyObject(behavior);
 }
 
 void PyBehaviorSearch::setEvaluationFeedback(const double *feedbacks,
                                              int numFeedbacks) {
-  behaviorSearch->method("set_evaluation_feedback").pass(ONEDARRAY).call(&array); // TODO
+  behaviorSearch->method("set_evaluation_feedback")
+    .pass(ONEDCARRAY).call(feedbacks, numFeedbacks);
 }
 
 void PyBehaviorSearch::writeResults(const std::string &resultPath) {
@@ -39,13 +39,14 @@ void PyBehaviorSearch::writeResults(const std::string &resultPath) {
 bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(const std::string &resultPath) {
   std::string path = resultPath;
   shared_ptr<Object> behavior = behaviorSearch
-    .method("get_behavior_from_results").pass(STRING).call(&path)
+    ->method("get_behavior_from_results").pass(STRING).call(&path)
     .returnObject();
-  bolero::Behavior* ret = PyBehavior::fromPyObject(pResult); // TODO
+  return PyBehavior::fromPyObject(behavior);
 }
 
 bool PyBehaviorSearch::isBehaviorLearningDone() const {
-  return behaviorSearch->method("is_behavior_learning_done").call().returnObject().asBool();
+  return behaviorSearch->method("is_behavior_learning_done").call()
+    .returnObject()->asBool();
 }
 
 }}

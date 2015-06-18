@@ -362,7 +362,7 @@ void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::ve
         case ONEDARRAY:
         {
             std::vector<double>* array = va_arg(cppArgs, std::vector<double>*);
-            args.push_back(NdArray::make(&array[0], (int)array.size()).obj);
+            args.push_back(NdArray::make(&(*array)[0], (int)array->size()).obj);
             break;
         }
         case ONEDCARRAY:
