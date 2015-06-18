@@ -8,9 +8,9 @@ using namespace std;
 namespace bolero { namespace bl_loader {
 
 PyBehavior::PyBehavior(shared_ptr<Object> behavior)
-  : Behavior(0, 0), behavior(behavior)
+  : Behavior(behavior->variable("num_inputs").asInt(),
+             behavior->variable("num_outputs").asInt()), behavior(behavior)
 {
-  // TODO set numInputs/numOutputs
 }
 
 void PyBehavior::setInputs(const double *values, int numInputs) {
@@ -32,7 +32,8 @@ bool PyBehavior::canStep() const
 
 
 PyBehavior* PyBehavior::fromPyObject(shared_ptr<Object> object) {
-  return new PyBehavior(object);;
+  PyBehavior* behavior = new PyBehavior(object);
+  return behavior;
 }
 
 void PyBehavior::setMetaParameters(const MetaParameters &params)

@@ -28,9 +28,11 @@ bool PyLoadableBehavior::initialize(const std::string& initialConfigPath)
   std::string path = initialConfigPath;
   shared_ptr<Object> object = shared_ptr<Object>(PythonInterpreter::instance()
       .import("bolero.utils.module_loader")
-      ->function("environment_from_yaml").pass(STRING).call(&path)
+      ->function("behavior_from_yaml").pass(STRING).call(&path)
       .returnObject());
   pyBehavior = shared_ptr<PyBehavior>(PyBehavior::fromPyObject(object));
+  setNumInputs(pyBehavior->getNumInputs());
+  setNumOutputs(pyBehavior->getNumOutputs());
   return true;
 }
 

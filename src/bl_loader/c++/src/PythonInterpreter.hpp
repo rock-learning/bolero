@@ -55,6 +55,7 @@ public:
 
     Object(shared_ptr<ObjectState> state);
     Method& method(const std::string& name);
+    Object& variable(const std::string& name);
     shared_ptr<std::vector<double> > as1dArray();
     double asDouble();
     int asInt();

@@ -296,6 +296,7 @@ struct ObjectState
 {
     PyObjectPtr objectPtr;
     shared_ptr<Method> currentMethod;
+    shared_ptr<Object> currentVariable;
 };
 
 struct FunctionState
@@ -427,6 +428,16 @@ Method& Object::method(const std::string& name)
 {
     state->currentMethod = shared_ptr<Method>(new Method(*state, name));
     return *state->currentMethod;
+}
+
+Object& Object::variable(const std::string& name)
+{
+    ObjectState* objectStatePtr = new ObjectState;
+    objectStatePtr->objectPtr = getAttribute(state->objectPtr, name);
+    shared_ptr<ObjectState> objectState = shared_ptr<ObjectState>(
+        objectStatePtr);
+    state->currentVariable = shared_ptr<Object>(new Object(objectState));
+    return *state->currentVariable;
 }
 
 shared_ptr<std::vector<double> > Object::as1dArray()
