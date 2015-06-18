@@ -40,13 +40,14 @@ void PyBehavior::setMetaParameters(const MetaParameters &params)
 {
   shared_ptr<ListBuilder> keys = PythonInterpreter::instance().listBuilder();
   shared_ptr<ListBuilder> values = PythonInterpreter::instance().listBuilder();
-  shared_ptr<Object> keysObject, valuesObject;
   for(MetaParameters::const_iterator it = params.begin(); it != params.end();
       ++it)
   {
-    keysObject = keys->pass(STRING).build(&it->first);
-    valuesObject = values->pass(ONEDARRAY).build(&it->second);
+    keys->pass(STRING).build(&it->first);
+    values->pass(ONEDARRAY).build(&it->second);
   }
+  shared_ptr<Object> keysObject = keys->build();
+  shared_ptr<Object> valuesObject = values->build();
 
   behavior->method("set_meta_parameters")
     .pass(OBJECT).pass(OBJECT).call(&*keysObject, &*valuesObject);

@@ -26,6 +26,15 @@ TEST_CASE( "io", "[PythonInterpreter]" ) {
   functions->function("take_double").pass(DOUBLE).call(doubleResult);
   functions->function("take_bool").pass(BOOL).call(boolResult);
   functions->function("take_string").pass(STRING).call(&stringResult);
+
+  shared_ptr<ListBuilder> list = python.listBuilder();
+  list->pass(DOUBLE).build(1.0);
+  list->pass(DOUBLE).build(2.0);
+  list->pass(DOUBLE).build(3.0);
+  shared_ptr<std::vector<double> > vector = list->build()->as1dArray();
+  REQUIRE(vector->at(0) == 1.0);
+  REQUIRE(vector->at(1) == 2.0);
+  REQUIRE(vector->at(2) == 3.0);
 }
 
 TEST_CASE( "init test", "[PyLoadableBehavior]" ) {

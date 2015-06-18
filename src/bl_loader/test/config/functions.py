@@ -25,19 +25,19 @@ def produce_tuple():
     return (1.4, 2.5, 3.6)
 
 def take_int(i):
-    print(i)
+    assert(isinstance(i, int))
 
 def take_double(d):
-    print(d)
+    assert(isinstance(d, float))
 
 def take_bool(b):
-    print(b)
+    assert(isinstance(b, bool))
 
 def take_string(s):
-    print(s)
+    assert(isinstance(s, str))
 
 def take_array(a):
-    print(a)
+    assert(isinstance(a, np.ndarray))
 
 def multiple_io(a, b):
     return [a, float(b)]
