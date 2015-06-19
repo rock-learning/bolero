@@ -102,11 +102,10 @@ public:
 class ListBuilder
 {
     friend PythonInterpreter;
+    ListBuilder();
 public:
     shared_ptr<ListBuilderState> state;
 
-    // WARNING: should not be used, use PythonInterpreter::listBuilder instead!
-    ListBuilder();
     ListBuilder& pass(CppType type);
     shared_ptr<Object> build(...);
 };
