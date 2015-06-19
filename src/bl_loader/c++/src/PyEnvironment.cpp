@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 
+
 namespace bolero { namespace bl_loader {
 
 PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
@@ -43,8 +44,9 @@ int PyEnvironment::getFeedback(double *feedback) const {
   shared_ptr<Object> result = environment->method("get_feedback")
     .call().returnObject();
   shared_ptr<std::vector<double> > feedbackVector = result->as1dArray();
+
   const int numFeedbacks = (int) feedbackVector->size();
-  std::copy(feedback, feedback + numFeedbacks, feedbackVector->begin());
+  std::copy(feedbackVector->begin(), feedbackVector->end(), feedback);
   return numFeedbacks;
 }
 

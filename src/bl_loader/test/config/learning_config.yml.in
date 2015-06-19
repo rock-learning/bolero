@@ -3,3 +3,8 @@ Optimizer:
     type: bolero.optimizer.CMAESOptimizer
     initial_params: [0, 0, 0]   # Initial parameter vector
     random_state: 0             # Make the results repeatable by setting the rng seed
+Environment:
+    type: bolero.environment.ObjectiveFunction
+    name: Ellipsoidal
+    n_params: 3
+    random_state: 0

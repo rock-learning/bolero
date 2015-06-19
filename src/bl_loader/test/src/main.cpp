@@ -3,6 +3,7 @@
 #include <LoadableBehavior.h>
 #include <BLLoader.h>
 #include <Optimizer.h>
+#include <Environment.h>
 #include <PythonInterpreter.hpp>
 
 using namespace bolero;
@@ -113,4 +114,26 @@ TEST_CASE( "optimize", "[PyOptimizer]" ) {
     // Required step: tell the optimizer the performance of the solution
     opt->setEvaluationFeedback(feedback, n_feedbacks);
   }
+}
+
+TEST_CASE( "environment", "[PyEnvironment]" ) {
+  // Load environment that is defined by "learning_config.yml"
+  bl_loader::BLLoader loader;
+  Environment* env = loader.acquireEnvironment("Python");
+  REQUIRE_NOTHROW(env->init());
+  REQUIRE_NOTHROW(env->reset());
+  REQUIRE(!env->isEvaluationDone());
+  REQUIRE(env->getNumInputs() == 3);
+  REQUIRE(env->getNumOutputs() == 0);
+  double params[3] = {0.0, 0.0, 0.0};
+  REQUIRE_NOTHROW(env->setInputs(params, 3));
+  REQUIRE_NOTHROW(env->stepAction());
+  double result[0];
+  REQUIRE_NOTHROW(env->getOutputs(result, 0));
+  REQUIRE(env->isEvaluationDone());
+  double feedback[1];
+  const int numFeedbacks = env->getFeedback(feedback);
+  REQUIRE(numFeedbacks == 1);
+  REQUIRE(Approx(-589729.9344730391) == feedback[0]);
+  REQUIRE(!env->isBehaviorLearningDone());
 }
