@@ -164,7 +164,7 @@ class DummyBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New parameters.
         """
-        if self.num_outputs <= 0:
+        if self.params is None:
             self.__initialize_from(params)
         self.params[:] = params
 

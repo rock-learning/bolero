@@ -3,6 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 
+
 using namespace std;
 
 namespace bolero { namespace bl_loader {

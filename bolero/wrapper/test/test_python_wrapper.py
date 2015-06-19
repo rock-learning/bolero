@@ -52,9 +52,13 @@ def test_load_behavior_search():
     beh = bhs.get_next_behavior()
     outputs = np.zeros(n_outputs)
     beh.get_outputs(outputs)
+    assert_equal(outputs[0], 0.0)
     inputs = np.zeros(n_inputs)
     beh.set_inputs(inputs)
     bhs.set_evaluation_feedback(np.zeros(1))
+    beh = bhs.get_best_behavior()
+    beh.get_outputs(outputs)
+    assert_equal(outputs[0], 0.0)
 
 
 def test_load_python_optimizer():

@@ -16,7 +16,8 @@ class NoOptimizer(Optimizer):
         Initial parameter vector.
     """
     def __init__(self, initial_params, **kwargs):
-        self.initial_params = initial_params
+        self.initial_params = np.asarray(initial_params).astype(
+            np.float64, copy=True)
 
     def init(self, dimension):
         if not dimension == len(self.initial_params):
@@ -54,7 +55,8 @@ class RandomOptimizer(Optimizer):
     """
     def __init__(self, initial_params, covariance=None, random_state=None,
                  **kwargs):
-        self.initial_params = initial_params.copy()
+        self.initial_params = np.asarray(initial_params).astype(
+            np.float64, copy=True)
         self.covariance = covariance
         self.random_state = check_random_state(random_state)
 

@@ -259,8 +259,12 @@ cdef class CppBehaviorSearch:
         behavior : Behavior
             mapping from input to output
         """
-        # TODO add this function to C++ interface
-        raise NotImplementedError("Cannot obtain best behavior from C++ behavior search")
+        behavior = CppBehavior()
+        behavior.thisptr = self.thisptr.getBestBehavior()
+        if behavior.thisptr == NULL:
+            raise NotImplementedError("Behavior search does not implement "
+                                      "getBestBehavior()")
+        return behavior
 
     def set_evaluation_feedback(self, feedbacks):
         """Set feedback for the last behavior.
