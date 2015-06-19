@@ -30,7 +30,9 @@ ELSE (WIN32)
 ENDIF (WIN32)
 
 find_package(Cython REQUIRED)
-set(cython_sources ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pyx)
+set(cython_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pyx
+    ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pxd)
 set(cython_output ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.cpp)
 
 pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
@@ -47,6 +49,7 @@ add_custom_command(
 
 add_custom_target(python_wrapper_cython ALL DEPENDS ${cython_output})
 
-configure_file(test/test_library_config.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
+configure_file(test/test_library_config.txt.in
+               ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py DESTINATION .)
