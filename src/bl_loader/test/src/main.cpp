@@ -55,9 +55,9 @@ TEST_CASE( "configure and stepping", "[PyLoadableBehavior]" ) {
   {
     REQUIRE(behav->canStep());
     double data[3] = {1, 2, 3}; //the test_behavior expects these inputs
-    behav->setInputs(&data[0], 3);
+    behav->setInputs(data, 3);
     behav->step();
-    behav->getOutputs(&data[0], 3);
+    behav->getOutputs(data, 3);
 
     //step multiplies the data with the multiplier specified in the config file, in this case -1
     REQUIRE(data[0] == -1);

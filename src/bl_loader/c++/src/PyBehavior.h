@@ -42,6 +42,7 @@ private:
   PyBehavior(const PyBehavior&);
   PyBehavior& operator=(const PyBehavior&);
   shared_ptr<Object> behavior;
+  MetaParameters metaParameters;
 }; /* end of class PyBehavior */
 
 }}

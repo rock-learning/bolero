@@ -1,6 +1,6 @@
 from bolero.representation import Behavior
-import numpy
-from numpy.testing import assert_array_almost_equal
+import numpy as np
+from numpy.testing import assert_array_equal
 
 
 class TestBehavior(Behavior):
@@ -15,24 +15,25 @@ class TestBehavior(Behavior):
         assert test_value_a == 42.0; 
         assert test_value_b == 44.0;
         assert num_inputs == num_outputs
-
+        self.inputs = np.empty(3)
+        self.outputs = np.empty(3)
 
     def set_meta_parameters(self, keys, values):
         assert len(keys) == len(values)
         meta_parameters = dict(zip(keys, values))
         assert "expected_input" in meta_parameters
-        self.expected_input = numpy.copy(meta_parameters["expected_input"])
+        self.expected_input = meta_parameters["expected_input"]
         assert "multiplier" in meta_parameters
-        self.multiplier = numpy.copy(meta_parameters["multiplier"])
+        self.multiplier = meta_parameters["multiplier"]
         assert len(self.expected_input) == self.num_inputs
 
     def set_inputs(self, inputs):
-        assert_array_almost_equal(inputs, self.expected_input)
-        self.inputs = inputs
+        assert_array_equal(inputs, self.expected_input)
+        self.inputs[:] = inputs
 
     def get_outputs(self, outputs):
         assert(len(outputs) == len(self.outputs))
-        numpy.copyto(outputs, self.outputs)
+        outputs[:] = self.outputs
 
     def step(self):
         self.outputs = self.inputs * self.multiplier
@@ -40,5 +41,3 @@ class TestBehavior(Behavior):
 
     def can_step(self):
         return self.can_step_counter > 0
-
-

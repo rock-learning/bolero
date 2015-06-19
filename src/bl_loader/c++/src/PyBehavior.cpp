@@ -38,13 +38,17 @@ PyBehavior* PyBehavior::fromPyObject(shared_ptr<Object> object) {
 
 void PyBehavior::setMetaParameters(const MetaParameters &params)
 {
+  // We hold copies of all the meta parameters that we use to ensure that the
+  // numpy arrays do not refer to memory that has been freed already.
+  metaParameters.insert(params.begin(), params.end());
+
   shared_ptr<ListBuilder> keys = PythonInterpreter::instance().listBuilder();
   shared_ptr<ListBuilder> values = PythonInterpreter::instance().listBuilder();
   for(MetaParameters::const_iterator it = params.begin(); it != params.end();
       ++it)
   {
     keys->pass(STRING).build(&it->first);
-    values->pass(ONEDARRAY).build(&it->second);
+    values->pass(ONEDARRAY).build(&metaParameters[it->first]);
   }
   shared_ptr<Object> keysObject = keys->build();
   shared_ptr<Object> valuesObject = values->build();
