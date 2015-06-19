@@ -49,7 +49,6 @@ enum CppType
 
 class Object
 {
-    friend PythonInterpreter;
 public:
     shared_ptr<ObjectState> state;
 
@@ -63,10 +62,8 @@ public:
     std::string asString();
 };
 
-// TODO Function and Method may contain duplicate code
 class Function
 {
-    friend PythonInterpreter;
 public:
     shared_ptr<FunctionState> state;
 
@@ -78,7 +75,6 @@ public:
 
 class Method
 {
-    friend PythonInterpreter;
 public:
     shared_ptr<MethodState> state;
 
@@ -90,7 +86,6 @@ public:
 
 class Module
 {
-    friend PythonInterpreter;
 public:
     shared_ptr<ModuleState> state;
 
