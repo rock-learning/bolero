@@ -7,12 +7,21 @@ namespace bolero { namespace bl_loader {
 
 PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
                                    const std::string libName, int libVersion)
-  : bolero::BehaviorSearch(theManager, libName, libVersion)
+  : bolero::BehaviorSearch(theManager, libName, libVersion), behavior(0),
+    bestBehavior(0)
 {
     behaviorSearch = PythonInterpreter::instance()
       .import("bolero.utils.module_loader")
       ->function("behavior_search_from_yaml").call()
       .returnObject();
+}
+
+PyBehaviorSearch::~PyBehaviorSearch()
+{
+  if(behavior)
+    delete behavior;
+  if(bestBehavior)
+    delete bestBehavior;
 }
 
 void PyBehaviorSearch::init(int numInputs, int numOutputs) {
@@ -21,9 +30,21 @@ void PyBehaviorSearch::init(int numInputs, int numOutputs) {
 }
 
 bolero::Behavior* PyBehaviorSearch::getNextBehavior() {
-  shared_ptr<Object> behavior = behaviorSearch
+  if(behavior)
+    delete behavior;
+  shared_ptr<Object> behaviorObject = behaviorSearch
     ->method("get_next_behavior").call().returnObject();
-  return PyBehavior::fromPyObject(behavior);
+  behavior = PyBehavior::fromPyObject(behaviorObject);
+  return behavior;
+}
+
+bolero::Behavior* PyBehaviorSearch::getBestBehavior() {
+  if(bestBehavior)
+    delete bestBehavior;
+  shared_ptr<Object> behaviorObject = behaviorSearch
+    ->method("get_best_behavior").call().returnObject();
+  bestBehavior = PyBehavior::fromPyObject(behaviorObject);
+  return bestBehavior;
 }
 
 void PyBehaviorSearch::setEvaluationFeedback(
@@ -39,11 +60,14 @@ void PyBehaviorSearch::writeResults(const std::string &resultPath) {
 
 bolero::Behavior* PyBehaviorSearch::getBehaviorFromResults(
     const std::string &resultPath) {
+  if(behavior)
+    delete behavior;
   std::string path = resultPath;
-  shared_ptr<Object> behavior = behaviorSearch
+  shared_ptr<Object> behaviorObject = behaviorSearch
     ->method("get_behavior_from_results").pass(STRING).call(&path)
     .returnObject();
-  return PyBehavior::fromPyObject(behavior);
+  behavior = PyBehavior::fromPyObject(behaviorObject);
+  return behavior;
 }
 
 bool PyBehaviorSearch::isBehaviorLearningDone() const {

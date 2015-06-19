@@ -1,10 +1,14 @@
 Optimizer:
     # Type of optimizer
     type: bolero.optimizer.CMAESOptimizer
-    initial_params: [0, 0, 0]   # Initial parameter vector
-    random_state: 0             # Make the results repeatable by setting the rng seed
+    initial_params: [0, 0, 0]
+    random_state: 0
 Environment:
     type: bolero.environment.ObjectiveFunction
     name: Ellipsoidal
     n_params: 3
     random_state: 0
+BehaviorSearch:
+    type: bolero.behavior_search.JustOptimizer
+    optimizer: { type: bolero.optimizer.CMAESOptimizer,
+                 initial_params: [0, 0, 0], random_state: 0 }

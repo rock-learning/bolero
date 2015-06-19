@@ -133,11 +133,13 @@ class JustOptimizer(BlackBoxSearch):
         Number of parameters to optimize
     """
     def __init__(self, optimizer, n_params=-1):
-        behavior = DummyBehavior(num_outputs=n_params)
+        kwargs = {}
+        if hasattr(optimizer, "initial_params"):
+            kwargs["initial_params"] = optimizer.initial_params
+        elif n_params >= 0:
+            kwargs["num_outputs"] = n_params
+        behavior = DummyBehavior(**kwargs)
         super(JustOptimizer, self).__init__(behavior, optimizer)
-        if n_params < 1:
-            n_params = len(self.optimizer.initial_params)
-            behavior.num_outputs = n_params
 
 
 class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,

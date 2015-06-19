@@ -119,12 +119,15 @@ class DummyBehavior(BlackBoxBehavior):
         number of parameters
     """
     def __init__(self, num_inputs=0, num_outputs=-1, **kwargs):
+        super(DummyBehavior, self).__init__(num_inputs, num_outputs)
         if "initial_params" in kwargs:
-            self.params = kwargs["initial_params"].copy()
-            num_outputs = len(kwargs["initial_params"])
+            self.__initialize_from(kwargs["initial_params"])
         else:
             self.params = None
-        super(DummyBehavior, self).__init__(num_inputs, num_outputs)
+
+    def __initialize_from(self, params):
+        self.num_outputs = len(params)
+        self.params = np.ndarray(self.num_outputs, dtype=np.float64)
 
     def get_n_params(self):
         """Get number of parameters.
@@ -162,8 +165,8 @@ class DummyBehavior(BlackBoxBehavior):
             New parameters.
         """
         if self.num_outputs <= 0:
-            self.num_outputs = len(params)
-        self.params = params
+            self.__initialize_from(params)
+        self.params[:] = params
 
     def set_inputs(self, inputs):
         """Set input for the next step.

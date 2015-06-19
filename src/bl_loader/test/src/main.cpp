@@ -4,6 +4,7 @@
 #include <BLLoader.h>
 #include <Optimizer.h>
 #include <Environment.h>
+#include <BehaviorSearch.h>
 #include <PythonInterpreter.hpp>
 
 using namespace bolero;
@@ -136,4 +137,25 @@ TEST_CASE( "environment", "[PyEnvironment]" ) {
   REQUIRE(numFeedbacks == 1);
   REQUIRE(Approx(-589729.9344730391) == feedback[0]);
   REQUIRE(!env->isBehaviorLearningDone());
+}
+
+TEST_CASE( "behavior_search", "[PyBehaviorSearch]" ) {
+  // Load behavior search that is defined by "learning_config.yml"
+  bl_loader::BLLoader loader;
+  BehaviorSearch* bs = loader.acquireBehaviorSearch("Python");
+  REQUIRE_NOTHROW(bs->init(3, 0));
+  Behavior* beh = bs->getNextBehavior();
+  double outputs[3];
+  REQUIRE_NOTHROW(beh->getOutputs(outputs, 3));
+  REQUIRE(outputs[0] == Approx(1.764052346));
+  REQUIRE(outputs[1] == Approx(0.4001572084));
+  REQUIRE(outputs[2] == Approx(0.9787379841));
+  double feedback[1] = {0.0};
+  bs->setEvaluationFeedback(feedback, 1);
+  beh = bs->getBestBehavior();
+  REQUIRE_NOTHROW(beh->getOutputs(outputs, 3));
+  REQUIRE(outputs[0] == Approx(1.764052346));
+  REQUIRE(outputs[1] == Approx(0.4001572084));
+  REQUIRE(outputs[2] == Approx(0.9787379841));
+  REQUIRE(!bs->isBehaviorLearningDone());
 }

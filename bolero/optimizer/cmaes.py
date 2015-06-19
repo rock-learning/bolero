@@ -109,9 +109,10 @@ class CMAESOptimizer(Optimizer):
         self.eigen_decomp_updated = 0
 
         if self.initial_params is None:
-            self.initial_params = np.zeros(self.n_params)
+            self.initial_params = np.zeros(self.n_params, dtype=np.float64)
         else:
-            self.initial_params = np.asarray(self.initial_params).copy()
+            self.initial_params = np.asarray(self.initial_params).astype(
+                np.float64, copy=True)
 
         if self.covariance is None:
             self.covariance = np.eye(self.n_params)
