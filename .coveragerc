@@ -4,9 +4,16 @@ source = bolero
 include = */bolero/*
 omit =
     */setup.py
+    */bolero/utils/log.py
+    */bolero/utils/validation.py
 
 [report]
 exclude_lines =
     pragma: no cover
     raise NotImplementedError
     if __name__ == .__main__.:
+    if self.verbose
+    if self.log
+    def plot
+    def _plot
+    @abstractmethod
