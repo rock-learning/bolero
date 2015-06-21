@@ -1,0 +1,12 @@
+[run]
+branch = True
+source = bolero
+include = */bolero/*
+omit =
+    */setup.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if __name__ == .__main__.:
