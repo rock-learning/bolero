@@ -33,22 +33,12 @@ find_package(Cython REQUIRED)
 set(cython_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pyx
     ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.pxd)
-set(cython_output ${CMAKE_CURRENT_SOURCE_DIR}/_wrapper.cpp)
 
 pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
 pkg_check_modules(BOLERO REQUIRED bolero)
 pkg_check_modules(BL_LOADER REQUIRED bl_loader)
 
 configure_file(build_info.py.in ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py)
-
-add_custom_command(
-  COMMAND ${CYTHON_EXECUTABLE}
-  ARGS --cplus --fast-fail -o ${cython_output} ${cython_sources}
-  DEPENDS ${cython_sources}
-  OUTPUT ${cython_output})
-
-add_custom_target(python_wrapper_cython ALL DEPENDS ${cython_output})
-
 configure_file(test/test_library_config.txt.in
                ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
 
