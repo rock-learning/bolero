@@ -122,6 +122,7 @@ class DummyBehavior(BlackBoxBehavior):
         super(DummyBehavior, self).__init__(num_inputs, num_outputs)
         if "initial_params" in kwargs:
             self.__initialize_from(kwargs["initial_params"])
+            self.params[:] = kwargs["initial_params"]
         else:
             self.params = None
 
