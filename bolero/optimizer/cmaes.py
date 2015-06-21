@@ -307,6 +307,44 @@ class CMAESOptimizer(Optimizer):
             if not force:
                 np.seterr(over=err)
 
+    def is_behavior_learning_done(self):
+        """Check if the optimization is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
+        if not np.all(np.isfinite(self.fitness)):
+            return True
+
+        # Check for invalid values
+        if not (np.all(np.isfinite(self.invsqrtC)) and
+                np.all(np.isfinite(self.cov)) and
+                np.all(np.isfinite(self.mean)) and
+                np.isfinite(self.var)):
+            self.logger.info("Restart: infs or nans" % self.var)
+            return True
+
+        if (self.min_variance is not None and
+                np.max(np.diag(self.cov)) * self.var <= self.min_variance):
+            self.logger.info("Restart: %g < min_variance" % self.var)
+            return True
+
+        max_dist = np.max(pdist(self.fitness[:, np.newaxis]))
+        if max_dist < self.min_fitness_dist:
+            self.logger.info("Restart: %g < min_fitness_dist" % max_dist)
+            return True
+
+        cov_diag = np.diag(self.cov)
+        if (self.max_condition is not None and
+                np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
+            self.logger.info("Restart: %g / %g > max_condition"
+                             % (np.max(self.cov), np.min(self.cov)))
+            return True
+
+        return False
+
     def get_best_parameters(self, method="best"):
         """Get the best parameters.
 
@@ -404,34 +442,16 @@ class RestartCMAESOptimizer(CMAESOptimizer):
             self._reinit()
 
     def _test_restart(self):
-        if not np.all(np.isfinite(self.fitness)):
-            return True
+        return super(RestartCMAESOptimizer, self).is_behavior_learning_done()
 
-        # Check for invalid values
-        if not (np.all(np.isfinite(self.invsqrtC)) and
-                np.all(np.isfinite(self.cov)) and
-                np.all(np.isfinite(self.mean)) and
-                np.isfinite(self.var)):
-            self.logger.info("Restart: infs or nans" % self.var)
-            return True
+    def is_behavior_learning_done(self):
+        """Returns false because we will restart and not stop.
 
-        if (self.min_variance is not None and
-                np.max(np.diag(self.cov)) * self.var <= self.min_variance):
-            self.logger.info("Restart: %g < min_variance" % self.var)
-            return True
-
-        max_dist = np.max(pdist(self.fitness[:, np.newaxis]))
-        if max_dist < self.min_fitness_dist:
-            self.logger.info("Restart: %g < min_fitness_dist" % max_dist)
-            return True
-
-        cov_diag = np.diag(self.cov)
-        if (self.max_condition is not None and
-                np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
-            self.logger.info("Restart: %g / %g > max_condition"
-                             % (np.max(self.cov), np.min(self.cov)))
-            return True
-
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
         return False
 
 

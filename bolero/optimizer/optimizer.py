@@ -43,15 +43,15 @@ class ContextualOptimizer(object):
             feedbacks for each step or for the episode, depends on the problem
         """
 
+    @abstractmethod
     def is_behavior_learning_done(self):
-        """Check if the behavior learning is finished.
+        """Check if the optimization is finished.
 
         Returns
         -------
         finished : bool
             Is the learning of a behavior finished?
         """
-        return False
 
     def get_desired_context(self):
         """Chooses desired context for next evaluation.
