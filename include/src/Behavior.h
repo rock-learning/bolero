@@ -15,6 +15,8 @@
 
 #include <stdexcept>
 #include <cstdio>
+#include <map>
+
 
 namespace bolero {
 
@@ -46,6 +48,16 @@ namespace bolero {
      *         The default implementation always returns true.
      */
     virtual bool canStep() const { return true;}
+
+    /**
+     * Meta-parameters could be the goal, obstacles, etc.
+     * Each parameter is a list of doubles identified by a key.
+     */
+    typedef std::map<std::string, std::vector<double> > MetaParameters;
+    virtual void setMetaParameters(const MetaParameters &params) {
+        throw std::runtime_error("Used \"Behavior\" implementation has no "
+                                 "\"setMetaParameters()\"!");
+    }
 
   protected:
     inline void setNumInputs(const int inputs) {numInputs = inputs;}

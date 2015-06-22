@@ -37,7 +37,7 @@ PyBehavior* PyBehavior::fromPyObject(shared_ptr<Object> object) {
   return behavior;
 }
 
-void PyBehavior::setMetaParameters(const MetaParameters &params)
+void PyBehavior::setMetaParameters(const MetaParameters& params)
 {
   // We hold copies of all the meta parameters that we use to ensure that the
   // numpy arrays do not refer to memory that has been freed already.

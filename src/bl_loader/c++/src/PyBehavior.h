@@ -4,11 +4,6 @@
 #include <PythonInterpreter.hpp>
 #include <string>
 #include <Behavior.h>
-#ifdef NO_TR1
-#include <unordered_map>
-#else
-#include <tr1/unordered_map>
-#endif
 #include <vector>
 
 
@@ -21,17 +16,7 @@ public:
 
   void setInputs(const double *values, int numInputs);
   void getOutputs(double *values, int numOutputs) const;
-
-  /**
-   * Meta-parameters could be the goal, obstacles, etc.
-   * Each parameter is a list of doubles identified by a key.
-   */
-#ifdef NO_TR1
-  typedef std::unordered_map<std::string, std::vector<double> > MetaParameters;
-#else
-  typedef std::tr1::unordered_map<std::string, std::vector<double> > MetaParameters;
-#endif
-  void setMetaParameters(const MetaParameters &params);
+  void setMetaParameters(const MetaParameters& params);
 
   void step();
   bool canStep() const;

@@ -25,7 +25,6 @@ class Behavior(object):
         self.inputs = None
         self.outputs = None
 
-    # TODO: sync with C Interfaces
     @abstractmethod
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta-parameters.
@@ -39,10 +38,6 @@ class Behavior(object):
         meta_parameters : list of lists of float values
             One list of floats for each parameter          
         """
-        num_parameters = len(keys)
-        assert len(meta_parameters) == num_parameters
-        for i in range(num_parameters):
-            self.meta_parameters[keys[i]] = meta_parameters[i]
 
     @abstractmethod
     def set_inputs(self, inputs):

@@ -27,17 +27,10 @@ class ConstantBehavior(BlackBoxBehavior):
             self.outputs = np.zeros(self.num_outputs)
 
     def set_meta_parameters(self, keys, meta_parameters):
-        """Set meta-parameters.
-
-        Meta-parameters could be the goal, obstacles, ...
-
-        Parameters
-        ----------
-        keys : list of string
-            names of meta-parameters
-        meta_parameters : list of float
-            values of meta-parameters
-        """
+        """Set meta parameters (none defined for constant behavior)."""
+        if len(keys) > 0:
+            raise NotImplementedError("ConstantBehavior does not accept any "
+                                      "meta parameters")
 
     def set_inputs(self, inputs):
         """Set input for the next step.
@@ -143,7 +136,10 @@ class DummyBehavior(BlackBoxBehavior):
         return self.num_outputs
 
     def set_meta_parameters(self, keys, meta_parameters):
-        """Set meta parameters (none defined for dummy behavior). """
+        """Set meta parameters (none defined for dummy behavior)."""
+        if len(keys) > 0:
+            raise NotImplementedError("DummyBehavior does not accept any meta "
+                                      "parameters")
 
     def get_params(self):
         """Get current parameters.
@@ -214,17 +210,10 @@ class RandomBehavior(BlackBoxBehavior):
         self.random_state = check_random_state(random_state)
 
     def set_meta_parameters(self, keys, meta_parameters):
-        """Set meta-parameters.
-
-        Meta-parameters could be the goal, obstacles, ...
-
-        Parameters
-        ----------
-        keys : list of string
-            names of meta-parameters
-        meta_parameters : list of float
-            values of meta-parameters
-        """
+        """Set meta parameters (none defined for random behavior)."""
+        if len(keys) > 0:
+            raise NotImplementedError("RandomBehavior does not accept any meta "
+                                      "parameters")
 
     def set_inputs(self, inputs):
         """Set input for the next step.
