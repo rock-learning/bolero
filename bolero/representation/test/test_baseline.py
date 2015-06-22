@@ -31,8 +31,6 @@ def test_dummy_behavior():
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
-    beh.set_inputs(np.array([]))
-    beh.step()
 
 
 def test_constant_behavior():
@@ -55,8 +53,6 @@ def test_constant_behavior():
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
-    beh.set_inputs(np.array([]))
-    beh.step()
 
     assert_raise_message(
         ValueError, "Length of parameter vector must be 0",
@@ -79,8 +75,6 @@ def test_random_behavior():
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
-    beh.set_inputs(np.array([]))
-    beh.step()
 
     assert_raise_message(
         ValueError, "Length of parameter vector must be 0",

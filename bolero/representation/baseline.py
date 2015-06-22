@@ -120,7 +120,7 @@ class ConstantBehavior(BlackBoxBehavior):
     outputs : array-like, shape (num_outputs,), optional (default: zeros)
         Values of constant outputs.
     """
-    def __init__(self, num_inputs, num_outputs, outputs=None):
+    def __init__(self, num_inputs=0, num_outputs=0, outputs=None):
         super(ConstantBehavior, self).__init__(num_inputs, num_outputs)
 
         self.outputs = outputs
@@ -207,7 +207,7 @@ class RandomBehavior(BlackBoxBehavior):
     num_outputs : int
         number of outputs
     """
-    def __init__(self, num_inputs, num_outputs, random_state=None):
+    def __init__(self, num_inputs=0, num_outputs=0, random_state=None):
         super(RandomBehavior, self).__init__(num_inputs, num_outputs)
         self.random_state = check_random_state(random_state)
 
