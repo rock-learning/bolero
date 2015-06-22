@@ -1,8 +1,10 @@
 import numpy as np
+import os
 from bolero.behavior_search import BlackBoxSearch
 from bolero.representation import ConstantBehavior
 from bolero.optimizer import NoOptimizer
-from nose.tools import assert_false
+from bolero.utils.testing import assert_pickle
+from nose.tools import assert_false, assert_true
 
 
 def test_black_box_search():
@@ -20,3 +22,13 @@ def test_black_box_search():
     beh.get_outputs(outputs)
 
     bs.set_evaluation_feedback(np.array([0.0]))
+
+    assert_pickle("BlackBoxSearch", bs)
+
+    path = "." + os.sep
+    bs.write_results(path)
+    bs.get_behavior_from_results(path)
+    filename = path + "BlackBoxSearch.pickle"
+    assert_true(os.path.exists(filename))
+    if os.path.exists(filename):
+        os.remove(filename)

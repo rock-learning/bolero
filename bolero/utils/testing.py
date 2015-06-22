@@ -1,7 +1,9 @@
-from nose.tools import assert_in
+from nose.tools import assert_in, assert_true
 import bolero
 import pkgutil
 import inspect
+import os
+import pickle
 
 
 # Taken from scikit-learn
@@ -13,6 +15,17 @@ def assert_raise_message(exception, message, function, *args, **kwargs):
     except exception as e:
         error_message = str(e)
         assert_in(message, error_message)
+
+
+def assert_pickle(name, obj):
+    filename = name + ".pickle"
+    try:
+        pickle.dump(obj, open(filename, "w"))
+        assert_true(os.path.exists(filename))
+        pickle.load(open(filename, "r"))
+    finally:
+        if os.path.exists(filename):
+            os.remove(filename)
 
 
 def all_subclasses(base_class, exclude_classes=[]):

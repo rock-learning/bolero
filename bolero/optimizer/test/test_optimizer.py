@@ -1,8 +1,7 @@
 import numpy as np
-import os
-import pickle
 from bolero.utils.testing import all_subclasses
 from bolero.optimizer import Optimizer
+from bolero.utils.testing import assert_pickle
 from nose.tools import assert_false, assert_true, assert_equal
 from numpy.testing import assert_array_equal
 
@@ -36,10 +35,4 @@ def test_optimizers_follow_standard_protocol():
         policy = opt.best_policy()
         assert_array_equal(policy(), params)
 
-        filename = name + ".pickle"
-        try:
-            pickle.dump(opt, open(filename, "w"))
-            opt_loaded = pickle.load(open(filename, "r"))
-        finally:
-            if os.path.exists(filename):
-                os.remove(filename)
+        assert_pickle(name, opt)

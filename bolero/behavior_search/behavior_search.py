@@ -2,6 +2,7 @@
 
 from abc import ABCMeta, abstractmethod
 from ..utils import NonContextualException
+import pickle
 
 
 class ContextualBehaviorSearch(object):
