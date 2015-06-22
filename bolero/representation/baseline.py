@@ -35,6 +35,9 @@ class DummyBehavior(BlackBoxBehavior):
         self.params = np.ndarray(self.n_outputs, dtype=np.float64)
         if hasattr(self, "initial_params"):
             self.params[:] = self.initial_params
+            self.initialized = True
+        else:
+            self.initialized = False
 
     def get_n_params(self):
         """Get number of parameters.
@@ -60,7 +63,7 @@ class DummyBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current parameters.
         """
-        if self.params is None:
+        if not self.initialized:
             raise ValueError("Initial parameters have not been set")
         return self.params
 
@@ -73,6 +76,7 @@ class DummyBehavior(BlackBoxBehavior):
             New parameters.
         """
         self.params[:] = params
+        self.initialized = True
 
     def set_inputs(self, inputs):
         """Set input for the next step.

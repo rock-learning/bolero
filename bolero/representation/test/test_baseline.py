@@ -7,6 +7,11 @@ from numpy.testing import assert_array_equal
 
 
 def test_dummy_behavior():
+    beh = DummyBehavior()
+    beh.init(0, 2)
+    assert_raise_message(ValueError, "parameters have not been set",
+                         beh.get_params)
+
     params = np.array([1.4, 2.3])
     beh = DummyBehavior(initial_params=params)
     beh.init(0, 2)
