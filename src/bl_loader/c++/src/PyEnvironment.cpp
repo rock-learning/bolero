@@ -2,6 +2,7 @@
 #include <limits>
 #include <algorithm>
 #include <cassert>
+#include <stdexcept>
 
 
 namespace bolero { namespace bl_loader {
@@ -14,6 +15,8 @@ PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
         .import("bolero.utils.module_loader")
         ->function("environment_from_yaml").call()
         .returnObject();
+    if(!environment)
+        std::runtime_error("Environment construction failed");
 }
 
 void PyEnvironment::init() {

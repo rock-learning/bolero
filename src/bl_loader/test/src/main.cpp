@@ -146,7 +146,7 @@ TEST_CASE( "behavior_search", "[PyBehaviorSearch]" ) {
   // Load behavior search that is defined by "learning_config.yml"
   bl_loader::BLLoader loader;
   BehaviorSearch* bs = loader.acquireBehaviorSearch("Python");
-  REQUIRE_NOTHROW(bs->init(3, 0));
+  REQUIRE_NOTHROW(bs->init(0, 3));
   Behavior* beh = bs->getNextBehavior();
   double outputs[3];
   REQUIRE_NOTHROW(beh->getOutputs(outputs, 3));

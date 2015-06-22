@@ -11,7 +11,11 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <stdexcept>
+
+
 using namespace std;
+
 
 namespace bolero { namespace bl_loader {
 
@@ -50,6 +54,8 @@ bool PyLoadableBehavior::configureYaml(const string& yaml)
 
 bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   /**
    * Parse the yaml file into PyBehavior::MetaParameters
    * and call pyBehavior->setMetaParameters
@@ -78,27 +84,37 @@ bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
 
 void PyLoadableBehavior::init(int numInputs, int numOutputs)
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   pyBehavior->init(numInputs, numOutputs);
   Behavior::init(numInputs, numOutputs);
 }
 
 void PyLoadableBehavior::setInputs(const double* values, int numInputs)
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   pyBehavior->setInputs(values, numInputs);
 }
 
 void PyLoadableBehavior::getOutputs(double* values, int numOutputs) const
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   pyBehavior->getOutputs(values, numOutputs);
 }
 
 void PyLoadableBehavior::step()
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   pyBehavior->step();
 }
 
 bool PyLoadableBehavior::canStep() const
 {
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
   return pyBehavior->canStep();
 }
 

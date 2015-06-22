@@ -15,6 +15,8 @@ namespace bolero { namespace bl_loader {
         .import("bolero.utils.module_loader")
         ->function("optimizer_from_yaml").call()
         .returnObject();
+    if(!optimizer)
+        std::runtime_error("Optimizer construction failed");
   }
 
   void PyOptimizer::init(int dimension) {

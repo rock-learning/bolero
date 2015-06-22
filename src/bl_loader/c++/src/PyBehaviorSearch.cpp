@@ -1,7 +1,7 @@
-#include <Python.h>
 #include "PyBehaviorSearch.h"
 #include "PyBehavior.h"
 #include <cassert>
+#include <stdexcept>
 
 namespace bolero { namespace bl_loader {
 
@@ -14,6 +14,8 @@ PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
       .import("bolero.utils.module_loader")
       ->function("behavior_search_from_yaml").call()
       .returnObject();
+    if(!behaviorSearch)
+        std::runtime_error("Behavior search construction failed");
 }
 
 PyBehaviorSearch::~PyBehaviorSearch()
