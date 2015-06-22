@@ -31,15 +31,14 @@ def compatible_version(actual_version_info, operation):
         # 'actual_version_info' must be a version string
         actual_version = actual_version_info
 
-    if isinstance(actual_version, str):
-        if "git" in actual_version:
-            # Handle special case '0.15-git'
-            actual_version = actual_version.split("-")[0].split(".")
-        elif "dev" in actual_version:
-            # Handle special case '0.16.dev'
-            actual_version = actual_version.split(".")[:2]
-        else:
-            actual_version = actual_version.split(".")
+    if "git" in actual_version:
+        # Handle special case '0.15-git'
+        actual_version = actual_version.split("-")[0].split(".")
+    elif "dev" in actual_version:
+        # Handle special case '0.16.dev'
+        actual_version = actual_version.split(".")[:2]
+    else:
+        actual_version = actual_version.split(".")
 
     actual_version = map(int, actual_version)
 
