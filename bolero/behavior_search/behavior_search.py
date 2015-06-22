@@ -161,25 +161,3 @@ class PickableMixin(object):
     def get_behavior_from_results(self, result_path):
         self = pickle.load(open("%s/%s.pickle" %
                                 (result_path, self.__class__.__name__), "r"))
-
-
-class FixableMixin(object):
-    """A behavior that can be fixed."""
-    def is_fixed(self):
-        return "fixed" in self.__dict__ and self.fixed
-
-    def fix(self):
-        """Deactivate learning."""
-        self.fixed = True
-
-
-class SaveBestMixin(object):
-    """Save the best feedbacks."""
-    def _is_best(self, feedback):
-        """Check if the accumulated feedback is the best so far."""
-        current_return = np.sum(feedback)
-        is_best = (not "best_return" in self.__dict__ or
-                   current_return > self.best_return)
-        if is_best:
-            self.best_return = current_return
-        return is_best

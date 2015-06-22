@@ -3,7 +3,7 @@
 
 import numpy as np
 from .behavior_search import BehaviorSearch, ContextualBehaviorSearch
-from .behavior_search import PickableMixin, FixableMixin
+from .behavior_search import PickableMixin
 from ..optimizer import Optimizer, ContextualOptimizer
 from ..representation import BlackBoxBehavior, DummyBehavior
 from ..utils.module_loader import from_dict
@@ -50,9 +50,8 @@ class BlackBoxSearchMixin(object):
         self.params = np.zeros(self.n_params)
 
     def get_next_behavior(self):
-        if not self.is_fixed():
-            self.optimizer.get_next_parameters(self.params)
-            self.behavior.set_params(self.params)
+        self.optimizer.get_next_parameters(self.params)
+        self.behavior.set_params(self.params)
         self.behavior.reset()
         return self.behavior
 
@@ -62,15 +61,13 @@ class BlackBoxSearchMixin(object):
         return self.behavior
 
     def set_evaluation_feedback(self, feedbacks):
-        if not self.is_fixed():
-            self.optimizer.set_evaluation_feedback(feedbacks)
+        self.optimizer.set_evaluation_feedback(feedbacks)
 
     def is_behavior_learning_done(self):
         return self.optimizer.is_behavior_learning_done()
 
 
-class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
-                     BehaviorSearch):
+class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, BehaviorSearch):
     """Combine a black box optimizer with a black box behavior.
 
     Black box in this context means that only a fixed number of parameters
@@ -131,7 +128,7 @@ class JustOptimizer(BlackBoxSearch):
         super(JustOptimizer, self).__init__(behavior, optimizer)
 
 
-class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
+class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin,
                                ContextualBehaviorSearch):
     """Combine a contextual black box optimizer with a black box behavior.
 
