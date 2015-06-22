@@ -1491,6 +1491,9 @@ class ObjectiveFunction(Environment):
         self.random_state = random_state
 
     def init(self):
+        if self.n_params <= 0:
+            raise ValueError("Number of parameters (%d) must be > 0"
+                             % self.n_params)
         if not self.name in FUNCTIONS:
             raise ValueError("Unknown function '%s' requested, select one of "
                              "%s instead" % (self.name, FUNCTIONS.keys()))

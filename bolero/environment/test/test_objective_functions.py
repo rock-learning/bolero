@@ -1,5 +1,6 @@
 import numpy as np
-from bolero.environment.objective_functions import FUNCTIONS
+from bolero.environment.objective_functions import FUNCTIONS, ObjectiveFunction
+from bolero.utils.testing import assert_raise_message
 from nose.tools import assert_less, assert_almost_equal
 
 
@@ -15,3 +16,10 @@ def test_optimum():
         assert_almost_equal(f_opt, objective.f_opt,
                             msg="Optimum %g of '%s' is not optimal (%g)"
                             % (f_opt, name, objective.f_opt))
+
+
+def test_input_validation():
+    env = ObjectiveFunction("Unknown", 2)
+    assert_raise_message(ValueError, "Unknown function", env.init)
+    env = ObjectiveFunction("Sphere", 0)
+    assert_raise_message(ValueError, "Number of parameters", env.init)
