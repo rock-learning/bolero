@@ -75,6 +75,15 @@ class CMAESOptimizer(Optimizer):
     maximize : boolean, optional (default: True)
         Maximize return or minimize cost?
 
+    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+        Minimum variance before restart
+
+    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+        Minimum distance between fitness values before restart
+
+    max_condition : float optional (default: 1e7)
+        Maximum condition of covariance matrix
+
     log_to_file: boolean or string, optional (default: False)
         Log results to given file, it will be located in the $BL_LOG_PATH
 
@@ -84,10 +93,12 @@ class CMAESOptimizer(Optimizer):
     random_state : int or RandomState, optional (default: None)
         Seed for the random number generator or RandomState object.
     """
-    def __init__(self, initial_params=None, variance=1.0,
-                 covariance=None, n_samples_per_update=None, active=False,
-                 bounds=None, maximize=True, log_to_file=False,
-                 log_to_stdout=False, random_state=None):
+    def __init__(
+            self, initial_params=None, variance=1.0, covariance=None,
+            n_samples_per_update=None, active=False, bounds=None, maximize=True,
+            min_variance=2 * np.finfo(np.float).eps ** 2,
+            min_fitness_dist=2 * np.finfo(np.float).eps, max_condition=1e7,
+            log_to_file=False, log_to_stdout=False, random_state=None):
         self.initial_params = initial_params
         self.variance = variance
         self.covariance = covariance
@@ -95,6 +106,9 @@ class CMAESOptimizer(Optimizer):
         self.active = active
         self.bounds = bounds
         self.maximize = maximize
+        self.min_variance = min_variance
+        self.min_fitness_dist = min_fitness_dist
+        self.max_condition = max_condition
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
         self.random_state = random_state
@@ -315,6 +329,9 @@ class CMAESOptimizer(Optimizer):
         finished : bool
             Is the learning of a behavior finished?
         """
+        if self.it == 0:
+            return False
+
         if not np.all(np.isfinite(self.fitness)):
             return True
 
@@ -430,11 +447,8 @@ class RestartCMAESOptimizer(CMAESOptimizer):
             log_to_file=False, log_to_stdout=False, random_state=None):
         super(RestartCMAESOptimizer, self).__init__(
             initial_params, variance, covariance, n_samples_per_update,
-            active, bounds, maximize, log_to_file, log_to_stdout,
-            random_state)
-        self.min_variance = min_variance
-        self.min_fitness_dist = min_fitness_dist
-        self.max_condition = max_condition
+            active, bounds, maximize, min_variance, min_fitness_dist,
+            max_condition, log_to_file, log_to_stdout, random_state)
 
     def _update(self, samples, fitness, it):
         super(RestartCMAESOptimizer, self)._update(samples, fitness, it)

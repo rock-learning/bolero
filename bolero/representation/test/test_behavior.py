@@ -7,7 +7,7 @@ from nose.tools import assert_true
 ALL_BEHAVIORS = all_subclasses(Behavior)
 
 
-def test_environments_have_default_constructor():
+def test_behaviors_have_default_constructor():
     for name, Behavior in ALL_BEHAVIORS:
         try:
             beh = Behavior()
@@ -16,7 +16,7 @@ def test_environments_have_default_constructor():
                                  "constructable" % name)
 
 
-def test_environments_follow_standard_protocol():
+def test_behaviors_follow_standard_protocol():
     for _, Behavior in ALL_BEHAVIORS:
         beh = Behavior()
         beh.set_meta_parameters([], [])

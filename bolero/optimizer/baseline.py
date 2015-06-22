@@ -12,15 +12,19 @@ class NoOptimizer(Optimizer):
 
     Parameters
     ----------
-    initial_params : array-like, shape = (num_params,)
+    initial_params : array-like, shape = (n_params,), optional (default: [0, 0])
         Initial parameter vector.
     """
-    def __init__(self, initial_params, **kwargs):
-        self.initial_params = np.asarray(initial_params).astype(
-            np.float64, copy=True)
+    def __init__(self, initial_params=None, **kwargs):
+        self.initial_params = initial_params
 
     def init(self, dimension):
-        if not dimension == len(self.initial_params):
+        if self.initial_params is None:
+            self.initial_params = np.zeros(dimension)
+        else:
+            self.initial_params = np.asarray(self.initial_params).astype(
+                np.float64, copy=True)
+        if dimension != len(self.initial_params):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
                              % (dimension, len(self.initial_params)))
@@ -44,24 +48,28 @@ class RandomOptimizer(Optimizer):
 
     Parameters
     ----------
-    initial_params : array-like, shape = (num_params,)
+    initial_params : array-like, shape = (n_params,), optional (default: [0, 0])
         Initial parameter vector.
 
-    covariance : array-like, shape = (num_params,), optional (default: I)
+    covariance : array-like, shape = (n_params,), optional (default: I)
         Exploration covariance.
 
     random_state : int, optional
         Seed for the random number generator.
     """
-    def __init__(self, initial_params, covariance=None, random_state=None,
+    def __init__(self, initial_params=None, covariance=None, random_state=None,
                  **kwargs):
-        self.initial_params = np.asarray(initial_params).astype(
-            np.float64, copy=True)
+        self.initial_params = initial_params
         self.covariance = covariance
-        self.random_state = check_random_state(random_state)
+        self.random_state = random_state
 
     def init(self, dimension):
-        if not dimension == len(self.initial_params):
+        if self.initial_params is None:
+            self.initial_params = np.zeros(dimension)
+        else:
+            self.initial_params = np.asarray(self.initial_params).astype(
+                np.float64, copy=True)
+        if dimension != len(self.initial_params):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
                              % (dimension, len(self.initial_params)))
@@ -69,6 +77,7 @@ class RandomOptimizer(Optimizer):
         self.params = np.zeros(dimension)
         if self.covariance is None:
             self.covariance = np.eye(dimension)
+        self.random_state = check_random_state(self.random_state)
         self.best_reward = -np.inf
 
     def get_next_parameters(self, p):

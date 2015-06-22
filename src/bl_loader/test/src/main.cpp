@@ -115,6 +115,7 @@ TEST_CASE( "optimize", "[PyOptimizer]" ) {
     // Required step: tell the optimizer the performance of the solution
     opt->setEvaluationFeedback(feedback, n_feedbacks);
   }
+  opt->getBestParameters(params, n_params);
 }
 
 TEST_CASE( "environment", "[PyEnvironment]" ) {

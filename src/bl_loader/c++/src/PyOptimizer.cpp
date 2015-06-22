@@ -1,6 +1,7 @@
 #include "PyOptimizer.h"
 #include <cassert>
 #include <stdexcept>
+#include <algorithm>
 
 
 namespace bolero { namespace bl_loader {
@@ -26,7 +27,14 @@ namespace bolero { namespace bl_loader {
   }
 
   void PyOptimizer::getBestParameters(double *p, int numP) {
-    optimizer->method("get_best_parameters").pass(ONEDCARRAY).call(p, numP);
+    shared_ptr<Object> result = optimizer->method("get_best_parameters")
+        .call().returnObject();
+    shared_ptr<std::vector<double> > paramsVector = result->as1dArray();
+
+    const int numParams = (int) paramsVector->size();
+    if(numParams != numP)
+        throw std::runtime_error("Expected another number of parameters");
+    std::copy(paramsVector->begin(), paramsVector->end(), p);
   }
 
   void PyOptimizer::setEvaluationFeedback(const double *feedbacks,
