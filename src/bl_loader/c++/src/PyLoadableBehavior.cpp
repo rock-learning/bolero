@@ -18,7 +18,7 @@ namespace bolero { namespace bl_loader {
 PyLoadableBehavior::PyLoadableBehavior(
         lib_manager::LibManager *libManager, const std::string &libName,
         const int libVersion)
-    : LoadableBehavior(libManager, libName, libVersion, 0, 0)
+    : LoadableBehavior(libManager, libName, libVersion)
     // numInputs and numOutputs will be set in initialize()
 {}
 
@@ -31,8 +31,6 @@ bool PyLoadableBehavior::initialize(const std::string& initialConfigPath)
       ->function("behavior_from_yaml").pass(STRING).call(&path)
       .returnObject());
   pyBehavior = shared_ptr<PyBehavior>(PyBehavior::fromPyObject(object));
-  setNumInputs(pyBehavior->getNumInputs());
-  setNumOutputs(pyBehavior->getNumOutputs());
   return true;
 }
 
@@ -76,6 +74,12 @@ bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
     std::cerr << "Invalid yaml document" << endl;
     return false;
   }
+}
+
+void PyLoadableBehavior::init(int numInputs, int numOutputs)
+{
+  pyBehavior->init(numInputs, numOutputs);
+  Behavior::init(numInputs, numOutputs);
 }
 
 void PyLoadableBehavior::setInputs(const double* values, int numInputs)

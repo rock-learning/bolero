@@ -9,9 +9,14 @@ using namespace std;
 namespace bolero { namespace bl_loader {
 
 PyBehavior::PyBehavior(shared_ptr<Object> behavior)
-  : Behavior(behavior->variable("num_inputs").asInt(),
-             behavior->variable("num_outputs").asInt()), behavior(behavior)
+  : Behavior(), behavior(behavior)
 {
+}
+
+void PyBehavior::init(int numInputs, int numOutputs)
+{
+  Behavior::init(numInputs, numOutputs);
+  behavior->method("init").pass(INT).pass(INT).call(numInputs, numOutputs);
 }
 
 void PyBehavior::setInputs(const double *values, int numInputs) {

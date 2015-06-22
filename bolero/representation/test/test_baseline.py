@@ -9,6 +9,7 @@ from numpy.testing import assert_array_equal
 def test_dummy_behavior():
     params = np.array([1.4, 2.3])
     beh = DummyBehavior(initial_params=params)
+    beh.init(0, 2)
 
     assert_equal(beh.get_n_params(), 2)
     assert_array_equal(beh.get_params(), params)
@@ -16,12 +17,6 @@ def test_dummy_behavior():
     outputs = np.empty(2)
     beh.get_outputs(outputs)
     assert_array_equal(outputs, params)
-
-    beh = DummyBehavior()
-    assert_raise_message(ValueError, "parameters have not been set",
-                         beh.get_n_params)
-    assert_raise_message(ValueError, "parameters have not been set",
-                         beh.get_params)
 
     beh.set_params(params)
     assert_equal(beh.get_n_params(), 2)
@@ -35,7 +30,8 @@ def test_dummy_behavior():
 
 def test_constant_behavior():
     const = np.array([1.3, 2.2])
-    beh = ConstantBehavior(3, 2, const)
+    beh = ConstantBehavior(const)
+    beh.init(3, 2)
 
     assert_equal(beh.get_n_params(), 0)
     assert_array_equal(beh.get_params(), np.array([]))
@@ -45,7 +41,8 @@ def test_constant_behavior():
         beh.get_outputs(outputs)
         assert_array_equal(outputs, const)
 
-    beh = ConstantBehavior(3, 2)
+    beh = ConstantBehavior()
+    beh.init(3, 2)
     beh.get_outputs(outputs)
     assert_array_equal(outputs, np.zeros(2))
 
@@ -61,7 +58,8 @@ def test_constant_behavior():
 
 
 def test_random_behavior():
-    beh = RandomBehavior(4, 5, random_state=0)
+    beh = RandomBehavior(random_state=0)
+    beh.init(4, 5)
 
     assert_equal(beh.get_n_params(), 0)
     assert_array_equal(beh.get_params(), np.array([]))

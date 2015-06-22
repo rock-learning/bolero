@@ -43,6 +43,7 @@ TEST_CASE( "init test", "[PyLoadableBehavior]" ) {
   bl_loader::BLLoader loader;
   LoadableBehavior* behav = loader.acquireBehavior("TestBehavior");
   REQUIRE_NOTHROW(behav->initialize("init.yaml"));
+  REQUIRE_NOTHROW(behav->init(3, 3));
   REQUIRE(behav->getNumInputs() == 3);
   REQUIRE(behav->getNumOutputs() == 3);
 }
@@ -52,6 +53,7 @@ TEST_CASE( "configure and stepping", "[PyLoadableBehavior]" ) {
   LoadableBehavior* behav = loader.acquireBehavior("TestBehavior");
   REQUIRE_NOTHROW(behav->initialize("init.yaml"));
   REQUIRE_NOTHROW(behav->configure("config.yaml"));
+  REQUIRE_NOTHROW(behav->init(3, 3));
 
   for(int i = 0; i < 5; ++i)
   {

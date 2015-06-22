@@ -10,7 +10,8 @@ cdef extern from "lib_manager/LibManager.hpp" namespace "lib_manager":
 
 cdef extern from "Behavior.h" namespace "bolero":
   cdef cppclass Behavior:
-    Behavior(int numInputs, int numOutputs) except +
+    Behavior() except +
+    void init(int numInputs, int numOutputs) except +
     void setInputs(double *values, int numInputs) except +
     void getOutputs(double *values, int numOutputs) except +
     int getNumInputs() except +

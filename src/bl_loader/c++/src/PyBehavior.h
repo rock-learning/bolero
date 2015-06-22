@@ -13,6 +13,7 @@ class PyBehavior : public bolero::Behavior {
 public:
   // this is the prefered way of construction
   static PyBehavior* fromPyObject(shared_ptr<Object> object);
+  void init(int numInputs, int numOutputs);
 
   void setInputs(const double *values, int numInputs);
   void getOutputs(double *values, int numOutputs) const;

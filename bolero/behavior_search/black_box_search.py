@@ -10,26 +10,14 @@ from ..utils.module_loader import from_dict
 
 
 class BlackBoxSearchMixin(object):
-    """Mixin for black-box behavior search.
-
-    This mixin can be used in both contextual and non-contextual scenarios.
-    """
-    def __init__(self, behavior, optimizer, metaparameter_keys=[],
-                 metaparameter_values=[]):
-        self.behavior = behavior
-        self.optimizer = optimizer
-        self.metaparameter_keys = metaparameter_keys
-        self.metaparameter_values = metaparameter_values
-
     def _init_helper(self, n_inputs, n_outputs):
         # Initialize behavior
         if isinstance(self.behavior, dict):
-            self.behavior["num_inputs"] = n_inputs
-            self.behavior["num_outputs"] = n_outputs
             self.behavior = from_dict(self.behavior)
         if not isinstance(self.behavior, BlackBoxBehavior):
             raise TypeError("Behavior '%r' must be of type 'BlackBoxBehavior'"
                             % self.behavior)
+        self.behavior.init(n_inputs, n_outputs)
         self.n_params = self.behavior.get_n_params()
 
         # Initialize optimizer
@@ -65,7 +53,7 @@ class BlackBoxSearchMixin(object):
         if not self.is_fixed():
             self.optimizer.get_next_parameters(self.params)
             self.behavior.set_params(self.params)
-            self.behavior.reset()
+        self.behavior.reset()
         return self.behavior
 
     def get_best_behavior(self):
@@ -106,6 +94,12 @@ class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
         Values of metaparameters for the behavior that will be set during
         initialization.
     """
+    def __init__(self, behavior, optimizer, metaparameter_keys=[],
+                 metaparameter_values=[]):
+        self.behavior = behavior
+        self.optimizer = optimizer
+        self.metaparameter_keys = metaparameter_keys
+        self.metaparameter_values = metaparameter_values
 
     def init(self, n_inputs, n_outputs, _=0):
         super(BlackBoxSearch, self)._init_helper(n_inputs, n_outputs)
@@ -128,16 +122,11 @@ class JustOptimizer(BlackBoxSearch):
     optimizer : dict or Optimizer
         A black-box optimizer that is given directly or fully specified by
         a configuration dictionary.
-
-    n_params : int, optional (default: len(optimizer.initial_params))
-        Number of parameters to optimize
     """
-    def __init__(self, optimizer, n_params=-1):
+    def __init__(self, optimizer):
         kwargs = {}
         if hasattr(optimizer, "initial_params"):
             kwargs["initial_params"] = optimizer.initial_params
-        elif n_params >= 0:
-            kwargs["num_outputs"] = n_params
         behavior = DummyBehavior(**kwargs)
         super(JustOptimizer, self).__init__(behavior, optimizer)
 
@@ -167,6 +156,12 @@ class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin, FixableMixin,
         Values of metaparameters for the behavior that will be set during
         initialization.
     """
+    def __init__(self, behavior, optimizer, metaparameter_keys=[],
+                 metaparameter_values=[]):
+        self.behavior = behavior
+        self.optimizer = optimizer
+        self.metaparameter_keys = metaparameter_keys
+        self.metaparameter_values = metaparameter_values
 
     def init(self, n_inputs, n_outputs, context_dims):
         self.context_dims = context_dims

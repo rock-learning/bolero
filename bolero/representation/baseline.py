@@ -14,26 +14,27 @@ class DummyBehavior(BlackBoxBehavior):
     encapsulates the parameters learned by the optimizer and returns them via
     get_outputs() to the environment whenever required. It thus connects
     environment and optimizer directly.
-
-    Parameters
-    ----------
-    num_inputs : int
-        number of inputs, should be 0
-
-    num_outputs : int
-        number of parameters
     """
-    def __init__(self, num_inputs=0, num_outputs=-1, **kwargs):
-        super(DummyBehavior, self).__init__(num_inputs, num_outputs)
-        if "initial_params" in kwargs:
-            self.__initialize_from(kwargs["initial_params"])
-            self.params[:] = kwargs["initial_params"]
-        else:
-            self.params = None
+    def __init__(self, **kwargs):
+        self.params = None
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
-    def __initialize_from(self, params):
-        self.num_outputs = len(params)
-        self.params = np.ndarray(self.num_outputs, dtype=np.float64)
+    def init(self, n_inputs, n_outputs):
+        """Initialize the behavior.
+
+        Parameters
+        ----------
+        n_inputs : int
+            number of inputs
+
+        n_outputs : int
+            number of outputs
+        """
+        self.n_outputs = n_outputs
+        self.params = np.ndarray(self.n_outputs, dtype=np.float64)
+        if hasattr(self, "initial_params"):
+            self.params[:] = self.initial_params
 
     def get_n_params(self):
         """Get number of parameters.
@@ -43,9 +44,7 @@ class DummyBehavior(BlackBoxBehavior):
         n_params : int
             Number of parameters that will be optimized.
         """
-        if self.num_outputs <= 0:
-            raise ValueError("Initial parameters have not been set")
-        return self.num_outputs
+        return self.n_outputs
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta parameters (none defined for dummy behavior)."""
@@ -73,8 +72,6 @@ class DummyBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New parameters.
         """
-        if self.params is None:
-            self.__initialize_from(params)
         self.params[:] = params
 
     def set_inputs(self, inputs):
@@ -91,7 +88,7 @@ class DummyBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = (num_outputs,)
+        outputs : array-like, shape = (n_outputs,)
             outputs, e.g. next action, will be updated
         """
         outputs[:] = self.params
@@ -111,21 +108,26 @@ class ConstantBehavior(BlackBoxBehavior):
 
     Parameters
     ----------
-    num_inputs : int
-        number of inputs
-
-    num_outputs : int
-        number of outputs
-
-    outputs : array-like, shape (num_outputs,), optional (default: zeros)
+    outputs : array-like, shape (n_outputs,), optional (default: zeros)
         Values of constant outputs.
     """
-    def __init__(self, num_inputs=0, num_outputs=0, outputs=None):
-        super(ConstantBehavior, self).__init__(num_inputs, num_outputs)
-
+    def __init__(self, outputs=None):
         self.outputs = outputs
+
+    def init(self, n_inputs, n_outputs):
+        """Initialize the behavior.
+
+        Parameters
+        ----------
+        n_inputs : int
+            number of inputs
+
+        n_outputs : int
+            number of outputs
+        """
+        self.n_outputs = n_outputs
         if self.outputs is None:
-            self.outputs = np.zeros(self.num_outputs)
+            self.outputs = np.zeros(self.n_outputs)
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta parameters (none defined for constant behavior)."""
@@ -138,7 +140,7 @@ class ConstantBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        inputs : array-like, shape = (num_inputs,)
+        inputs : array-like, shape = (n_inputs,)
             inputs, e.g. current state of the system
         """
 
@@ -147,7 +149,7 @@ class ConstantBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = (num_outputs,)
+        outputs : array-like, shape = (n_outputs,)
             outputs, e.g. next action, will be updated
         """
         outputs[:] = self.outputs
@@ -197,19 +199,23 @@ class ConstantBehavior(BlackBoxBehavior):
 
 
 class RandomBehavior(BlackBoxBehavior):
-    """Generates random outputs.
+    """Generates random outputs."""
+    def __init__(self, random_state=None):
+        self.random_state = random_state
 
-    Parameters
-    ----------
-    num_inputs : int
-        number of inputs
+    def init(self, n_inputs, n_outputs):
+        """Initialize the behavior.
 
-    num_outputs : int
-        number of outputs
-    """
-    def __init__(self, num_inputs=0, num_outputs=0, random_state=None):
-        super(RandomBehavior, self).__init__(num_inputs, num_outputs)
-        self.random_state = check_random_state(random_state)
+        Parameters
+        ----------
+        n_inputs : int
+            number of inputs
+
+        n_outputs : int
+            number of outputs
+        """
+        self.n_outputs = n_outputs
+        self.random_state = check_random_state(self.random_state)
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta parameters (none defined for random behavior)."""
@@ -222,7 +228,7 @@ class RandomBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        inputs : array-like, shape = (num_inputs,)
+        inputs : array-like, shape = (n_inputs,)
             inputs, e.g. current state of the system
         """
 
@@ -231,10 +237,10 @@ class RandomBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = (num_outputs,)
+        outputs : array-like, shape = (n_outputs,)
             outputs, e.g. next action, will be updated
         """
-        outputs[:] = self.random_state.randn(self.num_outputs)
+        outputs[:] = self.random_state.randn(self.n_outputs)
 
     def step(self):
         """Compute output for the received input.

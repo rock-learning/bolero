@@ -6,24 +6,21 @@ class Behavior(object):
     """Behavior interface.
 
     A behavior maps input (e.g. state) to output (e.g. next state or action).
-
-    Parameters
-    ----------
-    num_inputs : int
-        number of inputs
-
-    num_outputs : int
-        number of outputs
     """
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def __init__(self, num_inputs, num_outputs):
-        self.num_inputs = num_inputs
-        self.num_outputs = num_outputs
-        self.meta_parameters = {}
-        self.inputs = None
-        self.outputs = None
+    def init(self, n_inputs, n_outputs):
+        """Initialize the behavior.
+
+        Parameters
+        ----------
+        n_inputs : int
+            number of inputs
+
+        n_outputs : int
+            number of outputs
+        """
 
     @abstractmethod
     def set_meta_parameters(self, keys, meta_parameters):
@@ -49,7 +46,7 @@ class Behavior(object):
 
         Parameters
         ----------
-        inputs : array-like, shape = [num_inputs,]
+        inputs : array-like, shape = (n_inputs,)
             inputs, e.g. current state of the system
         """
 
@@ -63,7 +60,7 @@ class Behavior(object):
 
         Parameters
         ----------
-        outputs : array-like, shape = [num_outputs,]
+        outputs : array-like, shape = (n_outputs,)
             outputs, e.g. next action, will be updated
         """
 
@@ -109,10 +106,6 @@ class BlackBoxBehavior(Behavior):
         Number of output components.
     """
     __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def __init__(self, num_inputs, num_outputs):
-        super(BlackBoxBehavior, self).__init__(num_inputs, num_outputs)
 
     @abstractmethod
     def get_n_params(self):

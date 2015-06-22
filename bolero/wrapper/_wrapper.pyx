@@ -568,6 +568,19 @@ cdef class CppBehavior:
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
 
+    def init(self, n_inputs, n_outputs):
+        """Initialize the behavior.
+
+        Parameters
+        ----------
+        n_inputs : int
+            number of inputs
+
+        n_outputs : int
+            number of outputs
+        """
+        self.thisptr.init(n_inputs, n_outputs)
+
     def set_meta_parameters(self, keys, meta_parameters):
         """Set meta-parameters.
 

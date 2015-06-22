@@ -17,6 +17,7 @@ def test_missing_environment():
 def test_missing_behavior_search():
     ctrl = Controller(environment=ObjectiveFunction())
     beh = DummyBehavior(initial_params=np.array([0.0, 0.0]))
+    beh.init(0, 2)
     feedback = ctrl.episode_with(beh)
     assert_equal(len(feedback), 1)
     assert_less(feedback[0], ctrl.environment.get_maximum_feedback())

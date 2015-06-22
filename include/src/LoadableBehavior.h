@@ -23,11 +23,10 @@ namespace bolero {
   class LoadableBehavior : public lib_manager::LibInterface, public Behavior {
 
   public:
-    LoadableBehavior(lib_manager::LibManager *libManager,
-                const std::string &libName, const int libVersion,
-                const int numInputs, const int numOutputs) :
+      LoadableBehavior(lib_manager::LibManager *libManager,
+          const std::string &libName, const int libVersion) :
       lib_manager::LibInterface(libManager),
-      Behavior(numInputs, numOutputs),
+      Behavior(),
       libName(libName),
       libVersion(libVersion)
     {}

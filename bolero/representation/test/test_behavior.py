@@ -19,6 +19,7 @@ def test_behaviors_have_default_constructor():
 def test_behaviors_follow_standard_protocol():
     for _, Behavior in ALL_BEHAVIORS:
         beh = Behavior()
+        beh.init(0, 0)
         beh.set_meta_parameters([], [])
         assert_true(beh.can_step())
         inputs = np.array([])

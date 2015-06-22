@@ -107,7 +107,9 @@ class Controller(object):
 
     def _init_behavior_search(self, behavior_search):
         if self.behavior_search is not None:
-            self.behavior_search.init(self.n_inputs, self.n_outputs)
+            # Outputs of the environment are inputs for the behavior search
+            # and vice versa
+            self.behavior_search.init(self.n_outputs, self.n_inputs)
 
     def _check(self):
         """Check environment and behavior search."""

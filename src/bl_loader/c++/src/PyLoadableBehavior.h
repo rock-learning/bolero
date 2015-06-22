@@ -53,6 +53,8 @@ public:
    */
   virtual bool configure(const std::string& configPath);
 
+  virtual void init(int numInputs, int numOutputs);
+
   /**
    * Calls set_meta_parameters() on the wrapped python behavior.
    * For now only double arrays are allowed as values.

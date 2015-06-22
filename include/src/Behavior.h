@@ -23,9 +23,14 @@ namespace bolero {
   class Behavior {
 
   public:
-    Behavior(int numInputs, int numOutputs) : numInputs(numInputs),
-                                              numOutputs(numOutputs) {}
+    Behavior() : numInputs(-1), numOutputs(-1) {}
     virtual ~Behavior() {}
+
+    virtual void init(int numInputs, int numOutputs)
+    {
+        this->numInputs = numInputs;
+        this->numOutputs = numOutputs;
+    }
 
     virtual Behavior* clone() {
       fprintf(stderr, "Used \"Behavior\" implementation has no \"clone()\"!\n");
