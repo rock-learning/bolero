@@ -85,20 +85,15 @@ class ContextualOptimizer(object):
 class Optimizer(ContextualOptimizer):
     """Common interface for (non-contextual) optimizers. """
 
-    def init(self, n_params, n_context_dims=0):
+    @abstractmethod
+    def init(self, n_params):
         """Initialize the behavior search.
 
         Parameters
         ----------
         n_params : int
             dimension of the parameter vector
-        n_context_dims : int
-            number of context dimensions. Restricted to 0 for non-contextual
-            behavior search.
         """
-        if n_context_dims != 0:
-            raise ValueError("Optimizer does not support contextual problems.")
-        super(Optimizer, self).init(n_params, n_context_dims)
 
     def get_desired_context(self):
         """ Method not supported by Optimizer. """

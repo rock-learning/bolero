@@ -84,7 +84,9 @@ class Controller(object):
         self.episode_cnt = 0
 
         if self.verbose >= 1:
-            self._print_info()
+            print("[Controller] Initialized with")
+            print("             - %d inputs" % self.n_inputs)
+            print("             - %d outputs" % self.n_outputs)
 
     def _set_attribute(self, config, name, default):
         value = config.get("Controller", {}).get(name, default)
@@ -116,11 +118,6 @@ class Controller(object):
                 not isinstance(self.behavior_search, BehaviorSearch)):
             raise TypeError("Controller cannot deal with contextual "
                             "behavior search!")
-
-    def _print_info(self):
-        print("[Controller] Initialized with")
-        print("             - %d inputs" % self.n_inputs)
-        print("             - %d outputs" % self.n_outputs)
 
     def learn(self, meta_parameter_keys=[], meta_parameters=[]):
         """Learn the behavior.
@@ -262,6 +259,9 @@ class ContextualController(Controller):
 
             self.test_results_ = []
 
+        if self.verbose >= 1:
+            print("             - %d context dimensions" % self.n_context_dims)
+
     def _init_behavior_search(self, behavior_search):
         if self.behavior_search is not None:
             self.n_context_dims = self.environment.get_num_context_dims()
@@ -276,10 +276,6 @@ class ContextualController(Controller):
                 isinstance(self.behavior_search, BehaviorSearch)):
             raise TypeError("ContextualController requires contextual "
                             "behavior search!")
-
-    def _print_info(self):
-        super(ContextualController, self)._print_info()
-        print("             - %d context dimensions" % self.n_context_dims)
 
     def _negotiate_context(self):
         """Negotiate context."""
