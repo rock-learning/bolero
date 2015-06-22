@@ -5,94 +5,6 @@ from .behavior import BlackBoxBehavior
 from ..utils.validation import check_random_state
 
 
-class ConstantBehavior(BlackBoxBehavior):
-    """Generates constant outputs.
-
-    Parameters
-    ----------
-    num_inputs : int
-        number of inputs
-
-    num_outputs : int
-        number of outputs
-
-    outputs : array-like, shape (num_outputs,), optional (default: zeros)
-        Values of constant outputs.
-    """
-    def __init__(self, num_inputs, num_outputs, outputs=None):
-        super(ConstantBehavior, self).__init__(num_inputs, num_outputs)
-
-        self.outputs = outputs
-        if self.outputs is None:
-            self.outputs = np.zeros(self.num_outputs)
-
-    def set_meta_parameters(self, keys, meta_parameters):
-        """Set meta parameters (none defined for constant behavior)."""
-        if len(keys) > 0:
-            raise NotImplementedError("ConstantBehavior does not accept any "
-                                      "meta parameters")
-
-    def set_inputs(self, inputs):
-        """Set input for the next step.
-
-        Parameters
-        ----------
-        inputs : array-like, shape = (num_inputs,)
-            inputs, e.g. current state of the system
-        """
-
-    def get_outputs(self, outputs):
-        """Get outputs of the last step.
-
-        Parameters
-        ----------
-        outputs : array-like, shape = (num_outputs,)
-            outputs, e.g. next action, will be updated
-        """
-        outputs[:] = self.outputs
-
-    def step(self):
-        """Compute output for the received input.
-
-        Use the inputs and meta-parameters to compute the outputs.
-        """
-
-    def get_n_params(self):
-        """Get number of parameters.
-
-        Returns
-        -------
-        n_params : int
-            Number of parameters that will be optimized.
-        """
-        return 0
-
-    def get_params(self):
-        """Get current parameters.
-
-        Returns
-        -------
-        params : array-like, shape = (n_params,)
-            Current parameters.
-        """
-        return np.array([])
-
-    def set_params(self, params):
-        """Set new parameter values.
-
-        Parameters
-        ----------
-        params : array-like, shape = (n_params,)
-            New parameters.
-        """
-
-    def reset(self):
-        """Reset behavior.
-
-        Does nothing.
-        """
-
-
 class DummyBehavior(BlackBoxBehavior):
     """Dummy behavior allows using environments which do not require behaviors.
 
@@ -194,6 +106,96 @@ class DummyBehavior(BlackBoxBehavior):
         """
 
 
+class ConstantBehavior(BlackBoxBehavior):
+    """Generates constant outputs.
+
+    Parameters
+    ----------
+    num_inputs : int
+        number of inputs
+
+    num_outputs : int
+        number of outputs
+
+    outputs : array-like, shape (num_outputs,), optional (default: zeros)
+        Values of constant outputs.
+    """
+    def __init__(self, num_inputs, num_outputs, outputs=None):
+        super(ConstantBehavior, self).__init__(num_inputs, num_outputs)
+
+        self.outputs = outputs
+        if self.outputs is None:
+            self.outputs = np.zeros(self.num_outputs)
+
+    def set_meta_parameters(self, keys, meta_parameters):
+        """Set meta parameters (none defined for constant behavior)."""
+        if len(keys) > 0:
+            raise NotImplementedError("ConstantBehavior does not accept any "
+                                      "meta parameters")
+
+    def set_inputs(self, inputs):
+        """Set input for the next step.
+
+        Parameters
+        ----------
+        inputs : array-like, shape = (num_inputs,)
+            inputs, e.g. current state of the system
+        """
+
+    def get_outputs(self, outputs):
+        """Get outputs of the last step.
+
+        Parameters
+        ----------
+        outputs : array-like, shape = (num_outputs,)
+            outputs, e.g. next action, will be updated
+        """
+        outputs[:] = self.outputs
+
+    def step(self):
+        """Compute output for the received input.
+
+        Use the inputs and meta-parameters to compute the outputs.
+        """
+
+    def get_n_params(self):
+        """Get number of parameters.
+
+        Returns
+        -------
+        n_params : int
+            Number of parameters that will be optimized.
+        """
+        return 0
+
+    def get_params(self):
+        """Get current parameters.
+
+        Returns
+        -------
+        params : array-like, shape = (n_params,)
+            Current parameters.
+        """
+        return np.array([])
+
+    def set_params(self, params):
+        """Set new parameter values.
+
+        Parameters
+        ----------
+        params : array-like, shape = (n_params,)
+            New parameters.
+        """
+        if len(params) > 0:
+            raise ValueError("Length of parameter vector must be 0")
+
+    def reset(self):
+        """Reset behavior.
+
+        Does nothing.
+        """
+
+
 class RandomBehavior(BlackBoxBehavior):
     """Generates random outputs.
 
@@ -268,6 +270,8 @@ class RandomBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New parameters.
         """
+        if len(params) > 0:
+            raise ValueError("Length of parameter vector must be 0")
 
     def reset(self):
         """Reset behavior.

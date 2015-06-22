@@ -52,7 +52,6 @@ class Behavior(object):
         inputs : array-like, shape = [num_inputs,]
             inputs, e.g. current state of the system
         """
-        self.inputs = inputs
 
     @abstractmethod
     def get_outputs(self, outputs):
@@ -67,7 +66,6 @@ class Behavior(object):
         outputs : array-like, shape = [num_outputs,]
             outputs, e.g. next action, will be updated
         """
-        outputs[:] = self.outputs
 
     @abstractmethod
     def step(self):
@@ -77,9 +75,7 @@ class Behavior(object):
         """
 
     def can_step(self):
-        """Returns true if step() can be called again, false otherwise.
-           
-        """
+        """Returns true if step() can be called again, false otherwise."""
         return True
 
 
