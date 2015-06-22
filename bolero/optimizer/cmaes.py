@@ -300,26 +300,14 @@ class CMAESOptimizer(Optimizer):
 
         self.samples = self._sample(self.n_samples_per_update)
 
-    def _update_covariance(self, it, force=False):
+    def _update_covariance(self, it):
         self.eigen_decomp_updated = it
         self.cov[:, :] = np.triu(self.cov) + np.triu(self.cov, 1).T
-        try:
-            if not force:
-                err = np.geterr()["over"]
-                np.seterr(over="raise")
-            D, B = np.linalg.eigh(self.cov)
-
-            # HACK: avoid numerical problems
-            D = np.maximum(D, np.finfo(np.float).eps)
-
-            D = np.diag(np.sqrt(1.0 / D))
-            self.invsqrtC = B.dot(D).dot(B.T)
-        except FloatingPointError:
-            self.cov = self.covariance.copy()
-            self._update_covariance(it, force=True)
-        finally:
-            if not force:
-                np.seterr(over=err)
+        D, B = np.linalg.eigh(self.cov)
+        # HACK: avoid numerical problems
+        D = np.maximum(D, np.finfo(np.float).eps)
+        D = np.diag(np.sqrt(1.0 / D))
+        self.invsqrtC = B.dot(D).dot(B.T)
 
     def is_behavior_learning_done(self):
         """Check if the optimization is finished.
@@ -667,8 +655,8 @@ def fmin(objective_function, cma_type="standard", x0=None,
         best = (None, np.inf)
 
     if cma_type not in cma_types:
-        raise Exception("Unknown cma_type %s. Must be one of %s."
-                        % (cma_type, cma_types.keys()))
+        raise ValueError("Unknown cma_type %s. Must be one of %s."
+                         % (cma_type, cma_types.keys()))
     else:
         cma = cma_types[cma_type](initial_params=x0, maximize=False,
                                   *args, **kwargs)

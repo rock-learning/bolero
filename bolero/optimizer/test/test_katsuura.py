@@ -33,7 +33,7 @@ def test_ipopcmaes(n_dims=2, n_evals=3500):
     assert_greater(r.max(), -1e5)
 
 
-def test_bipopcmaes(n_dims=1, n_evals=1000):
+def test_bipopcmaes(n_dims=1, n_evals=2000):
     x = np.zeros(n_dims)
     opt = BIPOPCMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0)
     opt.init(n_dims)

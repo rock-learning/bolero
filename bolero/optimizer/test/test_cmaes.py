@@ -2,6 +2,7 @@ import numpy as np
 from nose.tools import assert_less, assert_equal
 from sklearn.utils.testing import assert_warns
 from numpy.testing import assert_array_almost_equal
+from bolero.utils.testing import assert_raise_message
 from bolero.optimizer import CMAESOptimizer, fmin
 
 
@@ -19,10 +20,28 @@ def test_cmaes_diagonal_cov():
     opt.get_next_parameters(params)
 
 
+def test_unknown_cmaes():
+    assert_raise_message(
+        ValueError, "Unknown cma_type", fmin, lambda x: np.linalg.norm(x),
+        cma_type="unknown")
+
+
+def test_cmaes_minimize_eval_initial_x():
+    _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
+                x0=np.zeros(2), random_state=0, maxfun=300, eval_initial_x=True)
+    assert_less(f, 1e-5)
+
+
 def test_cmaes_minimize():
     _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
                 x0=np.zeros(2), random_state=0, maxfun=300)
     assert_less(f, 1e-5)
+
+
+def test_cmaes_minimize_many_params():
+    _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
+                x0=np.zeros(30), random_state=0, maxfun=500)
+    assert_less(f, 1.0)
 
 
 def test_ipop_cmaes():
