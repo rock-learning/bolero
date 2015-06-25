@@ -74,13 +74,27 @@ def __load_config_from_file(filename, conf_path=None):
         config = yaml.load(open(conf_filename, "r"))
         return config
     else:
-        warnings.warn("Could not find any configuration file. CONF_PATH=%s, "
-                      "conf_filename=%s" % (conf_path, conf_filename))
-        return {}
+        raise ValueError("'%s' does not exist" % conf_filename)
 
 
 def from_dict(config):
     """Create an object of a class that is fully specified by a config dict.
+
+    This will recursively go through all lists, tuples and dicts that are
+    in the configuration. It will start to construct all objects starting
+    from the leaves. For example
+
+    .. code-block:: python
+
+        config = {"type": "Class1", "arg1": {"type": "Class2"}}
+        obj = from_dict(config)
+
+    is equivalent to
+
+    .. code-block:: python
+
+        tmp = Class2()
+        obj = Class1(arg1=tmp)
 
     Parameters
     ----------
@@ -106,13 +120,16 @@ def from_dict(config):
         config[k] = from_dict(v)
 
     if isinstance(config, dict) and "type" in config:
-        return recursive_from_dict(config)
+        return _from_dict(config)
     else:
         return config
 
 
-def recursive_from_dict(config):
+def _from_dict(config):
     """Create an object of a class that is fully specified by a config dict.
+
+    No recursion happens here. This function will directly create objects
+    from the configuration.
 
     Parameters
     ----------
@@ -125,10 +142,6 @@ def recursive_from_dict(config):
     object : as specified in the config
         The object created from the configuration dictionary or 'config'.
     """
-    if not isinstance(config, dict):
-        raise TypeError("Config must be of type 'dict' but is %s (%r)"
-                        % (type(config), config))
-
     c = config.copy()
 
     try:
@@ -150,7 +163,8 @@ def recursive_from_dict(config):
     if type_name in class_dict:
         clazz = class_dict[type_name]
     else:
-        raise KeyError("Class name '%s' is unknown." % type_name)
+        raise ValueError("Class name '%s' does not exist in module '%s'."
+                         % (type_name, package_name))
 
     try:
         return clazz(**c)

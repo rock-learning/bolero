@@ -49,12 +49,17 @@ def test_load_with_wrong_params():
         "type": "bolero.optimizer.CMAESOptimizer",
         "varince": 10.0
     }
-    assert_raise_message(TypeError, "got an unexpected keyword argument", from_dict, config)
+    assert_raise_message(TypeError, "unexpected keyword", from_dict, config)
 
 
 def test_missing_package():
     config = {"type": "CMAESOptimizer"}
     assert_raise_message(ValueError, "Empty module name", from_dict, config)
+
+
+def test_load_class_does_not_exist():
+    config = {"type": "bolero.optimizer.DoesNotExist"}
+    assert_raise_message(ValueError, "does not exist in", from_dict, config)
 
 
 def test_load_from_yaml():
@@ -65,3 +70,7 @@ def test_load_from_yaml():
 def test_load_from_yaml_with_conf_path():
     optimizer = from_yaml("test_config.yaml", CURRENT_PATH)
     assert_true(isinstance(optimizer, CMAESOptimizer))
+
+
+def test_load_from_missing_yaml():
+    assert_raise_message(ValueError, "does not exist", from_yaml, "dummy.yaml")
