@@ -11,6 +11,11 @@ def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
     return from_yaml(filename, conf_path)["Optimizer"]
 
 
+def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
+    """Create behavior object from YAML configuration file."""
+    return from_yaml(filename, conf_path)["Behavior"]
+
+
 def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create behavior search object from YAML configuration file."""
     return from_yaml(filename, conf_path)["BehaviorSearch"]
