@@ -317,7 +317,7 @@ class CMAESOptimizer(Optimizer):
         finished : bool
             Is the learning of a behavior finished?
         """
-        if self.it == 0:
+        if self.it <= self.n_samples_per_update:
             return False
 
         if not np.all(np.isfinite(self.fitness)):
