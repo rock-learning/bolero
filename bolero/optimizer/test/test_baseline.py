@@ -16,7 +16,7 @@ def test_no_optimizer():
     opt.get_next_parameters(params1)
     opt.set_evaluation_feedback(np.array([0.0]))
     params2 = np.empty(3)
-    opt.get_next_parameters(params1)
+    opt.get_next_parameters(params2)
     opt.set_evaluation_feedback(np.array([0.0]))
     assert_array_equal(params1, params2)
 
@@ -32,7 +32,7 @@ def test_random_optimizer():
     opt.get_next_parameters(params1)
     opt.set_evaluation_feedback(np.array([0.0]))
     params2 = np.empty(3)
-    opt.get_next_parameters(params1)
+    opt.get_next_parameters(params2)
     opt.set_evaluation_feedback(np.array([0.0]))
     assert_false(np.all(params1 == params2))
 
