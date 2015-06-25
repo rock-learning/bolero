@@ -1472,7 +1472,7 @@ def _plot_function_log_3d(f, ax, X, Y, F):
 
 
 class ObjectiveFunction(Environment):
-    """Optimize an objective function.
+    """Artificial benchmark function.
 
     Parameters
     ----------
@@ -1497,7 +1497,9 @@ class ObjectiveFunction(Environment):
         if not self.name in FUNCTIONS:
             raise ValueError("Unknown function '%s' requested, select one of "
                              "%s instead" % (self.name, FUNCTIONS.keys()))
+
         self.objective = FUNCTIONS[self.name](self.random_state, self.n_params)
+
         self.params = np.empty(self.n_params)
         self.f = np.nan
 

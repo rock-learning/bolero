@@ -13,6 +13,7 @@ def test_black_box_search_from_dicts():
     opt = {"type": "bolero.optimizer.NoOptimizer"}
     bs = BlackBoxSearch(beh, opt)
     bs.init(5, 5)
+    # NoOptimizer should be initialized with the parameters from the behavior
     assert_array_equal(bs.behavior.get_params(), bs.optimizer.initial_params)
 
 
