@@ -1,10 +1,11 @@
 from .optimizer import Optimizer, ContextualOptimizer
+from .baseline import NoOptimizer, RandomOptimizer
 from .cmaes import (CMAESOptimizer, RestartCMAESOptimizer, IPOPCMAESOptimizer,
                     BIPOPCMAESOptimizer, fmin)
-from .baseline import NoOptimizer, RandomOptimizer
+from .creps import CREPSOptimizer
 
 
 __all__ = [
     "Optimizer", "ContextualOptimizer", "CMAESOptimizer",
     "RestartCMAESOptimizer", "IPOPCMAESOptimizer", "BIPOPCMAESOptimizer",
-    "fmin"]
+    "fmin", "CREPSOptimizer"]

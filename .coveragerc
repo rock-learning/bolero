@@ -6,6 +6,7 @@ omit =
     */setup.py
     */bolero/utils/log.py
     */bolero/utils/validation.py
+    */bolero/utils/mathext.py
 
 [report]
 exclude_lines =

@@ -123,10 +123,14 @@ class CMAESOptimizer(Optimizer):
         self.eigen_decomp_updated = 0
 
         if self.initial_params is None:
-            self.initial_params = np.zeros(self.n_params, dtype=np.float64)
+            self.initial_params = np.zeros(dimension)
         else:
             self.initial_params = np.asarray(self.initial_params).astype(
                 np.float64, copy=True)
+        if dimension != len(self.initial_params):
+            raise ValueError("Number of dimensions (%d) does not match "
+                             "number of initial parameters (%d)."
+                             % (dimension, len(self.initial_params)))
 
         if self.covariance is None:
             self.covariance = np.eye(self.n_params)
