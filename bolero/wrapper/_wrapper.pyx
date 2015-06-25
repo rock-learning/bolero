@@ -1,3 +1,5 @@
+# distutils: language=c++
+
 cimport numpy as np
 import numpy as np
 from libcpp.string cimport string
