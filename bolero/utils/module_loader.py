@@ -109,20 +109,21 @@ def from_dict(config):
     """
     if isinstance(config, dict):
         it = config.items()
-    elif isinstance(config, list):
+        result = {}
+    elif isinstance(config, list) or isinstance(config, tuple):
         it = enumerate(config)
-    elif isinstance(config, tuple):
-        it = enumerate(config)
+        result = [None for _ in range(len(config))]
     else:
         it = []
+        result = config
 
     for k, v in it:
-        config[k] = from_dict(v)
+        result[k] = from_dict(v)
 
     if isinstance(config, dict) and "type" in config:
         return _from_dict(config)
     else:
-        return config
+        return result
 
 
 def _from_dict(config):

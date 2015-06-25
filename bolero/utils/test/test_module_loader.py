@@ -52,6 +52,30 @@ def test_load_with_wrong_params():
     assert_raise_message(TypeError, "unexpected keyword", from_dict, config)
 
 
+def test_load_dict():
+    opt_config = {"type": "bolero.optimizer.CMAESOptimizer"}
+    config = {"optimizers": {0: opt_config, 1: opt_config}}
+    result = from_dict(config)
+    assert_true(isinstance(result["optimizers"][0], CMAESOptimizer))
+    assert_true(isinstance(result["optimizers"][1], CMAESOptimizer))
+
+
+def test_load_list():
+    opt_config = {"type": "bolero.optimizer.CMAESOptimizer"}
+    config = {"optimizers": [opt_config, opt_config]}
+    result = from_dict(config)
+    assert_true(isinstance(result["optimizers"][0], CMAESOptimizer))
+    assert_true(isinstance(result["optimizers"][1], CMAESOptimizer))
+
+
+def test_load_tuple():
+    opt_config = {"type": "bolero.optimizer.CMAESOptimizer"}
+    config = {"optimizers": (opt_config, opt_config)}
+    result = from_dict(config)
+    assert_true(isinstance(result["optimizers"][0], CMAESOptimizer))
+    assert_true(isinstance(result["optimizers"][1], CMAESOptimizer))
+
+
 def test_missing_package():
     config = {"type": "CMAESOptimizer"}
     assert_raise_message(ValueError, "Empty module name", from_dict, config)

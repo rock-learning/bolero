@@ -87,18 +87,18 @@ class ContextualBehaviorSearch(object):
         """
         return None
 
+    @abstractmethod
     def set_context(self, context):
-        """ Set context of next evaluation.
+        """Set context of next evaluation.
 
         Note that the set context need not necessarily be the same that was
         requested by get_desired_context().
 
         Parameters
         ----------
-        context : ndarray-like
+        context : array-like, shape (n_context_dims,)
             The context in which the next rollout will be performed
         """
-        self.context = context
 
     @abstractmethod
     def get_best_behavior_template(self):
@@ -106,8 +106,7 @@ class ContextualBehaviorSearch(object):
 
 
 class BehaviorSearch(ContextualBehaviorSearch):
-    """BehaviorSearch (learning algorithm) interface.
-    """
+    """BehaviorSearch (learning algorithm) interface."""
 
     def init(self, n_inputs, n_outputs, n_context_dims=0):
         """Initialize the behavior search.
@@ -130,11 +129,11 @@ class BehaviorSearch(ContextualBehaviorSearch):
         super(BehaviorSearch, self).init(n_inputs, n_outputs, n_context_dims)
 
     def get_desired_context(self):
-        """ Method not supported by BehaviorSearch. """
+        """Method not supported by BehaviorSearch."""
         raise NonContextualException("get_desired_context() not supported.")
 
     def set_context(self, context):
-        """ Method not supported by BehaviorSearch. """
+        """Method not supported by BehaviorSearch."""
         raise NonContextualException("set_context() not supported.")
 
     @abstractmethod
@@ -148,7 +147,7 @@ class BehaviorSearch(ContextualBehaviorSearch):
         """
 
     def get_best_behavior_template(self):
-        """ Return current best estimate of contextual policy. """
+        """Return current best estimate of contextual policy."""
         raise NonContextualException("get_best_behavior_template() not "
                                      "supported.")
 
@@ -156,9 +155,9 @@ class BehaviorSearch(ContextualBehaviorSearch):
 class PickableMixin(object):
     """Use pickle to save and load behavior search states."""
     def write_results(self, result_path):
-        pickle.dump(self, open("%s/%s.pickle" %
-                               (result_path, self.__class__.__name__), "w"))
+        filename = "%s/%s.pickle" % (result_path, self.__class__.__name__)
+        pickle.dump(self, open(filename, "w"))
 
     def get_behavior_from_results(self, result_path):
-        self = pickle.load(open("%s/%s.pickle" %
-                                (result_path, self.__class__.__name__), "r"))
+        filename = "%s/%s.pickle" % (result_path, self.__class__.__name__)
+        self = pickle.load(open(filename, "r"))

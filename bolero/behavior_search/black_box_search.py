@@ -9,46 +9,41 @@ from ..representation import BlackBoxBehavior, DummyBehavior
 from ..utils.module_loader import from_dict
 
 
+def _initialize_behavior(behavior, n_inputs, n_outputs):
+    if isinstance(behavior, dict):
+        behavior = from_dict(behavior)
+
+    if not isinstance(behavior, BlackBoxBehavior):
+        raise TypeError("Behavior '%r' must be of type 'BlackBoxBehavior'"
+                        % behavior)
+
+    behavior.init(n_inputs, n_outputs)
+    return behavior
+
+
+def _initialize_optimizer(optimizer, behavior):
+    if isinstance(optimizer, dict):
+        try:
+            # Try to generate the constructor parameter 'initial_params'
+            has_initial_params = ("initial_params" in optimizer
+                                  and optimizer["initial_params"] is not None)
+            if not has_initial_params:
+                optimizer["initial_params"] = behavior.get_params()
+            optimizer = from_dict(optimizer)
+        except TypeError:
+            # We did not specify that an optimizer must take the argument
+            # 'initial_params', hence we cannot assume that it exists.
+            del optimizer["initial_params"]
+            optimizer = from_dict(optimizer)
+
+    if not isinstance(optimizer, ContextualOptimizer):
+        raise TypeError("Optimizer '%r' must be a subclass of "
+                        "'ContextualOptimizer'" % optimizer)
+
+    return optimizer
+
+
 class BlackBoxSearchMixin(object):
-    def _init_helper(self, n_inputs, n_outputs):
-        # Initialize behavior
-        if isinstance(self.behavior, dict):
-            self.behavior = from_dict(self.behavior)
-        if not isinstance(self.behavior, BlackBoxBehavior):
-            raise TypeError("Behavior '%r' must be of type 'BlackBoxBehavior'"
-                            % self.behavior)
-        self.behavior.init(n_inputs, n_outputs)
-        self.n_params = self.behavior.get_n_params()
-
-        # Initialize optimizer
-        if isinstance(self.optimizer, dict):
-            try:
-                # Try to generate the constructor parameter 'initial_params'
-                if (not "initial_params" in self.optimizer or
-                        self.optimizer["initial_params"] is None):
-                    self.optimizer["initial_params"] = \
-                        self.behavior.get_params()
-                self.optimizer = from_dict(self.optimizer)
-            except TypeError:
-                # We did not specify that an optimizer must take the argument
-                # 'initial_params', hence we cannot assume that it exists.
-                del self.optimizer["initial_params"]
-                self.optimizer = from_dict(self.optimizer)
-        if not isinstance(self.optimizer, ContextualOptimizer):
-            raise TypeError("Optimizer '%r' must be of type 'Optimizer'"
-                            % self.optimizer)
-        self._init_optimizer()
-
-        # Set parameters
-        if len(self.metaparameter_keys) != len(self.metaparameter_values):
-            raise ValueError("Metaparameter keys and values must have the "
-                             "same length. There are %s keys and %s "
-                             "parameters." % (len(self.metaparameter_keys),
-                                              len(self.metaparameter_values)))
-        self.behavior.set_meta_parameters(self.metaparameter_keys,
-                                          self.metaparameter_values)
-        self.params = np.zeros(self.n_params)
-
     def get_next_behavior(self):
         self.optimizer.get_next_parameters(self.params)
         self.behavior.set_params(self.params)
@@ -99,13 +94,17 @@ class BlackBoxSearch(BlackBoxSearchMixin, PickableMixin, BehaviorSearch):
         self.metaparameter_values = metaparameter_values
 
     def init(self, n_inputs, n_outputs, _=0):
-        super(BlackBoxSearch, self)._init_helper(n_inputs, n_outputs)
+        self.behavior = _initialize_behavior(self.behavior, n_inputs, n_outputs)
+        self.n_params = self.behavior.get_n_params()
 
-    def _init_optimizer(self):
+        self.optimizer = _initialize_optimizer(self.optimizer, self.behavior)
         if not isinstance(self.optimizer, Optimizer):
-            raise TypeError(
-                "BlackBoxSearch cannot be used with contextual optimizer.")
+            raise TypeError("BlackBoxSearch expects instance of Optimizer.")
         self.optimizer.init(self.n_params)
+
+        self.behavior.set_meta_parameters(self.metaparameter_keys,
+                                          self.metaparameter_values)
+        self.params = np.zeros(self.n_params)
 
 
 class JustOptimizer(BlackBoxSearch):
@@ -162,13 +161,19 @@ class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin,
 
     def init(self, n_inputs, n_outputs, context_dims):
         self.context_dims = context_dims
-        super(ContextualBlackBoxSearch, self)._init_helper(n_inputs, n_outputs)
 
-    def _init_optimizer(self):
+        self.behavior = _initialize_behavior(self.behavior, n_inputs, n_outputs)
+        self.n_params = self.behavior.get_n_params()
+
+        self.optimizer = _initialize_optimizer(self.optimizer, self.behavior)
         if isinstance(self.optimizer, Optimizer):
-            raise TypeError("ContextualBlackBoxSearch cannot be used with "
-                            "non-contextual optimizer '%r'." % self.optimizer)
+            raise TypeError("ContextualBlackBoxSearch expects instance of "
+                            "ContextualOptimizer")
         self.optimizer.init(self.n_params, self.context_dims)
+
+        self.behavior.set_meta_parameters(self.metaparameter_keys,
+                                          self.metaparameter_values)
+        self.params = np.zeros(self.n_params)
 
     def get_desired_context(self):
         """Chooses desired context for next evaluation.
@@ -183,8 +188,16 @@ class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin,
         return self.optimizer.get_desired_context()
 
     def set_context(self, context):
-        """Set context of next evaluation"""
-        super(ContextualBlackBoxSearch, self).set_context(context)
+        """Set context of next evaluation.
+
+        Note that the set context need not necessarily be the same that was
+        requested by get_desired_context().
+
+        Parameters
+        ----------
+        context : array-like, shape (n_context_dims,)
+            The context in which the next rollout will be performed
+        """
         self.optimizer.set_context(context)
 
 

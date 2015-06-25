@@ -5,9 +5,18 @@ from bolero.representation import ConstantBehavior
 from bolero.optimizer import NoOptimizer
 from bolero.utils.testing import assert_pickle
 from nose.tools import assert_false, assert_true
+from numpy.testing import assert_array_equal
 
 
-def test_black_box_search():
+def test_black_box_search_from_dicts():
+    beh = {"type": "bolero.representation.ConstantBehavior"}
+    opt = {"type": "bolero.optimizer.NoOptimizer"}
+    bs = BlackBoxSearch(beh, opt)
+    bs.init(5, 5)
+    assert_array_equal(bs.behavior.get_params(), bs.optimizer.initial_params)
+
+
+def test_black_box_search_protocol():
     n_inputs, n_outputs = 5, 5
 
     bs = BlackBoxSearch(ConstantBehavior(), NoOptimizer())
@@ -22,6 +31,11 @@ def test_black_box_search():
     beh.get_outputs(outputs)
 
     bs.set_evaluation_feedback(np.array([0.0]))
+
+
+def test_save_black_box_search():
+    bs = BlackBoxSearch(ConstantBehavior(), NoOptimizer())
+    bs.init(5, 5)
 
     assert_pickle("BlackBoxSearch", bs)
 
