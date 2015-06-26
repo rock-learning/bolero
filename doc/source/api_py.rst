@@ -28,6 +28,7 @@ Environment search classes
    environment.ContextualEnvironment
    environment.SetContext
    environment.ObjectiveFunction
+   environment.ContextualObjectiveFunction
 
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================
@@ -74,6 +75,7 @@ Optimizer classes
    optimizer.BIPOPCMAESOptimizer
    optimizer.NoOptimizer
    optimizer.RandomOptimizer
+   optimizer.CREPSOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================

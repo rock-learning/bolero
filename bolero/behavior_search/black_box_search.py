@@ -5,7 +5,8 @@ import numpy as np
 from .behavior_search import BehaviorSearch, ContextualBehaviorSearch
 from .behavior_search import PickableMixin
 from ..optimizer import Optimizer, ContextualOptimizer
-from ..representation import BlackBoxBehavior, DummyBehavior
+from ..representation import (BlackBoxBehavior, DummyBehavior,
+                              HierarchicalBehaviorTemplate)
 from ..utils.module_loader import from_dict
 
 
@@ -200,6 +201,12 @@ class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin,
         """
         self.optimizer.set_context(context)
 
+    def get_best_behavior_template(self):
+        """Return current best estimate of contextual policy."""
+        upper_level_policy = self.optimizer.best_policy()
+        return HierarchicalBehaviorTemplate(upper_level_policy, self.behavior,
+                                            explore=False)
+
 
 class JustContextualOptimizer(ContextualBlackBoxSearch):
     """Wrap only the contextual optimizer.
@@ -216,9 +223,9 @@ class JustContextualOptimizer(ContextualBlackBoxSearch):
     n_params : int, optional (default: len(optimizer.initial_params))
         Number of parameters to optimize
     """
-    def __init__(self, optimizer, n_params=-1):
-        behavior = DummyBehavior(num_outputs=n_params)
+    def __init__(self, optimizer):
+        kwargs = {}
+        if hasattr(optimizer, "initial_params"):
+            kwargs["initial_params"] = optimizer.initial_params
+        behavior = DummyBehavior(**kwargs)
         super(JustContextualOptimizer, self).__init__(behavior, optimizer)
-        if n_params < 1:
-            n_params = len(self.optimizer.initial_params)
-            behavior.num_outputs = n_params

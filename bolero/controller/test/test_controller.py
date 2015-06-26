@@ -9,9 +9,19 @@ from bolero.utils.testing import assert_raise_message
 from numpy.testing import assert_array_equal
 
 
+class NoEnvironment(object):
+    pass
+
+
 def test_missing_environment():
     assert_raise_message(ValueError, "Environment specification is missing",
                          Controller)
+
+
+def test_contextual_environment():
+    assert_raise_message(
+        TypeError, "requires subclass of 'Environment'",
+        Controller, environment=NoEnvironment())
 
 
 def test_missing_behavior_search():

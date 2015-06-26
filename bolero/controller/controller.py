@@ -4,7 +4,7 @@
 import numpy as np
 import warnings
 from ..utils import from_dict
-from ..environment import Environment
+from ..environment import Environment, ContextualEnvironment
 from ..behavior_search import BehaviorSearch
 
 
@@ -62,9 +62,9 @@ class Controller(object):
         else:
             self.behavior_search = None
 
-        self._init_environment(environment)
-        self._init_behavior_search(behavior_search)
         self._check()
+        self._init_environment(environment)
+        self._init_behavior_search()
 
         self.inputs = np.zeros(self.n_inputs)
         self.outputs = np.zeros(self.n_outputs)
@@ -105,7 +105,7 @@ class Controller(object):
         self.n_inputs = self.environment.get_num_inputs()
         self.n_outputs = self.environment.get_num_outputs()
 
-    def _init_behavior_search(self, behavior_search):
+    def _init_behavior_search(self):
         if self.behavior_search is not None:
             # Outputs of the environment are inputs for the behavior search
             # and vice versa
@@ -114,12 +114,10 @@ class Controller(object):
     def _check(self):
         """Check environment and behavior search."""
         if not isinstance(self.environment, Environment):
-            raise TypeError("Controller can not deal with contextual "
-                            "environment!")
+            raise TypeError("Controller requires subclass of 'Environment'")
         if (self.behavior_search is not None and
                 not isinstance(self.behavior_search, BehaviorSearch)):
-            raise TypeError("Controller cannot deal with contextual "
-                            "behavior search!")
+            raise TypeError("Controller requires subclass of 'BehaviorSearch'")
 
     def learn(self, meta_parameter_keys=[], meta_parameters=[]):
         """Learn the behavior.
@@ -264,14 +262,16 @@ class ContextualController(Controller):
         if self.verbose >= 1:
             print("             - %d context dimensions" % self.n_context_dims)
 
-    def _init_behavior_search(self, behavior_search):
+    def _init_behavior_search(self):
         if self.behavior_search is not None:
             self.n_context_dims = self.environment.get_num_context_dims()
-            self.behavior_search.init(self.n_inputs, self.n_outputs,
+            # Outputs of the environment are inputs for the behavior search
+            # and vice versa
+            self.behavior_search.init(self.n_outputs, self.n_inputs,
                                       self.n_context_dims)
 
     def _check(self):
-        if isinstance(self.environment, Environment):
+        if not isinstance(self.environment, ContextualEnvironment):
             raise TypeError("ContextualController requires contextual "
                             "environment!")
         if (self.behavior_search is not None and
@@ -291,6 +291,11 @@ class ContextualController(Controller):
         return context
 
     def episode(self, meta_parameter_keys=[], meta_parameters=[]):
+        if self.behavior_search is None:
+            raise ValueError("A ContextualBehaviorSearch is required to "
+                             "execute an episode without specifying a "
+                             "behavior.")
+
         context = self._negotiate_context()
 
         accumulated_feedback = super(ContextualController, self).episode(
