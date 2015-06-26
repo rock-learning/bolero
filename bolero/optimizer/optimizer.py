@@ -53,6 +53,7 @@ class ContextualOptimizer(object):
             Is the learning of a behavior finished?
         """
 
+    @abstractmethod
     def get_desired_context(self):
         """Chooses desired context for next evaluation.
 
@@ -62,10 +63,10 @@ class ContextualOptimizer(object):
             The context in which the next rollout shall be performed. If None,
             the environment may select the next context without any preferences.
         """
-        return None
 
+    @abstractmethod
     def set_context(self, context):
-        """ Set context of next evaluation.
+        """Set context of next evaluation.
 
         Note that the set context need not necessarily be the same that was
         requested by get_desired_context().
@@ -75,15 +76,14 @@ class ContextualOptimizer(object):
         context : ndarray-like
             The context in which the next rollout will be performed
         """
-        self.context = context
 
     @abstractmethod
     def best_policy(self):
-        """ Return current best estimate of contextual policy. """
+        """Return current best estimate of contextual policy. """
 
 
-class Optimizer(ContextualOptimizer):
-    """Common interface for (non-contextual) optimizers. """
+class Optimizer(object):
+    """Common interface for (non-contextual) optimizers."""
 
     @abstractmethod
     def init(self, n_params):
@@ -95,24 +95,42 @@ class Optimizer(ContextualOptimizer):
             dimension of the parameter vector
         """
 
-    def get_desired_context(self):
-        """ Method not supported by Optimizer. """
-        raise NonContextualException("get_desired_context() not supported.")
+    @abstractmethod
+    def get_next_parameters(self, p):
+        """Get next individual/parameter vector for evaluation.
 
-    def set_context(self, context):
-        """ Method not supported by Optimizer. """
-        raise NonContextualException("set_context() not supported.")
+        Parameters
+        ----------
+        p : array_like, shape (num_p,)
+            parameter vector, will be modified
+        """
+
+    @abstractmethod
+    def set_evaluation_feedback(self, rewards):
+        """Set feedbacks for the parameter vector.
+
+        Parameters
+        ----------
+        rewards : list of float
+            feedbacks for each step or for the episode, depends on the problem
+        """
+
+    @abstractmethod
+    def is_behavior_learning_done(self):
+        """Check if the optimization is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
 
     @abstractmethod
     def get_best_parameters(self):
-        """ Method not supported by ContextualOptimizer.
+        """Method not supported by ContextualOptimizer.
 
         For contextual optimizers, this method cannot meaningfully implemented
         since the best parameters depend on the context. Instead, a method
         best_policy() needs to be implemented which returns the best policy,
         where a policy implements a mapping from context onto parameters.
         """
-
-    def best_policy(self):
-        """ Return current best estimate of non-contextual policy. """
-        return lambda *args: self.get_best_parameters()

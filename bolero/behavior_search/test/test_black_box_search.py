@@ -4,8 +4,17 @@ from bolero.behavior_search import BlackBoxSearch
 from bolero.representation import ConstantBehavior
 from bolero.optimizer import NoOptimizer
 from bolero.utils.testing import assert_pickle
-from nose.tools import assert_false, assert_true
+from nose.tools import assert_false, assert_true, assert_raises_regexp
 from numpy.testing import assert_array_equal
+
+
+def test_black_box_search_requires_optimizer():
+    class NoOptimizerSubclass(object):
+        pass
+
+    bs = BlackBoxSearch(ConstantBehavior(), NoOptimizerSubclass())
+    assert_raises_regexp(TypeError, "expects instance of Optimizer",
+                         bs.init, 5, 5)
 
 
 def test_black_box_search_from_dicts():

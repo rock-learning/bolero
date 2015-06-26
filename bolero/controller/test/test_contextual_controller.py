@@ -1,27 +1,27 @@
 import numpy as np
-from nose.tools import assert_equal, assert_less, assert_greater, assert_true
+from nose.tools import (assert_equal, assert_less, assert_greater, assert_true,
+                        assert_raises_regexp)
 from bolero.controller import ContextualController
 from bolero.environment import ObjectiveFunction, ContextualObjectiveFunction
 from bolero.behavior_search import JustOptimizer, JustContextualOptimizer
 from bolero.representation import DummyBehavior
 from bolero.optimizer import CMAESOptimizer, CREPSOptimizer
-from bolero.utils.testing import assert_raise_message
 from numpy.testing import assert_array_equal
 
 
 def test_missing_environment():
-    assert_raise_message(ValueError, "Environment specification is missing",
+    assert_raises_regexp(ValueError, "Environment specification is missing",
                          ContextualController)
 
 
 def test_noncontextual_environment():
-    assert_raise_message(TypeError, "requires contextual environment",
+    assert_raises_regexp(TypeError, "requires contextual environment",
                          ContextualController, environment=ObjectiveFunction())
 
 
 def test_noncontextual_behavior_search():
     opt = CMAESOptimizer(initial_params=np.zeros(1))
-    assert_raise_message(
+    assert_raises_regexp(
         TypeError, "requires contextual behavior search", ContextualController,
         environment=ContextualObjectiveFunction(),
         behavior_search=JustOptimizer(opt))
@@ -39,7 +39,7 @@ def test_missing_behavior_search():
 
 def test_learning_fails_with_missing_behavior_search():
     controller = ContextualController(environment=ContextualObjectiveFunction())
-    assert_raise_message(ValueError, "BehaviorSearch is required",
+    assert_raises_regexp(ValueError, "BehaviorSearch is required",
                          controller.learn)
 
 

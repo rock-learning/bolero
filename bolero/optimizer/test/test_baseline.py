@@ -1,7 +1,6 @@
 import numpy as np
 from bolero.optimizer import NoOptimizer, RandomOptimizer
-from bolero.utils.testing import assert_raise_message
-from nose.tools import assert_false
+from nose.tools import assert_false, assert_raises_regexp
 from numpy.testing import assert_array_equal
 
 
@@ -9,7 +8,7 @@ def test_no_optimizer():
     initial_params = np.zeros(3)
     opt = NoOptimizer(initial_params)
 
-    assert_raise_message(ValueError, "Number of dimensions", opt.init, 2)
+    assert_raises_regexp(ValueError, "Number of dimensions", opt.init, 2)
 
     opt.init(3)
     params1 = np.empty(3)
@@ -25,7 +24,7 @@ def test_random_optimizer():
     initial_params = np.zeros(3)
     opt = RandomOptimizer(initial_params)
 
-    assert_raise_message(ValueError, "Number of dimensions", opt.init, 2)
+    assert_raises_regexp(ValueError, "Number of dimensions", opt.init, 2)
 
     opt.init(3)
     params1 = np.empty(3)

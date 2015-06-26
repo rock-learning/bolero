@@ -37,10 +37,6 @@ def _initialize_optimizer(optimizer, behavior):
             del optimizer["initial_params"]
             optimizer = from_dict(optimizer)
 
-    if not isinstance(optimizer, ContextualOptimizer):
-        raise TypeError("Optimizer '%r' must be a subclass of "
-                        "'ContextualOptimizer'" % optimizer)
-
     return optimizer
 
 
@@ -167,7 +163,7 @@ class ContextualBlackBoxSearch(BlackBoxSearchMixin, PickableMixin,
         self.n_params = self.behavior.get_n_params()
 
         self.optimizer = _initialize_optimizer(self.optimizer, self.behavior)
-        if isinstance(self.optimizer, Optimizer):
+        if not isinstance(self.optimizer, ContextualOptimizer):
             raise TypeError("ContextualBlackBoxSearch expects instance of "
                             "ContextualOptimizer")
         self.optimizer.init(self.n_params, self.context_dims)

@@ -1,8 +1,7 @@
 import os
 from bolero.utils import from_dict, from_yaml
 from bolero.optimizer import CMAESOptimizer
-from nose.tools import assert_true, assert_equal
-from bolero.utils.testing import assert_raise_message
+from nose.tools import assert_true, assert_equal, assert_raises_regexp
 
 
 CURRENT_PATH = os.sep.join(__file__.split(os.sep)[:-1])
@@ -49,7 +48,7 @@ def test_load_with_wrong_params():
         "type": "bolero.optimizer.CMAESOptimizer",
         "varince": 10.0
     }
-    assert_raise_message(TypeError, "unexpected keyword", from_dict, config)
+    assert_raises_regexp(TypeError, "unexpected keyword", from_dict, config)
 
 
 def test_load_dict():
@@ -78,12 +77,12 @@ def test_load_tuple():
 
 def test_missing_package():
     config = {"type": "CMAESOptimizer"}
-    assert_raise_message(ValueError, "Empty module name", from_dict, config)
+    assert_raises_regexp(ValueError, "Empty module name", from_dict, config)
 
 
 def test_load_class_does_not_exist():
     config = {"type": "bolero.optimizer.DoesNotExist"}
-    assert_raise_message(ValueError, "does not exist in", from_dict, config)
+    assert_raises_regexp(ValueError, "does not exist in", from_dict, config)
 
 
 def test_load_from_yaml():
@@ -97,4 +96,4 @@ def test_load_from_yaml_with_conf_path():
 
 
 def test_load_from_missing_yaml():
-    assert_raise_message(ValueError, "does not exist", from_yaml, "dummy.yaml")
+    assert_raises_regexp(ValueError, "does not exist", from_yaml, "dummy.yaml")

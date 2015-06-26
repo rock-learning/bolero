@@ -1,24 +1,30 @@
-"""Environment interface."""
-from abc import ABCMeta, abstractmethod
-from ..utils import NonContextualException
+from .environment import Environment
 
 
-class Environment(object):
-    """Common interface for environments.
+class SetContext(Environment):
+    """A contextual environment with a fixed context.
 
-    An environment can execute actions, measure states and compute rewards.
+    Parameters
+    ----------
+    contextual_environment : ContextualEnvironment
+        Environment that we want to wrap
+
+    context : array-like, shape (n_context_dims,)
+        Specific context
     """
-    __metaclass__ = ABCMeta
+    def __init__(self, contextual_environment, context):
+        self.contextual_environment = contextual_environment
+        self.context = context
 
-    @abstractmethod
     def init(self):
         """Initialize environment."""
+        self.contextual_environment.init()
+        self.contextual_environment.request_context(self.context)
 
-    @abstractmethod
     def reset(self):
         """Reset state of the environment."""
+        self.contextual_environment.reset()
 
-    @abstractmethod
     def get_num_inputs(self):
         """Get number of environment inputs.
 
@@ -27,8 +33,8 @@ class Environment(object):
         n : int
             number of environment inputs
         """
+        return self.contextual_environment.get_num_inputs()
 
-    @abstractmethod
     def get_num_outputs(self):
         """Get number of environment outputs.
 
@@ -37,8 +43,8 @@ class Environment(object):
         n : int
             number of environment outputs
         """
+        return self.contextual_environment.get_num_outputs()
 
-    @abstractmethod
     def get_outputs(self, values):
         """Get environment outputs, e.g. state of the environment.
 
@@ -47,8 +53,8 @@ class Environment(object):
         values : array
             outputs for the environment, will be modified
         """
+        self.contextual_environment.get_outputs(values)
 
-    @abstractmethod
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
 
@@ -57,12 +63,12 @@ class Environment(object):
         values : array,
             input of the environment
         """
+        self.contextual_environment.set_inputs(values)
 
-    @abstractmethod
     def step_action(self):
         """Take a step in the environment."""
+        self.contextual_environment.step_action()
 
-    @abstractmethod
     def is_evaluation_done(self):
         """Check if the evaluation of the behavior is finished.
 
@@ -71,8 +77,8 @@ class Environment(object):
         finished : bool
             Is the evaluation finished?
         """
+        return self.contextual_environment.is_evaluation_done()
 
-    @abstractmethod
     def get_feedback(self):
         """Get the feedbacks for the last evaluation period.
 
@@ -81,8 +87,8 @@ class Environment(object):
         feedbacks : array
             Feedback values
         """
+        return self.contextual_environment.get_feedback()
 
-    @abstractmethod
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.
 
@@ -91,38 +97,8 @@ class Environment(object):
         finished : bool
             Is the learning of a behavior finished?
         """
+        return self.contextual_environment.is_behavior_learning_done()
 
-    @abstractmethod
     def get_maximum_feedback(self):
-        """Returns the maximum sum of feedbacks obtainable."""
-
-
-class ContextualEnvironment(Environment):
-    """Common interface for (contextual) environments."""
-
-    @abstractmethod
-    def request_context(self, context):
-        """Request that a specific context is used.
-
-        Parameters
-        ----------
-        context : array-like, shape (n_context_dims,)
-            The requested context that shall be used in the next rollout.
-            Defaults to None. In that case, the environment selects the next
-            context
-
-        Returns
-        -------
-        context : array-like, shape (n_context_dims,)
-            The actual context used in the next rollout. This may or
-            may not be the requested context, depending on the respective
-            environment.
-        """
-
-    @abstractmethod
-    def get_num_context_dims(self):
-        """Returns the number of context dimensions."""
-
-    @abstractmethod
-    def get_maximum_feedback(self, context):
-        """Returns the maximum sum of feedbacks obtainable in given context."""
+        """Returns the maximum feedback obtainable."""
+        return self.contextual_environment.get_maximum_feedback(self.context)

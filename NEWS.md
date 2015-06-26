@@ -11,3 +11,4 @@ the University of Bremen, we changed the following details:
 * Python and C++ interface: `Behavior` constructor does not take any arguments,
   instead the function `Behavior.init(int, int)` has been introduced to
   determine the number of inputs and outputs and initialize the behavior
+* Python interface: Optimizer and ContextualOptimizer are independent

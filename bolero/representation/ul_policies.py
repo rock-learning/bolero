@@ -63,7 +63,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
     upper_level_policy : UpperLevelPolicy
         Upper level policy
 
-    scaling : Scaling, optional (default: None)
+    scaling : Scaling
         Parameter scaling for the output of the upper-level policy, can be
         "auto". In this case we will use a scaling with a covariance based
         on the range of the boundaries. The standard deviation will be half
@@ -73,15 +73,12 @@ class BoundedScalingPolicy(UpperLevelPolicy):
     bounds : array-like, shape (n_samples, 2), optional (default: None)
         Upper and lower boundaries for each parameter
     """
-    def __init__(self, upper_level_policy, scaling=None, bounds=None):
+    def __init__(self, upper_level_policy, scaling, bounds=None):
         self.upper_level_policy = upper_level_policy
 
-        if scaling is None:
-            scaling = Scaling(variance=1.0, compute_inverse=True)
-        elif scaling == "auto":
+        if scaling == "auto":
             if bounds is None:
-                warnings.warn("Ignoring scaling='auto' because no boundaries "
-                              "are specified.")
+                raise ValueError("scaling='auto' requires boundaries")
             else:
                 covariance_diag = (bounds[:, 1] - bounds[:, 0]) ** 2 / 4.0
                 scaling = Scaling(covariance=covariance_diag,
@@ -156,24 +153,6 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             reward)
         """
         self.upper_level_policy.fit(X, Y, weights, context_transform)
-
-    def probabilities(self, X, Y):
-        """Probability of parameter vectors Y in contexts X
-
-        Parameters
-        ----------
-        X: array-like, shape (num_samples, n_context_dims)
-            Context vectors
-
-        Y: array-like, shape (num_samples, weight_dims)
-            2d array of parameter vectors
-
-        Returns
-        ----------
-        resp: array-like, (num_samples)
-            the probabilities of the samples under this policy
-        """
-        return self.upper_level_policy(X, Y)
 
 
 class ContextTransformationPolicy(UpperLevelPolicy):
@@ -277,28 +256,6 @@ class ContextTransformationPolicy(UpperLevelPolicy):
             # Perform context transformation
             X = np.array([self.ct(X[i]) for i in range(X.shape[0])])
         self.policy.fit(X, Y, weights)
-
-    def probabilities(self, X, Y, context_transform=True):
-        """Probability of parameter vectors Y in contexts X
-
-        Parameters
-        ----------
-        X: array-like, shape (num_samples, n_context_dims)
-            Context vectors
-
-        Y: array-like, shape (num_samples, weight_dims)
-            2d array of parameter vectors
-
-        Returns
-        ----------
-        resp: array-like, (num_samples)
-            the probabilities of the samples under this policy
-
-        """
-        if context_transform:
-            # Perform context transformation
-            X = np.array([self.ct(X[i]) for i in range(X.shape[0])])
-        return self.policy.probabilities(X, Y)
 
 
 class LinearGaussianPolicy(UpperLevelPolicy):
@@ -412,27 +369,3 @@ class LinearGaussianPolicy(UpperLevelPolicy):
         D = np.diag(weights)
         self.W = np.linalg.pinv(X.T.dot(D).dot(X) + np.eye(X.shape[1]) *
                                 self.gamma).dot(X.T).dot(D).dot(Y).T
-
-    def probabilities(self, X, Y):
-        """Probability of parameter vectors Y in contexts X
-
-        Parameters
-        ----------
-        X: array-like, shape (num_samples, n_context_dims)
-            Context vectors
-
-        Y: array-like, shape (num_samples, weight_dims)
-            2d array of parameter vectors
-
-        Returns
-        ----------
-        resp: array-like, (num_samples)
-            the probabilities of the samples under this policy
-        """
-        # TODO: Check SciPy version (>= 0.14 for multivariate_normal)
-        from scipy.stats import multivariate_normal
-        # TODO: Can we vectorize this?
-        probs = [multivariate_normal(mean=self.W.dot(X[i]),
-                                     cov=self.Sigma).pdf(Y[i])
-                 for i in range(X.shape[0])]
-        return np.array(probs)

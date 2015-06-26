@@ -1,6 +1,5 @@
 from bolero.utils.dependency import compatible_version
-from nose.tools import assert_true
-from bolero.utils.testing import assert_raise_message
+from nose.tools import assert_true, assert_raises_regexp
 
 
 def test_compatible_version():
@@ -9,7 +8,7 @@ def test_compatible_version():
     assert_true(compatible_version("sklearn", "> 0.0.0"))
     assert_true(compatible_version("0.15-git", "> 0.0.0"))
     assert_true(compatible_version("0.16.dev", "> 0.0.0"))
-    assert_raise_message(ValueError, "Unknown comparison operator",
+    assert_raises_regexp(ValueError, "Unknown comparison operator",
                          compatible_version, "0.0", "+ 1.0")
-    assert_raise_message(ValueError, "Wrong operation syntax",
+    assert_raises_regexp(ValueError, "Wrong operation syntax",
                          compatible_version, "0.16.dev", ">0.0.0")

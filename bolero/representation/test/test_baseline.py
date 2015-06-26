@@ -1,15 +1,14 @@
 import numpy as np
 from bolero.representation import (ConstantBehavior, DummyBehavior,
                                    RandomBehavior)
-from bolero.utils.testing import assert_raise_message
-from nose.tools import assert_equal, assert_true
+from nose.tools import assert_equal, assert_true, assert_raises_regexp
 from numpy.testing import assert_array_equal
 
 
 def test_dummy_behavior():
     beh = DummyBehavior()
     beh.init(0, 2)
-    assert_raise_message(ValueError, "parameters have not been set",
+    assert_raises_regexp(ValueError, "parameters have not been set",
                          beh.get_params)
 
     params = np.array([1.4, 2.3])
@@ -27,7 +26,7 @@ def test_dummy_behavior():
     assert_equal(beh.get_n_params(), 2)
     assert_array_equal(beh.get_params(), params)
 
-    assert_raise_message(
+    assert_raises_regexp(
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
@@ -51,12 +50,12 @@ def test_constant_behavior():
     beh.get_outputs(outputs)
     assert_array_equal(outputs, np.zeros(2))
 
-    assert_raise_message(
+    assert_raises_regexp(
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
 
-    assert_raise_message(
+    assert_raises_regexp(
         ValueError, "Length of parameter vector must be 0",
         beh.set_params, np.zeros(2))
     beh.set_params(np.array([]))
@@ -74,12 +73,12 @@ def test_random_behavior():
     beh.get_outputs(outputs)
     assert_true(np.isfinite(outputs).all())
 
-    assert_raise_message(
+    assert_raises_regexp(
         NotImplementedError, "does not accept any meta parameters",
         beh.set_meta_parameters, ["key"], [0.0])
     beh.reset()
 
-    assert_raise_message(
+    assert_raises_regexp(
         ValueError, "Length of parameter vector must be 0",
         beh.set_params, np.zeros(2))
     beh.set_params(np.array([]))

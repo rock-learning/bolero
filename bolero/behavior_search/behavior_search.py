@@ -108,7 +108,8 @@ class ContextualBehaviorSearch(object):
 class BehaviorSearch(ContextualBehaviorSearch):
     """BehaviorSearch (learning algorithm) interface."""
 
-    def init(self, n_inputs, n_outputs, n_context_dims=0):
+    @abstractmethod
+    def init(self, n_inputs, n_outputs):
         """Initialize the behavior search.
 
         Parameters
@@ -118,15 +119,7 @@ class BehaviorSearch(ContextualBehaviorSearch):
 
         n_outputs : int
             number of outputs of the behavior
-
-        n_context_dims : int
-            number of context dimensions. Restricted to 0 for non-contextual
-            behavior search.
         """
-        if n_context_dims > 0:
-            raise ValueError("BehaviorSearch does not support contextual "
-                             "problems.")
-        super(BehaviorSearch, self).init(n_inputs, n_outputs, n_context_dims)
 
     def get_desired_context(self):
         """Method not supported by BehaviorSearch."""

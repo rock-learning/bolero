@@ -1,8 +1,7 @@
 import numpy as np
-from nose.tools import assert_less, assert_equal
+from nose.tools import assert_less, assert_equal, assert_raises_regexp
 from sklearn.utils.testing import assert_warns
 from numpy.testing import assert_array_almost_equal
-from bolero.utils.testing import assert_raise_message
 from bolero.optimizer import CMAESOptimizer, fmin
 
 
@@ -13,6 +12,11 @@ def test_cmaes_no_initial_params():
     opt.get_next_parameters(params)
 
 
+def test_cmaes_dimensions_mismatch():
+    opt = CMAESOptimizer(initial_params=np.zeros(5))
+    assert_raises_regexp(ValueError, "Number of dimensions", opt.init, 10)
+
+
 def test_cmaes_diagonal_cov():
     opt = CMAESOptimizer(covariance=np.zeros(10))
     opt.init(10)
@@ -21,7 +25,7 @@ def test_cmaes_diagonal_cov():
 
 
 def test_unknown_cmaes():
-    assert_raise_message(
+    assert_raises_regexp(
         ValueError, "Unknown cma_type", fmin, lambda x: np.linalg.norm(x),
         cma_type="unknown")
 

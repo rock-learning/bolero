@@ -1,7 +1,6 @@
 import numpy as np
 from bolero.environment.objective_functions import FUNCTIONS, ObjectiveFunction
-from bolero.utils.testing import assert_raise_message
-from nose.tools import assert_less, assert_almost_equal
+from nose.tools import assert_less, assert_almost_equal, assert_raises_regexp
 
 
 def test_optimum():
@@ -20,6 +19,6 @@ def test_optimum():
 
 def test_input_validation():
     env = ObjectiveFunction("Unknown", 2)
-    assert_raise_message(ValueError, "Unknown function", env.init)
+    assert_raises_regexp(ValueError, "Unknown function", env.init)
     env = ObjectiveFunction("Sphere", 0)
-    assert_raise_message(ValueError, "Number of parameters", env.init)
+    assert_raises_regexp(ValueError, "Number of parameters", env.init)

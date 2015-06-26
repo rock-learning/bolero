@@ -1,25 +1,24 @@
 import numpy as np
-from nose.tools import assert_equal, assert_less, assert_greater, assert_true
+from nose.tools import (assert_equal, assert_less, assert_greater, assert_true,
+                        assert_raises_regexp)
 from bolero.controller import Controller
 from bolero.environment import ObjectiveFunction
 from bolero.behavior_search import JustOptimizer
 from bolero.representation import DummyBehavior
 from bolero.optimizer import CMAESOptimizer
-from bolero.utils.testing import assert_raise_message
 from numpy.testing import assert_array_equal
 
 
-class NoEnvironment(object):
-    pass
-
-
 def test_missing_environment():
-    assert_raise_message(ValueError, "Environment specification is missing",
-                         Controller)
+    assert_raises_regexp(ValueError, "Environment specification is missing",
+                        Controller)
 
 
 def test_no_environment_subclass():
-    assert_raise_message(
+    class NoEnvironment(object):
+        pass
+
+    assert_raises_regexp(
         TypeError, "requires subclass of 'Environment'",
         Controller, environment=NoEnvironment())
 
@@ -35,8 +34,8 @@ def test_missing_behavior_search():
 
 def test_learning_fails_with_missing_behavior_search():
     controller = Controller(environment=ObjectiveFunction())
-    assert_raise_message(ValueError, "BehaviorSearch is required",
-                         controller.learn)
+    assert_raises_regexp(ValueError, "BehaviorSearch is required",
+                        controller.learn)
 
 
 def test_controller_cmaes_sphere():
@@ -81,7 +80,7 @@ def test_record_feedbacks():
 
 def test_learn_controller_cmaes_sphere():
     opt = CMAESOptimizer(initial_params=np.zeros(2), random_state=0)
-    ctrl = Controller(environment=ObjectiveFunction(),
+    ctrl = Controller(environment=ObjectiveFunction(random_state=0),
                       behavior_search=JustOptimizer(opt),
                       n_episodes=200)
     returns = ctrl.learn()
