@@ -23,7 +23,8 @@ def test_noncontextual_behavior_search():
     opt = CMAESOptimizer(initial_params=np.zeros(1))
     assert_raise_message(
         TypeError, "requires contextual behavior search", ContextualController,
-        environment=ContextualObjectiveFunction(), behavior_search=JustOptimizer(opt))
+        environment=ContextualObjectiveFunction(),
+        behavior_search=JustOptimizer(opt))
 
 
 def test_missing_behavior_search():
@@ -93,3 +94,19 @@ def test_learn_controller_cmaes_sphere():
     ctrl.learn()
     for d in ctrl.test_results_[-1]:
         assert_greater(d, -1e-5)
+
+
+def test_record_contexts():
+    contexts = np.linspace(-5, 5, 11)[:, np.newaxis]
+
+    class CREPSFixedContextOrder(CREPSOptimizer):
+        def get_desired_context(self):
+            return contexts[self.it]
+
+    opt = CREPSFixedContextOrder()
+    ctrl = ContextualController(
+        environment=ContextualObjectiveFunction(),
+        behavior_search=JustContextualOptimizer(opt),
+        n_episodes=11, record_contexts=True)
+    ctrl.learn()
+    assert_array_equal(contexts, ctrl.contexts_)

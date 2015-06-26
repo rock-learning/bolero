@@ -18,7 +18,7 @@ def test_missing_environment():
                          Controller)
 
 
-def test_contextual_environment():
+def test_no_environment_subclass():
     assert_raise_message(
         TypeError, "requires subclass of 'Environment'",
         Controller, environment=NoEnvironment())
