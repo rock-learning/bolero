@@ -65,6 +65,7 @@ class ContextualBehaviorSearch(object):
             path in which we search for the file
         """
 
+    @abstractmethod
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished, e.g. it converged.
 
@@ -73,19 +74,18 @@ class ContextualBehaviorSearch(object):
         finished : bool
             Is the learning of a behavior finished?
         """
-        return False
 
+    @abstractmethod
     def get_desired_context(self):
         """Chooses desired context for next evaluation.
 
         Returns
         -------
-        context : ndarray-like, default=None
+        context : array-like, shape (n_context_dims,), optional (default: None)
             The context in which the next rollout shall be performed. If None,
             the environment may select the next context without any
             preferences.
         """
-        return None
 
     @abstractmethod
     def set_context(self, context):
