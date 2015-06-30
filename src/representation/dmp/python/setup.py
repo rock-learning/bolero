@@ -36,7 +36,7 @@ def configuration(parent_package='', top_path=None):
                       build_info.YAML_INCLUDE_DIR,
                       build_info.BOLERO_INCLUDE_DIRS.split(";")],
         libraries=["dmp_cpp", "yaml-cpp"],
-        library_dirs=["src", build_info.YAML_LIBRARY_DIR],
+        library_dirs=[build_info.DMP_LIBRARY_DIR, build_info.YAML_LIBRARY_DIR],
         define_macros=[("NDEBUG",)],
         extra_compile_args=["-O3"],
     )
@@ -52,7 +52,7 @@ def configuration(parent_package='', top_path=None):
                       build_info.YAML_INCLUDE_DIR,
                       build_info.BOLERO_INCLUDE_DIRS.split(";")],
         libraries=["rigid_body_dmp_cpp", "yaml-cpp"],
-        library_dirs=["src", build_info.YAML_LIBRARY_DIR],
+        library_dirs=[build_info.DMP_LIBRARY_DIR, build_info.YAML_LIBRARY_DIR],
         define_macros=[("NDEBUG",)],
         extra_compile_args=["-O3"],
     )

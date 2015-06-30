@@ -80,8 +80,6 @@ set(rigid_body_sources CanonicalSystem.cpp
                        FifthOrderPolynomial.cpp)
 
 
-
-
 add_library(dmp_cpp SHARED ${sources} ${headers})
 target_link_libraries(dmp_cpp ${YAMLCPP_LIBRARY})
 #BUILD_DMP_BEHAVIOR_STANDALONE enables the behavior macros for the DmpBehavior

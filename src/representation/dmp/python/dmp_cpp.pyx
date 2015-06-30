@@ -1,4 +1,5 @@
-"""Dynamical Movement Primitives (Python wrapper for C++ implementation)."""
+# distutils: language=c++
+"""Dynamical Movement Primitives (wrapper for C++ implementation)."""
 
 cimport numpy as np
 import numpy as np

@@ -1,4 +1,5 @@
-"""Rigid Body Dynamical Movement Primitives (Python wrapper for C++ implementation)."""
+# distutils: language=c++
+"""Rigid Body Dynamical Movement Primitives (wrapper for C++ implementation)."""
 
 cimport numpy as np
 import numpy as np
