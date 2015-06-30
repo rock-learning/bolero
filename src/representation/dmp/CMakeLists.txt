@@ -74,6 +74,6 @@ elseif(PYTHON_SUPPORT)
 endif()
 
 enable_testing()
-#add_subdirectory(test_dmp_behavior)
+add_subdirectory(test_dmp_behavior)
 #add_subdirectory(test_dmp_quaternion_behavior)
 #add_subdirectory (test)

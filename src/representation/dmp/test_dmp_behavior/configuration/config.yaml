@@ -1,0 +1,10 @@
+---
+name: ""
+dmp_execution_time: 2
+dmp_startPosition: [0, 0]
+dmp_endPosition: [10, 10]
+dmp_startVelocity: [0, 0]
+dmp_endVelocity: [0, 0]
+dmp_startAcceleration: [0, 0]
+dmp_endAcceleration: [0, 0]
+...
