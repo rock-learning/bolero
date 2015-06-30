@@ -23,7 +23,7 @@ def configuration(parent_package='', top_path=None):
     from Cython.Build import cythonize
     import numpy
 
-    cythonize(cython_path("_dmp_cpp.pyx"), language="c++")
+    cythonize(cython_path("dmp_cpp.pyx"), language="c++")
 
     # CMake outputs multiple include dirs separated by ";"
     # but the setup scripts needs it as list => split it
@@ -34,16 +34,14 @@ def configuration(parent_package='', top_path=None):
                       numpy.get_include(),
                       build_info.EIGEN_INCLUDE_DIR,
                       build_info.YAML_INCLUDE_DIR,
-                      build_info.BOLERO_INCLUDE_DIRS.split(";"),
-                      build_info.BL_LOADER_INCLUDE_DIRS.split(";"),
-                      build_info.LIB_MANAGER_INCLUDE_DIRS.split(";")],
-        libraries=["dmp_cpp", build_info.YAML_LIBRARY],
-        library_dirs=["src"],
+                      build_info.BOLERO_INCLUDE_DIRS.split(";")],
+        libraries=["dmp_cpp", "yaml-cpp"],
+        library_dirs=["src", build_info.YAML_LIBRARY_DIR],
         define_macros=[("NDEBUG",)],
         extra_compile_args=["-O3"],
     )
 
-    cythonize(cython_path("_wrapper.pyx"), language="c++")
+    cythonize(cython_path("rigid_body_dmp_cpp.pyx"), language="c++")
 
     config.add_extension(
         'rigid_body_dmp_cpp',
@@ -52,11 +50,9 @@ def configuration(parent_package='', top_path=None):
                       numpy.get_include(),
                       build_info.EIGEN_INCLUDE_DIR,
                       build_info.YAML_INCLUDE_DIR,
-                      build_info.BOLERO_INCLUDE_DIRS.split(";"),
-                      build_info.BL_LOADER_INCLUDE_DIRS.split(";"),
-                      build_info.LIB_MANAGER_INCLUDE_DIRS.split(";")],
-        libraries=["rigid_body_dmp_cpp", yaml_lib],
-        library_dirs=["${CMAKE_CURRENT_BINARY_DIR}/c++", yaml_lib_dir],
+                      build_info.BOLERO_INCLUDE_DIRS.split(";")],
+        libraries=["rigid_body_dmp_cpp", "yaml-cpp"],
+        library_dirs=["src", build_info.YAML_LIBRARY_DIR],
         define_macros=[("NDEBUG",)],
         extra_compile_args=["-O3"],
     )
