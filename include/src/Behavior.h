@@ -16,6 +16,8 @@
 #include <stdexcept>
 #include <cstdio>
 #include <map>
+#include <string>
+#include <vector>
 
 
 namespace bolero {
