@@ -6,7 +6,6 @@ import os
 import shutil
 import glob
 from distutils.command.clean import clean as Clean
-import bolero
 
 
 if sys.version_info[0] < 3:
