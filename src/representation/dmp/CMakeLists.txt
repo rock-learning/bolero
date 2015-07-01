@@ -44,15 +44,15 @@ include_directories(src)
 
 find_package(Cython REQUIRED)
 configure_file(
-    python/build_info.py.in
-    ${CMAKE_CURRENT_SOURCE_DIR}/python/build_info.py)
+    python/dmp/build_info.py.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/python/dmp/build_info.py)
 
 # Custom python target that runs 'setup.py build' to build all python
 # components.
 option(PYTHON_SUPPORT "Build and install python wrapper" ON)
 find_program(PYTHON "python")
 if (PYTHON_SUPPORT AND PYTHON)
-  set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/python/setup.py")
+  set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/python/dmp/setup.py")
 
   add_custom_target(python_setup ALL)
   add_custom_command(
