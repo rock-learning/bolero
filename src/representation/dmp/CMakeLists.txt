@@ -47,6 +47,11 @@ configure_file(
     python/dmp/build_info.py.in
     ${CMAKE_CURRENT_SOURCE_DIR}/python/dmp/build_info.py)
 
+enable_testing()
+add_subdirectory(test_dmp_behavior)
+add_subdirectory(test_dmp_quaternion_behavior)
+add_subdirectory(test)
+
 # Custom python target that runs 'setup.py build' to build all python
 # components.
 option(PYTHON_SUPPORT "Build and install python wrapper" ON)
@@ -54,7 +59,7 @@ find_program(PYTHON "python")
 if (PYTHON_SUPPORT AND PYTHON)
   set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/python/dmp/setup.py")
 
-  add_custom_target(python_setup ALL)
+  add_custom_target(python_setup ALL DEPENDS dmp_cpp rigid_body_dmp_cpp)
   add_custom_command(
     TARGET python_setup
     PRE_BUILD
@@ -72,8 +77,3 @@ if (PYTHON_SUPPORT AND PYTHON)
 elseif(PYTHON_SUPPORT)
     message(FATAL_ERROR "Python executable not found")
 endif()
-
-enable_testing()
-add_subdirectory(test_dmp_behavior)
-add_subdirectory(test_dmp_quaternion_behavior)
-add_subdirectory(test)
