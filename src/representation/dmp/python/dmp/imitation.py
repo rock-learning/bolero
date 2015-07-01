@@ -54,8 +54,12 @@ def imitate_dmp(dmp, X, Xd=None, Xdd=None, alpha=0.0, set_weights=True):
 
 def _determine_forces(dmp, X, Xd=None, Xdd=None):
     """Reconstruct forces of a DMP to obtain the trajectories X."""
-    return [dmp.determine_forces(X[:, :, i], Xd, Xdd)
-            for i in range(X.shape[2])]
+    F = []
+    for i in range(X.shape[2]):
+        Xdi = None if Xd is None else Xd[:, :, i]
+        Xddi = None if Xdd is None else Xdd[:, :, i]
+        F.append(dmp.determine_forces(X[:, :, i], Xdi, Xddi))
+    return F
 
 
 def _learn_dmp_weights(dmp, F, alpha=0.0):

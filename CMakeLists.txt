@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
 enable_testing()
-add_subdirectory("include")
 
 # Custom python target that runs 'setup.py build' to build all python
 # components.

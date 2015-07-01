@@ -99,6 +99,23 @@ Representation classes
    representation.DummyBehavior
    representation.RandomBehavior
 
+:mod:`bolero.datasets`: Datasets
+================================
+
+.. automodule:: bolero.datasets
+    :no-members:
+    :no-inherited-members:
+
+Dataset functions
+-----------------
+.. currentmodule:: bolero
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: function.rst
+
+   datasets.make_minimum_jerk
+
 :mod:`bolero.utils`: Utilities
 ==============================
 
