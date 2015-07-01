@@ -200,6 +200,10 @@ cdef class DMP:
 
     def set_weights(self, w):
         assert(w.ndim == 1 or w.ndim == 2)
+
+        if w.size == 0:
+            return
+
         cdef int n_task_dims = w.shape[0]
         cdef np.ndarray[double, ndim=2, mode="fortran"] wc
         if w.ndim == 1:
@@ -208,7 +212,7 @@ cdef class DMP:
         elif w.ndim == 2:
             wc = np.asfortranarray(w)
 
-        self.thisptr.setWeights(&wc[0,0], n_task_dims, self.n_features)
+        self.thisptr.setWeights(&wc[0, 0], n_task_dims, self.n_features)
 
     def get_weights(self):
         cdef int n_task_dims = self.thisptr.getTaskDimensions()

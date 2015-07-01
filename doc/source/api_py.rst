@@ -98,6 +98,7 @@ Representation classes
    representation.ConstantBehavior
    representation.DummyBehavior
    representation.RandomBehavior
+   representation.DMPBehavior
 
 :mod:`bolero.datasets`: Datasets
 ================================
