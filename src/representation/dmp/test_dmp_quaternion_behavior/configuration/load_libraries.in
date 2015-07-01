@@ -1,0 +1,2 @@
+@CMAKE_INSTALL_PREFIX@/@LIBPATH@/@PRELIB@quaternion_dmp_cpp@POSTLIB@
+

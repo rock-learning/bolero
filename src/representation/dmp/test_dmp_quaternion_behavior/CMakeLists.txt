@@ -1,4 +1,4 @@
-project(dmp_behavior_test)
+project(dmp_quaternion_behavior_test)
 cmake_minimum_required(VERSION 2.6)
 
 set(PROJECT_VERSION 1.0)
@@ -21,7 +21,7 @@ add_definitions(${BLLOADER_CFLAGS_OTHER})
 include_directories(src)
 set(SOURCES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${BLLOADER_LIBRARIES} dmp_cpp)
+target_link_libraries(${PROJECT_NAME} ${BLLOADER_LIBRARIES} quaternion_dmp_cpp)
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
