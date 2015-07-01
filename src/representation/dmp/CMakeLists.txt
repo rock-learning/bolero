@@ -42,6 +42,21 @@ find_package(YamlCpp REQUIRED)
 add_subdirectory(src)
 include_directories(src)
 
+configure_file (
+  "${CMAKE_CURRENT_SOURCE_DIR}/dmp_cpp.pc.in"
+  "${PROJECT_BINARY_DIR}/dmp_cpp.pc" @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/dmp_cpp.pc DESTINATION lib/pkgconfig)
+
+configure_file (
+    "${CMAKE_CURRENT_SOURCE_DIR}/quaternion_dmp_cpp.pc.in"
+    "${PROJECT_BINARY_DIR}/quaternion_dmp_cpp.pc" @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/quaternion_dmp_cpp.pc DESTINATION lib/pkgconfig)
+
+configure_file (
+    "${CMAKE_CURRENT_SOURCE_DIR}/rigid_body_dmp_cpp.pc.in"
+    "${PROJECT_BINARY_DIR}/rigid_body_dmp_cpp.pc" @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/rigid_body_dmp_cpp.pc DESTINATION lib/pkgconfig)
+
 find_package(Cython REQUIRED)
 configure_file(
     python/dmp/build_info.py.in

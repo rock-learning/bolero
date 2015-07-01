@@ -1,0 +1,13 @@
+<package>
+  <description brief="wrapper">
+    Wrappers for bolero C++ interfaces
+  </description>
+  <depend package="bolero" />
+  <depend package="bl_loader" />
+  <depend package="lib_manager" />
+  <depend package="external/yaml-cpp" />
+  <rosdep name="python" />
+  <rosdep name="python-dev" />
+  <rosdep name="cython" />
+  <rosdep name="python-numpy" />
+</package>

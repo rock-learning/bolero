@@ -93,21 +93,6 @@ set_target_properties(quaternion_dmp_cpp PROPERTIES COMPILE_FLAGS "-DBUILD_QUATE
 add_library(rigid_body_dmp_cpp SHARED ${rigid_body_sources} ${rigid_body_headers})
 target_link_libraries(rigid_body_dmp_cpp ${YAMLCPP_LIBRARY})
 
-configure_file (
-  "${CMAKE_CURRENT_SOURCE_DIR}/dmp_cpp.pc.in"
-  "${PROJECT_BINARY_DIR}/dmp_cpp.pc" @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/dmp_cpp.pc DESTINATION lib/pkgconfig)
-
-configure_file (
-    "${CMAKE_CURRENT_SOURCE_DIR}/quaternion_dmp_cpp.pc.in"
-    "${PROJECT_BINARY_DIR}/quaternion_dmp_cpp.pc" @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/quaternion_dmp_cpp.pc DESTINATION lib/pkgconfig)
-
-configure_file (
-    "${CMAKE_CURRENT_SOURCE_DIR}/rigid_body_dmp_cpp.pc.in"
-    "${PROJECT_BINARY_DIR}/rigid_body_dmp_cpp.pc" @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/rigid_body_dmp_cpp.pc DESTINATION lib/pkgconfig)
-
 install (TARGETS dmp_cpp DESTINATION lib)
 install (TARGETS quaternion_dmp_cpp DESTINATION lib)
 install (TARGETS rigid_body_dmp_cpp DESTINATION lib)
