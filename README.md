@@ -32,6 +32,17 @@ be located in `doc/build/html/index.html`. Building the documentation requires
 [doxygen](http://www.stack.nl/~dimitri/doxygen/) and
 [sphinx](http://sphinx-doc.org/).
 
+## Directories
+
+BOLeRo contains the following directories:
+
+* benchmarks - contains benchmark scripts or scripts that reproduce results
+  from scientific papers
+* bolero - contains the Python library
+* doc - contains the documentation
+* examples - contains examples that demonstrate how to use bolero
+* include - contains the header files that define the C++ interfaces
+* src - contains several C++ packages
 
 ## License
 
