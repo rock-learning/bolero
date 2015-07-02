@@ -13,6 +13,15 @@ class DMPBehavior(BlackBoxBehavior):
     """Dynamical Movement Primitive.
 
     Can be used to optimize the weights of a DMP with a black box optimizer.
+    This is a wrapper for the optional DMP module of bolero. Only the weights
+    of the DMP will be optimized. To optimize meta-parameters like the goal or
+    the goal velocity, you have to implement your own wrapper. This can be a
+    subclass of this wrapper that only overrides the methods that provide
+    access to the parameters.
+
+    An object can be created either by passing a configuration file or a DMP
+    object. A DMP configuration file describes all parameters of the DMP model
+    and it is not recommended to generate it manually.
 
     Parameters
     ----------
@@ -22,7 +31,7 @@ class DMPBehavior(BlackBoxBehavior):
     def __init__(self, dmp=None):
         if dmp is None:
             self.dmp = DMP()
-        elif isinstance(dmp, str):
+        elif isinstance(dmp, basestring):
             self.dmp = DMP.from_file(dmp)
         elif hasattr(dmp, "execute_step"):
             self.dmp = dmp
@@ -60,7 +69,6 @@ class DMPBehavior(BlackBoxBehavior):
         self.x = np.empty(self.n_task_dims)
         self.v = np.empty(self.n_task_dims)
         self.a = np.empty(self.n_task_dims)
-
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set DMP meta parameters.

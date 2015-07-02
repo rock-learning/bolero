@@ -1,8 +1,14 @@
+import os
 import numpy as np
 from bolero.representation import DMPBehavior
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_equal, assert_array_almost_equal
 
+
+CURRENT_PATH = os.sep.join(__file__.split(os.sep)[:-1])
+DMP_CONFIG_FILE = CURRENT_PATH + os.sep + "dmp_model.yaml"
+if not CURRENT_PATH:
+    DMP_CONFIG_FILE = "dmp_model.yaml"
 
 n_task_dims = 1
 
@@ -34,6 +40,16 @@ def test_default_dmp():
     assert_array_equal(xva[:n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[n_task_dims:-n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
+
+
+def test_dmp_from_config():
+    beh = DMPBehavior(DMP_CONFIG_FILE)
+    beh.init(18, 18)
+
+    xva = np.zeros(18)
+    beh.reset()
+    while beh.can_step():
+        eval_loop(beh, xva)
 
 
 def test_metaparameter_not_permitted():
