@@ -109,7 +109,8 @@ cdef class DMP:
         cdef int n_task_dims = X.shape[0]
         cdef int n_phases = X.shape[1]
         
-        #the c++ interfaces requires that the arrays are stored in column major order
+        # The c++ interfaces requires that the arrays are stored in column
+        # major order
         if not X.flags["F_CONTIGUOUS"]:
             X = np.asfortranarray(X)
 
@@ -125,7 +126,8 @@ cdef class DMP:
                 Xdd = np.asfortranarray(Xdd)
             pXdd = &Xdd[0,0]
 
-        cdef np.ndarray[double, ndim=2, mode="fortran"] F = np.ndarray((n_task_dims, n_phases), order="F")
+        cdef np.ndarray[double, ndim=2, mode="fortran"] F = np.ndarray(
+            (n_task_dims, n_phases), order="F")
 
         cb.determineForces(&X[0,0], pXd, pXdd, n_task_dims,
                            n_phases, &F[0,0], n_task_dims, n_phases,
@@ -146,7 +148,8 @@ cdef class DMP:
         assert xd.shape[0] == n_task_dims
         assert xdd.shape[0] == n_task_dims
 
-        #the c++ interfaces expects contiguous arrays (row or column major does not matter for 1d arrays)
+        # The c++ interfaces expects contiguous arrays (row or column major
+        # does not matter for 1d arrays)
         if not x.flags["F_CONTIGUOUS"]:
             x = np.asfortranarray(x)
         if not xd.flags["F_CONTIGUOUS"]:
@@ -160,9 +163,9 @@ cdef class DMP:
 
         if g is not None:
             gc = np.asfortranarray(g)
-            assert gc.shape[0] == n_task_dims, ("Goal dimensions: %r, "
-                                                "n_task_dims = %d"
-                                                % (g.shape, n_task_dims))
+            if gc.shape[0] != n_task_dims:
+                raise ValueError("Goal dimensions: %r, n_task_dims = %d"
+                                 % (g.shape, n_task_dims))
 
             if gd is None:
                 gdc = np.zeros_like(gc, order="F")
@@ -178,28 +181,31 @@ cdef class DMP:
         if not self.initialized:
             self.thisptr.initialize(&x[0], &xd[0], &xdd[0],
                                     &gc[0], &gdc[0], &gddc[0], n_task_dims)
-
             self.initialized = True
             return x, xd, xdd
 
-        elif g is not None: ##goal has changed
+        elif g is not None:  # Goal has changed
             self.thisptr.changeGoal(&gc[0], &gdc[0], &gddc[0], n_task_dims)
 
         self.run = self.thisptr.executeStep(&x[0], &xd[0], &xdd[0], n_task_dims)
         return x, xd, xdd
 
     def get_phases(self):
-        cdef np.ndarray[double, ndim=1, mode="fortran"] s = np.ndarray(self.n_phases, order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] s = np.ndarray(
+            self.n_phases, order="F")
         self.thisptr.getPhases(&s[0], self.n_phases)
         return s
 
     def get_activations(self, s, normalized=True):
-        cdef np.ndarray[double, ndim=1, mode="fortran"] act = np.ndarray(self.n_features, order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] act = np.ndarray(
+            self.n_features, order="F")
         self.thisptr.getActivations(s, normalized, &act[0], act.shape[0])
         return act
 
     def set_weights(self, w):
-        assert(w.ndim == 1 or w.ndim == 2)
+        if w.ndim != 1 and w.ndim != 2:
+            raise ValueError("Expected weights with 1 or 2 dimensions, got %d"
+                             % w.ndim)
 
         if w.size == 0:
             return

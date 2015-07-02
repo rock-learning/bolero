@@ -40,10 +40,12 @@ class DMPBehavior(BlackBoxBehavior):
         n_outputs : int
             number of outputs
         """
+        if n_inputs != n_outputs:
+            raise ValueError("Input and output dimensions must match, got "
+                             "%d inputs and %d outputs" % (n_inputs, n_outputs))
+
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
-        self.inputs = np.empty(self.n_inputs)
-        self.outputs = np.empty(self.n_outputs)
 
         self.n_task_dims = self.n_inputs / 3
 
@@ -54,6 +56,10 @@ class DMPBehavior(BlackBoxBehavior):
         self.x0 = None
         self.g = np.zeros(self.n_task_dims)
         self.gd = None
+
+        self.x = np.empty(self.n_task_dims)
+        self.v = np.empty(self.n_task_dims)
+        self.a = np.empty(self.n_task_dims)
 
 
     def set_meta_parameters(self, keys, meta_parameters):
@@ -81,27 +87,27 @@ class DMPBehavior(BlackBoxBehavior):
         meta_parameters : list of float
             values of meta-parameters
         """
-        self.dmp.set_metaparameters(keys, meta_parameters)
         for key, meta_parameter in zip(keys, meta_parameters):
             if key not in PERMITTED_METAPARAMETERS:
                 raise ValueError("Meta parameter '%s' is not allowed, use "
                                  "one of %r" % (key, PERMITTED_METAPARAMETERS))
             setattr(self, key, meta_parameter)
+        self.dmp.set_metaparameters(keys, meta_parameters)
 
     def set_inputs(self, inputs):
         n_task_dims = len(inputs) / 3
-        self.x = self.inputs[:n_task_dims]
-        self.v = self.inputs[n_task_dims:-n_task_dims]
-        self.a = self.inputs[-n_task_dims:]
+        self.x[:] = inputs[:n_task_dims]
+        self.v[:] = inputs[n_task_dims:-n_task_dims]
+        self.a[:] = inputs[-n_task_dims:]
 
         if self.x0 is None:
             self.x0 = self.x.copy()
 
     def get_outputs(self, outputs):
         n_task_dims = len(outputs) / 3
-        self.outputs[:n_task_dims] = self.x
-        self.outputs[n_task_dims:-n_task_dims] = self.v
-        self.outputs[-n_task_dims:] = self.a
+        outputs[:n_task_dims] = self.x[:]
+        outputs[n_task_dims:-n_task_dims] = self.v[:]
+        outputs[-n_task_dims:] = self.a[:]
 
     def step(self):
         if self.n_task_dims == 0:
@@ -121,10 +127,11 @@ class DMPBehavior(BlackBoxBehavior):
         return self.dmp.get_weights().size
 
     def get_params(self):
-        return self.dmp.get_weights()
+        return self.dmp.get_weights().ravel()
 
     def set_params(self, params):
         self.dmp.set_weights(params)
 
     def reset(self):
         self.dmp.reset()
+        self.x0 = None
