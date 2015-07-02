@@ -3,9 +3,7 @@
 
 
 from abc import ABCMeta, abstractmethod
-import warnings
 import numpy as np
-import scipy
 from ..representation.context_transformations import CONTEXT_TRANSFORMATIONS
 from ..utils.scaling import Scaling
 from ..utils.validation import check_random_state

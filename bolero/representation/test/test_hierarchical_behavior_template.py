@@ -3,6 +3,7 @@ from bolero.representation import (Behavior, BlackBoxBehavior,
                                    HierarchicalBehaviorTemplate)
 from nose.tools import assert_raises_regexp, assert_true
 
+
 class MockupBehavior(Behavior):
     def init(self): pass
     def set_meta_parameters(self): pass
@@ -16,6 +17,7 @@ def test_non_black_box_behavior():
         ValueError, "must be of type 'BlackBoxBehavior'",
         HierarchicalBehaviorTemplate, lambda s, *args, **kwargs: np.array([]),
         MockupBehavior())
+
 
 def test_generate_behavior():
     class MockupBlackBoxBehavior(BlackBoxBehavior, MockupBehavior):
