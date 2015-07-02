@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from dmp import DMP
 from bolero.representation import DMPBehavior
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_equal, assert_array_almost_equal
@@ -48,8 +49,32 @@ def test_dmp_from_config():
 
     xva = np.zeros(18)
     beh.reset()
+    t = 0
     while beh.can_step():
         eval_loop(beh, xva)
+        t += 1
+    assert_equal(t, 447)
+
+
+def test_dmp_from_dmp():
+    dmp = DMP()
+    beh = DMPBehavior(dmp)
+    beh.init(3 * n_task_dims, 3 * n_task_dims)
+
+    xva = np.zeros(3 * n_task_dims)
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, xva)
+        t += 1
+    assert_equal(t, 101)
+
+
+def test_dmp_unknown():
+    class NoDMP:
+        pass
+
+    assert_raises_regexp(ValueError, "Unknown DMP type", DMPBehavior, NoDMP())
 
 
 def test_metaparameter_not_permitted():
