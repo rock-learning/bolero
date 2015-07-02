@@ -72,7 +72,13 @@ class Behavior(object):
         """
 
     def can_step(self):
-        """Returns true if step() can be called again, false otherwise."""
+        """Returns if step() can be called again.
+
+        Returns
+        -------
+        can_step : bool
+            Can we call step() again?
+        """
         return True
 
 

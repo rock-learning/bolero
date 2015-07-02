@@ -95,6 +95,18 @@ class DMPBehavior(BlackBoxBehavior):
         self.dmp.set_metaparameters(keys, meta_parameters)
 
     def set_inputs(self, inputs):
+        """Set input for the next step.
+
+        In case the start position (x0) has not been set as a meta-parameter
+        we take the first position as x0.
+
+        Parameters
+        ----------
+        inputs : array-like, shape = (3 * n_task_dims,)
+            Contains positions, velocities and accelerations in that order.
+            Each type is stored contiguously, i.e. for n_task_dims=2 the order
+            would be: xxvvaa (x: position, v: velocity, a: acceleration).
+        """
         n_task_dims = len(inputs) / 3
         self.x[:] = inputs[:n_task_dims]
         self.v[:] = inputs[n_task_dims:-n_task_dims]
@@ -104,12 +116,22 @@ class DMPBehavior(BlackBoxBehavior):
             self.x0 = self.x.copy()
 
     def get_outputs(self, outputs):
+        """Get outputs of the last step.
+
+        Parameters
+        ----------
+        outputs : array-like, shape = (3 * n_task_dims,)
+            Contains positions, velocities and accelerations in that order.
+            Each type is stored contiguously, i.e. for n_task_dims=2 the order
+            would be: xxvvaa (x: position, v: velocity, a: acceleration).
+        """
         n_task_dims = len(outputs) / 3
         outputs[:n_task_dims] = self.x[:]
         outputs[n_task_dims:-n_task_dims] = self.v[:]
         outputs[-n_task_dims:] = self.a[:]
 
     def step(self):
+        """Compute desired position, velocity and acceleration."""
         if self.n_task_dims == 0:
             return
 
@@ -121,17 +143,50 @@ class DMPBehavior(BlackBoxBehavior):
             self.a[:] = 0.0
 
     def can_step(self):
+        """Returns if step() can be called again.
+
+        Note that calling step() after this function returns False will not
+        result in an error. The velocity and acceleration will be set to 0
+        and we hold the last position instead.
+
+        Returns
+        -------
+        can_step : bool
+            Can we call step() again?
+        """
         return self.dmp.can_step()
 
     def get_n_params(self):
+        """Get number of weights.
+
+        Returns
+        -------
+        n_params : int
+            Number of DMP weights
+        """
         return self.dmp.get_weights().size
 
     def get_params(self):
+        """Get current weights.
+
+        Returns
+        -------
+        params : array-like, shape = (n_params,)
+            Current weights
+        """
         return self.dmp.get_weights().ravel()
 
     def set_params(self, params):
+        """Set new weights.
+
+        Parameters
+        ----------
+        params : array-like, shape = (n_params,)
+            New weights
+        """
         self.dmp.set_weights(params)
 
     def reset(self):
+        """Reset DMP."""
         self.dmp.reset()
         self.x0 = None
