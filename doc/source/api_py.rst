@@ -29,6 +29,7 @@ Environment search classes
    environment.SetContext
    environment.ObjectiveFunction
    environment.ContextualObjectiveFunction
+   environment.OptimumTrajectory
 
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================

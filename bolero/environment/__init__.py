@@ -2,8 +2,9 @@ from .environment import Environment, ContextualEnvironment
 from .set_context import SetContext
 from .objective_functions import ObjectiveFunction
 from .contextual_objective_functions import ContextualObjectiveFunction
+from .optimum_trajectory import OptimumTrajectory
 
 
 __all__ = [
     "Environment", "ContextualEnvironment", "SetContext", "ObjectiveFunction",
-    "ContextualObjectiveFunction"]
+    "ContextualObjectiveFunction", "OptimumTrajectory"]

@@ -25,7 +25,7 @@ class Environment(object):
         Parameters
         ----------
         n : int
-            number of environment inputs
+            Number of environment inputs
         """
 
     @abstractmethod
@@ -35,7 +35,7 @@ class Environment(object):
         Parameters
         ----------
         n : int
-            number of environment outputs
+            Number of environment outputs
         """
 
     @abstractmethod
@@ -45,7 +45,7 @@ class Environment(object):
         Parameters
         ----------
         values : array
-            outputs for the environment, will be modified
+            Outputs of the environment, will be modified
         """
 
     @abstractmethod
@@ -55,7 +55,7 @@ class Environment(object):
         Parameters
         ----------
         values : array,
-            input of the environment
+            Input of the environment
         """
 
     @abstractmethod

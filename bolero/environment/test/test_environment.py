@@ -1,6 +1,6 @@
 import numpy as np
 from bolero.utils.testing import all_subclasses
-from bolero.environment import Environment
+from bolero.environment import Environment, ContextualEnvironment
 from nose.tools import (assert_false, assert_true, assert_greater,
                         assert_greater_equal)
 
@@ -34,9 +34,9 @@ def test_environments_follow_standard_protocol():
         i = 0
         env.reset()
         while not env.is_evaluation_done():
+            env.get_outputs(outputs)
             env.set_inputs(inputs)
             env.step_action()
-            env.get_outputs(outputs)
 
             i += 1
             if i >= 1000:
@@ -46,3 +46,5 @@ def test_environments_follow_standard_protocol():
 
         feedback = env.get_feedback()
         assert_false(env.is_behavior_learning_done())
+        if not isinstance(env, ContextualEnvironment):
+            assert_greater_equal(env.get_maximum_feedback(), np.sum(feedback))
