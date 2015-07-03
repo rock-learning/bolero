@@ -15,3 +15,14 @@ except:
             return seed
         raise ValueError('%r cannot be used to seed a numpy.random.RandomState'
                          ' instance' % seed)
+
+
+def check_feedback(feedback, compute_sum=False):
+    finite = np.isfinite(feedback)
+    if not np.all(finite):
+        raise ValueError("Received illegal feedback. Check your environment!")
+
+    if compute_sum:
+        return np.sum(feedback)
+    else:
+        return feedback

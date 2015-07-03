@@ -4,7 +4,7 @@ import numpy as np
 import warnings
 from scipy.spatial.distance import pdist
 from .optimizer import Optimizer
-from ..utils.validation import check_random_state
+from ..utils.validation import check_random_state, check_feedback
 from ..utils.log import get_logger
 
 
@@ -216,7 +216,7 @@ class CMAESOptimizer(Optimizer):
 
     def set_evaluation_feedback(self, feedback):
         k = self.it % self.n_samples_per_update
-        self.fitness[k] = np.sum(feedback)
+        self.fitness[k] = check_feedback(feedback, compute_sum=True)
         if self.maximize:
             self.fitness[k] *= -1
 

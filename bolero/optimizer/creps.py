@@ -10,7 +10,7 @@ from ..utils.scaling import Scaling
 from ..representation.ul_policies import (ContextTransformationPolicy,
                                           LinearGaussianPolicy,
                                           BoundedScalingPolicy)
-from ..utils.validation import check_random_state
+from ..utils.validation import check_random_state, check_feedback
 from ..utils.log import get_logger
 
 
@@ -183,9 +183,7 @@ class CREPSOptimizer(ContextualOptimizer):
 
     def set_evaluation_feedback(self, rewards):
         """Inform optimizer of outcome of a rollout with current weights."""
-        self.reward = np.sum(rewards)
-        if not np.isfinite(self.reward):
-            raise ValueError("Received illegal reward. Check your environment!")
+        self.reward = check_feedback(rewards, compute_sum=True)
 
         inv_scaled_params = self.scaler.inv_scale(self.params)
         phi_s = self.policy_.transform_context(self.context)
