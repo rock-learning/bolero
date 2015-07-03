@@ -1368,9 +1368,8 @@ FUNCTIONS = {
     }
 
 
-def plot_function(name, random_state=None, fig=None, sample_dist=0.2,
-                  contour=False, show_now=True):
-    """Plot function values of area [-5, 5]^2.
+def plot_function(name, random_state=None, fig=None, contour=False):
+    """Plot function values of area [-5, 5] x [-5, 5].
 
     This will show two plots, one with linear scale and one with logarithmic
     scale.
@@ -1386,14 +1385,8 @@ def plot_function(name, random_state=None, fig=None, sample_dist=0.2,
     fig : Figure, optional (default: None)
         Matplotlib figure
 
-    sample_dist : float, optional (default: 0.2)
-        Distance between samples in the plot
-
     contour : bool, optional (default: False)
         Plot function as contour plot (in 3D otherwise)
-
-    show_now : bool, optional (default: True)
-        Call matplotlib.pyplot.show()
 
     Returns
     -------
@@ -1411,8 +1404,8 @@ def plot_function(name, random_state=None, fig=None, sample_dist=0.2,
                          "%r" % (name, FUNCTIONS.keys()))
 
     f = FUNCTIONS[name](random_state, 2)
-    X = np.arange(-5, 5, sample_dist)
-    Y = np.arange(-5, 5, sample_dist)
+    X = np.arange(-5, 5, 0.2)
+    Y = np.arange(-5, 5, 0.2)
     X, Y = np.meshgrid(X, Y)
     F = np.ndarray(X.shape)
     for i in range(X.shape[0]):
@@ -1532,3 +1525,6 @@ class ObjectiveFunction(Environment):
 
     def get_maximum_feedback(self):
         return self.objective.f_opt
+
+    def plot(self, fig):
+        plot_function(self.name, self.random_state, fig)
