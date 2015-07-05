@@ -36,7 +36,7 @@ pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
 pkg_check_modules(BOLERO REQUIRED bolero)
 pkg_check_modules(BL_LOADER REQUIRED bl_loader)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-find_package(Eigen3 3.2.4 REQUIRED)
+find_package(Eigen3 3.2.0 REQUIRED)
 find_package(YamlCpp REQUIRED)
 
 add_subdirectory(src)
