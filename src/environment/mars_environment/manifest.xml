@@ -1,0 +1,12 @@
+<package>
+  <description brief="mars_environment">
+    This environment evaluates a MARS scenario.
+  </description>
+  <depend package="lib_manager" />
+  <depend package="mars_utils" />
+  <depend package="configmaps" />
+  <depend package="bolero" />
+  <depend package="mars_app" />
+  <depend package="mars/common/cfg_manager" />
+  <depend package="mars_interfaces" />
+</package>
