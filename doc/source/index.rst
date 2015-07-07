@@ -28,6 +28,8 @@ The highlights of BOLeRo are
   Evolution Strategies (CMA-ES, see
   `Wikipedia <https://en.wikipedia.org/wiki/CMA-ES>`_) and several of its
   variants
+* it is easy to combine it with the simulation software
+  `mars <https://github.com/rock-simulation/mars>`_
 * C++ interface to Python modules and Python interface to C++ modules
 * configuration via YAML
 
