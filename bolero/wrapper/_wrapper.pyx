@@ -552,7 +552,7 @@ cdef class CppContextualEnvironment:
         tmp_array = self.thisptr.request_context(&context_in[0], n_dims)
         for i in range(n_dims):
             context_out[i] = tmp_array[i]
-        return context_out[:]
+        return context_out
 
     def get_num_context_dims(self):
         """returns the count of the context dimensions
