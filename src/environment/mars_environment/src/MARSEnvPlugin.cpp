@@ -29,7 +29,8 @@ using namespace configmaps;
 namespace bolero {  
   namespace mars_environment {  
 
-    MARSEnvPlugin::MARSEnvPlugin( ) : mars::interfaces::PluginInterface(NULL) {
+    MARSEnvPlugin::MARSEnvPlugin()
+        : mars::interfaces::PluginInterface(NULL), r(0) {
       waitForReset = false;
       leftTime = 0.0;
       nextUpdate = 0.0;
@@ -82,7 +83,7 @@ namespace bolero {
     }
 
     MARSEnvPlugin::~MARSEnvPlugin() {
-      delete r;
+      if(r) delete r;
     }
 
 
