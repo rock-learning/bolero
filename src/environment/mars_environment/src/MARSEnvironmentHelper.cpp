@@ -23,34 +23,38 @@ using namespace configmaps;
 namespace bolero {
   namespace mars_environment {
 
-    MARSEnvironmentHelper::MARSEnvironmentHelper(lib_manager::LibManager *theManager,
-                                                 const char* name, int version,
-                                                 MARSEnvPlugin *marsPlugin)
-      : Environment(theManager, name, version),
-        marsPlugin(marsPlugin) {
+    MARSEnvironmentHelper::MARSEnvironmentHelper(
+            lib_manager::LibManager *theManager, const char* name, int version,
+            MARSEnvPlugin *marsPlugin)
+      : Environment(theManager, name, version), marsPlugin(marsPlugin),
+        marsThread(0), initialized(false)
+    {
     }
 
     MARSEnvironmentHelper::~MARSEnvironmentHelper() {
-      libManager->releaseLibrary("mars_sim");
+      if(initialized)
+        libManager->releaseLibrary("mars_sim");
 
       //mars::app::MARS::control->sim->StopSimulation();
       marsPlugin->doNotContinue = false;
       marsPlugin->newInputData = true;
       //while(mars::app::MARS::control->sim->isSimRunning()) ;
 
-      mars::app::exit_main(0);
-      delete marsThread;
+      if(mars::app::MARS::control)
+        mars::app::exit_main(0);
+
+      if(marsThread)
+        delete marsThread;
     }
 
     void MARSEnvironmentHelper::init() {
       int *argc = (int*)malloc(sizeof(int));
       char **argv = (char**)malloc(sizeof(char*)*4);
       *argc = 3;
-      argv[0] = (char*)malloc(sizeof(char)*4);
-      argv[1] = (char*)malloc(sizeof(char)*3);
-      argv[2] = (char*)malloc(sizeof(char)*2);
-      //argv[1] = (char*)malloc(sizeof(char)*1);
-      strcpy(argv[0], "foo");
+      argv[0] = (char*)malloc(sizeof(char) * 5);
+      argv[1] = (char*)malloc(sizeof(char) * 3);
+      argv[2] = (char*)malloc(sizeof(char) * 2);
+      strcpy(argv[0], "MARS");
       strcpy(argv[1], "-C");
       strcpy(argv[2], ".");
       argv[3] = NULL;
@@ -140,9 +144,6 @@ namespace bolero {
       newplugin.p_destroy = 0;
       mars->addPlugin(newplugin);
 
-      //marsThread->start();
-      //while(!marsThread->simulationStarted) { }
-
       // this will call the init function in the mars plugin
       mars::app::MARS::control->sim->finishedDraw();
 
@@ -151,27 +152,15 @@ namespace bolero {
       marsPlugin->inputs = new double[getNumInputs()];
       marsPlugin->outputs = new double[getNumOutputs()];
 
-      //mars::app::MARS::control->sim->StartSimulation();
-      //marsThread->myApp->processEvents();
-
-
-      marsPlugin->evaluate = true;
+      initialized = true;
     }
 
     void MARSEnvironmentHelper::reset() {
       marsPlugin->waitForReset = true;
       marsPlugin->doNotContinue = false;
-      //mars::app::MARS::control->sim->StopSimulation();
-      //while(mars::app::MARS::control->sim->isSimRunning()) ;
       marsPlugin->newOutputData = false;
       mars::app::MARS::control->sim->resetSim();
       mars::app::MARS::control->sim->finishedDraw();
-      marsPlugin->evaluate = true;
-      /*
-      while(!marsPlugin->newOutputData) {
-        mars::app::MARS::control->sim->step(true);
-      }
-      */
 
       for(int i=0; i<getNumOutputs(); ++i) {
         marsPlugin->outputs[i] = 0.0;

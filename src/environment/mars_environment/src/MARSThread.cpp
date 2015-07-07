@@ -17,7 +17,8 @@ namespace bolero {
                            bool enableGUI) : libManager(theManager),
                                              argc(argc), argv(argv),
                                              simulationStarted(false),
-                                             enableGUI(enableGUI) {
+                                             enableGUI(enableGUI),
+                                             simulation(0) {
       if(enableGUI) {
         myApp = new mars::app::MyApp(argc, argv);
       } else {
@@ -26,13 +27,15 @@ namespace bolero {
     }
 
     MARSThread::~MARSThread() {
-      delete simulation;
+      if(simulation)
+        delete simulation;
     }
 
     void MARSThread::run() {
       int state = simulation->runWoQApp();
 
       delete simulation;
+      simulation = 0;
       exit(state);
     }
 

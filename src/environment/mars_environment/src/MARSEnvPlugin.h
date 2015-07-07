@@ -48,7 +48,6 @@ namespace bolero {
       mutable bool doNotContinue;
       mutable bool newOutputData;
       bool newInputData;
-      bool evaluate;
 
       mars::interfaces::sReal time_ms;
       double *inputs;

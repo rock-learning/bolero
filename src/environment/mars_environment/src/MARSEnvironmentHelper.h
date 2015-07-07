@@ -51,6 +51,7 @@ namespace bolero {
       virtual bool isBehaviorLearningDone() const = 0;
 
     private:
+      bool initialized;
       MARSThread *marsThread;
       MARSEnvPlugin *marsPlugin;
       unsigned int graphicsUpdateTime;

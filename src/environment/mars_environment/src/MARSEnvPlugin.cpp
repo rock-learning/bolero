@@ -43,7 +43,6 @@ namespace bolero {
     }
   
     void MARSEnvPlugin::init() {
-
       ConfigMap map;
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");
@@ -67,12 +66,10 @@ namespace bolero {
       initMARSEnvironment();
 
       r = new MARSReceiver(this);
-      control->dataBroker->registerTriggeredReceiver(r, "mars_sim",
-                                                     "simTime",
-                                                     "mars_sim/postPhysicsUpdate");
-      control->dataBroker->registerTriggeredReceiver(r, "mars_sim",
-                                                     "simTime",
-                                                     "mars_sim/prePhysicsUpdate");
+      control->dataBroker->registerTriggeredReceiver(
+        r, "mars_sim", "simTime", "mars_sim/postPhysicsUpdate");
+      control->dataBroker->registerTriggeredReceiver(
+        r, "mars_sim", "simTime", "mars_sim/prePhysicsUpdate");
     }
 
     void MARSEnvPlugin::reset() {
@@ -86,13 +83,12 @@ namespace bolero {
       if(r) delete r;
     }
 
-
     void MARSEnvPlugin::update(sReal time_ms) {
-      //if(waitForReset) return;
       leftTime += time_ms;
       this->time_ms = time_ms;
       if(time_ms > stepTimeMs) {
-        LOG_WARN("MARSEnvPlugin: The simulation step time is greater than the desired update time of the behavior.");
+        LOG_WARN("MARSEnvPlugin: The simulation step time is greater than the "
+                 "desired update time of the behavior.");
       }
       if(leftTime >= nextUpdate) {
         nextUpdate += stepTimeMs;
@@ -101,30 +97,16 @@ namespace bolero {
     }
 
     void MARSEnvPlugin::update() {
-      if(1 || !waitForReset) {
+      if(!waitForReset) {
         dataMutex.lock();
         createOutputValues();
         dataMutex.unlock();
-        
         newOutputData=true;
 
-        //while(!newInputData) { }
-
-        //if(!waitForReset) {
-          dataMutex.lock();
-          newInputData = false;
-          handleInputValues();
-          //evaluate = !isEvaluationDone();
-          dataMutex.unlock();
-          //}
-      }
-      else {
-        /* do we need this? */
-        /*
-        newInputData=true;
-        while(!newOutputData) { }
-        newOutputData = false;
-        */
+        dataMutex.lock();
+        newInputData = false;
+        handleInputValues();
+        dataMutex.unlock();
       }
     }
 
@@ -132,11 +114,7 @@ namespace bolero {
       handleMARSError();
     }
 
-    void MARSEnvPlugin::receive() {
-      return;
-      finishedStep = true;
-      while(doNotContinue && !waitForReset && control->sim->isSimRunning()) { mars::utils::msleep(1); }
-    }
+    void MARSEnvPlugin::receive() {}
 
   } // end of namespace mars_environment
 } // end of namespace bolero
