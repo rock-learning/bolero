@@ -88,13 +88,8 @@ target_link_libraries(${PROJECT_NAME}
                       ${MARS_APP_LIBRARIES}
                       ${MARS_UTILS_LIBRARIES}
                       ${MARS_INTERFACES_LIBRARIES}
-                      ${BL_INTERFACES_LIBRARIES}
                       ${QT_LIBRARIES}
 )
-
-if(BUILD_BEHAVIOR_LEARNING)
-  add_dependencies(${PROJECT_NAME} behavior_learning)
-endif()
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
@@ -130,7 +125,7 @@ ENDIF (WIN32)
 install(TARGETS ${PROJECT_NAME} ${_INSTALL_DESTINATIONS})
 
 # Install headers into mars include directory
-install(FILES ${HEADERS} DESTINATION include/behavior_learning/${PROJECT_NAME})
+install(FILES ${HEADERS} DESTINATION include/bolero/${PROJECT_NAME})
 
 # Prepare and install necessary files to support finding of the library 
 # using pkg-config
