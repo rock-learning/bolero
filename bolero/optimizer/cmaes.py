@@ -638,19 +638,28 @@ cma_types = {"standard": CMAESOptimizer,
 
 
 def fmin(objective_function, cma_type="standard", x0=None,
-         eval_initial_x=False, maxfun=1000, *args, **kwargs):
+         eval_initial_x=False, maxfun=1000, maximize=False, *args, **kwargs):
     """Functional interface to the stochastic optimizer CMA-ES.
 
     Parameters
     ----------
-    x0 : array-like, shape = (n_params,), optional (default: 0s)
+    objective_function : callable
+        Objective function
+
+    cma_type : string, optional (default: 'standard')
+        Must be one of ['standard', 'restart', 'ipop', 'bipop']
+
+    x0 : array-like, shape = (n_params,), optional (default: 0)
         Initial parameter vector.
 
     eval_initial_x: bool, optional (default: False)
         Whether the initial parameter vector x0 is evaluated
 
-    maxiter: int, optional (default: 1000)
+    maxfun: int, optional (default: 1000)
         The maximal number of generations after which CMA-ES terminates
+
+    maximize: bool, optional (default: False)
+        Maximize objective function
     """
     if eval_initial_x:
         objective_value = objective_function(x0)
@@ -662,8 +671,8 @@ def fmin(objective_function, cma_type="standard", x0=None,
         raise ValueError("Unknown cma_type %s. Must be one of %s."
                          % (cma_type, cma_types.keys()))
     else:
-        cma = cma_types[cma_type](initial_params=x0, maximize=False,
-                                  *args, **kwargs)
+        cma = cma_types[cma_type](initial_params=x0, maximize=maximize, *args,
+                                  **kwargs)
 
     cma.init(x0.shape[0])
 
