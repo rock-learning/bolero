@@ -39,6 +39,7 @@ Documentation
 .. toctree::
    :maxdepth: 1
 
+   behavior_learning
    auto_examples/index
    notebooks/index
    api_py
