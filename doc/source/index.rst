@@ -40,6 +40,7 @@ Documentation
    :maxdepth: 1
 
    behavior_learning
+   modules/representation
    auto_examples/index
    notebooks/index
    api_py
