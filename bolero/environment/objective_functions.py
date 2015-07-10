@@ -1430,9 +1430,6 @@ def plot_function(name, random_state=None, fig=None, contour=False):
         ax_log = fig.add_subplot(122, projection="3d")
         _plot_function_log_3d(f, ax_log, X, Y, F)
 
-    if show_now:
-        plt.show()
-
     return ax_lin, ax_log, f
 
 
