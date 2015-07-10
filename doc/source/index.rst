@@ -44,3 +44,4 @@ Documentation
    notebooks/index
    api_py
    mars_environment
+   contributing
