@@ -49,6 +49,7 @@ BOLeRo.
      - positions, velocities, accelerations
      - weights of the internal function approximator
 
+
 .. _constant_beh:
 
 Constant Behavior
@@ -57,6 +58,7 @@ Constant Behavior
 A :class:`ConstantBehavior` always produces a constant output that cannot
 be changed. It can be used as a behavior baseline.
 
+
 .. _random_beh:
 
 Random Behavior
@@ -64,6 +66,7 @@ Random Behavior
 
 A :class:`RandomBehavior` always produces a random output that is completely
 random and normal distributed. It can be used as a behavior baseline.
+
 
 .. _dummy_beh:
 
@@ -74,6 +77,7 @@ A :class:`DummyBehavior` always produces the output that has been given as
 parameters from the optimizer. It can be used in cases where no behavior is
 required actually, e.g. for plain function optimization or where the behavior
 is encoded in the environment.
+
 
 .. _dmp_beh:
 
