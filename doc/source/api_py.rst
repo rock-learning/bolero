@@ -85,8 +85,8 @@ Optimizer classes
     :no-members:
     :no-inherited-members:
 
-Representation classes
-----------------------
+Behavior classes
+----------------
 .. currentmodule:: bolero
 
 .. autosummary::
@@ -95,11 +95,21 @@ Representation classes
 
    representation.Behavior
    representation.BlackBoxBehavior
-   representation.BehaviorTemplate
    representation.ConstantBehavior
    representation.DummyBehavior
    representation.RandomBehavior
    representation.DMPBehavior
+
+Policy classes
+--------------
+.. currentmodule:: bolero
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   representation.BehaviorTemplate
+   representation.HierarchicalBehaviorTemplate
 
 :mod:`bolero.datasets`: Datasets
 ================================
