@@ -4,9 +4,38 @@
 Optimization
 ============
 
-Optimization plays an important role in behavior learning methods. Optimizers
-can be used directly to learn behaviors or they can be used internally by
-behavior search algorithms.
+Optimization algorithms can be used for policy search directly or they can
+be used within a behavior search algorithm to optimize parameters internally.
+That is the reason why they play an important role in BOLeRo.
+
+Optimizers seek to find some optimum (minimum or maximum) value, e.g. so that
+
+.. math::
+
+    \arg \max_{x \in A} f(x),
+
+where :math:`f` is called objective function. In behavior learning, :math:`f`
+is usually a fitness function or a reward function that has to be maximized.
+The library provides some black-box optimization algorithms. Black-box in this
+case means that no knowledge about the objective is required (e.g. gradients).
+
+Here is a comparison of several optimization algorithms for an unimodal
+functions (see :ref:`example_optimizer_plot_optimization.py`
+for more details).
+
+.. figure:: ../auto_examples/optimizer/images/plot_optimization_001.png
+   :target: ../auto_examples/optimizer/plot_optimization.html
+   :align: center
+   :scale: 50%
+
+Some optimizers are designed for unimodal optimization and some are designed
+for multimodal problems (see :ref:`example_optimizer_plot_optimization.py`
+for more details). Here is a comparison for these optimizers.
+
+.. figure:: ../auto_examples/optimizer/images/plot_optimization_002.png
+   :target: ../auto_examples/optimizer/plot_optimization.html
+   :align: center
+   :scale: 50%
 
 .. currentmodule:: bolero.optimizer
 

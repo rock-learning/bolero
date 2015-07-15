@@ -12,6 +12,25 @@ in :mod:`bolero.representation`.
 Behaviors
 =========
 
+The purpose of this library is learning behaviors. Behaviors typically
+implement the interface :class:`~bolero.representation.Behavior`. It is
+important to know that there are some conventions regarding the inputs and
+outputs of the generic behavior interface:
+
+* Often get_output and set_input deal with the same kind of data, e.g. a
+  :class:`~bolero.representation.DMPBehavior` generates a set of positions,
+  velocities and accelerations in Cartesian space or in joint angle space and
+  then they expect to get back the same information from a sensor that
+  measures the actual positions, velocities and accelerations. However, that
+  does not have to be the case for other kind of behaviors.
+* If a behavior generates multiple derivatives of the same attribute, e.g.
+  positions, velocities and accelerations, it is not per se clear which layout
+  would be to best to put these information in a flat vector. We agreed that
+  all positions (p), all velocities (v) and all accelerations (a) should be
+  stored contiguously, e.g. when the behavior controls 3 joints, the output
+  would have the layout :code:`pppvvvaaa`. The reason is that it is easy to
+  extract e.g. the position vector with a slice from the output vector.
+
 The following table gives an overview of the behaviors that are provided by
 BOLeRo.
 
