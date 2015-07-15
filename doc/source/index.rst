@@ -45,6 +45,7 @@ Documentation
    modules/behavior_search
    modules/environment
    modules/controller
+   modules/datasets
    auto_examples/index
    notebooks/index
    api_py

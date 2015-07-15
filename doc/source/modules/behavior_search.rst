@@ -19,7 +19,7 @@ provided by BOLeRo.
    :header-rows: 1
    :widths: 20 80
 
-   * - Optimizer name
+   * - Behavior search name
      - Usecase
 
    * - :ref:`Black-box Search <black_box_search>`
@@ -49,7 +49,7 @@ that are provided by BOLeRo.
    :header-rows: 1
    :widths: 20 80
 
-   * - Optimizer name
+   * - Behavior search name
      - Usecase
 
    * - :ref:`ContextualBlackBoxSearch <contextual_black_box_search>`

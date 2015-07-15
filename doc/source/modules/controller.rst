@@ -16,7 +16,7 @@ BOLeRo.
    :header-rows: 1
    :widths: 20 80
 
-   * - Optimizer name
+   * - Controller name
      - Usecase
 
    * - :ref:`Controller <controller_m>`

@@ -19,7 +19,7 @@ BOLeRo.
    :header-rows: 1
    :widths: 20 80
 
-   * - Optimizer name
+   * - Environment name
      - Usecase
 
    * - :ref:`Objective Function <objective_function>`
@@ -74,7 +74,7 @@ provided by BOLeRo.
    :header-rows: 1
    :widths: 20 80
 
-   * - Optimizer name
+   * - Environment name
      - Usecase
 
    * - :ref:`Contextual Objective Function <contextual_objective_function>`
