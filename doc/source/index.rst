@@ -36,6 +36,14 @@ The highlights of BOLeRo are
 Documentation
 =============
 
+Getting Started
+---------------
+
+.. toctree::
+   :maxdepth: 1
+
+   installation
+
 Overview
 --------
 
