@@ -34,7 +34,16 @@ BOLeRo.
 Objective Function
 ------------------
 
-:class:`ObjectiveFunction`
+Several benchmark functions to compare continuous black-box optimizers are
+provided by the environment :class:`ObjectiveFunction`. The objective
+functions are the same as in the software `COCO
+<http://coco.gforge.inria.fr/doku.php>`_. For example, you can see a comparison
+of several optimizers on the Rosenbrock function in the following plot.
+
+.. figure:: ../auto_examples/optimizer/images/plot_optimization_001.png
+   :target: ../auto_examples/optimizer/plot_optimization.html
+   :align: center
+   :scale: 50%
 
 
 .. _optimum_trajectory:
@@ -42,7 +51,17 @@ Objective Function
 Optimum Trajectory
 ------------------
 
-:class:`OptimumTrajectory`
+The environment :class:`OptimumTrajectory` is designed to use behavior learning
+algorithms for simple planning problems. The goal is to avoid obstacles and
+minimize the effort used for the trajectory, e.g. by minimizing the velocities
+or accelerations. An example for a two-dimensional trajectory is displayed in
+the following plot. The obstacles are displayed as red circles on the right
+side.
+
+.. figure:: ../auto_examples/behavior_search/images/plot_obstacle_avoidance_001.png
+   :target: ../auto_examples/behavior_search/plot_obstacle_avoidance.html
+   :align: center
+   :scale: 80%
 
 
 Contextual Environment
@@ -67,4 +86,8 @@ provided by BOLeRo.
 Contextual Objective Function
 -----------------------------
 
-:class:`ContextualObjectiveFunction`
+Several contextual benchmark functions to compare continuous, contextual
+black-box optimizers are provided by the environment
+:class:`ContextualObjectiveFunction`. The contextual objective functions are
+based on the functions that are provided with `COCO
+<http://coco.gforge.inria.fr/doku.php>`_.
