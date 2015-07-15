@@ -36,6 +36,9 @@ The highlights of BOLeRo are
 Documentation
 =============
 
+Overview
+--------
+
 .. toctree::
    :maxdepth: 1
 
@@ -46,8 +49,23 @@ Documentation
    modules/environment
    modules/controller
    modules/datasets
+   modules/wrapper
+
+Examples
+--------
+
+.. toctree::
+   :maxdepth: 1
+
    auto_examples/index
    notebooks/index
+
+API
+---
+
+.. toctree::
+   :maxdepth: 1
+
    api_py
    mars_environment
    contributing
