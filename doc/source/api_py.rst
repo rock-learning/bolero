@@ -128,6 +128,23 @@ Dataset functions
 
    make_minimum_jerk
 
+:mod:`bolero.wrapper`: Wrapper
+==============================
+
+.. automodule:: bolero.wrapper
+    :no-members:
+    :no-inherited-members:
+
+Wrapper classes
+---------------
+.. currentmodule:: bolero.wrapper
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   CppBLLoader
+
 :mod:`bolero.utils`: Utilities
 ==============================
 

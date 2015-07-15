@@ -39,7 +39,5 @@ pkg_check_modules(BOLERO REQUIRED bolero)
 pkg_check_modules(BL_LOADER REQUIRED bl_loader)
 
 configure_file(build_info.py.in ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py)
-configure_file(test/test_library_config.txt.in
-               ${CMAKE_CURRENT_SOURCE_DIR}/test/test_library_config.txt @ONLY)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/build_info.py DESTINATION .)
