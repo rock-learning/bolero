@@ -44,6 +44,7 @@ Documentation
    modules/optimizer
    modules/behavior_search
    modules/environment
+   modules/controller
    auto_examples/index
    notebooks/index
    api_py
