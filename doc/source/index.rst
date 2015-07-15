@@ -43,6 +43,7 @@ Documentation
    modules/representation
    modules/optimizer
    modules/behavior_search
+   modules/environment
    auto_examples/index
    notebooks/index
    api_py

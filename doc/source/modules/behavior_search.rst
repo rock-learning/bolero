@@ -22,7 +22,7 @@ provided by BOLeRo.
    * - Optimizer name
      - Usecase
 
-   * - :ref:`BlackBoxSearch <black_box_search>`
+   * - :ref:`Black-box Search <black_box_search>`
      - Policy search, behavior is considered to be a black box
 
 
