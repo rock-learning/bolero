@@ -18,18 +18,18 @@ You can search for specific modules, classes or functions in the
 
 Environment search classes
 --------------------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.environment
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   environment.Environment
-   environment.ContextualEnvironment
-   environment.SetContext
-   environment.ObjectiveFunction
-   environment.ContextualObjectiveFunction
-   environment.OptimumTrajectory
+   Environment
+   ContextualEnvironment
+   SetContext
+   ObjectiveFunction
+   ContextualObjectiveFunction
+   OptimumTrajectory
 
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================
@@ -40,18 +40,18 @@ Environment search classes
 
 Behavior search classes
 -----------------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.behavior_search
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   behavior_search.BehaviorSearch
-   behavior_search.ContextualBehaviorSearch
-   behavior_search.BlackBoxSearch
-   behavior_search.ContextualBlackBoxSearch
-   behavior_search.JustOptimizer
-   behavior_search.JustContextualOptimizer
+   BehaviorSearch
+   ContextualBehaviorSearch
+   BlackBoxSearch
+   ContextualBlackBoxSearch
+   JustOptimizer
+   JustContextualOptimizer
 
 :mod:`bolero.optimizer`: Optimizer
 ==================================
@@ -62,21 +62,21 @@ Behavior search classes
 
 Optimizer classes
 -----------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.optimizer
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   optimizer.ContextualOptimizer
-   optimizer.Optimizer
-   optimizer.CMAESOptimizer
-   optimizer.RestartCMAESOptimizer
-   optimizer.IPOPCMAESOptimizer
-   optimizer.BIPOPCMAESOptimizer
-   optimizer.NoOptimizer
-   optimizer.RandomOptimizer
-   optimizer.CREPSOptimizer
+   Optimizer
+   ContextualOptimizer
+   CMAESOptimizer
+   RestartCMAESOptimizer
+   IPOPCMAESOptimizer
+   BIPOPCMAESOptimizer
+   NoOptimizer
+   RandomOptimizer
+   CREPSOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================
@@ -87,29 +87,29 @@ Optimizer classes
 
 Behavior classes
 ----------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.representation
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   representation.Behavior
-   representation.BlackBoxBehavior
-   representation.ConstantBehavior
-   representation.DummyBehavior
-   representation.RandomBehavior
-   representation.DMPBehavior
+   Behavior
+   BlackBoxBehavior
+   ConstantBehavior
+   DummyBehavior
+   RandomBehavior
+   DMPBehavior
 
 Policy classes
 --------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.representation
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   representation.BehaviorTemplate
-   representation.HierarchicalBehaviorTemplate
+   BehaviorTemplate
+   HierarchicalBehaviorTemplate
 
 :mod:`bolero.datasets`: Datasets
 ================================
@@ -120,13 +120,13 @@ Policy classes
 
 Dataset functions
 -----------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.datasets
 
 .. autosummary::
    :toctree: modules/generated/
    :template: function.rst
 
-   datasets.make_minimum_jerk
+   make_minimum_jerk
 
 :mod:`bolero.utils`: Utilities
 ==============================
@@ -137,23 +137,23 @@ Dataset functions
 
 Utility functions
 -----------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.utils
 
 .. autosummary::
    :toctree: modules/generated/
    :template: function.rst
 
-   utils.from_dict
-   utils.from_yaml
-   utils.log.get_logger
-   utils.dependency.compatible_version
+   from_dict
+   from_yaml
+   log.get_logger
+   dependency.compatible_version
 
 Utility classes
 ---------------
-.. currentmodule:: bolero
+.. currentmodule:: bolero.utils
 
 .. autosummary::
    :toctree: modules/generated/
    :template: class.rst
 
-   utils.log.HideExtern
+   log.HideExtern

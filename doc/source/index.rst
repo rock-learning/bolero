@@ -42,6 +42,7 @@ Documentation
    behavior_learning
    modules/representation
    modules/optimizer
+   modules/behavior_search
    auto_examples/index
    notebooks/index
    api_py
