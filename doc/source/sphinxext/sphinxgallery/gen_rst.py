@@ -979,8 +979,8 @@ def embed_code_links(app, exception):
 
     # Add resolvers for the packages for which we want to show links
     doc_resolvers = {}
-    doc_resolvers['sklearn'] = SphinxDocLinkResolver(app.builder.outdir,
-                                                     relative=True)
+    doc_resolvers['bolero'] = SphinxDocLinkResolver(app.builder.outdir,
+                                                    relative=True)
 
     resolver_urls = {
         'matplotlib': 'http://matplotlib.org',
