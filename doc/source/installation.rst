@@ -17,6 +17,36 @@ installation script and run it with
 
 Confirm everything and follow the instructions.
 
+Environment
+===========
+
+The installation script downloads all required packages and installs them in
+a target directory that you defined. We call it `$BOLEROPATH`. It has the
+following structure:
+
+.. code-block:: text
+
+    $BOLEROPATH
+      |-bolero/
+      |-install/
+      |--bin/
+      |--configuration/
+      |--include/
+      |--lib/
+      |--share/
+      |-...
+      |-env.sh
+
+The subdirectory `install` includes all the shared libraries, configurations,
+header files, and scripts that you installed. Usually they are not available
+in your environment. However, you can source the script `env.sh` with
+
+.. code-block:: text
+
+    source env.sh
+
+to make them available. You could add it to your `.bashrc` to make it permanent.
+
 Testing
 =======
 
