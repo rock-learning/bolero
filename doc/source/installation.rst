@@ -16,3 +16,20 @@ installation script and run it with
     ./bootstrap.sh
 
 Confirm everything and follow the instructions.
+
+Testing
+=======
+
+To run the Python unit tests, we need nosetests. You can install it with
+
+.. code-block:: bash
+
+    sudo pip install nose
+
+and run it with
+
+.. code-block:: bash
+
+    nosetests
+
+in the bolero main directory.
