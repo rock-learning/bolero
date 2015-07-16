@@ -973,7 +973,7 @@ def embed_code_links(app, exception):
         return
     print('Embedding documentation hyperlinks in examples..')
 
-    if app.builder.name == 'latex':
+    if app.builder.name in ['latex', 'doctest']:
         # Don't embed hyperlinks when a latex builder is used.
         return
 
