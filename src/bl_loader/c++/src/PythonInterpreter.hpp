@@ -96,7 +96,7 @@ public:
 
 class ListBuilder
 {
-    friend PythonInterpreter;
+    friend class PythonInterpreter;
     ListBuilder();
 public:
     shared_ptr<ListBuilderState> state;
