@@ -3,6 +3,5 @@
     Mountain car learning problem.
   </description>
   <depend package="lib_manager" />
-  <depend package="mars_utils" />
   <depend package="bolero" />
 </package>
