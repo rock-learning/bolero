@@ -43,6 +43,7 @@ Getting Started
    :maxdepth: 1
 
    installation
+   quickstart
 
 Overview
 --------

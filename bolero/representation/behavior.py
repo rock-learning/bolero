@@ -1,8 +1,9 @@
 """Behavior interface."""
 from abc import ABCMeta, abstractmethod
+from ..base import Base
 
 
-class Behavior(object):
+class Behavior(Base):
     """Behavior interface.
 
     A behavior maps input (e.g. state) to output (e.g. next state or action).
@@ -82,7 +83,7 @@ class Behavior(object):
         return True
 
 
-class BehaviorTemplate(object):
+class BehaviorTemplate(Base):
     """Behavior template interface."""
     __metaclass__ = ABCMeta
 

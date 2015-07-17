@@ -1,9 +1,10 @@
 """Environment interface."""
 from abc import ABCMeta, abstractmethod
 from ..utils import NonContextualException
+from ..base import Base
 
 
-class Environment(object):
+class Environment(Base):
     """Common interface for environments.
 
     An environment can execute actions, measure states and compute rewards.

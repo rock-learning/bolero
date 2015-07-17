@@ -1,9 +1,10 @@
 """Optimizer interface."""
 from abc import ABCMeta, abstractmethod
 from ..utils import NonContextualException
+from ..base import Base
 
 
-class ContextualOptimizer(object):
+class ContextualOptimizer(Base):
     """Common interface for (contextual) optimizers.
 
     This is a simple derivative-free parameter optimizer.
@@ -82,7 +83,7 @@ class ContextualOptimizer(object):
         """Return current best estimate of contextual policy. """
 
 
-class Optimizer(object):
+class Optimizer(Base):
     """Common interface for (non-contextual) optimizers."""
 
     @abstractmethod

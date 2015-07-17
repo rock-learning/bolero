@@ -6,9 +6,10 @@ import warnings
 from ..utils import from_dict
 from ..environment import Environment, ContextualEnvironment
 from ..behavior_search import BehaviorSearch
+from ..base import Base
 
 
-class Controller(object):
+class Controller(Base):
     """A controller implements the communication between learning components.
 
     Controllers organize communication between Environment and BehaviorSearch.
