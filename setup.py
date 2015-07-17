@@ -45,17 +45,17 @@ def configuration(parent_package='', top_path=None):
 
 
 def setup_package():
-    metadata = dict(name="bolero",
-                    maintainer="DFKI-RIC",
-                    maintainer_email="behavior-learning@dfki.de",
-                    description="Behavior Optimization and Learning for Robots",
-                    license="BSD 3-clause",
-                    version=bolero.__version__,
-                    #url="TODO",
-                    #download_url="TODO",
-                    #long_description="TODO",
-                    cmdclass={'clean': CleanCommand},
-                    )
+    metadata = dict(
+        name="bolero",
+        maintainer="DFKI-RIC",
+        maintainer_email="behavior-learning@dfki.de",
+        description="Behavior Optimization and Learning for Robots",
+        license="BSD 3-clause",
+        version=bolero.__version__,
+        url="http://robotik.dfki-bremen.de/en/research/softwaretools/bolero.html",
+        #download_url="TODO",
+        cmdclass={'clean': CleanCommand},
+        )
 
     if (len(sys.argv) >= 2
             and ('--help' in sys.argv[1:] or sys.argv[1]
