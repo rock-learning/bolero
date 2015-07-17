@@ -75,7 +75,7 @@ void throwPythonException()
     // Traceback
     PyObjectPtr tracebackModule = makePyObjectPtr(PyImport_ImportModule("traceback"));
     std::string traceback;
-    if (tracebackModule != NULL) {
+    if (tracebackModule) {
         PyObjectPtr tbList = makePyObjectPtr(
             PyObject_CallMethod(
                 tracebackModule.get(), (char*)"format_exception",
