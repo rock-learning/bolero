@@ -47,6 +47,16 @@ in your environment. However, you can source the script `env.sh` with
 
 to make them available. You could add it to your `.bashrc` to make it permanent.
 
+Installing Only the Python Library
+==================================
+
+It is possible to install only the Python library BOLeRo without any C++
+module via
+
+.. code-block:: bash
+
+    python setup.py install
+
 Testing
 =======
 
