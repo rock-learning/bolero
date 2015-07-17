@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.6)
 include_directories(
     ${EIGEN3_INCLUDE_DIR}
     ${YAMLCPP_INCLUDE_DIR}
+    ${LIB_MANAGER_INCLUDE_DIRS}
     ${BOLERO_INCLUDE_DIRS})
 
 set(sources CanonicalSystem.cpp
