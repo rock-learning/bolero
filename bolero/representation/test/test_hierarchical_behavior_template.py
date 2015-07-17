@@ -5,6 +5,7 @@ from nose.tools import assert_raises_regexp, assert_true
 
 
 class MockupBehavior(Behavior):
+    def __init__(self): pass
     def init(self): pass
     def set_meta_parameters(self): pass
     def set_inputs(self): pass
