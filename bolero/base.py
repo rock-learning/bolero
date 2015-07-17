@@ -1,6 +1,13 @@
 import inspect
 
 
+def _print_obj(obj):
+    if isinstance(obj, str):
+        return "'%s'" % obj
+    else:
+        return obj
+
+
 class Base(object):
     """Base class for all objects in BOLeRo."""
 
@@ -19,7 +26,7 @@ class Base(object):
         if varargs is not None:
             raise RuntimeError("BOLeRo objects should always specify their "
                                "parameters in the signature of their __init__ "
-                               " (no varargs). %s doesn't follow this "
+                               "(no varargs). %s doesn't follow this "
                                "convention." % (cls,))
         # Remove 'self'
         args.pop(0)
@@ -39,6 +46,6 @@ class Base(object):
 
     def __repr__(self):
         params_dict = self.get_params()
-        params = ", ".join(["%s=%s" % (name, params_dict[name])
+        params = ", ".join(["%s=%s" % (name, _print_obj(params_dict[name]))
                             for name in self._get_param_names()])
         return '%s(%s)' % (self.__class__.__name__, params)
