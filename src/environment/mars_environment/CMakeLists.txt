@@ -28,6 +28,10 @@ pkg_check_modules(CFG_MANAGER "cfg_manager")
 include_directories(${CFG_MANAGER_INCLUDE_DIRS})
 link_directories(${CFG_MANAGER_LIBRARY_DIRS})
 
+pkg_check_modules(DATA_BROKER "data_broker")
+include_directories(${DATA_BROKER_INCLUDE_DIRS})
+link_directories(${DATA_BROKER_LIBRARY_DIRS})
+
 pkg_check_modules(CONFIGMAPS "configmaps")
 include_directories(${CONFIGMAPS_INCLUDE_DIRS})
 link_directories(${CONFIGMAPS_LIBRARY_DIRS})
@@ -84,6 +88,7 @@ endif (${USE_QT5})
 target_link_libraries(${PROJECT_NAME}
                       ${LIB_MANAGER_LIBRARIES}
                       ${CFG_MANAGER_LIBRARIES}
+                      ${DATA_BROKER_LIBRARIES}
                       ${CONFIGMAPS_LIBRARIES}
                       ${MARS_APP_LIBRARIES}
                       ${MARS_UTILS_LIBRARIES}

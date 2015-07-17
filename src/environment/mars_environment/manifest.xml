@@ -8,5 +8,6 @@
   <depend package="bolero" />
   <depend package="mars_app" />
   <depend package="mars/common/cfg_manager" />
+  <depend package="mars/common/data_broker" />
   <depend package="mars_interfaces" />
 </package>
