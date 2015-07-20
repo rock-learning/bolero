@@ -37,8 +37,14 @@ Objective Function
 Several benchmark functions to compare continuous black-box optimizers are
 provided by the environment :class:`ObjectiveFunction`. The objective
 functions are the same as in the software `COCO
-<http://coco.gforge.inria.fr/doku.php>`_. For example, you can see a comparison
-of several optimizers on the Rosenbrock function in the following plot.
+<http://coco.gforge.inria.fr/doku.php>`_. For example, you can see the surface
+of the sphere function and a comparison of several optimizers on the Rosenbrock
+function in the following plots.
+
+.. figure:: ../auto_examples/environment/images/plot_objective_function_001.png
+   :target: ../auto_examples/environment/plot_objective_function.html
+   :align: center
+   :scale: 50%
 
 .. figure:: ../auto_examples/optimizer/images/plot_optimization_001.png
    :target: ../auto_examples/optimizer/plot_optimization.html
