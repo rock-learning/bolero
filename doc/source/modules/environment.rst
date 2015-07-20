@@ -80,6 +80,9 @@ provided by BOLeRo.
    * - :ref:`Contextual Objective Function <contextual_objective_function>`
      - Contextual benchmark functions for contextual black-box optimization
 
+   * - :ref:`Catapult <catapult_env>`
+     - Benchmark problem for contextual policy search
+
 
 .. _contextual_objective_function:
 
@@ -91,3 +94,20 @@ black-box optimizers are provided by the environment
 :class:`ContextualObjectiveFunction`. The contextual objective functions are
 based on the functions that are provided with `COCO
 <http://coco.gforge.inria.fr/doku.php>`_.
+
+
+.. _catapult_env:
+
+Catapult
+--------
+
+The catapult environment is a benchmark problem for contextual policy search.
+It is a two-dimensional environment like the one displayed in the figur below.
+
+.. figure:: ../auto_examples/environment/images/plot_catapult_001.png
+   :target: ../auto_examples/environment/plot_catapult.html
+   :align: center
+   :scale: 80%
+
+The goal is to hit the ground at a target specified on the x-axis. The target
+is given by the context vector.
