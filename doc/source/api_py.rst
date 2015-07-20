@@ -30,6 +30,7 @@ Environment search classes
    ObjectiveFunction
    ContextualObjectiveFunction
    OptimumTrajectory
+   Catapult
 
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================
