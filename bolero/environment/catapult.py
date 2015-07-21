@@ -101,7 +101,7 @@ class Catapult(ContextualEnvironment):
         x[0] = y[0] = 0
         # Planar segment at the end which is long enough to avoid shooting
         # over the border
-        x[-1] = 25.0
+        x[-1] = 100.0
         y[-1] = y[-2]
 
         return np.vstack((x, y)).T
@@ -109,10 +109,9 @@ class Catapult(ContextualEnvironment):
     def _compute_surface(self):
         """Determine coefficients of the linear segments of the surface."""
         self.coefficients = np.empty((self.segments.shape[0] - 1, 2))
-        self.coefficients[:, 1] = ((self.segments[1:, 1] -
-                                    self.segments[:-1, 1]) /
-                                   (self.segments[1:, 0] -
-                                    self.segments[:-1, 0]))
+        self.coefficients[:, 1] = (
+            (self.segments[1:, 1] - self.segments[:-1, 1]) /
+            (self.segments[1:, 0] - self.segments[:-1, 0]))
         self.coefficients[:, 0] = (self.segments[1:, 1] -
                                    self.segments[1:, 0] *
                                    self.coefficients[:, 1])
