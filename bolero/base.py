@@ -12,7 +12,7 @@ class Base(object):
     """Base class for all objects in BOLeRo."""
 
     @classmethod
-    def _get_param_names(cls):
+    def _get_arg_names(cls):
         """Get parameter names for the estimator.
 
         Returns
@@ -33,7 +33,7 @@ class Base(object):
         args.sort()
         return args
 
-    def get_params(self):
+    def get_args(self):
         """Get parameters for this estimator.
 
         Returns
@@ -42,10 +42,10 @@ class Base(object):
             Parameter names mapped to their values.
         """
         return dict((key, getattr(self, key, None))
-                    for key in self._get_param_names())
+                    for key in self._get_arg_names())
 
     def __repr__(self):
-        params_dict = self.get_params()
+        params_dict = self.get_args()
         params = ", ".join(["%s=%s" % (name, _print_obj(params_dict[name]))
-                            for name in self._get_param_names()])
+                            for name in self._get_arg_names()])
         return '%s(%s)' % (self.__class__.__name__, params)

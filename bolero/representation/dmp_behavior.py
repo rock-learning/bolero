@@ -40,11 +40,10 @@ class DMPBehavior(BlackBoxBehavior):
     """
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
                  configuration_file=None):
-        if configuration_file is None:
-            self.dmp = DMP(execution_time=execution_time, dt=dt,
-                           n_features=n_features)
-        else:
-            self.dmp = DMP.from_file(configuration_file)
+        self.execution_time = execution_time
+        self.dt = dt
+        self.n_features = n_features
+        self.configuration_file = configuration_file
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
@@ -60,6 +59,12 @@ class DMPBehavior(BlackBoxBehavior):
         if n_inputs != n_outputs:
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
+
+        if self.configuration_file is None:
+            self.dmp = DMP(execution_time=self.execution_time, dt=self.dt,
+                           n_features=self.n_features)
+        else:
+            self.dmp = DMP.from_file(self.configuration_file)
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs

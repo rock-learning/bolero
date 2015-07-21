@@ -14,7 +14,6 @@ from bolero.behavior_search import BlackBoxSearch
 from bolero.optimizer import CMAESOptimizer
 from bolero.representation import DMPBehavior
 from bolero.controller import Controller
-from dmp import DMP
 
 
 n_task_dims = 2
@@ -27,7 +26,7 @@ n_features = 10
 n_episodes = 500
 
 
-beh = DMPBehavior(DMP(execution_time, dt, n_features))
+beh = DMPBehavior(execution_time, dt, n_features)
 env = OptimumTrajectory(x0, g, execution_time, dt, obstacles,
                         penalty_goal_dist=1.0, penalty_obstacle=1000.0,
                         penalty_acc=1.0)

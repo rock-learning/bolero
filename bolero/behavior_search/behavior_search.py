@@ -2,10 +2,11 @@
 
 from abc import ABCMeta, abstractmethod
 from ..utils import NonContextualException
+from ..base import Base
 import pickle
 
 
-class ContextualBehaviorSearch(object):
+class ContextualBehaviorSearch(Base):
     """Common interface for (contextual) behavior search."""
     __metaclass__ = ABCMeta
 
