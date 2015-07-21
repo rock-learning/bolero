@@ -226,10 +226,12 @@ class DMPBehavior(BlackBoxBehavior):
             alpha improve the conditioning of the problem and reduce the
             variance of the estimates.
         """
-        imitate_dmp(self.dmp, X, Xd, Xdd, set_weights=True)
+        imitate_dmp(self.dmp, X, Xd, Xdd, alpha=alpha, set_weights=True)
 
     def trajectory(self):
         """Generate trajectory represented by the DMP in open loop.
+
+        The function can be used for debugging purposes.
 
         Returns
         -------

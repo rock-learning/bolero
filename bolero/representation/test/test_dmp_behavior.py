@@ -2,6 +2,7 @@ import os
 import numpy as np
 from dmp import DMP
 from bolero.representation import DMPBehavior
+from bolero.datasets import make_minimum_jerk
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_equal, assert_array_almost_equal
 
@@ -157,3 +158,24 @@ def test_more_steps_than_allowed():
     assert_array_equal(xva[:n_task_dims], last_x)
     assert_array_equal(xva[n_task_dims:-n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
+
+
+def test_imitate():
+    x0, g, execution_time, dt = np.zeros(1), np.ones(1), 1.0, 0.001
+
+    beh = DMPBehavior(execution_time, dt, 20)
+    beh.init(3, 3)
+    beh.set_meta_parameters(["x0", "g"], [x0, g])
+
+    X_demo, Xd_demo, Xdd_demo = make_minimum_jerk(
+        x0, g, execution_time, dt)
+
+    # Without regularization
+    beh.imitate(X_demo, Xd_demo, Xdd_demo)
+    X = beh.trajectory()[0]
+    assert_array_almost_equal(X_demo.T[0], X, decimal=4)
+
+    # With alpha > 0
+    beh.imitate(X_demo, Xd_demo, Xdd_demo, alpha=1.0)
+    X = beh.trajectory()[0]
+    assert_array_almost_equal(X_demo.T[0], X, decimal=3)
