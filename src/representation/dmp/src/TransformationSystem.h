@@ -126,10 +126,10 @@ public:
    * following values will be computed in step t:
    *
    *   \f{eqnarray}{
-   *   f(s) &=& \text{response of forcing\_term}\\
-   *   C_t &=& \text{coupling term for obstacle avoidance}\\
-   *   \eta &=& \text{amplitude of the movement}\\
-   *   \dot{z}_t &=& \text{acceleration based on type of transformation system}\\
+   *   f(s) &=& \textrm{response of forcing\_term}\\
+   *   C_t &=& \textrm{coupling term for obstacle avoidance}\\
+   *   \eta &=& \textrm{amplitude of the movement}\\
+   *   \dot{z}_t &=& \textrm{acceleration based on type of transformation system}\\
    *   \dot{y}_t &=& z_{t-1}/\tau\\
    *   \ddot{y}_t &=& \dot{z}_{t}/\tau\\
    *   z_t &=& z_{t-1} + \dot{z}_t \cdot dt\\
