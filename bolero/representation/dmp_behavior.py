@@ -3,7 +3,7 @@
 
 import numpy as np
 from .behavior import BlackBoxBehavior
-from dmp import DMP
+from dmp import DMP, imitate_dmp
 
 
 PERMITTED_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
@@ -206,3 +206,51 @@ class DMPBehavior(BlackBoxBehavior):
         """Reset DMP."""
         self.dmp.reset()
         self.x0 = None
+
+    def imitate(self, X, Xd=None, Xdd=None, alpha=0.0):
+        """Learn weights of the DMP from demonstrations.
+
+        Parameters
+        ----------
+        X : array, shape (n_task_dims, n_steps, n_demos)
+            The demonstrated trajectories to be imitated.
+
+        Xd : array, shape (n_task_dims, n_steps, n_demos), optional
+            Velocities of the demonstrated trajectories.
+
+        Xdd : array, shape (n_task_dims, n_steps, n_demos), optional
+            Accelerations of the demonstrated trajectories.
+
+        alpha : float >= 0, optional (default: 0)
+            The ridge parameter of linear regression. Small positive values of
+            alpha improve the conditioning of the problem and reduce the
+            variance of the estimates.
+        """
+        imitate_dmp(self.dmp, X, Xd, Xdd, set_weights=True)
+
+    def trajectory(self):
+        """Generate trajectory represented by the DMP in open loop.
+
+        Returns
+        -------
+        X : array, shape (n_task_dims, n_steps, n_demos)
+            Positions
+
+        Xd : array, shape (n_task_dims, n_steps, n_demos), optional
+            Velocities
+
+        Xdd : array, shape (n_task_dims, n_steps, n_demos), optional
+            Accelerations
+        """
+        x, xd, xdd = (np.copy(self.x0), np.zeros_like(self.x0),
+                      np.zeros_like(self.x0))
+        X, Xd, Xdd = [], [], []
+
+        self.dmp.reset()
+        while self.dmp.can_step():
+            self.dmp.execute_step(x, xd, xdd, self.x0, self.g, self.gd)
+            X.append(x.copy())
+            Xd.append(xd.copy())
+            Xdd.append(xdd.copy())
+
+        return np.array(X), np.array(Xd), np.array(Xdd)
