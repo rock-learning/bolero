@@ -12,7 +12,7 @@ class Catapult(ContextualEnvironment):
 
     In this benchmark problem, the agent controls a catapult which shoots onto
     specific target positions (the contexts) on a one-dimensional surface. The
-    agent sets the parameters of the shoot (velocity and angle of the
+    agent sets the parameters of the shot (velocity and angle of the
     catapult), and this environment simulates the shoot. The actual position
     where the object hits the ground is not communicated to the agent. Instead
     the agent is told only the cost of this specific trial, where cost is
@@ -42,7 +42,7 @@ class Catapult(ContextualEnvironment):
     catapult_pos : array-like, shape (2,), optional (default: (0, 0))
         The x and y positions at which the catapult is placed.
 
-    velocity_penality : float>=0, default=0.1
+    velocity_penality : float>=0, optional (default: 0.1)
         A factor which controls how strongly large velocities are penalized in
         the cost function. Larger values correspond to stronger penalties.
 
@@ -242,8 +242,8 @@ class Catapult(ContextualEnvironment):
         intersections = np.where(np.logical_and(self.segments[:-1, 0] <= x,
                                                 x <= self.segments[1:, 0]))
         if len(intersections[0]) == 0:
-            raise Exception("Could not intersect trajectory and surface, "
-                            "extend the surface!")
+            raise Exception("Could not intersect trajectory and surface. The "
+                            "ball did not hit the ground. Extend the surface!")
         return x[intersections].min()
 
     def plot(self, ax, v=10.0):
