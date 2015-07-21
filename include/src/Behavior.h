@@ -22,6 +22,11 @@
 
 namespace bolero {
 
+  /**
+   * Behavior interface.
+   *
+   * A behavior maps input (e.g. state) to output (e.g. next state or action).
+   */
   class Behavior {
 
   public:

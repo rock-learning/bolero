@@ -99,5 +99,6 @@ API
    :maxdepth: 1
 
    api_py
+   api_cpp
    mars_environment
    contributing

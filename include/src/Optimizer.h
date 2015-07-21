@@ -20,6 +20,9 @@
 
 namespace bolero {
 
+  /**
+   * Common interface for optimizers.
+   */
   class Optimizer : public lib_manager::LibInterface {
 
   public:
