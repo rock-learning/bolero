@@ -19,6 +19,7 @@ def eval_loop(beh, xva):
     beh.step()
     beh.get_outputs(xva)
 
+
 def test_dimensions_do_not_match():
     beh = DMPBehavior()
     assert_raises_regexp(ValueError, "Input and output dimensions must match",
@@ -44,7 +45,7 @@ def test_default_dmp():
 
 
 def test_dmp_from_config():
-    beh = DMPBehavior(DMP_CONFIG_FILE)
+    beh = DMPBehavior(configuration_file=DMP_CONFIG_FILE)
     beh.init(18, 18)
 
     xva = np.zeros(18)
@@ -56,9 +57,8 @@ def test_dmp_from_config():
     assert_equal(t, 447)
 
 
-def test_dmp_from_dmp():
-    dmp = DMP()
-    beh = DMPBehavior(dmp)
+def test_dmp_constructor_args():
+    beh = DMPBehavior(execution_time=2)
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
     xva = np.zeros(3 * n_task_dims)
@@ -67,14 +67,7 @@ def test_dmp_from_dmp():
     while beh.can_step():
         eval_loop(beh, xva)
         t += 1
-    assert_equal(t, 101)
-
-
-def test_dmp_unknown():
-    class NoDMP:
-        pass
-
-    assert_raises_regexp(ValueError, "Unknown DMP type", DMPBehavior, NoDMP())
+    assert_equal(t, 201)
 
 
 def test_metaparameter_not_permitted():

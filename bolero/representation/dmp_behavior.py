@@ -25,18 +25,26 @@ class DMPBehavior(BlackBoxBehavior):
 
     Parameters
     ----------
-    dmp : string or DMP, optional (default: None)
-        A DMP object or the name of a configuration file
+    execution_time : float, optional (default: 1)
+        Execution time of the DMP in seconds.
+
+    dt : float, optional (default: 0.01)
+        Time between successive steps in seconds.
+
+    n_features : int, optional (default: 50)
+        Number of RBF features for each dimension of the DMP.
+
+    configuration_file : string, optional (default: None)
+        Name of a configuration file that should be used to initialize the DMP.
+        If it is set all other arguments will be ignored.
     """
-    def __init__(self, dmp=None):
-        if dmp is None:
-            self.dmp = DMP()
-        elif isinstance(dmp, basestring):
-            self.dmp = DMP.from_file(dmp)
-        elif hasattr(dmp, "execute_step"):
-            self.dmp = dmp
+    def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
+                 configuration_file=None):
+        if configuration_file is None:
+            self.dmp = DMP(execution_time=execution_time, dt=dt,
+                           n_features=n_features)
         else:
-            raise ValueError("Unknown DMP type: %r" % dmp)
+            self.dmp = DMP.from_file(configuration_file)
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
