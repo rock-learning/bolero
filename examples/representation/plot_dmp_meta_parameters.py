@@ -3,7 +3,11 @@
 Influence of DMP meta-parameters
 ================================
 
-Demonstrate the influence of DMP meta-parameters.
+Demonstrate the influence of DMP meta-parameters. In the first row, we modify
+the goal. We could change the goal online as well, which would result in a
+smooth transition from the original to the modified trajectory. In the second
+row, the final velocity is modified and the execution time is modified in the
+third row.
 """
 print(__doc__)
 
