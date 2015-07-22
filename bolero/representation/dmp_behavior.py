@@ -19,9 +19,9 @@ class DMPBehavior(BlackBoxBehavior):
     subclass of this wrapper that only overrides the methods that provide
     access to the parameters.
 
-    An object can be created either by passing a configuration file or a DMP
-    object. A DMP configuration file describes all parameters of the DMP model
-    and it is not recommended to generate it manually.
+    An object can be created either by passing a configuration file or the
+    specification of a DMP. A DMP configuration file describes all parameters
+    of the DMP model and it is not recommended to generate it manually.
 
     Parameters
     ----------
@@ -243,10 +243,10 @@ class DMPBehavior(BlackBoxBehavior):
         X : array, shape (n_task_dims, n_steps, n_demos)
             Positions
 
-        Xd : array, shape (n_task_dims, n_steps, n_demos), optional
+        Xd : array, shape (n_task_dims, n_steps, n_demos)
             Velocities
 
-        Xdd : array, shape (n_task_dims, n_steps, n_demos), optional
+        Xdd : array, shape (n_task_dims, n_steps, n_demos)
             Accelerations
         """
         x, xd, xdd = (np.copy(self.x0), np.zeros_like(self.x0),
