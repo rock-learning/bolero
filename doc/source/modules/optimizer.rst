@@ -178,3 +178,19 @@ optimization. It represents the upper-level policy by a linear model with
 nonlinear features from the context. It guarantees that the Kullback-Leibler
 divergence between successive policy distributions is bounded so that
 potentially dangerous exploration can be controlled.
+
+The first publication that describes C-REPS is
+
+.. seealso::
+
+    Kupcsik, Deisenroth, Peters, Neumann:
+    Data-Efficient Generalization of Robot Skills with Contextual Policy Search.
+    http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf
+
+A more detailed description of C-REPS and this implementation can be found in
+the appendix of
+
+.. seealso::
+
+    Fabisch, Metzen: Active Contextual Policy Search.
+    http://jmlr.org/papers/v15/fabisch14a.html
