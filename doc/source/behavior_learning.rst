@@ -5,8 +5,8 @@ Behavior Learning
 =================
 
 Behaviors can be learned with many methods from the field of reinforcement
-learning, black-box optimization and evolutionary computation. BOLeRo tries
-to provide the set of tools for learning behaviors with several methods and
+learning, black-box optimization, and evolutionary computation. BOLeRo tries
+to provide a set of tools for learning behaviors with several methods and
 for implementing new approaches. However, not all behavior learning methods
 are compatible to BOLeRo. Our focus is on policy search methods because they
 are easy to apply in a robotic application.
