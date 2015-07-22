@@ -16,20 +16,25 @@ namespace dmp {
 class Dmp;
 
 /**
- * A simple wrapper around the dmp class that provides the Behavior interface.
+ * A simple wrapper around the DMP class that provides the Behavior interface.
  *
- * \note This class expects (and enforces) the following call order:
- *       Initialization:
- *       1. initialize()
- *       2. configure()
+ * \note
+ * This class expects (and enforces) the following call order:
  *
- *       loop:
- *       3. setInputs()
- *       4. step()
- *       5. getOutputs()
+ * \par
+ * Initialization:
+ * 1. initialize()
+ * 2. configure()
  *
- *       configure() can be called at any time during the loop to
- *       re-configure the dmp.
+ * \par
+ * loop:
+ * 3. setInputs()
+ * 4. step()
+ * 5. getOutputs()
+ *
+ * \par
+ * configure() can be called at any time during the loop to re-configure the
+ * dmp.
  */
 class DmpBehavior : public bolero::LoadableBehavior
 {
