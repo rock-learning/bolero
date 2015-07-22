@@ -47,7 +47,6 @@ The highlights of BOLeRo are
 
 .. image:: _static/concept_sketch.svg
    :alt: Behavior Learning
-   :width: 300px
    :align: right
 
 .. raw:: html
