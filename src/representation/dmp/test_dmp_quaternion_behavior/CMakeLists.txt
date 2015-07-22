@@ -12,8 +12,8 @@ define_module_info()
 pkg_check_modules(BLLOADER REQUIRED bl_loader)
 include_directories(
     ${BLLOADER_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIR}
-    ${YAMLCPP_INCLUDE_DIR}
+    ${EIGEN3_INCLUDE_DIRS}
+    ${YAMLCPP_INCLUDE_DIRS}
     ${BOLERO_INCLUDE_DIRS})
 link_directories(${BLLOADER_LIBRARY_DIRS})
 add_definitions(${BLLOADER_CFLAGS_OTHER})
