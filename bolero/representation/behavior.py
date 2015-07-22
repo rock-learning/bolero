@@ -69,7 +69,7 @@ class Behavior(Base):
     def step(self):
         """Compute output for the received input.
 
-        Use the inputs and meta-parameters to compute the outputs.
+        Uses the inputs and meta-parameters to compute the outputs.
         """
 
     def can_step(self):

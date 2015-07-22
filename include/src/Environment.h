@@ -20,9 +20,21 @@ namespace bolero {
 
   class Behavior;
 
+  /**
+   * @class Environment
+   * Common interface for environments.
+   * An environment can execute actions, measure states and compute rewards.
+   * It defines a learning problem.
+   */
   class Environment : public lib_manager::LibInterface {
 
   public:
+    /**
+     * Create an environment.
+     * \param theManager libManager instance
+     * \param libName name of the library
+     * \param libVersion version of the library
+     */
     Environment(lib_manager::LibManager *theManager,
                 const std::string &libName, int libVersion) :
       lib_manager::LibInterface(theManager), libName(libName),
@@ -32,34 +44,79 @@ namespace bolero {
     virtual ~Environment() {}
 
     // LibInterface methods
+
     virtual int getLibVersion() const {return libVersion;}
     virtual const std::string getLibName() const {return libName;}
     virtual void createModuleInfo() {}
 
     // Environment methods
+
+    /**
+     * Initialize environment.
+     */
     virtual void init() = 0;
+
+    /**
+     * Reset state of the environment.
+     */
     virtual void reset() = 0;
+
     virtual bool isContextual(){return false;}
 
     /**
-     * This functions are used for the controller interfacing a
-     * behavior to an environment
+     * Get number of environment inputs.
+     * \return number of inputs
      */
     virtual int getNumInputs() const = 0;
+
+    /**
+     * Get number of environment outputs.
+     * \return Number of environment outputs
+     */
     virtual int getNumOutputs() const = 0;
+
+    /**
+     * Get outputs.
+     * \param values outputs, e.g. current state of the system
+     * \param numOutputs expected number of outputs
+     */
     virtual void getOutputs(double *values, int numOutputs) const = 0;
+
+    /**
+     * Set input for the next step.
+     * \param[out] values inputs e.g. desired state of the system
+     * \param numInputs number of inputs
+     */
     virtual void setInputs(const double *values, int numInputs) = 0;
+
+    /**
+     * Take a step in the environment.
+     */
     virtual void stepAction() = 0;
 
-    // sets whether the environment is in training or test mode
-    virtual void setTestMode(bool b) {}
+    /**
+     * Sets whether the environment is in training or test mode.
+     * \param test test mode?
+     */
+    virtual void setTestMode(bool test) {}
 
+    /**
+     * Is the evaluation of the behavior finished?
+     * \return is the evaluation finished?
+     */
     virtual bool isEvaluationDone() const = 0;
 
-    // returns how many rewards were assigned to the pointer parameter
-    // for the whole evaluation
+    /**
+     * Get feedbacks from the last episode.
+     * \param[out] feedbacks
+     * \return how many rewards were assigned for the whole evaluation
+     */
     virtual int getFeedback(double *feedback) const = 0;
 
+    /**
+     * Check if the behavior learning is finished.
+     * \return is the learning of a behavior finished?
+     */
     virtual bool isBehaviorLearningDone() const = 0;
 
   protected:

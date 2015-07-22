@@ -8,6 +8,7 @@ class Environment(Base):
     """Common interface for environments.
 
     An environment can execute actions, measure states and compute rewards.
+    It defines a learning problem.
     """
     __metaclass__ = ABCMeta
 
@@ -25,7 +26,7 @@ class Environment(Base):
 
         Parameters
         ----------
-        n : int
+        n_inputs : int
             Number of environment inputs
         """
 
@@ -35,7 +36,7 @@ class Environment(Base):
 
         Parameters
         ----------
-        n : int
+        n_outputs : int
             Number of environment outputs
         """
 

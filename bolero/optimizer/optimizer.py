@@ -30,7 +30,7 @@ class ContextualOptimizer(Base):
 
         Parameters
         ----------
-        p : array_like, shape (num_p,)
+        p : array_like, shape (n_params,)
             parameter vector, will be modified
         """
 
@@ -102,7 +102,7 @@ class Optimizer(Base):
 
         Parameters
         ----------
-        p : array_like, shape (num_p,)
+        p : array_like, shape (n_params,)
             parameter vector, will be modified
         """
 
@@ -128,10 +128,10 @@ class Optimizer(Base):
 
     @abstractmethod
     def get_best_parameters(self):
-        """Method not supported by ContextualOptimizer.
+        """Get best individual/parameter vector so far.
 
-        For contextual optimizers, this method cannot meaningfully implemented
-        since the best parameters depend on the context. Instead, a method
-        best_policy() needs to be implemented which returns the best policy,
-        where a policy implements a mapping from context onto parameters.
+        Returns
+        -------
+        p : array_like, shape (n_params,)
+            Best parameter vector so far
         """
