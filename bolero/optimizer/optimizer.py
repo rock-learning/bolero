@@ -25,13 +25,13 @@ class ContextualOptimizer(Base):
         """
 
     @abstractmethod
-    def get_next_parameters(self, p):
+    def get_next_parameters(self, params):
         """Get next individual/parameter vector for evaluation.
 
         Parameters
         ----------
-        p : array_like, shape (n_params,)
-            parameter vector, will be modified
+        params : array_like, shape (n_params,)
+            Parameter vector, will be modified
         """
 
     @abstractmethod
@@ -41,7 +41,7 @@ class ContextualOptimizer(Base):
         Parameters
         ----------
         rewards : list of float
-            feedbacks for each step or for the episode, depends on the problem
+            Feedbacks for each step or for the episode, depends on the problem
         """
 
     @abstractmethod
@@ -74,13 +74,19 @@ class ContextualOptimizer(Base):
 
         Parameters
         ----------
-        context : ndarray-like
+        context : array-like, shape (n_context_dims,)
             The context in which the next rollout will be performed
         """
 
     @abstractmethod
     def best_policy(self):
-        """Return current best estimate of contextual policy. """
+        """Return current best estimate of contextual policy.
+
+        Returns
+        -------
+        policy : UpperLevelPolicy
+            Best estimate of upper-level policy
+        """
 
 
 class Optimizer(Base):
@@ -97,13 +103,13 @@ class Optimizer(Base):
         """
 
     @abstractmethod
-    def get_next_parameters(self, p):
+    def get_next_parameters(self, params):
         """Get next individual/parameter vector for evaluation.
 
         Parameters
         ----------
-        p : array_like, shape (n_params,)
-            parameter vector, will be modified
+        params : array_like, shape (n_params,)
+            Parameter vector, will be modified
         """
 
     @abstractmethod

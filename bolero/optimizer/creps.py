@@ -132,7 +132,17 @@ class CREPSOptimizer(ContextualOptimizer):
         self.log_to_stdout = log_to_stdout
         self.random_state = random_state
 
-    def init(self, dimension, n_context_dims):
+    def init(self, n_params, n_context_dims):
+        """Initialize optimizer.
+
+        Parameters
+        ----------
+        n_params : int
+            dimension of the parameter vector
+
+        n_context_dims : int
+            number of dimensions of the context space
+        """
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
         self.random_state = check_random_state(self.random_state)
@@ -140,14 +150,14 @@ class CREPSOptimizer(ContextualOptimizer):
         self.it = 0
 
         if self.initial_params is None:
-            self.initial_params = np.zeros(dimension)
+            self.initial_params = np.zeros(n_params)
         else:
             self.initial_params = np.asarray(self.initial_params).astype(
                 np.float64, copy=True)
-        if dimension != len(self.initial_params):
+        if n_params != len(self.initial_params):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
-                             % (dimension, len(self.initial_params)))
+                             % (n_params, len(self.initial_params)))
 
         self.context = None
         self.params = None
@@ -159,7 +169,7 @@ class CREPSOptimizer(ContextualOptimizer):
         inv_scaled_params = self.scaler.inv_scale(self.initial_params)
 
         policy = ContextTransformationPolicy(
-            LinearGaussianPolicy, dimension, n_context_dims,
+            LinearGaussianPolicy, n_params, n_context_dims,
             context_transformation=self.context_features,
             mean=inv_scaled_params, covariance_scale=1.0, gamma=self.gamma,
             random_state=self.random_state)
@@ -171,18 +181,47 @@ class CREPSOptimizer(ContextualOptimizer):
         self.history_phi_s = deque(maxlen=self.n_samples_per_update)
 
     def get_desired_context(self):
+        """C-REPS does not actively select the context.
+
+        Returns
+        -------
+        context : None
+            C-REPS does not have any preference
+        """
         return None
 
     def set_context(self, context):
+        """Set context of next evaluation.
+
+        Parameters
+        ----------
+        context : array-like, shape (n_context_dims,)
+            The context in which the next rollout will be performed
+        """
         self.context = context
 
     def get_next_parameters(self, params, explore=True):
-        """Return parameter vector that shall be evaluated next."""
+        """Get next individual/parameter vector for evaluation.
+
+        Parameters
+        ----------
+        params : array_like, shape (n_params,)
+            Parameter vector, will be modified
+
+        explore : bool, optional (default: True)
+            Whether we want to turn exploration on for the next evaluation
+        """
         self.params = self.policy_(self.context, explore=explore)
         params[:] = self.params
 
     def set_evaluation_feedback(self, rewards):
-        """Inform optimizer of outcome of a rollout with current weights."""
+        """Set feedbacks for the parameter vector.
+
+        Parameters
+        ----------
+        rewards : list of float
+            Feedbacks for each step or for the episode, depends on the problem
+        """
         self.reward = check_feedback(rewards, compute_sum=True)
 
         inv_scaled_params = self.scaler.inv_scale(self.params)
@@ -210,6 +249,13 @@ class CREPSOptimizer(ContextualOptimizer):
         self.policy_.fit(phi_s, theta, d, context_transform=False)
 
     def best_policy(self):
+        """Return current best estimate of contextual policy.
+
+        Returns
+        -------
+        policy : UpperLevelPolicy
+            Best estimate of upper-level policy
+        """
         return self.policy_
 
     def is_behavior_learning_done(self):

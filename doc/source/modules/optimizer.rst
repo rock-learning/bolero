@@ -174,4 +174,7 @@ C-REPS Optimizer
 
 The :class:`CREPSOptimizer` implements the algorithm Contextual Relative
 Entropy Policy Search which is a state of the art approach for contextual
-optimization.
+optimization. It represents the upper-level policy by a linear model with
+nonlinear features from the context. It guarantees that the Kullback-Leibler
+divergence between successive policy distributions is bounded so that
+potentially dangerous exploration can be controlled.

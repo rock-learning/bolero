@@ -113,24 +113,31 @@ class CMAESOptimizer(Optimizer):
         self.log_to_stdout = log_to_stdout
         self.random_state = random_state
 
-    def init(self, dimension):
+    def init(self, n_params):
+        """Initialize the behavior search.
+
+        Parameters
+        ----------
+        n_params : int
+            dimension of the parameter vector
+        """
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
         self.random_state = check_random_state(self.random_state)
 
-        self.n_params = dimension
+        self.n_params = n_params
         self.it = 0
         self.eigen_decomp_updated = 0
 
         if self.initial_params is None:
-            self.initial_params = np.zeros(dimension)
+            self.initial_params = np.zeros(n_params)
         else:
             self.initial_params = np.asarray(self.initial_params).astype(
                 np.float64, copy=True)
-        if dimension != len(self.initial_params):
+        if n_params != len(self.initial_params):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
-                             % (dimension, len(self.initial_params)))
+                             % (n_params, len(self.initial_params)))
 
         if self.covariance is None:
             self.covariance = np.eye(self.n_params)
@@ -211,10 +218,24 @@ class CMAESOptimizer(Optimizer):
         return samples
 
     def get_next_parameters(self, params):
+        """Get next individual/parameter vector for evaluation.
+
+        Parameters
+        ----------
+        params : array_like, shape (n_params,)
+            Parameter vector, will be modified
+        """
         k = self.it % self.n_samples_per_update
         params[:] = self.samples[k]
 
     def set_evaluation_feedback(self, feedback):
+        """Set feedbacks for the parameter vector.
+
+        Parameters
+        ----------
+        feedback : list of float
+            feedbacks for each step or for the episode, depends on the problem
+        """
         k = self.it % self.n_samples_per_update
         self.fitness[k] = check_feedback(feedback, compute_sum=True)
         if self.maximize:
