@@ -55,6 +55,7 @@ def setup_package():
         url="http://robotik.dfki-bremen.de/en/research/softwaretools/bolero.html",
         #download_url="TODO",
         cmdclass={'clean': CleanCommand},
+        scripts = ["scripts/bolero-run"],
         )
 
     if (len(sys.argv) >= 2
