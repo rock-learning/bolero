@@ -9,6 +9,24 @@ This is the class and function reference of the Python API.
 You can search for specific modules, classes or functions in the
 :ref:`genindex`.
 
+:mod:`bolero.controller`: Controller
+====================================
+
+.. automodule:: bolero.controller
+    :no-members:
+    :no-inherited-members:
+
+Controller classes
+------------------
+.. currentmodule:: bolero.controller
+
+.. autosummary::
+   :toctree: modules/generated/
+   :template: class.rst
+
+   Controller
+   ContextualController
+
 :mod:`bolero.environment`: Environment
 ======================================
 

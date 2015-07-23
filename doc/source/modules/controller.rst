@@ -31,13 +31,13 @@ BOLeRo.
 Controller
 ==========
 
-A controller can be used to do behavior search when a behavior search algorithm
-is defined or it can be used to execute behaviors in an environment.
+A :class:`Controller` can be used to do behavior search when a behavior search
+algorithm is defined or it can be used to execute behaviors in an environment.
 
 .. _contextual_controller:
 
 Contextual Controller
 =====================
 
-A contextual controller can be used to do contextual behavior search when a
-contextual behavior search algorithm is defined.
+A :class:`ContextualController` can be used to do contextual behavior search
+when a contextual behavior search algorithm is defined.
