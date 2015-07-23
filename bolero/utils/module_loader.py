@@ -4,6 +4,7 @@ import os
 import yaml
 import warnings
 import inspect
+import StringIO
 
 
 def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -82,7 +83,7 @@ def __load_config_from_file(filename, conf_path=None):
         raise ValueError("'%s' does not exist" % conf_filename)
 
 
-def from_dict(config):
+def from_dict(config, name=None):
     """Create an object of a class that is fully specified by a config dict.
 
     This will recursively go through all lists, tuples and dicts that are
@@ -123,15 +124,15 @@ def from_dict(config):
         result = config
 
     for k, v in it:
-        result[k] = from_dict(v)
+        result[k] = from_dict(v, name=k)
 
     if isinstance(config, dict) and "type" in config:
-        return _from_dict(config)
+        return _from_dict(name, config)
     else:
         return result
 
 
-def _from_dict(config):
+def _from_dict(name, config):
     """Create an object of a class that is fully specified by a config dict.
 
     No recursion happens here. This function will directly create objects
@@ -139,6 +140,9 @@ def _from_dict(config):
 
     Parameters
     ----------
+    name : string
+        Key of the entry in the configuration dictionary
+
     config : dict
         Configuration dictionary of the object. Contains constructor
         arguments.
@@ -163,6 +167,19 @@ def _from_dict(config):
         package_name = ".".join(type_parts[:-1])
         type_name = type_parts[-1]
 
+    if package_name == "":
+        cpp_lib = _load_cpp_library(name, type_name)
+        if cpp_lib is None:
+            raise ValueError(
+                "Empty module name. Either you tried to load a C++ library "
+                "that cannot be found or you forgot to specify the Python "
+                "package where the class '%s' is located." % type_name)
+        config_string = StringIO.StringIO()
+        yaml.dump(c, config_string)
+        cpp_lib.initialize_yaml(config_string.getvalue())
+        config_string.close()
+        return cpp_lib
+
     package = __import__(package_name, {}, {}, fromlist=["dummy"], level=0)
     class_dict = dict(inspect.getmembers(package))
 
@@ -177,3 +194,23 @@ def _from_dict(config):
     except TypeError as e:
         raise TypeError("Parameters for type '%s' do not match: %r. Reason: "
                         "'%s'" % (type_name, c, e.message))
+
+
+PERMITTED_BASECLASSES = [
+    "behavior", "behavior_search", "contextual_environment", "environment",
+    "optimizer"]
+
+
+def _load_cpp_library(name, type_name):
+    from bolero import wrapper
+    if not wrapper.__available__ or name is None:
+        return None
+
+    baseclass = name.lower()
+    if baseclass not in PERMITTED_BASECLASSES:
+        return None
+
+    loader = wrapper.CppBLLoader()
+    loader.load_library(type_name)
+    factory = getattr(loader, "acquire_" + baseclass)
+    return factory(type_name)

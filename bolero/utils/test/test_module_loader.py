@@ -97,3 +97,8 @@ def test_load_from_yaml_with_conf_path():
 
 def test_load_from_missing_yaml():
     assert_raises_regexp(ValueError, "does not exist", from_yaml, "dummy.yaml")
+
+
+def test_load_cpp_lib():
+    opt = from_dict({"Optimizer": {"type": "pso_optimizer"}})["Optimizer"]
+    assert_true(hasattr(opt, "get_next_parameters"))

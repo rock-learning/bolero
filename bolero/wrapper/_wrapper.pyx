@@ -149,9 +149,13 @@ cdef class CppBLLoader:
 
 cdef class CppOptimizer:
     cdef Optimizer *thisptr
+    cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
 
     def init(self, dimension):
         """Initialize optimizer.
@@ -225,9 +229,13 @@ cdef class CppOptimizer:
 
 cdef class CppBehaviorSearch:
     cdef BehaviorSearch *thisptr
+    cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
 
     def init(self, num_inputs, num_outputs):
         """Initialize the behavior search.
@@ -308,9 +316,13 @@ cdef class CppBehaviorSearch:
 
 cdef class CppEnvironment:
     cdef Environment *thisptr
+    cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
 
     def init(self):
         """Initialize environment."""
@@ -420,9 +432,13 @@ cdef class CppEnvironment:
 
 cdef class CppContextualEnvironment:
     cdef ContextualEnvironment *thisptr
+    cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL
+
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
 
     def __dealloc__(self):
         del self.thisptr
@@ -566,9 +582,13 @@ cdef class CppContextualEnvironment:
 
 cdef class CppBehavior:
     cdef Behavior *thisptr
+    cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
