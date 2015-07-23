@@ -1,8 +1,11 @@
+pkg_check_modules(CATCH REQUIRED catch)
+
 include_directories(
     ${LIB_MANAGER_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
     ${YAMLCPP_INCLUDE_DIRS}
-    ${BOLERO_INCLUDE_DIRS})
+    ${BOLERO_INCLUDE_DIRS}
+    ${CATCH_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
 
 set(dmp_sources
@@ -28,22 +31,22 @@ set(dmp_rigid_body_sources
     test_rigid_body_dmp_config.cpp
     test_rigid_body_dmp.cpp)
 
-add_executable (dmp_cpp_test ${dmp_sources} catch.hpp)
+add_executable (dmp_cpp_test ${dmp_sources})
 target_link_libraries(dmp_cpp_test dmp_cpp ${LIB_MANAGER_LIBRARIES})
 
 # Behaviors need to be tested seperatly because multiple behaviors cannot exist
 # in the same library
 add_executable(dmp_cpp_behavior_test
-    test_main.cpp test_dmp_behavior.cpp catch.hpp)
+    test_main.cpp test_dmp_behavior.cpp)
 target_link_libraries(dmp_cpp_behavior_test
     dmp_cpp ${LIB_MANAGER_LIBRARIES})
 
 add_executable(dmp_cpp_quaternion_behavior_test
-    ${dmp_quaternion_behavior_sources} catch.hpp)
+    ${dmp_quaternion_behavior_sources})
 target_link_libraries(dmp_cpp_quaternion_behavior_test
     quaternion_dmp_cpp ${LIB_MANAGER_LIBRARIES})
 
-add_executable(dmp_cpp_rigid_body_test ${dmp_rigid_body_sources} catch.hpp)
+add_executable(dmp_cpp_rigid_body_test ${dmp_rigid_body_sources})
 target_link_libraries(dmp_cpp_rigid_body_test
     rigid_body_dmp_cpp ${LIB_MANAGER_LIBRARIES})
 set_target_properties(dmp_cpp_rigid_body_test PROPERTIES COMPILE_FLAGS "-std=c++0x")

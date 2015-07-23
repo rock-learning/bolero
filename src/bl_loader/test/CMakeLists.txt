@@ -13,6 +13,9 @@ pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
 include_directories(${LIB_MANAGER_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
 
+pkg_check_modules(CATCH REQUIRED catch)
+include_directories(${CATCH_INCLUDE_DIRS})
+
 pkg_check_modules(BOLERO REQUIRED bolero)
 include_directories(${BOLERO_INCLUDE_DIRS})
 
