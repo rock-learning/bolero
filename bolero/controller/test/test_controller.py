@@ -22,6 +22,15 @@ def test_no_environment_subclass():
         TypeError, "requires subclass of 'Environment'",
         Controller, environment=NoEnvironment())
 
+def test_no_behavior_search_subclass():
+    class NoBehaviorSearch(object):
+        pass
+
+    assert_raises_regexp(
+        TypeError, "requires subclass of 'BehaviorSearch'",
+        Controller, environment=ObjectiveFunction(),
+        behavior_search=NoBehaviorSearch())
+
 
 def test_missing_behavior_search():
     ctrl = Controller(environment=ObjectiveFunction())
