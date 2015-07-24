@@ -12,3 +12,4 @@ the University of Bremen, we changed the following details:
   instead the function `Behavior.init(int, int)` has been introduced to
   determine the number of inputs and outputs and initialize the behavior
 * Python interface: Optimizer and ContextualOptimizer are independent
+* Python interface: BehaviorSearch and ContextualBehaviorSearch are independent

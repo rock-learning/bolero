@@ -106,7 +106,7 @@ class ContextualBehaviorSearch(Base):
         """Return current best estimate of contextual policy."""
 
 
-class BehaviorSearch(ContextualBehaviorSearch):
+class BehaviorSearch(Base):
     """BehaviorSearch (learning algorithm) interface."""
 
     @abstractmethod
@@ -122,13 +122,55 @@ class BehaviorSearch(ContextualBehaviorSearch):
             number of outputs of the behavior
         """
 
-    def get_desired_context(self):
-        """Method not supported by BehaviorSearch."""
-        raise NonContextualException("get_desired_context() not supported.")
+    @abstractmethod
+    def get_next_behavior(self):
+        """Obtain next behavior for evaluation.
 
-    def set_context(self, context):
-        """Method not supported by BehaviorSearch."""
-        raise NonContextualException("set_context() not supported.")
+        Returns
+        -------
+        behavior : Behavior
+            mapping from input to output
+        """
+
+    @abstractmethod
+    def set_evaluation_feedback(self, feedbacks):
+        """Set feedback for the last behavior.
+
+        Parameters
+        ----------
+        feedbacks : list of float
+            feedback for each step or for the episode, depends on the problem
+        """
+
+    @abstractmethod
+    def write_results(self, result_path):
+        """Store current search state.
+
+        Parameters
+        ----------
+        result_path : string
+            path in which the state should be stored
+        """
+
+    @abstractmethod
+    def get_behavior_from_results(self, result_path):
+        """Recover search state from file.
+
+        Parameters
+        ----------
+        result_path : string
+            path in which we search for the file
+        """
+
+    @abstractmethod
+    def is_behavior_learning_done(self):
+        """Check if the behavior learning is finished, e.g. it converged.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
 
     @abstractmethod
     def get_best_behavior(self):
@@ -139,11 +181,6 @@ class BehaviorSearch(ContextualBehaviorSearch):
         behavior : Behavior
             mapping from input to output
         """
-
-    def get_best_behavior_template(self):
-        """Return current best estimate of contextual policy."""
-        raise NonContextualException("get_best_behavior_template() not "
-                                     "supported.")
 
 
 class PickableMixin(object):
