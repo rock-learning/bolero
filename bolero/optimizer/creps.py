@@ -14,26 +14,53 @@ from ..utils.validation import check_random_state, check_feedback
 from ..utils.log import get_logger
 
 
-def solve_dual_contextual_reps(s, R, epsilon, min_eta):
-    """Solve dual function for C-REPS."""
-    if s.shape[0] != R.shape[0]:
-        raise ValueError("Number of contexts (%d) must equal number of "
-                         "returns (%d)." % (s.shape[0], R.shape[0]))
+def solve_dual_contextual_reps(S, R, epsilon, min_eta):
+    """Solve dual function for C-REPS.
 
-    if R.ndim != 1:
-        raise ValueError("Returns must be passed in a flat array!")
+    Parameters
+    ----------
+    S : array, shape (n_samples_per_update, n_context_features)
+        Features for the context-dependend reward baseline
+
+    R : array, shape (n_samples_per_update,)
+        Corresponding obtained rewards
+
+    epsilon : float, optional (default: 2.0)
+        Maximum Kullback-Leibler divergence of two successive policy
+        distributions.
+
+    min_eta : float, optional (default: 1e-8)
+        Minimum eta, 0 would result in numerical problems
+
+    Returns
+    -------
+    d : array, shape (n_samples_per_update,)
+        Weights for training samples
+
+    eta : float
+        Temperature
+
+    nu : array, shape (n_context_features,)
+        Coefficients of linear reward baseline function
+    """
+    if S.shape[0] != R.shape[0]:
+        raise ValueError("Number of contexts (%d) must equal number of "
+                         "returns (%d)." % (S.shape[0], R.shape[0]))
+
+    n_samples_per_update = len(R)
 
     # Definition of the dual function
     def g(x):  # Objective function
         eta = x[0]
         nu = x[1:]
-        return (eta * epsilon + nu.T.dot(s.mean(axis=0)) +
-                eta * logsumexp((R - nu.dot(s.T)) / eta, b=1.0 / len(R)))
+        return (eta * epsilon + nu.T.dot(S.mean(axis=0)) +
+                eta * logsumexp((R - nu.dot(S.T)) / eta,
+                                b=1.0 / n_samples_per_update))
 
     # Lower bound for Lagrange parameters eta and nu
-    bounds = np.vstack(([[min_eta, None]], np.tile(None, (s.shape[1], 2))))
+    bounds = np.vstack(([[min_eta, None]], np.tile(None, (S.shape[1], 2))))
     # Start point for optimization
-    x0 = [1] + [1] * s.shape[1]
+    x0 = [1] + [1] * S.shape[1]
 
     # Perform the actual optimization of the dual function
     #r = NLP(g, x0, lb=lb).solve('ralg', iprint=-10)
@@ -47,14 +74,14 @@ def solve_dual_contextual_reps(s, R, epsilon, min_eta):
 
     # Determine weights of individual samples based on the their return,
     # the optimal baseline nu.dot(\phi(s)) and the "temperature" eta
-    log_d = (R - nu.dot(s.T)) / eta
+    log_d = (R - nu.dot(S.T)) / eta
     # Numerically stable softmax version of the weights. Note that
     # this does neither changes the solution of the weighted least
     # squares nor the estimation of the covariance.
     d = np.exp(log_d - log_d.max())
     d /= d.sum()
 
-    return d, r[0]
+    return d, eta, nu
 
 
 class CREPSOptimizer(ContextualOptimizer):
@@ -235,18 +262,16 @@ class CREPSOptimizer(ContextualOptimizer):
         self.it += 1
 
         if self.it % self.train_freq == 0:
-            self._update()
+            phi_s = np.asarray(self.history_phi_s)
+            theta = np.asarray(self.history_theta)
+            R = np.asarray(self.history_R)
+
+            d = solve_dual_contextual_reps(
+                phi_s, R, self.epsilon, self.min_eta)[0]
+            # NOTE the context have already been transformed
+            self.policy_.fit(phi_s, theta, d, context_transform=False)
 
         self.logger.info("Reward %.6f" % self.reward)
-
-    def _update(self):
-        phi_s = np.asarray(self.history_phi_s)
-        theta = np.asarray(self.history_theta)
-        R = np.asarray(self.history_R)
-
-        d, _ = solve_dual_contextual_reps(phi_s, R, self.epsilon, self.min_eta)
-        # NOTE the context have already been transformed
-        self.policy_.fit(phi_s, theta, d, context_transform=False)
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
@@ -259,6 +284,13 @@ class CREPSOptimizer(ContextualOptimizer):
         return self.policy_
 
     def is_behavior_learning_done(self):
+        """Check if the optimization is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
         return False
 
     def __getstate__(self):
