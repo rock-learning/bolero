@@ -28,6 +28,7 @@ x0 = np.zeros(2)
 g = np.ones(2)
 dt = 0.001
 dmp = DMPBehavior(execution_time=1.0, dt=dt, n_features=10)
+dmp.init(6, 6)
 dmp.imitate(*make_minimum_jerk(x0, g, 1.0, 0.001))
 
 plt.figure()
