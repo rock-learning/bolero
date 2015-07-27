@@ -45,10 +45,15 @@ def plot_pose(ax, x, s=1.0, **kwargs):
 
 dmp = CartesianDMPBehavior(dt=0.001)
 dmp.init(7, 7)
-dmp.set_meta_parameters(
-    ["x0", "g", "q0", "qg"],
-    [np.zeros(3), np.ones(3), np.array([0.5 * np.pi, 0.5, 0.5, 0.0]),
-     np.array([0.5 * np.pi, 1.0, 0.0, 0.0])])
+
+random_state = np.random.RandomState(0)
+q0 = random_state.randn(4)
+q0 /= np.linalg.norm(q0)
+qg = random_state.randn(4)
+qg /= np.linalg.norm(qg)
+
+dmp.set_meta_parameters(["x0", "g", "q0", "qg"],
+                        [np.zeros(3), np.ones(3), q0, qg])
 X = dmp.trajectory()
 
 ax = plt.subplot(111, projection="3d", aspect="equal")
