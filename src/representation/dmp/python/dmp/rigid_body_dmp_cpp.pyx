@@ -9,33 +9,7 @@ from libcpp cimport bool
 from libcpp.string cimport string
 
 
-cdef class RbDMP:
-    """Rigid Body Dynamical Movement Primitives in C++.
-
-    This is the Cython wrapper for the C++ implementation of rigid body DMPs.
-    """
-
-    cdef cb.RigidBodyDmp *thisptr
-    cdef int n_features
-    cdef int n_phases
-    cdef double alpha
-    cdef double beta
-    cdef double dt
-    cdef double T
-    cdef double cs_alpha
-
-    def __cinit__(self, np.ndarray[double, ndim=1] rbf_centers, np.ndarray[double, ndim=1] rbf_widths,
-                    np.ndarray[double, ndim=2] ft_weights = None, execution_time=1.0, dt=0.01,
-                    s_num_phases=0.01, alpha=25.0, beta=6.25):
-        self.thisptr = new cb.RigidBodyDmp(NULL)
-        self.n_features = rbf_centers.shape[0]
-        self.n_phases = int(execution_time / dt) + 1
-        self.alpha = alpha
-        self.beta = beta
-        self.dt = dt
-        self.T = execution_time
-
-        yaml = """---
+INIT_YAML = """---
 name: ''
 rbf_centers: {rbf_centers}
 rbf_widths: {rbf_widths}
@@ -47,18 +21,88 @@ cs_execution_time: {cs_execution_time}
 cs_alpha: {cs_alpha}
 cs_dt: {cs_dt}
 ft_weights: {ft_weights}
-..."""
+...
+"""
+
+
+CONFIG_YAML = """---
+name: ''
+startPosition: {start_pos}
+endPosition: {end_pos}
+startVelocity: {start_vel}
+endVelocity: {end_vel}
+startAcceleration: {start_acc}
+endAcceleration: {end_acc}
+startRotation: {start_rot}
+endRotation: {end_rot}
+startAngularVelocity: {start_rot_vel}
+executionTime: {execution_time}
+...
+"""
+
+
+cdef class RbDMP:
+    """Rigid Body Dynamical Movement Primitives in C++.
+
+    This is the Cython wrapper for the C++ implementation of rigid body DMPs.
+
+    Parameters
+    ----------
+    execution_time : float, optional (default: 1)
+        Execution time of the DMP in seconds.
+
+    dt : float, optional (default: 0.01)
+        Time between successive steps in seconds.
+
+    n_features : int, optional (default: 50)
+        Number of RBF features for each dimension of the DMP.
+
+    s_num_phases : float, optional (default: 0.01)
+        Value of the phase variable after 'execution_time'.
+
+    overlap : float, optional (default: 0.8)
+        Value of the RBFs at the phase value where they overlap.
+
+    alpha : float, optional (default: 25)
+        Constant that modifies the behavior of the spring-damper system.
+
+    beta : float, optional (default: 6.25)
+        Constant that modifies the behavior of the spring-damper system.
+    """
+    cdef cb.RigidBodyDmp *thisptr
+    cdef int n_features
+    cdef int n_phases
+    cdef double alpha
+    cdef double beta
+    cdef double dt
+    cdef double execution_time
+    cdef double cs_alpha
+
+    def __cinit__(self, execution_time=1.0, dt=0.01, n_features=50,
+                  s_num_phases=0.01, overlap=0.8, alpha=25.0, beta=6.25):
+        cdef np.ndarray[double, ndim=1] rbf_centers
+        cdef np.ndarray[double, ndim=1] rbf_widths
+        rbf_centers, rbf_widths = self.calculate_centers(
+            s_num_phases, execution_time, dt, n_features, overlap)
+        self.thisptr = new cb.RigidBodyDmp(NULL)
+        self.n_features = n_features
+        self.n_phases = int(execution_time / dt) + 1
+        self.alpha = alpha
+        self.beta = beta
+        self.dt = dt
+        self.execution_time = execution_time
 
         self.cs_alpha = cb.calculateAlpha(s_num_phases, self.n_phases)
-        if ft_weights is None:
-            ft_weights = np.zeros((6, rbf_centers.shape[0]), order="F")
+        ft_weights = np.zeros((6, rbf_centers.shape[0]), order="F")
 
-        yaml = yaml.format(rbf_centers=rbf_centers.tolist(), rbf_widths=rbf_widths.tolist(), ft_weights=ft_weights.tolist(),
-                           ts_alpha_z=alpha, ts_beta_z=beta, ts_tau=execution_time, ts_dt = dt, cs_execution_time=execution_time,
-                           cs_alpha=self.cs_alpha, cs_dt=dt)
+        initialize = INIT_YAML.format(
+            rbf_centers=rbf_centers.tolist(), rbf_widths=rbf_widths.tolist(),
+            ft_weights=ft_weights.tolist(), ts_alpha_z=alpha, ts_beta_z=beta,
+            ts_tau=execution_time, ts_dt = dt, cs_execution_time=execution_time,
+            cs_alpha=self.cs_alpha, cs_dt=dt)
 
-        cdef char* yaml_ptr = yaml
-        if not self.thisptr.initializeYaml(string(yaml_ptr)):
+        cdef char* initialize_ptr = initialize
+        if not self.thisptr.initializeYaml(string(initialize_ptr)):
             raise Exception("DMP initialization failed")
             
 
@@ -72,28 +116,15 @@ ft_weights: {ft_weights}
 
     def configure(self, start_pos, start_vel, start_acc, start_rot,
                   start_rot_vel, end_pos, end_vel, end_acc, end_rot):
-        
-        yaml = """---
-name: ''
-startPosition: {start_pos}
-endPosition: {end_pos}
-startVelocity: {start_vel}
-endVelocity: {end_vel}
-startAcceleration: {start_acc}
-endAcceleration: {end_acc}
-startRotation: {start_rot}
-endRotation: {end_rot}
-startAngularVelocity: {start_rot_vel}
-executionTime: {execution_time}
-..."""        
-
-        yaml = yaml.format(start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
-                           start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
-                           start_acc=start_acc.tolist(), end_acc=end_acc.tolist(),
-                           start_rot=start_rot.tolist(), end_rot=end_rot.tolist(),
-                           start_rot_vel=start_rot_vel.tolist(), execution_time=self.T)
-        cdef char* yaml_ptr = yaml
-        if not self.thisptr.configureYaml(string(yaml_ptr)):
+        config = CONFIG_YAML.format(
+            start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
+            start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
+            start_acc=start_acc.tolist(), end_acc=end_acc.tolist(),
+            start_rot=start_rot.tolist(), end_rot=end_rot.tolist(),
+            start_rot_vel=start_rot_vel.tolist(),
+            execution_time=self.execution_time)
+        cdef char* config_ptr = config
+        if not self.thisptr.configureYaml(string(config_ptr)):
             raise Exception("DMP configuration failed")
 
 
@@ -130,15 +161,18 @@ executionTime: {execution_time}
         if not X.flags["F_CONTIGUOUS"]:
             X = np.asfortranarray(X)
 
-        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray((6, self.n_phases), order="F")
-        cb.determineForces(&X[0,0], 7, self.n_phases, &forces[0,0], 6, self.n_phases,
-                           self.T, self.dt, self.alpha, self.beta)
+        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
+            (6, self.n_phases), order="F")
+        cb.determineForces(&X[0,0], 7, self.n_phases, &forces[0,0], 6,
+                           self.n_phases, self.execution_time, self.dt,
+                           self.alpha, self.beta)
         return forces
 
 
 
     @classmethod
-    def calculate_centers(cls, s_num_phases, execution_time, dt, num_centers, overlap):
+    def calculate_centers(cls, s_num_phases, execution_time, dt, num_centers,
+                          overlap):
         """
         Calculates the centers and widths needed to configure a RbDmp.
 
@@ -149,29 +183,34 @@ executionTime: {execution_time}
 
         Return:
         -------
-        (centers, widths)
+        centers
+        widths
         """
-        cdef np.ndarray[double, ndim=1, mode="fortran"] centers = np.ndarray((num_centers), order="F")
-        cdef np.ndarray[double, ndim=1, mode="fortran"] widths = np.ndarray((num_centers), order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] centers = np.ndarray(
+            (num_centers), order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] widths = np.ndarray(
+            (num_centers), order="F")
 
-        cb.calculateCenters(s_num_phases, execution_time, dt, num_centers,overlap, &centers[0],
-                          &widths[0])
-        return (centers, widths)
+        cb.calculateCenters(s_num_phases, execution_time, dt, num_centers,
+                            overlap, &centers[0], &widths[0])
+        return centers, widths
 
 
 
     @classmethod
-    def _determine_forces(cls, np.ndarray[double, ndim=2] positions, np.ndarray[double, ndim=2] rotations,
-                         dt, execution_time, alpha_z=25.0, beta_z=6.25):
+    def _determine_forces(cls, np.ndarray[double, ndim=2] positions,
+                          np.ndarray[double, ndim=2] rotations, dt,
+                          execution_time, alpha_z=25.0, beta_z=6.25):
         """
         Parameters
         ----------
-        positions: 3xN array containing the positions. Each column should contain one 3-dimensional position.
-        rotations: 4xN array containing the rotations. Each column should contain one quaternion.
-                   Quaternion encoding: Row 0: w
-                                        Row 1: x
-                                        Row 2: y
-                                        Row 3: z
+        positions: 3xN array
+            Contains the positions. Each column should contain one
+            3-dimensional position.
+
+        rotations: 4xN array
+            Contains the rotations. Each column should contain one quaternion.
+            Quaternion encoding: Row 0: w; Row 1: x; Row 2: y; Row 3: z
         """
         assert positions.shape[0] == 3
         assert rotations.shape[0] == 4
@@ -184,17 +223,22 @@ executionTime: {execution_time}
         if not rotations.flags["F_CONTIGUOUS"]:
             rotations = np.asfortranarray(rotations)
 
-        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray((6, num_phases), order="F")
+        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
+            (6, num_phases), order="F")
 
-        cb.determineForces(&positions[0,0], 3, num_phases, &rotations[0,0], 4, num_phases, &forces[0,0], 6, num_phases,
+        cb.determineForces(&positions[0,0], 3, num_phases, &rotations[0,0], 4,
+                           num_phases, &forces[0,0], 6, num_phases,
                            execution_time, dt, alpha_z, beta_z)
         return forces
 
     def can_step(self):
         return self.thisptr.canStep()
 
-    def execute_step(self, np.ndarray[double, ndim=1] position, np.ndarray[double, ndim=1] velocity,
-                     np.ndarray[double, ndim=1] acceleration, np.ndarray[double, ndim=1] rotation):
+    def execute_step(
+            self, np.ndarray[double, ndim=1] position,
+            np.ndarray[double, ndim=1] velocity,
+            np.ndarray[double, ndim=1] acceleration,
+            np.ndarray[double, ndim=1] rotation):
         """
         Parameters
         ---------
@@ -225,7 +269,8 @@ executionTime: {execution_time}
         return posOut, velOut, accOut, rotOut
 
     def get_activations(self, s, normalized=True):
-        cdef np.ndarray[double, ndim=1, mode="fortran"] act = np.ndarray(self.n_features, order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] act = np.ndarray(
+            self.n_features, order="F")
         self.thisptr.getActivations(s, normalized, &act[0], act.shape[0])
         return act
 
@@ -243,6 +288,7 @@ executionTime: {execution_time}
         self.thisptr.setWeights(&wc[0,0], n_task_dims, self.n_features)
 
     def get_phases(self):
-        cdef np.ndarray[double, ndim=1, mode="fortran"] s = np.ndarray(self.n_phases, order="F")
+        cdef np.ndarray[double, ndim=1, mode="fortran"] s = np.ndarray(
+            self.n_phases, order="F")
         self.thisptr.getPhases(&s[0], self.n_phases)
         return s

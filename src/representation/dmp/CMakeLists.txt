@@ -87,7 +87,7 @@ if (PYTHON_SUPPORT AND PYTHON)
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/python)")
 
     # nose is the python unit testing program it will run all python unit tests
-    add_test(nosetests nosetests ${CMAKE_CURRENT_SOURCE_DIR} -sv)
+    add_test(nosetests nosetests ${CMAKE_CURRENT_SOURCE_DIR}/python/ -sv)
 elseif(PYTHON_SUPPORT)
     message(FATAL_ERROR "Python executable not found")
 endif()
