@@ -102,4 +102,5 @@ cdef extern from "RigidBodyDmp.h" namespace "dmp":
         bool initializeYaml(string& yaml)
         void getActivations(double s, bool normalized, double* activations, int size)
         void setWeights(double *weights, int rows, int cols)
+        void getWeights(double* weights, int rows, int cols)
         void getPhases(double* phases, int len)

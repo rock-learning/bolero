@@ -4,7 +4,7 @@ from bolero.representation import Behavior
 from nose.tools import assert_true
 
 
-ALL_BEHAVIORS = all_subclasses(Behavior)
+ALL_BEHAVIORS = all_subclasses(Behavior, ["CartesianDMPBehavior"])
 
 
 def test_behaviors_have_default_constructor():

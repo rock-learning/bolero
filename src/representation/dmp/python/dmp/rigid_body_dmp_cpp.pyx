@@ -104,33 +104,34 @@ cdef class RbDMP:
         cdef char* initialize_ptr = initialize
         if not self.thisptr.initializeYaml(string(initialize_ptr)):
             raise Exception("DMP initialization failed")
-            
-
-
 
     def __dealloc__(self):
         del self.thisptr
+
+    def reset(self):
+        pass
 
     def get_alpha(self):
         return self.cs_alpha
 
     def configure(self, start_pos, start_vel, start_acc, start_rot,
-                  start_rot_vel, end_pos, end_vel, end_acc, end_rot):
+                  start_rot_vel, end_pos, end_vel, end_acc, end_rot,
+                  execution_time):
+        self.execution_time = execution_time
         config = CONFIG_YAML.format(
             start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
             start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
             start_acc=start_acc.tolist(), end_acc=end_acc.tolist(),
             start_rot=start_rot.tolist(), end_rot=end_rot.tolist(),
             start_rot_vel=start_rot_vel.tolist(),
-            execution_time=self.execution_time)
+            execution_time=execution_time)
         cdef char* config_ptr = config
         if not self.thisptr.configureYaml(string(config_ptr)):
             raise Exception("DMP configuration failed")
 
-
-
     def determine_forces(self, np.ndarray[double, ndim=2] X, *args, **kwargs):
-        '''
+        """Determine forces for given demonstration.
+
         Parameters
         ----------
         X: A 7xN array containing the translational and rotational positions.
@@ -145,15 +146,14 @@ cdef class RbDMP:
 
         args: Only exists to stay compatible with an old interface. Will be ignored. DO NOT USE
 
-        kwargs:Only exists to stay compatible with an old interface. Will be ignored. DO NOT USE
+        kwargs: Only exists to stay compatible with an old interface. Will be ignored. DO NOT USE
 
         Return:
         -------
         A 6xN matrix containing the forces.
         Each row contains the forces for one dimension.
         Note that one dimension is missing because rotation velocities are 3-dimensional.
-        '''
-
+        """
         assert(X.shape[0] == 7)
         assert(X.shape[1] == self.n_phases)
 
@@ -168,13 +168,10 @@ cdef class RbDMP:
                            self.alpha, self.beta)
         return forces
 
-
-
     @classmethod
     def calculate_centers(cls, s_num_phases, execution_time, dt, num_centers,
                           overlap):
-        """
-        Calculates the centers and widths needed to configure a RbDmp.
+        """Calculates the centers and widths needed to configure a RbDmp.
 
         Parameters:
         -----------
@@ -195,13 +192,12 @@ cdef class RbDMP:
                             overlap, &centers[0], &widths[0])
         return centers, widths
 
-
-
     @classmethod
     def _determine_forces(cls, np.ndarray[double, ndim=2] positions,
                           np.ndarray[double, ndim=2] rotations, dt,
                           execution_time, alpha_z=25.0, beta_z=6.25):
-        """
+        """Determine forces for given demonstration.
+
         Parameters
         ----------
         positions: 3xN array
@@ -275,7 +271,13 @@ cdef class RbDMP:
         return act
 
     def set_weights(self, w):
-        assert(w.ndim == 1 or w.ndim == 2)
+        if w.ndim != 1 and w.ndim != 2:
+            raise ValueError("Expected weights with 1 or 2 dimensions, got %d"
+                             % w.ndim)
+
+        if w.size == 0:
+            return
+
         cdef int n_task_dims = w.shape[0]
         cdef np.ndarray[double, ndim=2, mode="fortran"] wc
         if w.ndim == 1:
@@ -285,7 +287,14 @@ cdef class RbDMP:
             wc = np.asfortranarray(w)
 
         assert(n_task_dims == 6)
-        self.thisptr.setWeights(&wc[0,0], n_task_dims, self.n_features)
+        self.thisptr.setWeights(&wc[0, 0], n_task_dims, self.n_features)
+
+    def get_weights(self):
+        cdef np.ndarray[double, ndim=2, mode="fortran"] weights = np.ndarray(
+            (6, self.n_features), order="F")
+        self.thisptr.getWeights(
+            &weights[0, 0], 6, self.n_features)
+        return weights
 
     def get_phases(self):
         cdef np.ndarray[double, ndim=1, mode="fortran"] s = np.ndarray(

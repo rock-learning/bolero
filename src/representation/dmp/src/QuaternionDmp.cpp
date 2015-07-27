@@ -170,4 +170,10 @@ void QuaternionDmp::setWeights(const Eigen::ArrayXXd &weights)
   assert(weights.rows() == 3);
   ft->setWeights(weights);
 }
+
+const Eigen::ArrayXXd& QuaternionDmp::getWeights()
+{
+  const Eigen::ArrayXXd& weights = ft->getWeights();
+  return weights;
+}
 }//end namespace

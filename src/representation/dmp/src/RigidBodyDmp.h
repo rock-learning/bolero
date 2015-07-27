@@ -154,6 +154,12 @@ public:
   */
   void setWeights(const double* weights, const int rows, const int cols);
 
+  /** Gets the weights.
+  * @param rows should always be 6
+  * @param cols should always be the same as the columns in centers and widths
+  */
+  void getWeights(double* weights, const int rows, const int cols);
+
   /**
    * \note The phases will be generated on the fly, therefore calling this method
    *       is computationally expensive.

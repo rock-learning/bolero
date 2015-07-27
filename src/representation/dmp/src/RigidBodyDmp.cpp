@@ -4,6 +4,7 @@
 #include "Dmp.h"
 #include <Eigen/Dense>
 
+
 namespace dmp
 {
 
@@ -100,11 +101,9 @@ bool RigidBodyDmp::initializeYaml(const std::string yaml)
 
 bool RigidBodyDmp::configure(const RigidBodyDmpConfig &config)
 {
-  if(NULL != translationDmp.get() && NULL != rotationDmp.get() && initialized &&
-     !configured)
+  if(NULL != translationDmp.get() && NULL != rotationDmp.get() && initialized)
   {
-    configured = rotationDmp->configure(config.rotationConfig) &&
-                 translationDmp->configure(config.translationConfig);
+    configured = rotationDmp->configure(config.rotationConfig) && translationDmp->configure(config.translationConfig);
     return configured;
   }
   else
@@ -270,6 +269,16 @@ void RigidBodyDmp::setWeights(const double *weights, const int rows, const int c
 
   translationDmp->getDmp().setWeights(weightsArr.block(0, 0, 3, cols));
   rotationDmp->setWeights(weightsArr.block(3, 0, 3, cols));
+}
+
+void RigidBodyDmp::getWeights(double* weights, const int rows, const int cols)
+{
+  assert(initialized);
+  assert(rows == 6);
+
+  ArrayXXd weightsArr = Map<ArrayXXd>(weights, rows, cols);
+  translationDmp->getDmp().getWeights(weights, 3, cols);
+  weightsArr.block(3, 0, 3, cols) = rotationDmp->getWeights();
 }
 
 void RigidBodyDmp::getPhases(double *phases, const int len) const
