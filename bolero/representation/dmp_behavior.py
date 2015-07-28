@@ -386,15 +386,11 @@ class CartesianDMPBehavior(BlackBoxBehavior):
     def set_inputs(self, inputs):
         """Set input for the next step.
 
-        In case the start position (x0) has not been set as a meta-parameter
-        we take the first position as x0.
-
         Parameters
         ----------
-        inputs : array-like, shape = (3 * n_task_dims,)
-            Contains positions, velocities and accelerations in that order.
-            Each type is stored contiguously, i.e. for n_task_dims=2 the order
-            would be: xxvvaa (x: position, v: velocity, a: acceleration).
+        inputs : array-like, shape = (7,)
+            Contains positions and rotations represented by quaternions,
+            order (order: x, y, z, w, rx, ry, rz)
         """
         self.x[:] = inputs[:]
 
@@ -403,10 +399,9 @@ class CartesianDMPBehavior(BlackBoxBehavior):
 
         Parameters
         ----------
-        outputs : array-like, shape = (3 * n_task_dims,)
-            Contains positions, velocities and accelerations in that order.
-            Each type is stored contiguously, i.e. for n_task_dims=2 the order
-            would be: xxvvaa (x: position, v: velocity, a: acceleration).
+        outputs : array-like, shape = (7,)
+            Contains positions and rotations represented by quaternions,
+            order (order: x, y, z, w, rx, ry, rz)
         """
         outputs[:] = self.x[:]
 
@@ -470,7 +465,8 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         Parameters
         ----------
         X : array, shape (7, n_steps)
-            The demonstrated trajectory (x, y, z, w, rx, ry, rz) to be imitated.
+            The demonstrated trajectory (order: x, y, z, w, rx, ry, rz) to be
+            imitated.
 
         alpha : float >= 0, optional (default: 0)
             The ridge parameter of linear regression. Small positive values of
@@ -487,7 +483,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         Returns
         -------
         X : array, shape (n_steps, 7)
-            Positions and rotations
+            Positions and rotations (order: x, y, z, w, rx, ry, rz)
         """
         x, xd, xdd, q = (np.copy(self.x0), np.zeros(3), np.zeros(3),
                          np.copy(self.q0))
