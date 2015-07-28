@@ -9,8 +9,10 @@ from numpy.testing import assert_array_equal, assert_array_almost_equal
 
 CURRENT_PATH = os.sep.join(__file__.split(os.sep)[:-1])
 DMP_CONFIG_FILE = CURRENT_PATH + os.sep + "dmp_model.yaml"
+CSDMP_CONFIG_FILE = CURRENT_PATH + os.sep + "cs_dmp_model.yaml"
 if not CURRENT_PATH:
     DMP_CONFIG_FILE = "dmp_model.yaml"
+    CSDMP_CONFIG_FILE = "dmp_model.yaml"
 
 n_task_dims = 1
 zeroq = np.array([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
@@ -224,6 +226,19 @@ def test_csdmp_default_dmp():
         t += 1
     assert_equal(t, 101)
     assert_array_equal(x, np.array([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+
+
+def test_csdmp_from_config():
+    beh = DMPBehavior(configuration_file=CSDMP_CONFIG_FILE)
+    beh.init(7, 7)
+
+    x = np.copy(zeroq)
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, x)
+        t += 1
+    assert_equal(t, 301)
 
 
 def test_csdmp_get_set_params():
