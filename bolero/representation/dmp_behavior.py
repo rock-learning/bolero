@@ -413,8 +413,8 @@ class CartesianDMPBehavior(BlackBoxBehavior):
     def step(self):
         """Compute desired position, velocity and acceleration."""
         if self.dmp.can_step():
-            self.x, _, _, self.q = self.dmp.execute_step(
-                self.x, self.v, self.a, self.q)
+            self.x[:3], self.v, self.a, self.x[3:] = self.dmp.execute_step(
+                self.x[:3], self.v, self.a, self.x[3:])
 
     def can_step(self):
         """Returns if step() can be called again.

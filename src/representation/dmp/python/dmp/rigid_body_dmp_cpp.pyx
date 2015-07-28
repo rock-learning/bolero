@@ -77,6 +77,7 @@ cdef class RbDMP:
     cdef double dt
     cdef double execution_time
     cdef double cs_alpha
+    cdef bool initialized
 
     def __cinit__(self, execution_time=1.0, dt=0.01, n_features=50,
                   s_num_phases=0.01, overlap=0.8, alpha=25.0, beta=6.25):
@@ -91,6 +92,8 @@ cdef class RbDMP:
         self.beta = beta
         self.dt = dt
         self.execution_time = execution_time
+
+        self.initialized = False
 
         self.cs_alpha = cb.calculateAlpha(s_num_phases, self.n_phases)
         ft_weights = np.zeros((6, rbf_centers.shape[0]), order="F")
@@ -247,6 +250,10 @@ cdef class RbDMP:
         assert velocity.shape[0] == 3
         assert acceleration.shape[0] == 3
         assert rotation.shape[0] == 4
+
+        if not self.initialized:
+            self.initialized = True
+            return position, velocity, acceleration, rotation
 
         cdef np.ndarray[double, ndim=1] data = np.ndarray(13)
         data[0:3] = position

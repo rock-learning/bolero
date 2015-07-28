@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from dmp import DMP
-from bolero.representation import DMPBehavior
+from bolero.representation import DMPBehavior, CartesianDMPBehavior
 from bolero.datasets import make_minimum_jerk
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_equal, assert_array_almost_equal
@@ -13,6 +13,7 @@ if not CURRENT_PATH:
     DMP_CONFIG_FILE = "dmp_model.yaml"
 
 n_task_dims = 1
+zeroq = np.array([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
 
 
 def eval_loop(beh, xva):
@@ -21,12 +22,12 @@ def eval_loop(beh, xva):
     beh.get_outputs(xva)
 
 
-def test_dimensions_do_not_match():
+def test_dmp_dimensions_do_not_match():
     beh = DMPBehavior()
     assert_raises_regexp(ValueError, "Input and output dimensions must match",
                          beh.init, 1, 2)
 
-def test_default_dmp():
+def test_dmp_default_dmp():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -71,14 +72,14 @@ def test_dmp_constructor_args():
     assert_equal(t, 201)
 
 
-def test_metaparameter_not_permitted():
+def test_dmp_metaparameter_not_permitted():
     beh = DMPBehavior()
     beh.init(3, 3)
     assert_raises_regexp(ValueError, "Meta parameter .* is not allowed",
                          beh.set_meta_parameters, ["unknown"], [None])
 
 
-def test_change_goal():
+def test_dmp_change_goal():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -95,7 +96,7 @@ def test_change_goal():
                               decimal=1)
 
 
-def test_change_goal_velocity():
+def test_dmp_change_goal_velocity():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -112,7 +113,7 @@ def test_change_goal_velocity():
                               decimal=1)
 
 
-def test_change_execution_time():
+def test_dmp_change_execution_time():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -126,7 +127,7 @@ def test_change_execution_time():
     assert_equal(t, 201)
 
 
-def test_change_weights():
+def test_dmp_change_weights():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -142,7 +143,7 @@ def test_change_weights():
     assert_array_almost_equal(xva[-n_task_dims:], np.zeros(n_task_dims),
                               decimal=1)
 
-def test_more_steps_than_allowed():
+def test_dmp_more_steps_than_allowed():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
@@ -160,7 +161,7 @@ def test_more_steps_than_allowed():
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
 
 
-def test_imitate():
+def test_dmp_imitate():
     x0, g, execution_time, dt = np.zeros(1), np.ones(1), 1.0, 0.001
 
     beh = DMPBehavior(execution_time, dt, 20)
@@ -179,3 +180,27 @@ def test_imitate():
     beh.imitate(X_demo, Xd_demo, Xdd_demo, alpha=1.0)
     X = beh.trajectory()[0]
     assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+
+
+def test_csdmp_dimensions_do_not_match():
+    beh = CartesianDMPBehavior()
+    assert_raises_regexp(ValueError, "Input and output dimensions must match",
+                         beh.init, 1, 2)
+
+
+def test_csdmp_default_dmp():
+    beh = CartesianDMPBehavior()
+    beh.init(7, 7)
+
+    #assert_equal(beh.get_n_params(), 50 * 7)
+    #assert_array_equal(beh.get_params(), np.zeros(50 * 7))
+
+    x = np.copy(zeroq)
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, x)
+        print x
+        t += 1
+    assert_equal(t, 101)
+    assert_array_equal(x, np.array([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))

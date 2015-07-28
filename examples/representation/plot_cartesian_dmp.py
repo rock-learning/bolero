@@ -60,6 +60,6 @@ ax = plt.subplot(111, projection="3d", aspect="equal")
 plt.setp(ax, xlabel="X", ylabel="Y", zlabel="Z")
 for x in X[50:-50:50]:
     plot_pose(ax, x, s=0.3, alpha=0.3)
-plot_pose(ax, X[0], s=0.5)
+plot_pose(ax, X[0], s=0.5, lw=3)
 plot_pose(ax, X[-1], s=0.5)
 plt.show()
