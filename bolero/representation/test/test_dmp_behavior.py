@@ -210,8 +210,10 @@ def test_dmp_imitate():
 
 def test_csdmp_dimensions_do_not_match():
     beh = CartesianDMPBehavior()
-    assert_raises_regexp(ValueError, "Input and output dimensions must match",
-                         beh.init, 1, 2)
+    assert_raises_regexp(ValueError, "Number of inputs must be 7",
+                         beh.init, 6, 7)
+    assert_raises_regexp(ValueError, "Number of outputs must be 7",
+                         beh.init, 7, 6)
 
 
 def test_csdmp_default_dmp():

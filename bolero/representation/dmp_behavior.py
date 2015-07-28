@@ -314,9 +314,10 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         n_outputs : int
             number of outputs
         """
-        if n_inputs != n_outputs:
-            raise ValueError("Input and output dimensions must match, got "
-                             "%d inputs and %d outputs" % (n_inputs, n_outputs))
+        if n_inputs != 7:
+            raise ValueError("Number of inputs must be 7")
+        if n_outputs != 7:
+            raise ValueError("Number of outputs must be 7")
 
         if self.configuration_file is None:
             self.dmp = RbDMP(execution_time=self.execution_time, dt=self.dt,
