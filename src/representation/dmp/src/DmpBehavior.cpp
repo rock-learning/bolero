@@ -141,7 +141,6 @@ void  DmpBehavior::step()
   Segment vel = data.segment(dim, dim);
   Segment acc = data.segment(dim + dim, dim);
 
-
   stepPossible = dmp->executeStep(pos, vel, acc);
 
   expectedState = GET_OUTPUTS;

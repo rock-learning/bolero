@@ -11,6 +11,7 @@
 #include <Eigen/Core>
 #include "EigenHelpers.h"
 
+
 namespace dmp
 {
 
@@ -171,9 +172,8 @@ void QuaternionDmp::setWeights(const Eigen::ArrayXXd &weights)
   ft->setWeights(weights);
 }
 
-const Eigen::ArrayXXd& QuaternionDmp::getWeights()
+const Eigen::MatrixXd& QuaternionDmp::getWeights()
 {
-  const Eigen::ArrayXXd& weights = ft->getWeights();
-  return weights;
+  return ft->getWeights();
 }
 }//end namespace

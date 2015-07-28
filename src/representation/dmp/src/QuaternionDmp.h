@@ -107,7 +107,7 @@ public:
   * Should be a 3xN matrix.
   * N should be equal to the number of centers in the function approximator.
   */
-  virtual const Eigen::ArrayXXd& getWeights();
+  virtual const Eigen::MatrixXd& getWeights();
 
   //creates the module info needed by the lib manager.
   //without it the lib manager would be unable to load this module at run time.

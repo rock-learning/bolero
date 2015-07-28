@@ -31,9 +31,6 @@ def test_dmp_default_dmp():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
-    assert_equal(beh.get_n_params(), 50 * n_task_dims)
-    assert_array_equal(beh.get_params(), np.zeros(50 * n_task_dims))
-
     xva = np.zeros(3 * n_task_dims)
     beh.reset()
     t = 0
@@ -44,6 +41,22 @@ def test_dmp_default_dmp():
     assert_array_equal(xva[:n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[n_task_dims:-n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
+
+
+def test_dmp_get_set_params():
+    beh = DMPBehavior()
+    beh.init(3 * n_task_dims, 3 * n_task_dims)
+
+    assert_equal(beh.get_n_params(), 50 * n_task_dims)
+    params = beh.get_params()
+    assert_array_equal(params, np.zeros(50 * n_task_dims))
+
+    random_state = np.random.RandomState(0)
+    expected_params = random_state.randn(50 * n_task_dims)
+    beh.set_params(expected_params)
+
+    actual_params = beh.get_params()
+    assert_array_equal(actual_params, expected_params)
 
 
 def test_dmp_from_config():
@@ -192,15 +205,27 @@ def test_csdmp_default_dmp():
     beh = CartesianDMPBehavior()
     beh.init(7, 7)
 
-    #assert_equal(beh.get_n_params(), 50 * 7)
-    #assert_array_equal(beh.get_params(), np.zeros(50 * 7))
-
     x = np.copy(zeroq)
     beh.reset()
     t = 0
     while beh.can_step():
         eval_loop(beh, x)
-        print x
         t += 1
     assert_equal(t, 101)
     assert_array_equal(x, np.array([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+
+
+def test_csdmp_get_set_params():
+    beh = CartesianDMPBehavior()
+    beh.init(7, 7)
+
+    assert_equal(beh.get_n_params(), 50 * 6)
+    params = beh.get_params()
+    assert_array_equal(params, np.zeros(50 * 6))
+
+    random_state = np.random.RandomState(0)
+    expected_params = random_state.randn(50 * 6)
+    beh.set_params(expected_params)
+
+    actual_params = beh.get_params()
+    assert_array_equal(actual_params, expected_params)

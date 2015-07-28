@@ -201,8 +201,8 @@ public:
   /**
   * Sets the weights matrix of the forcing term
   * Each row contains the weights for one task space dimension.
-  * The number of columns should be equal to the number of centers in the function approximator.
-  * I.e.:
+  * The number of columns should be equal to the number of centers in the
+  * function approximator. I.e.:
   *    numTaskSpaceDimensions = 6
   *    numCenters = 10
   *    Resulting matrix is 6x10
@@ -229,6 +229,21 @@ public:
    * \param cols Number of columns of the matrix
    */
   virtual void getWeights(double* weights, const int rows, const int cols) const;
+
+  /**
+   * Returns the weights of the forcing term
+   *
+   * Each row contains the weights for one task space dimension.
+   * The number of columns should be equal to the number of centers in the
+   * function approximator. I.e.:
+   *    numTaskSpaceDimensions = 6
+   *    numCenters = 10
+   *    Resulting matrix is 6x10
+   *    matrix[2][5] is the weight for the 6'th rbf in dimension 3
+   *
+   * @return weights
+   */
+  virtual const Eigen::MatrixXd& getWeights();
 
   /**
    * Returns the activations of the function approximator for the given phase

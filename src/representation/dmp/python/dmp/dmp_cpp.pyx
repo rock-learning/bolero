@@ -227,8 +227,7 @@ cdef class DMP:
 
         cdef np.ndarray[double, ndim=2, mode="fortran"] weights = np.ndarray(
             (n_task_dims, self.n_features), order="F")
-        self.thisptr.getWeights(
-            &weights[0, 0], n_task_dims, self.n_features)
+        self.thisptr.getWeights(&weights[0, 0], n_task_dims, self.n_features)
         return weights
 
     def can_step(self):

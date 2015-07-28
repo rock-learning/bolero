@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "EigenHelpers.h"
 
+
 namespace dmp {
 using Eigen::ArrayXd;
 using Eigen::ArrayXXd;
@@ -279,6 +280,11 @@ void Dmp::getWeights(double* weights, const int rows, const int cols) const
   assert(cols == ftWeights.cols());
   Map<ArrayXXd> map(weights, rows, cols);
   map = ftWeights;
+}
+
+const Eigen::MatrixXd& Dmp::getWeights()
+{
+    return ft.getWeights();
 }
 
 void Dmp::getActivations(const double s, const bool normalized, double* activations,

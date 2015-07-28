@@ -254,7 +254,8 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
   Map<ArrayXXd>(forces, forcesRows, forcesCols) = forcesArr;
 }
 
-void RigidBodyDmp::getActivations(const double s, const bool normalized, double *activations, const int size) const
+void RigidBodyDmp::getActivations(const double s, const bool normalized,
+                                  double *activations, const int size) const
 {
   assert(initialized);
   translationDmp->getDmp().getActivations(s, normalized, activations, size);
@@ -266,7 +267,6 @@ void RigidBodyDmp::setWeights(const double *weights, const int rows, const int c
   assert(rows == 6);
 
   ArrayXXd weightsArr = Map<ArrayXXd>(const_cast<double*>(weights), rows, cols);
-
   translationDmp->getDmp().setWeights(weightsArr.block(0, 0, 3, cols));
   rotationDmp->setWeights(weightsArr.block(3, 0, 3, cols));
 }
@@ -276,8 +276,8 @@ void RigidBodyDmp::getWeights(double* weights, const int rows, const int cols)
   assert(initialized);
   assert(rows == 6);
 
-  ArrayXXd weightsArr = Map<ArrayXXd>(weights, rows, cols);
-  translationDmp->getDmp().getWeights(weights, 3, cols);
+  Map<ArrayXXd> weightsArr = Map<ArrayXXd>(weights, rows, cols);
+  weightsArr.block(0, 0, 3, cols) = translationDmp->getDmp().getWeights();
   weightsArr.block(3, 0, 3, cols) = rotationDmp->getWeights();
 }
 

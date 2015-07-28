@@ -299,8 +299,7 @@ cdef class RbDMP:
     def get_weights(self):
         cdef np.ndarray[double, ndim=2, mode="fortran"] weights = np.ndarray(
             (6, self.n_features), order="F")
-        self.thisptr.getWeights(
-            &weights[0, 0], 6, self.n_features)
+        self.thisptr.getWeights(&weights[0, 0], 6, self.n_features)
         return weights
 
     def get_phases(self):
