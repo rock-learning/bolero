@@ -12,6 +12,7 @@ using namespace dmp;
 TEST_CASE("to/from yaml file", "[QuaternionDmpConfig]")
 {
   QuaternionDmpConfig cfg;
+  cfg.executionTime = 3.0;
   cfg.startPosition.push_back(0);
   cfg.startPosition.push_back(1);
   cfg.startPosition.push_back(2);
@@ -33,6 +34,7 @@ TEST_CASE("to/from yaml file", "[QuaternionDmpConfig]")
   cfg.toYamlFile(filepath);
   QuaternionDmpConfig cfg2;
   REQUIRE(cfg2.fromYamlFile(filepath, ""));
+  REQUIRE(cfg2.executionTime == Approx(3.0));
   REQUIRE(cfg2.startPosition[0] == Approx(cfg.startPosition[0]));
   REQUIRE(cfg2.startPosition[1] == Approx(cfg.startPosition[1]));
   REQUIRE(cfg2.startPosition[2] == Approx(cfg.startPosition[2]));
@@ -53,12 +55,14 @@ TEST_CASE("to/from yaml file", "[QuaternionDmpConfig]")
 TEST_CASE("from yaml string", "[QuaternionDmpConfig]")
 {
   const std::string yaml("name: 'aa'\n"
+          "executionTime: 1\n"
           "startPosition: [0, 1, 2, 3]\n"
           "endPosition: [4, 5, 6, 7]\n"
           "startVelocity: [8, 9, 10]\n");
 
   QuaternionDmpConfig cfg;
   cfg.fromYamlString(yaml, "aa");
+  REQUIRE(cfg.executionTime == Approx(1));
   REQUIRE(cfg.startPosition[0] == Approx(0));
   REQUIRE(cfg.startPosition[1] == Approx(1));
   REQUIRE(cfg.startPosition[2] == Approx(2));

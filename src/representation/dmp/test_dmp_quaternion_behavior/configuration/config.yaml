@@ -1,5 +1,6 @@
 ---
 name: ''
+executionTime: 2
 startPosition: [0, 1, 2, 3]
 endPosition: [4, 5, 6, 7]
 startVelocity: [8, 9, 10]

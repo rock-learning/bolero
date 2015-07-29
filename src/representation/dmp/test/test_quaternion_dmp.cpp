@@ -77,6 +77,7 @@ string createConfigFile()
 {
   const std::string yaml("---\n"
                          "name: ''\n"
+                         "executionTime: 2\n"
                          "startPosition: [0, 1, 2, 3]\n"
                          "endPosition: [4, 5, 6, 7]\n"
                          "startVelocity: [8, 9, 10]\n"

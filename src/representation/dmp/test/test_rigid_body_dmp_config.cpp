@@ -23,6 +23,7 @@ TEST_CASE("read and write", "[RigidBodyDmpConfig]")
   RigidBodyDmpConfig cfg;
   cfg.rotationConfig.config_name = "test";
   cfg.translationConfig.config_name = "test";
+  cfg.rotationConfig.executionTime = 42.42;
   cfg.rotationConfig.startVelocity = TestHelpers::random_vector(3);
   cfg.rotationConfig.endPosition = TestHelpers::random_vector(4);
   cfg.rotationConfig.startPosition = TestHelpers::random_vector(4);
