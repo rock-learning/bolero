@@ -84,6 +84,7 @@ Overview
    modules/controller
    modules/datasets
    modules/wrapper
+   imitation_learning
 
 Examples
 --------
