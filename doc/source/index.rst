@@ -26,9 +26,12 @@ Features
 
 The highlights of BOLeRo are
 
-* Dynamical Movement Primitives (with a final velocity greater than 0, see
-  `Muelling et al. <http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Muelling_IJRR_2013.pdf>`_)
-  in C++ with a Python wrapper
+* Dynamical Movement Primitives with a final velocity greater than 0 (see
+  `Muelling et al.
+  <http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Muelling_IJRR_2013.pdf>`_)
+  and correct handling of rotation in Cartesian space (see `Ude et al.
+  <http://www-hcr.ijs.si/resources/papers/icra14b.pdf>`_) in C++ with a Python
+  wrapper
 * Contextual Relative Entropy Policy Search (see `Kupcsik et al.
   <http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf>`_)
 * a clean and readable implementation of Covariance Matrix Adaption

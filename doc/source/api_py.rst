@@ -118,6 +118,7 @@ Behavior classes
    DummyBehavior
    RandomBehavior
    DMPBehavior
+   CartesianDMPBehavior
 
 Policy classes
 --------------
