@@ -91,11 +91,10 @@ def test_dmp_constructor_args():
 
 
 def test_dmp_metaparameter_not_permitted():
-    for Clazz in [DMPBehavior, CartesianDMPBehavior]:
-        beh = Clazz()
-        beh.init(3, 3)
-        assert_raises_regexp(ValueError, "Meta parameter .* is not allowed",
-                             beh.set_meta_parameters, ["unknown"], [None])
+    beh = DMPBehavior()
+    beh.init(3, 3)
+    assert_raises_regexp(ValueError, "Meta parameter .* is not allowed",
+                         beh.set_meta_parameters, ["unknown"], [None])
 
 
 def test_dmp_change_goal():
@@ -231,7 +230,7 @@ def test_csdmp_default_dmp():
 
 
 def test_csdmp_from_config():
-    beh = DMPBehavior(configuration_file=CSDMP_CONFIG_FILE)
+    beh = CartesianDMPBehavior(configuration_file=CSDMP_CONFIG_FILE)
     beh.init(7, 7)
 
     x = np.copy(zeroq)
@@ -270,6 +269,13 @@ def test_csdmp_constructor_args():
         eval_loop(beh, x)
         t += 1
     assert_equal(t, 201)
+
+
+def test_csdmp_metaparameter_not_permitted():
+    beh = CartesianDMPBehavior()
+    beh.init(7, 7)
+    assert_raises_regexp(ValueError, "Meta parameter .* is not allowed",
+                         beh.set_meta_parameters, ["unknown"], [None])
 
 
 def test_csdmp_change_goal():

@@ -7,10 +7,11 @@ cimport cbindings as cb
 from cython.operator cimport dereference as deref
 from libcpp cimport bool
 from libcpp.string cimport string
+import yaml
 
 
 INIT_YAML = """---
-name: ''
+name: 'PythonCSDMP'
 rbf_centers: {rbf_centers}
 rbf_widths: {rbf_widths}
 ts_alpha_z: {ts_alpha_z}
@@ -26,7 +27,7 @@ ft_weights: {ft_weights}
 
 
 CONFIG_YAML = """---
-name: ''
+name: 'PythonCSDMP'
 startPosition: {start_pos}
 endPosition: {end_pos}
 startVelocity: {start_vel}
@@ -107,6 +108,39 @@ cdef class RbDMP:
         cdef char* initialize_ptr = initialize
         if not self.thisptr.initializeYaml(string(initialize_ptr)):
             raise Exception("DMP initialization failed")
+
+    @classmethod
+    def from_file(cls, filename):
+        """Load DMP from YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP model.
+
+        Returns
+        -------
+        dmp : RbDMP
+            The corresponding DMP object.
+        """
+        dmp = RbDMP()
+        del dmp.thisptr
+        dmp.thisptr = new cb.RigidBodyDmp(NULL)
+
+        init_yaml = open(filename, "r").read()
+        init_dict = yaml.load(init_yaml)
+        cdef char* init_yaml_ptr = init_yaml
+        if not dmp.thisptr.initializeYaml(string(init_yaml_ptr)):
+            raise Exception("DMP initialization failed")
+
+        dmp.n_features = len(init_dict["rbf_centers"])
+        dmp.alpha = init_dict["ts_alpha_z"]
+        dmp.beta = init_dict["ts_beta_z"]
+        dmp.dt = init_dict["ts_dt"]
+        dmp.execution_time = init_dict["ts_tau"]
+        dmp.n_phases = int(dmp.execution_time / dmp.dt) + 1
+        dmp.cs_alpha = init_dict["cs_alpha"]
+        return dmp
 
     def __dealloc__(self):
         del self.thisptr

@@ -69,12 +69,12 @@ cdef class DMP:
         self.beta = beta
 
     @classmethod
-    def from_file(cls, file_name):
+    def from_file(cls, filename):
         """Load DMP from YAML file.
 
         Parameters
         ----------
-        file_name : string
+        filename : string
             Name of the YAML file that stores the DMP model.
 
         Returns
@@ -82,7 +82,7 @@ cdef class DMP:
         dmp : DMP
             The corresponding DMP object.
         """
-        cdef char* file = file_name
+        cdef char* file = filename
         cdef char* name = ""
         cdef cb.DMPWrapper* wrapper = new cb.DMPWrapper()
         wrapper.init_from_yaml(string(file), string(name))
