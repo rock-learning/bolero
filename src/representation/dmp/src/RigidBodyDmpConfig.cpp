@@ -86,6 +86,11 @@ bool RigidBodyDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
       else
         fullyInitialized = false;
 
+      if(doc.FindValue("executionTime"))
+        doc["executionTime"] >> rotationConfig.executionTime;
+      else
+        fullyInitialized = false;
+
       if(doc.FindValue("startRotation"))
         doc["startRotation"] >> rotationConfig.startPosition;
       else

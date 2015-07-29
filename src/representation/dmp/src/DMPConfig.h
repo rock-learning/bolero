@@ -11,7 +11,7 @@ namespace YAML
 namespace dmp_cpp{
 struct DMPConfig{
     std::string config_name;
-    double dmp_execution_time;/**<Execution time of the dmp. I.e. time that it takes to get from the starting position to the end position */
+    double dmp_execution_time; /**<Execution time of the dmp. I.e. time that it takes to get from the starting position to the end position */
     std::vector<double> dmp_startPosition; /**<Start position of the trajectory */
     std::vector<double> dmp_endPosition; /**<End position of the trajectory */
     std::vector<double> dmp_startVelocity; /**<Start velocity of the trajectory */

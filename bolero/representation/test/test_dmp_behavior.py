@@ -312,21 +312,6 @@ def test_csdmp_change_goal_velocity():
     assert_array_almost_equal(v, np.ones(3), decimal=3)
 
 
-def test_csdmp_change_execution_time():
-    beh = CartesianDMPBehavior()
-    beh.init(7, 7)
-
-    beh.set_meta_parameters(["execution_time"], [2.0])
-
-    x = np.copy(zeroq)
-    beh.reset()
-    t = 0
-    while beh.can_step():
-        eval_loop(beh, x)
-        t += 1
-    assert_equal(t, 201)
-
-
 def test_csdmp_change_weights():
     beh = CartesianDMPBehavior()
     beh.init(7, 7)

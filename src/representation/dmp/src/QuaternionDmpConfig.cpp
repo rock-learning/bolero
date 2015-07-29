@@ -46,6 +46,11 @@ bool QuaternionDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
       fullyInitialized = true;
       config_name = name_buf;
 
+      if(doc.FindValue("executionTime"))
+        doc["executionTime"] >> executionTime;
+      else
+        fullyInitialized = false;
+
       if(doc.FindValue("startPosition"))
         doc["startPosition"] >> startPosition;
       else
@@ -69,6 +74,11 @@ bool QuaternionDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
 
 bool QuaternionDmpConfig::isValid() const
 {
+  if(executionTime <= 0.0)
+  {
+    cerr << "QuaternionDmpConfing invalid. Execution time should be > 0." << endl;
+    return false;
+  }
   if(startPosition.size() != 4)
   {
     cerr << "QuaternionDmpConfing invalid. Start position should have exactly 4 elements" << endl;
@@ -131,6 +141,7 @@ void QuaternionDmpConfig::toYamlFile(std::string filepath)
   YAML::Emitter out;
   out << YAML::BeginDoc;
   out << YAML::BeginMap << YAML::Key << "name" << YAML::Value << config_name;
+  out << YAML::Key << "executionTime" << YAML::Value << executionTime;
   out << YAML::Key << "startPosition" << YAML::Value << YAML::Flow << startPosition;
   out << YAML::Key << "endPosition" << YAML::Value << YAML::Flow << endPosition;
   out << YAML::Key << "startVelocity" << YAML::Value << YAML::Flow << startVelocity;

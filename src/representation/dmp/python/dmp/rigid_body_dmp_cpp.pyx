@@ -155,6 +155,7 @@ cdef class RbDMP:
                   start_rot_vel, end_pos, end_vel, end_acc, end_rot,
                   execution_time):
         self.execution_time = execution_time
+        self.n_phases = int(self.execution_time / self.dt) + 1
         config = CONFIG_YAML.format(
             start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
             start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
