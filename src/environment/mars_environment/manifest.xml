@@ -2,12 +2,12 @@
   <description brief="mars_environment">
     This environment evaluates a MARS scenario.
   </description>
-  <depend package="lib_manager" />
-  <depend package="mars_utils" />
-  <depend package="configmaps" />
-  <depend package="bolero" />
-  <depend package="mars_app" />
-  <depend package="mars/common/cfg_manager" />
-  <depend package="mars/common/data_broker" />
-  <depend package="mars_interfaces" />
+  <depend package="learning/bolero/include" />
+  <depend package="simulation/mars/app" />
+  <depend package="simulation/mars/interfaces" />
+  <depend package="simulation/mars/common/cfg_manager" />
+  <depend package="simulation/mars/common/data_broker" />
+  <depend package="simulation/mars/common/utils" />
+  <depend package="simulation/lib_manager" />
+  <depend package="simulation/configmaps" />
 </package>

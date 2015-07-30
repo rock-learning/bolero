@@ -2,6 +2,8 @@
   <description brief="wrapper">
     Wrappers for bolero C++ interfaces
   </description>
+  <depend package="learning/bolero/include" />
+  <depend package="learning/bolero/src/bl_loader" />
   <rosdep name="python" />
   <rosdep name="python-dev" />
   <rosdep name="cython" />

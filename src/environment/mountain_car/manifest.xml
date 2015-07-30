@@ -2,6 +2,6 @@
   <description brief="mountain_car">
     Mountain car learning problem.
   </description>
-  <depend package="lib_manager" />
-  <depend package="bolero" />
+  <depend package="learning/bolero/include" />
+  <depend package="simulation/lib_manager" />
 </package>

@@ -3,5 +3,4 @@
     Behavior Optimization and Learning for Robots
   </description>
   <rosdep name="python" />
-  <rosdep name="python-dev" />
 </package>
