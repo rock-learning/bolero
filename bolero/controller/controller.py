@@ -26,6 +26,8 @@ class Controller(Base):
       `self.trajectories_`
     * record_contexts (bool) - store context vectors of each episode in
       `self.contexts_` (only available for contextual environments)
+    * n_episodes_before_test (int) - the upper-level policy will be evaluated
+      after `n_episodes_before_test` episodes
     * verbose (bool) - print information to stdout
 
     Parameters
@@ -75,6 +77,7 @@ class Controller(Base):
         self._set_attribute(config, "record_trajectories", False)
         self._set_attribute(config, "record_feedbacks", False)
         self._set_attribute(config, "verbose", False)
+        self._set_attribute(config, "n_episodes_before_test", None)
 
         if self.record_trajectories:
             self.trajectories_ = []
@@ -83,6 +86,10 @@ class Controller(Base):
             self.feedbacks_ = []
 
         self.episode_cnt = 0
+
+        self.do_test = self.n_episodes_before_test is not None
+        if self.do_test:
+            self.test_results_ = []
 
         if self.verbose >= 1:
             print("[Controller] Initialized with")
@@ -173,6 +180,10 @@ class Controller(Base):
 
         self.episode_cnt += 1
 
+        if self.do_test and self.episode_cnt % self.n_episodes_before_test == 0:
+            self.test_results_.append(
+                self._perform_test(meta_parameter_keys, meta_parameters))
+
         return accumulated_feedback
 
     def episode_with(self, behavior, meta_parameter_keys=[],
@@ -226,6 +237,14 @@ class Controller(Base):
             self.feedbacks_.append(np.sum(feedbacks))
         return feedbacks
 
+    def _perform_test(self, meta_parameter_keys, meta_parameters):
+        behavior = self.behavior_search.get_best_behavior()
+        performance = np.sum(self.episode_with(
+            behavior, meta_parameter_keys, meta_parameters))
+        optimum = self.environment.get_maximum_feedback()
+        print("[Controller] Test feedback: %g" % (performance - optimum))
+        return performance - optimum
+
 
 class ContextualController(Controller):
     """Controller for contextual problems.
@@ -235,8 +254,6 @@ class ContextualController(Controller):
     The controller subsection of the configuration dictionary may contain
     the following additional parameters:
 
-    * n_episodes_before_test (int) - the upper-level policy will be evaluated
-      with a discrete set of contexts after `n_episodes_before_test` episodes
     * test_contexts (array-like) - the upper-level policy will be evaluated in
       these contexts
     """
@@ -247,18 +264,14 @@ class ContextualController(Controller):
 
         self._set_attribute(config, "record_contexts", False)
         self._set_attribute(config, "test_contexts", None)
-        self._set_attribute(config, "n_episodes_before_test", None)
 
         if self.record_contexts:
             self.contexts_ = []
 
-        self.do_test = self.n_episodes_before_test is not None
         if self.do_test:
             if self.test_contexts is None:
                 raise ValueError("You must provide 'test_contexts' if "
                                  "'n_episodes_before_tests' is not None.")
-
-            self.test_results_ = []
 
         if self.verbose >= 1:
             print("             - %d context dimensions" % self.n_context_dims)
@@ -305,19 +318,19 @@ class ContextualController(Controller):
         if self.verbose >= 2 and context is not None:
             print("[Controller] Context: %s" % context)
 
-        if self.do_test and self.episode_cnt % self.n_episodes_before_test == 0:
-            behavior_template = self.behavior_search.get_best_behavior_template()
-            results = np.empty(len(self.test_contexts))
-            for i, context in enumerate(self.test_contexts):
-                actual_context = self.environment.request_context(context)
-                if not np.allclose(actual_context, context):
-                    raise Exception("Could not set context.")
-                behavior = behavior_template.get_behavior(context)
-                # TODO what happens if we do not know the optimum?
-                optimum = self.environment.get_maximum_feedback(context)
-                current = np.sum(self.episode_with(
-                    behavior, meta_parameter_keys, meta_parameters, False))
-                results[i] = optimum - current
-            self.test_results_.append(results)
-
         return accumulated_feedback
+
+    def _perform_test(self, meta_parameter_keys, meta_parameters):
+        behavior_template = self.behavior_search.get_best_behavior_template()
+        results = np.empty(len(self.test_contexts))
+        for i, context in enumerate(self.test_contexts):
+            actual_context = self.environment.request_context(context)
+            if not np.allclose(actual_context, context):
+                raise Exception("Could not set context.")
+            behavior = behavior_template.get_behavior(context)
+            # TODO what happens if we do not know the optimum?
+            optimum = self.environment.get_maximum_feedback(context)
+            current = np.sum(self.episode_with(
+                behavior, meta_parameter_keys, meta_parameters, False))
+            results[i] = optimum - current
+        return results
