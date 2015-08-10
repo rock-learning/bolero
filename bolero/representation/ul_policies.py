@@ -66,7 +66,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
         "auto". In this case we will use a scaling with a covariance based
         on the range of the boundaries. The standard deviation will be half
         of the parameter range for each component. Hence, the parameter
-        'bounds' must not be None.
+        'bounds' must not be None. If scaling is None, no scaling is performed.
 
     bounds : array-like, shape (n_samples, 2), optional (default: None)
         Upper and lower boundaries for each parameter
@@ -130,7 +130,8 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             Parameters
         """
         params = self.upper_level_policy(context, explore)
-        params = self.scaling.scale(params)
+        if self.scaling is not None:
+            params = self.scaling.scale(params)
         if self.bounds is not None:
             np.clip(params, self.bounds[:, 0], self.bounds[:, 1], out=params)
         return params
@@ -150,6 +151,8 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             Weights of individual samples (should depend on the obtained
             reward)
         """
+        if self.scaling is not None:
+            Y = self.scaling.inv_scale(Y)
         self.upper_level_policy.fit(X, Y, weights, context_transform)
 
 
@@ -190,7 +193,13 @@ class ContextTransformationPolicy(UpperLevelPolicy):
         self.policy = PolicyClass(weight_dims, self.n_features, *args,
                                   **kwargs)
 
-        self.W = self.policy.W
+    @property
+    def W(self):
+        return self.policy.W
+
+    @W.setter
+    def W(self, W):
+        self.policy.W = W
 
     def transform_context(self, context):
         """Transform context based on internal context transformation.
