@@ -684,6 +684,8 @@ def fmin(objective_function, cma_type="standard", x0=None,
     """
     if eval_initial_x:
         objective_value = objective_function(x0)
+        if maximize:  # need to remember item with highest objective value
+            objective_value = objective_value * -1
         best = (x0, objective_value)
     else:
         best = (None, np.inf)
@@ -703,7 +705,13 @@ def fmin(objective_function, cma_type="standard", x0=None,
         objective_value = objective_function(params)
         cma.set_evaluation_feedback(objective_value)
 
+        if maximize:  # need to remember item with highest objective value
+            objective_value *= -1
+
         if objective_value < best[1]:
             best = (np.array(params), objective_value)
+
+    if maximize:
+        best = (best[0], -best[1])
 
     return best
