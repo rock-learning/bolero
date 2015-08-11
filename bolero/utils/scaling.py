@@ -97,3 +97,41 @@ class Scaling(object):
             raise ValueError("Inverse scaling is not computed!")
 
         return self.product_(self.inv_scaling_, scaled_params)
+
+
+class NoScaling(object):
+    """ Scaler which does not change scaling. """
+
+    def scale(self, params):
+        """Scale variables.
+
+        Transform from search space of the optimizer to parameter space.
+
+        Parameters
+        ----------
+        params : array-like, shape = (n_params,)
+            Parameters.
+
+        Returns
+        -------
+        scaled_params : array-like, shape = (n_params,)
+            Scaled parameters.
+        """
+        return params
+
+    def inv_scale(self, scaled_params):
+        """Inverse scaling.
+
+        Transform from parameter space to the search space of the optimizer.
+
+        Parameters
+        ----------
+        scaled_params : array-like, shape = (n_params,)
+            Scaled parameters.
+
+        Returns
+        -------
+        params : array-like, shape = (n_params,)
+            Parameters.
+        """
+        return scaled_params

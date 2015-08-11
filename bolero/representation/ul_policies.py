@@ -5,7 +5,7 @@
 from abc import ABCMeta, abstractmethod
 import numpy as np
 from ..representation.context_transformations import CONTEXT_TRANSFORMATIONS
-from ..utils.scaling import Scaling
+from ..utils.scaling import Scaling, NoScaling
 from ..utils.validation import check_random_state
 
 
@@ -66,7 +66,8 @@ class BoundedScalingPolicy(UpperLevelPolicy):
         "auto". In this case we will use a scaling with a covariance based
         on the range of the boundaries. The standard deviation will be half
         of the parameter range for each component. Hence, the parameter
-        'bounds' must not be None. If scaling is None, no scaling is performed.
+        'bounds' must not be None. If scaling is "none", no scaling is
+        performed.
 
     bounds : array-like, shape (n_samples, 2), optional (default: None)
         Upper and lower boundaries for each parameter
@@ -81,6 +82,8 @@ class BoundedScalingPolicy(UpperLevelPolicy):
                 covariance_diag = (bounds[:, 1] - bounds[:, 0]) ** 2 / 4.0
                 scaling = Scaling(covariance=covariance_diag,
                                   compute_inverse=True)
+        elif scaling == "none":
+            scaling = NoScaling()
 
         self.scaling = scaling
         self.bounds = bounds
@@ -136,7 +139,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             np.clip(params, self.bounds[:, 0], self.bounds[:, 1], out=params)
         return params
 
-    def fit(self, X, Y, weights, context_transform=True):
+    def fit(self, X, Y, weights=None, context_transform=True):
         """Trains policy by weighted maximum likelihood.
 
         Parameters
@@ -240,7 +243,7 @@ class ContextTransformationPolicy(UpperLevelPolicy):
         context_features = self.transform_context(context)
         return self.policy(context_features, explore)
 
-    def fit(self, X, Y, weights, context_transform=True):
+    def fit(self, X, Y, weights=None, context_transform=True):
         """Trains policy by weighted maximum likelihood.
 
         Parameters
@@ -261,7 +264,7 @@ class ContextTransformationPolicy(UpperLevelPolicy):
         """
         if context_transform:
             # Perform context transformation
-            X = np.array([self.ct(X[i]) for i in range(X.shape[0])])
+            X = np.array([self.transform_context(X[i]) for i in range(X.shape[0])])
         self.policy.fit(X, Y, weights)
 
 
