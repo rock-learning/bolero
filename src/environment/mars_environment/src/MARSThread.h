@@ -39,6 +39,7 @@ namespace bolero {
 
       void run();
       void setupMARS();
+      void startMARS();
     };
 
   } // end of namespace mars_environment
