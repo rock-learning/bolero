@@ -1,0 +1,9 @@
+<package>
+    <description brief="function_approximation">
+      This environment reads a data input file and searches for a behavior that approximates the data.
+   </description>
+   <!-- need to be updated -->
+   <depend package="simulation/lib_manager" />
+   <depend package="simulation/mars_utils" />
+   <depend package="learning/ml_interfaces" />
+</package>
