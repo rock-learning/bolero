@@ -47,10 +47,7 @@ namespace bolero {
         simulation->needQApp = false;
       }
       simulation->readArguments(argc, argv);
-      simulation->init();
-    }
 
-    void MARSThread::startMARS() {
       simulation->start(argc, argv, false, false);
       simulationStarted = true;
     }
