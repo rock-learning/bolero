@@ -1,5 +1,6 @@
 import numpy as np
-from nose.tools import assert_less, assert_equal, assert_raises_regexp
+from nose.tools import (assert_less, assert_greater, assert_equal,
+                        assert_raises_regexp)
 from sklearn.utils.testing import assert_warns
 from numpy.testing import assert_array_almost_equal
 from bolero.optimizer import CMAESOptimizer, fmin
@@ -32,7 +33,19 @@ def test_unknown_cmaes():
 
 def test_cmaes_minimize_eval_initial_x():
     _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
-                x0=np.zeros(2), random_state=0, maxfun=300, eval_initial_x=True)
+                x0=np.ones(2), random_state=0, maxfun=300, eval_initial_x=True)
+    assert_less(f, 1e-5)
+
+
+def test_cmaes_minimize_eval_initial_x_best():
+    def x0_best(x):
+        if np.all(x == 0.0):
+            return 0.0
+        else:
+            return 1.0
+
+    _, f = fmin(x0_best, cma_type="standard", x0=np.zeros(2), random_state=0,
+                maxfun=300, eval_initial_x=True)
     assert_less(f, 1e-5)
 
 
@@ -40,6 +53,31 @@ def test_cmaes_minimize():
     _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
                 x0=np.zeros(2), random_state=0, maxfun=300)
     assert_less(f, 1e-5)
+
+
+def test_cmaes_maximize():
+    _, f = fmin(lambda x: -np.linalg.norm(x), cma_type="standard",
+                x0=np.zeros(2), random_state=0, maxfun=300, maximize=True)
+    assert_greater(f, -1e-5)
+
+
+def test_cmaes_maximize_eval_initial_x():
+    _, f = fmin(lambda x: -np.linalg.norm(x), cma_type="standard",
+                x0=np.ones(2), random_state=0, maxfun=300, maximize=True,
+                eval_initial_x=True)
+    assert_greater(f, -1e-5)
+
+
+def test_cmaes_maximize_eval_initial_x_best():
+    def x0_best(x):
+        if np.all(x == 0.0):
+            return 0.0
+        else:
+            return -1.0
+
+    _, f = fmin(x0_best, cma_type="standard", x0=np.zeros(2), random_state=0,
+                maxfun=300, maximize=True, eval_initial_x=True)
+    assert_equal(f, 0.0)
 
 
 def test_cmaes_minimize_many_params():

@@ -393,6 +393,22 @@ class CMAESOptimizer(Optimizer):
         else:
             return self.mean
 
+    def get_best_fitness(self):
+        """Get the best observed fitness.
+
+        Returns
+        -------
+        best_fitness : float
+            Best fitness (sum of feedbacks) so far. Corresponds to the
+            parameters obtained by get_best_parameters(method='best'). For
+            maximize=True, this is the highest observed fitness, and for
+            maximize=False, this is the lowest observed fitness.
+        """
+        if self.maximize:
+            return -self.best_fitness
+        else:
+            return self.best_fitness
+
     def __getstate__(self):
         d = dict(self.__dict__)
         del d["logger"]
@@ -673,45 +689,44 @@ def fmin(objective_function, cma_type="standard", x0=None,
     x0 : array-like, shape = (n_params,), optional (default: 0)
         Initial parameter vector.
 
-    eval_initial_x: bool, optional (default: False)
+    eval_initial_x : bool, optional (default: False)
         Whether the initial parameter vector x0 is evaluated
 
-    maxfun: int, optional (default: 1000)
-        The maximal number of function evaluations after which CMA-ES terminates
+    maxfun : int, optional (default: 1000)
+        The maximum number of function evaluations after which CMA-ES terminates
 
-    maximize: bool, optional (default: False)
+    maximize : bool, optional (default: False)
         Maximize objective function
-    """
-    if eval_initial_x:
-        objective_value = objective_function(x0)
-        if maximize:  # need to remember item with highest objective value
-            objective_value = objective_value * -1
-        best = (x0, objective_value)
-    else:
-        best = (None, np.inf)
 
+    Returns
+    -------
+    params : array, shape (n_params,)
+        Best parameters
+
+    fitness : float
+        Fitness value of best parameters
+    """
     if cma_type not in cma_types:
         raise ValueError("Unknown cma_type %s. Must be one of %s."
                          % (cma_type, cma_types.keys()))
     else:
-        cma = cma_types[cma_type](initial_params=x0, maximize=maximize, *args,
-                                  **kwargs)
+        cmaes = cma_types[cma_type](initial_params=x0, maximize=maximize, *args,
+                                    **kwargs)
 
-    cma.init(x0.shape[0])
+    cmaes.init(x0.shape[0])
 
     params = np.empty_like(x0)
     for _ in range(maxfun):
-        cma.get_next_parameters(params)
-        objective_value = objective_function(params)
-        cma.set_evaluation_feedback(objective_value)
+        cmaes.get_next_parameters(params)
+        cmaes.set_evaluation_feedback(objective_function(params))
 
-        if maximize:  # need to remember item with highest objective value
-            objective_value *= -1
+    best = (cmaes.get_best_parameters(method="best"), cmaes.get_best_fitness())
 
-        if objective_value < best[1]:
-            best = (np.array(params), objective_value)
-
-    if maximize:
-        best = (best[0], -best[1])
+    if eval_initial_x:
+        f0 = objective_function(x0)
+        if maximize and f0 > best[1]:
+            best = (np.copy(x0), f0)
+        elif not maximize and f0 < best[1]:
+            best = (np.copy(x0), f0)
 
     return best
