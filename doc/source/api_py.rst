@@ -180,8 +180,9 @@ Utility functions
    :toctree: modules/generated/
    :template: function.rst
 
-   from_dict
    from_yaml
+   from_yaml_string
+   from_dict
    log.get_logger
    dependency.compatible_version
 

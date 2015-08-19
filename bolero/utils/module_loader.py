@@ -74,13 +74,29 @@ def __load_config_from_file(filename, conf_path=None):
     if conf_path is None:
         conf_filename = filename
     else:
-        conf_filename = conf_path + os.sep + filename
+        conf_filename = os.path.join(conf_path, filename)
 
     if os.path.exists(conf_filename):
         config = yaml.load(open(conf_filename, "r"))
         return config
     else:
         raise ValueError("'%s' does not exist" % conf_filename)
+
+
+def from_yaml_string(yaml_str):
+    """Create objects from YAML string.
+
+    Parameters
+    ----------
+    yaml_str : string
+        YAML configuration string
+
+    Returns
+    -------
+    objects : dict
+        Objects created from each entry of config with the same keys.
+    """
+    return from_dict(yaml.load(yaml_str))
 
 
 def from_dict(config, name=None):

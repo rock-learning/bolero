@@ -1,5 +1,5 @@
 import os
-from bolero.utils import from_dict, from_yaml
+from bolero.utils import from_dict, from_yaml, from_yaml_string
 from bolero.optimizer import CMAESOptimizer
 from nose.tools import assert_true, assert_equal, assert_raises_regexp
 
@@ -101,4 +101,12 @@ def test_load_from_missing_yaml():
 
 def test_load_cpp_lib():
     opt = from_dict({"Optimizer": {"type": "pso_optimizer"}})["Optimizer"]
+    assert_true(hasattr(opt, "get_next_parameters"))
+
+
+def test_load_from_yaml_string():
+    opt = from_yaml_string("""
+    Optimizer:
+        type: bolero.optimizer.CMAESOptimizer
+    """)["Optimizer"]
     assert_true(hasattr(opt, "get_next_parameters"))

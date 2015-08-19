@@ -1,4 +1,4 @@
-from module_loader import from_yaml, from_dict
+from module_loader import from_yaml, from_yaml_string, from_dict
 from validation import check_random_state
 
 
@@ -12,5 +12,5 @@ class ContextualException(Exception):
     pass
 
 
-__all__ = ["from_yaml", "from_dict", "check_random_state",
+__all__ = ["from_yaml", "from_yaml_string", "from_dict", "check_random_state",
            "NonContextualException", "ContextualException"]
