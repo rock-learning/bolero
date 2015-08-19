@@ -31,6 +31,33 @@ def test_unknown_cmaes():
         cma_type="unknown")
 
 
+def test_cmaes_stop_conditioning():
+    def objective(x):
+        return -1e10 * x[1] ** 2
+
+    opt = CMAESOptimizer(random_state=0)
+    opt.init(2)
+    params = np.empty(2)
+    it = 0
+    while not opt.is_behavior_learning_done():
+        opt.get_next_parameters(params)
+        opt.set_evaluation_feedback(objective(params))
+        it += 1
+    assert_less(it, 600)
+
+
+def test_cmaes_stop_fitness_variance():
+    opt = CMAESOptimizer(n_samples_per_update=5)
+    opt.init(2)
+    params = np.empty(2)
+    it = 0
+    while not opt.is_behavior_learning_done():
+        opt.get_next_parameters(params)
+        opt.set_evaluation_feedback([0.0])
+        it += 1
+    assert_equal(it, 6)
+
+
 def test_cmaes_minimize_eval_initial_x():
     _, f = fmin(lambda x: np.linalg.norm(x), cma_type="standard",
                 x0=np.ones(2), random_state=0, maxfun=300, eval_initial_x=True)

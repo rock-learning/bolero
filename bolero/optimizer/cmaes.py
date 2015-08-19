@@ -353,23 +353,23 @@ class CMAESOptimizer(Optimizer):
                 np.all(np.isfinite(self.cov)) and
                 np.all(np.isfinite(self.mean)) and
                 np.isfinite(self.var)):
-            self.logger.info("Restart: infs or nans" % self.var)
+            self.logger.info("Stopping: infs or nans" % self.var)
             return True
 
         if (self.min_variance is not None and
                 np.max(np.diag(self.cov)) * self.var <= self.min_variance):
-            self.logger.info("Restart: %g < min_variance" % self.var)
+            self.logger.info("Stopping: %g < min_variance" % self.var)
             return True
 
         max_dist = np.max(pdist(self.fitness[:, np.newaxis]))
         if max_dist < self.min_fitness_dist:
-            self.logger.info("Restart: %g < min_fitness_dist" % max_dist)
+            self.logger.info("Stopping: %g < min_fitness_dist" % max_dist)
             return True
 
         cov_diag = np.diag(self.cov)
         if (self.max_condition is not None and
                 np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
-            self.logger.info("Restart: %g / %g > max_condition"
+            self.logger.info("Stopping: %g / %g > max_condition"
                              % (np.max(self.cov), np.min(self.cov)))
             return True
 
