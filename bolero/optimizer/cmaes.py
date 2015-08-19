@@ -677,7 +677,7 @@ def fmin(objective_function, cma_type="standard", x0=None,
         Whether the initial parameter vector x0 is evaluated
 
     maxfun: int, optional (default: 1000)
-        The maximal number of generations after which CMA-ES terminates
+        The maximal number of function evaluations after which CMA-ES terminates
 
     maximize: bool, optional (default: False)
         Maximize objective function
