@@ -40,9 +40,22 @@ namespace bolero {
 
       void loadConfigFile(const std::string &config_file);
 
-      //FIXME what does this method do? Is it used?
+      /**
+       * Load a library giving the name or path of a library.
+       *
+       */
       void loadLibrary(const std::string &libPath, void *config=NULL);
+
+      /**
+       * Allows to add a library which is already loaded.
+       *
+       */
       void addLibrary(lib_manager::LibInterface *lib);
+
+      /**
+       * Can be used to check wether a library is loaded or not.
+       *
+       */
       bool isLibraryLoaded(const std::string &libName);
 
       /**
