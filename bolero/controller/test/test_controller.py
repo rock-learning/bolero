@@ -68,6 +68,17 @@ def test_controller_cmaes_sphere_via_config():
     assert_equal(len(returns), 10)
 
 
+def test_record_test_results():
+    opt = CMAESOptimizer(initial_params=np.zeros(2))
+    ctrl = Controller(environment=ObjectiveFunction(),
+                      behavior_search=JustOptimizer(opt),
+                      n_episodes_before_test=10, n_episodes=100)
+    ctrl.learn()
+    results = np.array(ctrl.test_results_)
+    assert_equal(results.shape[0], 10)
+    assert_true(np.all(results[:-1] <= results[1:]))
+
+
 def test_record_trajectories():
     opt = CMAESOptimizer(initial_params=np.zeros(2))
     ctrl = Controller(environment=ObjectiveFunction(),

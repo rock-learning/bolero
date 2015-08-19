@@ -242,7 +242,8 @@ class Controller(Base):
         performance = np.sum(self.episode_with(
             behavior, meta_parameter_keys, meta_parameters))
         optimum = self.environment.get_maximum_feedback()
-        print("[Controller] Test feedback: %g" % (performance - optimum))
+        if self.verbose >= 1:
+            print("[Controller] Test feedback: %g" % (performance - optimum))
         return performance - optimum
 
 
