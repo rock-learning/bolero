@@ -1,5 +1,5 @@
 import numpy as np
-from bolero.utils.scaling import Scaling
+from bolero.utils.scaling import Scaling, NoScaling
 from numpy.testing import assert_array_equal, assert_array_almost_equal
 from nose.tools import assert_raises_regexp
 
@@ -82,3 +82,13 @@ def test_variance_full_covariance_scaling():
 def test_invalid_covariance_shape():
     assert_raises_regexp(ValueError, "must have either 1 or 2 dimensions",
                          Scaling, covariance=np.array([[[]]]))
+
+
+def test_no_scaling():
+    random_state = np.random.RandomState(0)
+    scaling = NoScaling()
+    params = random_state.randn(10)
+    scaled_params = scaling.scale(params)
+    assert_array_equal(params, scaled_params)
+    inv_scaled_params = scaling.inv_scale(scaled_params)
+    assert_array_equal(scaled_params, params)

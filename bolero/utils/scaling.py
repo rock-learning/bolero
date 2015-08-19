@@ -100,7 +100,7 @@ class Scaling(object):
 
 
 class NoScaling(object):
-    """ Scaler which does not change scaling. """
+    """Scaler which does not change scaling."""
 
     def scale(self, params):
         """Scale variables.
