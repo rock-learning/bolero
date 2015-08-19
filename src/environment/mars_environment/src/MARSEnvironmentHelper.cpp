@@ -88,6 +88,7 @@ namespace bolero {
       }
 
       marsThread = new MARSThread(libManager, *argc, argv, enableGUI);
+      marsThread->setupMARS();
 
       // load the simulation core_libs
       std::string coreConfigFile = "core_libs.txt";
@@ -132,7 +133,7 @@ namespace bolero {
         }
       }
 
-      marsThread->setupMARS();
+      marsThread->startMARS();
 
       mars::interfaces::SimulatorInterface *mars;
       mars = libManager->getLibraryAs<mars::interfaces::SimulatorInterface>("mars_sim");
