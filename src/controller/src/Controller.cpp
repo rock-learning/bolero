@@ -21,6 +21,15 @@ namespace bolero {
 
   bool Controller::exitController = false;
 
+  bool checkFile(std::string file) {
+    FILE *f = fopen(file.c_str(), "r");
+    if(f) {
+      fclose(f);
+      return true;
+    }
+    return false;
+  }
+
   void exitHandler(int sig) {
     fprintf(stderr, "want to exit controller\n");
     Controller::exitController = true;
@@ -63,9 +72,12 @@ namespace bolero {
       blConfPath = ".";
     }
 
+    std::string libFile = string(blConfPath) + "/learning_libraries.txt";
+    bool haveLibFile = checkFile(libFile);
     bl_loader::BLLoader *blLoader = new bl_loader::BLLoader();
-    blLoader->loadConfigFile(string(blConfPath) + "/learning_libraries.txt");
-    blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
+    if(haveLibFile) {
+      blLoader->loadConfigFile(libFile);
+    }
 
     ConfigMap map = ConfigMap::fromYamlFile("learning_config.yml");
     string strEnvironment = (std::string)map["Environment"]["type"];
@@ -73,6 +85,10 @@ namespace bolero {
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
     bool evaluateExperiment = false;
     string experimentDir;
+
+    blLoader->loadLibrary(strEnvironment);
+    blLoader->loadLibrary(strBehaviorSearch);
+    blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
 
     if(map["Controller"][0].children.find("GenerateFitnessLog") != map.end()) {
       if(map["Controller"]["GenerateFitnessLog"]) {
