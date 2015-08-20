@@ -68,6 +68,7 @@ Getting Started
    :maxdepth: 1
 
    installation
+   quickstart-controller
    quickstart
 
 Overview

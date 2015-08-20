@@ -1,8 +1,11 @@
 .. quick_start:
 
-===========
-Quick Start
-===========
+=======================
+Quick Start with Python
+=======================
+
+In this section, we will give you a brief introduction how to use the Python
+interface of BOLeRo.
 
 Using a Controller
 ==================
