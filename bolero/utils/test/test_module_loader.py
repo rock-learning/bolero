@@ -104,6 +104,11 @@ def test_load_cpp_lib():
     assert_true(hasattr(opt, "get_next_parameters"))
 
 
+def test_load_cpp_lib_baseclass_unknown():
+    assert_raises_regexp(ValueError, "Loading C\+\+ library .* failed", from_dict,
+                         {"Baseclass": {"type": "pso_optimizer"}})
+
+
 def test_load_from_yaml_string():
     opt = from_yaml_string("""
     Optimizer:

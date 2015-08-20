@@ -224,7 +224,8 @@ def _load_cpp_library(name, type_name):
 
     baseclass = name.lower()
     if baseclass not in PERMITTED_BASECLASSES:
-        return None
+        raise ValueError("Loading C++ library '%s' failed. '%s' is not a valid "
+                         "base class name!" % (type_name, name))
 
     loader = wrapper.CppBLLoader()
     loader.load_library(type_name)
