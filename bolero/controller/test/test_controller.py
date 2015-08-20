@@ -22,6 +22,7 @@ def test_no_environment_subclass():
         TypeError, "requires subclass of 'Environment'",
         Controller, environment=NoEnvironment())
 
+
 def test_no_behavior_search_subclass():
     class NoBehaviorSearch(object):
         pass

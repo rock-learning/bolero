@@ -327,7 +327,8 @@ class ContextualController(Controller):
         for i, context in enumerate(self.test_contexts):
             actual_context = self.environment.request_context(context)
             if not np.allclose(actual_context, context):
-                raise Exception("Could not set context.")
+                raise Exception("Evaluation is not possible, could not set "
+                                "context.")
             behavior = behavior_template.get_behavior(context)
             # TODO what happens if we do not know the optimum?
             optimum = self.environment.get_maximum_feedback(context)

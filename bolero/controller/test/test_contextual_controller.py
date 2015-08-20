@@ -110,3 +110,19 @@ def test_record_contexts():
         n_episodes=11, record_contexts=True)
     ctrl.learn()
     assert_array_equal(contexts, ctrl.contexts_)
+
+
+def test_context_cannot_be_set():
+    class EnvironmentWithRandomContext(ContextualObjectiveFunction):
+        def request_context(self, _):
+            self.context = np.random.randn(self.n_context_dims)
+            return self.context
+
+    test_contexts = np.linspace(-5, 5, 11)[:, np.newaxis]
+
+    opt = CREPSOptimizer(initial_params=np.zeros(1), random_state=0)
+    ctrl = ContextualController(
+        environment=EnvironmentWithRandomContext(),
+        behavior_search=JustContextualOptimizer(opt),
+        n_episodes=2, n_episodes_before_test=1, test_contexts=test_contexts)
+    assert_raises_regexp(Exception, "could not set context", ctrl.learn)
