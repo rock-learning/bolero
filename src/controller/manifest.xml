@@ -1,9 +1,8 @@
 <package>
-    <description brief="bolero_controller">
-      An implementation of the std controller (app) for the learning framework.
-   </description>
-   <!-- need update here -->
-   <depend package="learning/behavior_learning/controllers/bl_loader" />
-   <depend package="learning/behavior_learning/interfaces/c++" />
-   <depend package="simulation/mars/common/utils" />
+  <description brief="bolero_controller">
+    An implementation of the standard controller for the learning framework.
+  </description>
+  <depend package="simulation/lib_manager" />
+  <depend package="simulation/configmaps" />
+  <depend package="learning/bolero/include" />
 </package>
