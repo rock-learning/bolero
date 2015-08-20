@@ -69,7 +69,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
         'bounds' must not be None. If scaling is "none", no scaling is
         performed.
 
-    bounds : array-like, shape (n_samples, 2), optional (default: None)
+    bounds : array-like, shape (n_params, 2), optional (default: None)
         Upper and lower boundaries for each parameter
     """
     def __init__(self, upper_level_policy, scaling, bounds=None):
@@ -82,7 +82,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
                 covariance_diag = (bounds[:, 1] - bounds[:, 0]) ** 2 / 4.0
                 scaling = Scaling(covariance=covariance_diag,
                                   compute_inverse=True)
-        elif scaling == "none":
+        elif scaling == "none" or scaling is None:
             scaling = NoScaling()
 
         self.scaling = scaling
@@ -97,10 +97,9 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             context vector
 
         Returns
-        ----------
+        -------
         context_features: array-like, (self.n_features,)
             the features obtained by the context transformation
-
         """
         return self.upper_level_policy.transform_context(context)
 
@@ -133,8 +132,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             Parameters
         """
         params = self.upper_level_policy(context, explore)
-        if self.scaling is not None:
-            params = self.scaling.scale(params)
+        params = self.scaling.scale(params)
         if self.bounds is not None:
             np.clip(params, self.bounds[:, 0], self.bounds[:, 1], out=params)
         return params
@@ -154,8 +152,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             Weights of individual samples (should depend on the obtained
             reward)
         """
-        if self.scaling is not None:
-            Y = self.scaling.inv_scale(Y)
+        Y = self.scaling.inv_scale(Y)
         self.upper_level_policy.fit(X, Y, weights, context_transform)
 
 
@@ -168,16 +165,16 @@ class ContextTransformationPolicy(UpperLevelPolicy):
         The class of the actual policy, which will be constructed internally.
         All calls are delegated to this class after context transformation.
 
-    weight_dims: int
+    n_params : int
         dimensionality of weight vector of lower-level policy
 
-    context_dims: int
+    n_context_dims : int
         dimensionality of context vector
 
     context_transformation : string or callable
         (Nonlinear) transformation for the context.
     """
-    def __init__(self, PolicyClass, weight_dims, context_dims,
+    def __init__(self, PolicyClass, n_params, n_context_dims,
                  context_transformation, *args, **kwargs):
         self.context_transformation = context_transformation
         if self.context_transformation is None:
@@ -189,12 +186,12 @@ class ContextTransformationPolicy(UpperLevelPolicy):
             self.ct = self.context_transformation
 
         # Determine dimensionality of context feature vector
-        self.n_features = self.transform_context(np.zeros(context_dims)).shape[0]
+        self.n_features = self.transform_context(
+            np.zeros(n_context_dims)).shape[0]
 
         # Create actual policy class to which all calls will be delegated after
         # context transformation
-        self.policy = PolicyClass(weight_dims, self.n_features, *args,
-                                  **kwargs)
+        self.policy = PolicyClass(n_params, self.n_features, *args, **kwargs)
 
     @property
     def W(self):
@@ -285,43 +282,42 @@ class LinearGaussianPolicy(UpperLevelPolicy):
 
     Parameters
     ----------
-    weight_dims: int
+    n_params : int
         dimensionality of weight vector of lower-level policy
 
-    context_dims: int
+    n_context_dims : int
         dimensionality of context vector
 
-    mean: array-like, [num_samples]
+    mean : array-like, shape (n_params,), optional (default: None)
         initial mean of policy. Note: This mean is overwritten in the first
         learning step.
 
-    covariance_scale: float
-        the covariance is initialized to numpy.eye(weight_dims) *
-        covariance_scale. Defaults to 1.0
+    covariance_scale : float, optional (default: 1)
+        The covariance is initialized to np.eye(n_params) * covariance_scale.
 
-    gamma: float
+    gamma : float, optional (default: 0)
         regularization parameter for weighted maximum likelihood estimation
-        of W. Defaults to 0.0
+        of W.
 
-    random_state : optional, int
+    random_state : int, optional (default: None)
         Seed for the random number generator.
     """
-
-    def __init__(self, weight_dims, context_dims, mean=None,
+    def __init__(self, n_params, n_context_dims, mean=None,
                  covariance_scale=1.0, gamma=0.0, random_state=None):
-        self.n_params = weight_dims
-        self.context_dims = context_dims
+        self.n_params = n_params
+        self.n_context_dims = n_context_dims
+        self.mean = mean
+        self.covariance_scale = covariance_scale
         self.gamma = gamma
         self.random_state = check_random_state(random_state)
 
         # Create weight matrix and covariance matrix Sigma
-        self.W = np.zeros((self.n_params, self.context_dims))
-        if mean is not None:
+        self.W = np.zeros((self.n_params, self.n_context_dims))
+        if self.mean is not None:
             # It is assumed that the last dimension of the context is a
             # constant bias dimension
-            self.W[:, -1] = mean
-
-        self.Sigma = np.eye(weight_dims) * covariance_scale
+            self.W[:, -1] = self.mean
+        self.Sigma = np.eye(self.n_params) * self.covariance_scale
 
     def __call__(self, context, explore=True):
         """Evaluates policy for given context.
