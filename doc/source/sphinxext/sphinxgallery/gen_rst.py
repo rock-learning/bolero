@@ -155,6 +155,7 @@ def parse_sphinx_searchindex(searchindex):
         dict_out = dict()
         pos_last = 0
         pos = dict_str.find(':')
+        ignore = False
         while pos >= 0:
             key = dict_str[pos_last:pos]
             if dict_str[pos + 1] == '[':
@@ -174,12 +175,17 @@ def parse_sphinx_searchindex(searchindex):
                 subdict_str = _select_block(dict_str[pos:], '{', '}')
                 value = _parse_dict_recursive(subdict_str)
                 pos_tmp = pos + len(subdict_str)
+            elif dict_str[pos + 1] == ':':
+                ignore = True  # C++ specific
+                pos_tmp = pos + 1
             else:
+                print(dict_str[pos + 1], dict_str[pos:pos+90])
                 raise ValueError('error when parsing dict: unknown elem')
 
-            key = key.strip('"')
-            if len(key) > 0:
-                dict_out[key] = value
+            if not ignore:
+                key = key.strip('"')
+                if len(key) > 0:
+                    dict_out[key] = value
 
             pos_last = dict_str.find(',', pos_tmp)
             if pos_last < 0:
