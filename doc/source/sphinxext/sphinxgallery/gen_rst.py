@@ -179,7 +179,6 @@ def parse_sphinx_searchindex(searchindex):
                 ignore = True  # C++ specific
                 pos_tmp = pos + 1
             else:
-                print(dict_str[pos + 1], dict_str[pos:pos+90])
                 raise ValueError('error when parsing dict: unknown elem')
 
             if not ignore:
