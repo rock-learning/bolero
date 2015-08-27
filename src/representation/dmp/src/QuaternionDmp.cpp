@@ -58,7 +58,27 @@ bool QuaternionDmp::initialize(const std::string &initialConfigPath)
     return false;
   }
   return initialize(model);
+}
 
+bool QuaternionDmp::initialize(const QuaternionDmpModel &model)
+{
+  if(model.is_valid())
+  {
+    //creating the components this way
+    cs.reset(new CanonicalSystem(model.cs_execution_time, model.cs_alpha, model.cs_dt));
+    rbf.reset(new RbfFunctionApproximator(EigenHelpers::toEigen(model.rbf_centers), EigenHelpers::toEigen(model.rbf_widths)));
+    ft.reset(new ForcingTerm(*(rbf.get()), EigenHelpers::toEigen(model.ft_weights)));
+    ts.reset(new QuaternionTransformationSystem(*(ft.get()), model.ts_tau, model.ts_dt, model.ts_alpha_z, model.ts_beta_z));
+
+    currentPhase = 1.0;
+    currentPhaseIndex = 0;
+    initialized = true;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 bool QuaternionDmp::configureYaml(const std::string &yaml)
@@ -142,27 +162,6 @@ void QuaternionDmp::step()
 bool QuaternionDmp::canStep() const
 {
   return stepPossible;
-}
-
-bool QuaternionDmp::initialize(const QuaternionDmpModel &model)
-{
-  if(model.is_valid())
-  {
-    //creating the components this way
-    cs.reset(new CanonicalSystem(model.cs_execution_time, model.cs_alpha, model.cs_dt));
-    rbf.reset(new RbfFunctionApproximator(EigenHelpers::toEigen(model.rbf_centers), EigenHelpers::toEigen(model.rbf_widths)));
-    ft.reset(new ForcingTerm(*(rbf.get()), EigenHelpers::toEigen(model.ft_weights)));
-    ts.reset(new QuaternionTransformationSystem(*(ft.get()), model.ts_tau, model.ts_dt, model.ts_alpha_z, model.ts_beta_z));
-
-    currentPhase = 1.0;
-    currentPhaseIndex = 0;
-    initialized = true;
-    return true;
-  }
-  else
-  {
-    return false;
-  }
 }
 
 void QuaternionDmp::setWeights(const Eigen::ArrayXXd &weights)

@@ -148,6 +148,7 @@ cdef class RbDMP:
         del self.thisptr
 
     def reset(self):
+        self.initialized = False
         w = self.get_weights()
         if not self.thisptr.initializeYaml(self.init_yaml):
             raise Exception("DMP initialization failed")
