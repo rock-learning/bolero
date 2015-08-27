@@ -79,6 +79,8 @@ cdef class RbDMP:
     cdef double execution_time
     cdef double cs_alpha
     cdef bool initialized
+    cdef string init_yaml
+    cdef string config_yaml
 
     def __cinit__(self, execution_time=1.0, dt=0.01, n_features=50,
                   s_num_phases=0.01, overlap=0.8, alpha=25.0, beta=6.25):
@@ -99,14 +101,13 @@ cdef class RbDMP:
         self.cs_alpha = cb.calculateAlpha(s_num_phases, self.n_phases)
         ft_weights = np.zeros((6, rbf_centers.shape[0]), order="F")
 
-        initialize = INIT_YAML.format(
+        self.init_yaml = INIT_YAML.format(
             rbf_centers=rbf_centers.tolist(), rbf_widths=rbf_widths.tolist(),
             ft_weights=ft_weights.tolist(), ts_alpha_z=alpha, ts_beta_z=beta,
             ts_tau=execution_time, ts_dt = dt, cs_execution_time=execution_time,
             cs_alpha=self.cs_alpha, cs_dt=dt)
 
-        cdef char* initialize_ptr = initialize
-        if not self.thisptr.initializeYaml(string(initialize_ptr)):
+        if not self.thisptr.initializeYaml(self.init_yaml):
             raise Exception("DMP initialization failed")
 
     @classmethod
@@ -129,9 +130,10 @@ cdef class RbDMP:
 
         init_yaml = open(filename, "r").read()
         init_dict = yaml.load(init_yaml)
-        cdef char* init_yaml_ptr = init_yaml
-        if not dmp.thisptr.initializeYaml(string(init_yaml_ptr)):
+        dmp.init_yaml = init_yaml
+        if not dmp.thisptr.initializeYaml(init_yaml):
             raise Exception("DMP initialization failed")
+        dmp.config_yaml = ""
 
         dmp.n_features = len(init_dict["rbf_centers"])
         dmp.alpha = init_dict["ts_alpha_z"]
@@ -146,7 +148,12 @@ cdef class RbDMP:
         del self.thisptr
 
     def reset(self):
-        pass
+        w = self.get_weights()
+        if not self.thisptr.initializeYaml(self.init_yaml):
+            raise Exception("DMP initialization failed")
+        if not self.thisptr.configureYaml(self.config_yaml):
+            raise Exception("DMP configuration failed")
+        self.set_weights(w)
 
     def get_alpha(self):
         return self.cs_alpha
@@ -156,15 +163,14 @@ cdef class RbDMP:
                   execution_time):
         self.execution_time = execution_time
         self.n_phases = int(self.execution_time / self.dt) + 1
-        config = CONFIG_YAML.format(
+        self.config_yaml = CONFIG_YAML.format(
             start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
             start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
             start_acc=start_acc.tolist(), end_acc=end_acc.tolist(),
             start_rot=start_rot.tolist(), end_rot=end_rot.tolist(),
             start_rot_vel=start_rot_vel.tolist(),
             execution_time=execution_time)
-        cdef char* config_ptr = config
-        if not self.thisptr.configureYaml(string(config_ptr)):
+        if not self.thisptr.configureYaml(self.config_yaml):
             raise Exception("DMP configuration failed")
 
     def determine_forces(self, np.ndarray[double, ndim=2] X, *args, **kwargs):
