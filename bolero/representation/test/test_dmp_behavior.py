@@ -206,6 +206,11 @@ def test_dmp_imitate():
     X = beh.trajectory()[0]
     assert_array_almost_equal(X_demo.T[0], X, decimal=3)
 
+    # Self-imitation
+    beh.imitate(X.T[:, :, np.newaxis])
+    X2 = beh.trajectory()[0]
+    assert_array_almost_equal(X2, X, decimal=3)
+
 
 def test_csdmp_dimensions_do_not_match():
     beh = CartesianDMPBehavior()
@@ -357,6 +362,12 @@ def test_csdmp_imitate():
     X = beh.trajectory()
     assert_array_almost_equal(X_demo.T[0], X, decimal=3)
 
+    # With alpha > 0
+    beh.imitate(X.T[:, :, np.newaxis], alpha=1.0)
+    X = beh.trajectory()
+    assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+
+    # Self-imitation
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()
     assert_array_almost_equal(X2, X, decimal=3)
