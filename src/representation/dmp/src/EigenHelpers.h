@@ -66,17 +66,14 @@ struct EigenHelpers
     assert(in.cols() > 1);
     out.resize(in.rows(), in.cols());
 
-    //forward difference quotient (special case for first element)
-    out.col(0) = (in.col(1) - in.col(0)) / dt;
+    // Special case for first element: assume gradient to be zero
+    out.col(0).setZero();
 
-    const int end = in.cols() - 1;
-    const double dt2 = 2*dt;
+    const int end = in.cols();
     for(int i = 1; i < end; ++i)
-    {//central difference quotient for each inner element
-      out.col(i) = (in.col(i+1) -in.col(i-1))/dt2;
+    {// Difference quotient for each following element
+      out.col(i) = (in.col(i) - in.col(i - 1))/dt;
     }
-    //backward difference quotient (special case for last element)
-    out.col(end) = (in.col(end) - in.col(end-1))/dt;
   }
 
 };
