@@ -356,3 +356,7 @@ def test_csdmp_imitate():
     beh.imitate(X_demo)
     X = beh.trajectory()
     assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+
+    beh.imitate(X.T[:, :, np.newaxis])
+    X2 = beh.trajectory()
+    assert_array_almost_equal(X2, X, decimal=3)
