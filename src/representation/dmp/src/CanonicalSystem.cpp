@@ -22,7 +22,7 @@ CanonicalSystem::CanonicalSystem(const double executionTime, const double alpha,
                                  const double dt) :
                         executionTime(executionTime),
                         dt(dt),
-                        numPhases((int)(executionTime/dt) + 1),
+                        numPhases((int)(executionTime / dt + 0.5) + 1),
                         alpha(alpha),
                         s0(1.0)
 {
