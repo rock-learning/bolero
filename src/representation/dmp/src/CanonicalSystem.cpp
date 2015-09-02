@@ -1,6 +1,8 @@
 #include "CanonicalSystem.h"
 #include <cmath>
 #include <cassert>
+
+
 namespace dmp {
 
 using namespace std;

@@ -94,7 +94,7 @@ void Dmp::determineForces(const ArrayXXd& positions, ArrayXXd& velocities,
     const double dt, const double alphaZ, const double betaZ)
 {
   //positions.cols() == numPhases is required to be able to determine the forces
-  assert(positions.cols() == (int)(executionTime/dt) + 1);
+  assert(positions.cols() == (int)(executionTime / dt + 0.5) + 1);
   TransformationSystem::determineForces(positions, velocities,
                                         accelerations, forces, executionTime, dt,
                                         alphaZ, betaZ);

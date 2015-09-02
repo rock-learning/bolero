@@ -90,7 +90,7 @@ cdef class RbDMP:
             s_num_phases, execution_time, dt, n_features, overlap)
         self.thisptr = new cb.RigidBodyDmp(NULL)
         self.n_features = n_features
-        self.n_phases = int(execution_time / dt) + 1
+        self.n_phases = int(execution_time / dt + 0.5) + 1
         self.alpha = alpha
         self.beta = beta
         self.dt = dt
@@ -140,7 +140,7 @@ cdef class RbDMP:
         dmp.beta = init_dict["ts_beta_z"]
         dmp.dt = init_dict["ts_dt"]
         dmp.execution_time = init_dict["ts_tau"]
-        dmp.n_phases = int(dmp.execution_time / dmp.dt) + 1
+        dmp.n_phases = int(dmp.execution_time / dmp.dt + 0.5) + 1
         dmp.cs_alpha = init_dict["cs_alpha"]
         return dmp
 
@@ -163,7 +163,7 @@ cdef class RbDMP:
                   start_rot_vel, end_pos, end_vel, end_acc, end_rot,
                   execution_time):
         self.execution_time = execution_time
-        self.n_phases = int(self.execution_time / self.dt) + 1
+        self.n_phases = int(self.execution_time / self.dt + 0.5) + 1
         self.config_yaml = CONFIG_YAML.format(
             start_pos=start_pos.tolist(), end_pos=end_pos.tolist(),
             start_vel=start_vel.tolist(), end_vel=end_vel.tolist(),
@@ -200,7 +200,9 @@ cdef class RbDMP:
         Note that one dimension is missing because rotation velocities are 3-dimensional.
         """
         assert(X.shape[0] == 7)
-        assert(X.shape[1] == self.n_phases)
+        assert(X.shape[1] == self.n_phases,
+               "%d trajectory samples given, expected %d phases"
+               % (X.shape[1], self.n_phases))
 
         #the c++ interfaces requires that the arrays are stored in column major order
         if not X.flags["F_CONTIGUOUS"]:
@@ -208,7 +210,7 @@ cdef class RbDMP:
 
         cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
             (6, self.n_phases), order="F")
-        cb.determineForces(&X[0,0], 7, self.n_phases, &forces[0,0], 6,
+        cb.determineForces(&X[0, 0], 7, self.n_phases, &forces[0, 0], 6,
                            self.n_phases, self.execution_time, self.dt,
                            self.alpha, self.beta)
         return forces

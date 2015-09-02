@@ -55,7 +55,7 @@ cdef class DMP:
     def __cinit__(self, execution_time=1.0, dt=0.01, n_features=50,
                   s_num_phases=0.01, overlap=0.8, alpha=25.0, beta=6.25,
                   integration_steps=4):
-        self.n_phases = int(execution_time / dt) + 1
+        self.n_phases = int(execution_time / dt + 0.5) + 1
         self.n_features = n_features
         cs_alpha = cb.calculateAlpha(s_num_phases, self.n_phases)
         self.thisptr = new cb.Dmp(execution_time, cs_alpha, dt,
@@ -91,7 +91,7 @@ cdef class DMP:
         dmp = DMP()
         del dmp.thisptr
         dmp.thisptr = new cb.Dmp(wrapper.dmp())
-        dmp.n_phases = int(model.ts_tau / model.ts_dt) + 1
+        dmp.n_phases = int(model.ts_tau / model.ts_dt + 0.5) + 1
         dmp.n_features = model.rbf_centers.size()
         return dmp
 
