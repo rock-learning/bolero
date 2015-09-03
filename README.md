@@ -18,7 +18,7 @@ the robot construction kit (Rock).
 In order to install all dependencies and BOLeRo you can use the installation
 scripts
 
-    git clone git@git.hb.dfki.de:team-learning/bootstrap.git
+    git clone git@git.hb.dfki.de:team-learning/bootstrap.git --branch bolero
     cd bootstrap
     ./bootstrap.sh
 
