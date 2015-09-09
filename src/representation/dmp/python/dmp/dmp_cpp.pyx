@@ -68,33 +68,6 @@ cdef class DMP:
         self.alpha = alpha
         self.beta = beta
 
-    @classmethod
-    def from_file(cls, filename):
-        """Load DMP from YAML file.
-
-        Parameters
-        ----------
-        filename : string
-            Name of the YAML file that stores the DMP model.
-
-        Returns
-        -------
-        dmp : DMP
-            The corresponding DMP object.
-        """
-        cdef char* file = filename
-        cdef char* name = ""
-        cdef cb.DMPWrapper* wrapper = new cb.DMPWrapper()
-        wrapper.init_from_yaml(string(file), string(name))
-        cdef cb.DMPModel model = wrapper.generate_model()
-
-        dmp = DMP()
-        del dmp.thisptr
-        dmp.thisptr = new cb.Dmp(wrapper.dmp())
-        dmp.n_phases = int(model.ts_tau / model.ts_dt + 0.5) + 1
-        dmp.n_features = model.rbf_centers.size()
-        return dmp
-
     def __dealloc__(self):
         del self.thisptr
 
@@ -239,6 +212,33 @@ cdef class DMP:
 
     def get_num_features(self):
         return self.n_features
+
+    @classmethod
+    def from_file(cls, filename):
+        """Load DMP from YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP model.
+
+        Returns
+        -------
+        dmp : DMP
+            The corresponding DMP object.
+        """
+        cdef char* file = filename
+        cdef char* name = ""
+        cdef cb.DMPWrapper* wrapper = new cb.DMPWrapper()
+        wrapper.init_from_yaml(string(file), string(name))
+        cdef cb.DMPModel model = wrapper.generate_model()
+
+        dmp = DMP()
+        del dmp.thisptr
+        dmp.thisptr = new cb.Dmp(wrapper.dmp())
+        dmp.n_phases = int(model.ts_tau / model.ts_dt + 0.5) + 1
+        dmp.n_features = model.rbf_centers.size()
+        return dmp
 
     def save_model(self, file_name):
         """Save DMP in YAML file.

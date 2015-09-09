@@ -265,6 +265,16 @@ class DMPBehavior(BlackBoxBehavior):
 
         return np.array(X), np.array(Xd), np.array(Xdd)
 
+    def save(self, filename):
+        """Save DMP model.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_model(filename)
+
 
 class CartesianDMPBehavior(BlackBoxBehavior):
     """Cartesian Space Dynamical Movement Primitive.
@@ -497,3 +507,13 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             Q.append(q.copy())
 
         return np.hstack((X, Q))
+
+    def save(self, filename):
+        """Save DMP model.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_model(filename)

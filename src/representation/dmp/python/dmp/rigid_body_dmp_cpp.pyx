@@ -110,40 +110,6 @@ cdef class RbDMP:
         if not self.thisptr.initializeYaml(self.init_yaml):
             raise Exception("DMP initialization failed")
 
-    @classmethod
-    def from_file(cls, filename):
-        """Load DMP from YAML file.
-
-        Parameters
-        ----------
-        filename : string
-            Name of the YAML file that stores the DMP model.
-
-        Returns
-        -------
-        dmp : RbDMP
-            The corresponding DMP object.
-        """
-        dmp = RbDMP()
-        del dmp.thisptr
-        dmp.thisptr = new cb.RigidBodyDmp(NULL)
-
-        init_yaml = open(filename, "r").read()
-        init_dict = yaml.load(init_yaml)
-        dmp.init_yaml = init_yaml
-        if not dmp.thisptr.initializeYaml(init_yaml):
-            raise Exception("DMP initialization failed")
-        dmp.config_yaml = ""
-
-        dmp.n_features = len(init_dict["rbf_centers"])
-        dmp.alpha = init_dict["ts_alpha_z"]
-        dmp.beta = init_dict["ts_beta_z"]
-        dmp.dt = init_dict["ts_dt"]
-        dmp.execution_time = init_dict["ts_tau"]
-        dmp.n_phases = int(dmp.execution_time / dmp.dt + 0.5) + 1
-        dmp.cs_alpha = init_dict["cs_alpha"]
-        return dmp
-
     def __dealloc__(self):
         del self.thisptr
 
@@ -351,3 +317,49 @@ cdef class RbDMP:
             self.n_phases, order="F")
         self.thisptr.getPhases(&s[0], self.n_phases)
         return s
+
+    @classmethod
+    def from_file(cls, filename):
+        """Load DMP from YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP model.
+
+        Returns
+        -------
+        dmp : RbDMP
+            The corresponding DMP object.
+        """
+        dmp = RbDMP()
+        del dmp.thisptr
+        dmp.thisptr = new cb.RigidBodyDmp(NULL)
+
+        init_yaml = open(filename, "r").read()
+        init_dict = yaml.load(init_yaml)
+        dmp.init_yaml = init_yaml
+        if not dmp.thisptr.initializeYaml(init_yaml):
+            raise Exception("DMP initialization failed")
+        dmp.config_yaml = ""
+
+        dmp.n_features = len(init_dict["rbf_centers"])
+        dmp.alpha = init_dict["ts_alpha_z"]
+        dmp.beta = init_dict["ts_beta_z"]
+        dmp.dt = init_dict["ts_dt"]
+        dmp.execution_time = init_dict["ts_tau"]
+        dmp.n_phases = int(dmp.execution_time / dmp.dt + 0.5) + 1
+        dmp.cs_alpha = init_dict["cs_alpha"]
+        return dmp
+
+    def save_model(self, filename):
+        """Save DMP in YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP model.
+        """
+        model = yaml.load(self.init_yaml)
+        model["ft_weights"] = self.get_weights().tolist()
+        yaml.dump(model, open(filename, "w"))

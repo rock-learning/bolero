@@ -212,6 +212,40 @@ def test_dmp_imitate():
     assert_array_almost_equal(X2, X, decimal=3)
 
 
+def test_dmp_save_and_load():
+    beh_original = DMPBehavior(execution_time=0.853, dt=0.001, n_features=10)
+    beh_original.init(3 * n_task_dims, 3 * n_task_dims)
+
+    xva = np.zeros(3 * n_task_dims)
+    beh_original.reset()
+    t = 0
+    while beh_original.can_step():
+        eval_loop(beh_original, xva)
+        t += 1
+    assert_equal(t, 854)
+    assert_equal(beh_original.get_n_params(), n_task_dims * 10)
+
+    try:
+        beh_original.save("dmp_tmp.yaml")
+
+        beh_loaded = DMPBehavior(configuration_file="dmp_tmp.yaml")
+        beh_loaded.init(3 * n_task_dims, 3 * n_task_dims)
+    except e:
+        raise e
+    finally:
+        if os.path.exists("dmp_tmp.yaml"):
+            os.remove("dmp_tmp.yaml")
+
+    xva = np.zeros(3 * n_task_dims)
+    beh_loaded.reset()
+    t = 0
+    while beh_loaded.can_step():
+        eval_loop(beh_loaded, xva)
+        t += 1
+    assert_equal(t, 854)
+    assert_equal(beh_loaded.get_n_params(), n_task_dims * 10)
+
+
 def test_csdmp_dimensions_do_not_match():
     beh = CartesianDMPBehavior()
     assert_raises_regexp(ValueError, "Number of inputs must be 7",
@@ -371,3 +405,38 @@ def test_csdmp_imitate():
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()
     assert_array_almost_equal(X2, X, decimal=3)
+
+
+def test_csdmp_save_and_load():
+    beh_original = CartesianDMPBehavior(
+        execution_time=0.853, dt=0.001, n_features=10)
+    beh_original.init(7, 7)
+
+    x = np.zeros(7)
+    beh_original.reset()
+    t = 0
+    while beh_original.can_step():
+        eval_loop(beh_original, x)
+        t += 1
+    assert_equal(t, 854)
+    assert_equal(beh_original.get_n_params(), 6 * 10)
+
+    try:
+        beh_original.save("csdmp_tmp.yaml")
+
+        beh_loaded = CartesianDMPBehavior(configuration_file="csdmp_tmp.yaml")
+        beh_loaded.init(7, 7)
+    except e:
+        raise e
+    finally:
+        if os.path.exists("csdmp_tmp.yaml"):
+            os.remove("csdmp_tmp.yaml")
+
+    x = np.zeros(7)
+    beh_loaded.reset()
+    t = 0
+    while beh_loaded.can_step():
+        eval_loop(beh_loaded, x)
+        t += 1
+    assert_equal(t, 854)
+    assert_equal(beh_loaded.get_n_params(), 6 * 10)
