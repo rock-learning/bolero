@@ -1,6 +1,7 @@
 # Authors: Jan Hendrik Metzen <jhm@informatik.uni-bremen.de>
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
+import yaml
 import numpy as np
 from .behavior import BlackBoxBehavior
 from dmp import DMP, RbDMP, imitate_dmp
@@ -274,6 +275,30 @@ class DMPBehavior(BlackBoxBehavior):
             Name of YAML file
         """
         self.dmp.save_model(filename)
+
+    def save_config(self, filename):
+        """Save DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_config(filename)
+
+    def load_config(self, filename):
+        """Load DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.load_config(filename)
+        config = yaml.load(open(filename, "r"))
+        self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
+        self.g = np.array(config["dmp_endPosition"], dtype=np.float)
+        self.gd = np.array(config["dmp_endVelocity"], dtype=np.float)
 
 
 class CartesianDMPBehavior(BlackBoxBehavior):

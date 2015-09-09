@@ -216,32 +216,52 @@ def test_dmp_save_and_load():
     beh_original = DMPBehavior(execution_time=0.853, dt=0.001, n_features=10)
     beh_original.init(3 * n_task_dims, 3 * n_task_dims)
 
+    x0 = np.ones(n_task_dims) * 1.29
+    g = np.ones(n_task_dims) * 2.13
+    print("1")
+    beh_original.set_meta_parameters(["x0", "g"], [x0, g])
+
     xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
     beh_original.reset()
     t = 0
     while beh_original.can_step():
         eval_loop(beh_original, xva)
+        if t == 0:
+            assert_array_almost_equal(xva[:n_task_dims], x0)
         t += 1
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=4)
     assert_equal(t, 854)
     assert_equal(beh_original.get_n_params(), n_task_dims * 10)
 
     try:
-        beh_original.save("dmp_tmp.yaml")
+        beh_original.save("tmp_dmp_model.yaml")
+        beh_original.save_config("tmp_dmp_config.yaml")
 
-        beh_loaded = DMPBehavior(configuration_file="dmp_tmp.yaml")
+        beh_loaded = DMPBehavior(configuration_file="tmp_dmp_model.yaml")
         beh_loaded.init(3 * n_task_dims, 3 * n_task_dims)
-    except e:
+        print("2")
+        beh_loaded.load_config("tmp_dmp_config.yaml")
+    except Exception as e:
         raise e
     finally:
-        if os.path.exists("dmp_tmp.yaml"):
-            os.remove("dmp_tmp.yaml")
+        if os.path.exists("tmp_dmp_model.yaml"):
+            os.remove("tmp_dmp_model.yaml")
+        if os.path.exists("tmp_dmp_config.yaml"):
+            os.remove("tmp_dmp_config.yaml")
 
     xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
     beh_loaded.reset()
     t = 0
     while beh_loaded.can_step():
         eval_loop(beh_loaded, xva)
+        if t == 0:
+            assert_array_almost_equal(xva[:n_task_dims], x0)
         t += 1
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=4)
     assert_equal(t, 854)
     assert_equal(beh_loaded.get_n_params(), n_task_dims * 10)
 

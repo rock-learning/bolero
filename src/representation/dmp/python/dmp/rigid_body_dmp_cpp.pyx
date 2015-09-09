@@ -353,7 +353,7 @@ cdef class RbDMP:
         return dmp
 
     def save_model(self, filename):
-        """Save DMP in YAML file.
+        """Save DMP model in YAML file.
 
         Parameters
         ----------

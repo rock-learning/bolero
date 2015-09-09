@@ -240,17 +240,38 @@ cdef class DMP:
         dmp.n_features = model.rbf_centers.size()
         return dmp
 
-    def save_model(self, file_name):
-        """Save DMP in YAML file.
+    def save_model(self, filename):
+        """Save DMP model in YAML file.
 
         Parameters
         ----------
-        file_name : string
+        filename : string
             Name of the YAML file that stores the DMP model.
         """
-        cdef char* file = file_name
-        cdef cb.DMPWrapper* wrapper = new cb.DMPWrapper()
-        wrapper.init_from_dmp(deref(self.thisptr))
-        cdef cb.DMPModel model = wrapper.generate_model()
-        model.to_yaml_file(string(file))
-        del wrapper
+        cdef char* filename_cstr = filename
+        cdef cb.DMPModel model = self.thisptr.generateModel()
+        model.to_yaml_file(string(filename_cstr))
+
+    def save_config(self, filename):
+        """Save DMP configuration (meta-parameters) in YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP configuration.
+        """
+        cdef char* filename_cstr = filename
+        cdef cb.DMPConfig config = self.thisptr.generateConfig()
+        config.to_yaml_file(string(filename_cstr))
+
+    def load_config(self, filename):
+        """Load DMP configuration (meta-parameters) from YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP configuration.
+        """
+        cdef char* filename_cstr = filename
+        cdef cb.DMPConfig config = cb.DMPConfig(string(filename_cstr), "")
+        self.thisptr.initialize(config)

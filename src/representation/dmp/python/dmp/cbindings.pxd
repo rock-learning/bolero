@@ -27,7 +27,7 @@ cdef extern from "Dmp.h" namespace "dmp::Dmp":
                          double executionTime, double dt,
                          double alphaZ, double betaZ)
 
-	
+
 cdef extern from "Dmp.h" namespace "dmp":
     cdef cppclass Dmp:    
         Dmp(double executionTime, double alpha, double dt,
@@ -35,6 +35,8 @@ cdef extern from "Dmp.h" namespace "dmp":
             double betaZ, unsigned integrationSteps)
 
         Dmp(Dmp other)
+
+        void initialize(DMPConfig config)
                                                                      
         void initialize(double* startPos, double* startVel,
                         double* startAcc, double* endPos,
@@ -58,6 +60,10 @@ cdef extern from "Dmp.h" namespace "dmp":
 
         int getTaskDimensions()
 
+        DMPModel generateModel()
+
+        DMPConfig generateConfig()
+
 
 cdef extern from "DMPModel.h" namespace "dmp_cpp":
     cdef cppclass DMPModel:
@@ -65,6 +71,13 @@ cdef extern from "DMPModel.h" namespace "dmp_cpp":
         double ts_tau
         double ts_dt
 
+        void to_yaml_file(string filepath)
+
+
+cdef extern from "DMPConfig.h" namespace "dmp_cpp":
+    cdef cppclass DMPConfig:
+        DMPConfig()
+        DMPConfig(string filepath, string name)
         void to_yaml_file(string filepath)
 
 
