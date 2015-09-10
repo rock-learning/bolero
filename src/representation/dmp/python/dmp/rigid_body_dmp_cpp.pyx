@@ -363,3 +363,27 @@ cdef class RbDMP:
         model = yaml.load(self.init_yaml)
         model["ft_weights"] = self.get_weights().tolist()
         yaml.dump(model, open(filename, "w"))
+
+    def save_config(self, filename):
+        """Save DMP configuration (meta-parameters) in YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP configuration.
+        """
+        f = open(filename, "w")
+        f.write(self.config_yaml)
+        f.close()
+
+    def load_config(self, filename):
+        """Load DMP configuration (meta-parameters) from YAML file.
+
+        Parameters
+        ----------
+        filename : string
+            Name of the YAML file that stores the DMP configuration.
+        """
+        self.config_yaml = open(filename, "r").read()
+        if not self.thisptr.configureYaml(self.config_yaml):
+            raise Exception("DMP configuration failed")

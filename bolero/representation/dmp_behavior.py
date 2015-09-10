@@ -359,7 +359,6 @@ class CartesianDMPBehavior(BlackBoxBehavior):
                              n_features=self.n_features)
         else:
             self.dmp = RbDMP.from_file(self.configuration_file)
-            # TODO implement
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -542,3 +541,33 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             Name of YAML file
         """
         self.dmp.save_model(filename)
+
+    def save_config(self, filename):
+        """Save DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_config(filename)
+
+    def load_config(self, filename):
+        """Load DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.load_config(filename)
+        config = yaml.load(open(filename, "r"))
+        self.x0 = np.array(config["startPosition"], dtype=np.float)
+        self.x0d = np.array(config["startVelocity"], dtype=np.float)
+        self.x0dd = np.array(config["startAcceleration"], dtype=np.float)
+        self.g = np.array(config["endPosition"], dtype=np.float)
+        self.gd = np.array(config["endVelocity"], dtype=np.float)
+        self.gdd = np.array(config["endAcceleration"], dtype=np.float)
+        self.q0 = np.array(config["startRotation"], dtype=np.float)
+        self.qg = np.array(config["endRotation"], dtype=np.float)
+        self.execution_time = config["executionTime"]

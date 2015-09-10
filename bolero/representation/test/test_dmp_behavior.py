@@ -218,7 +218,6 @@ def test_dmp_save_and_load():
 
     x0 = np.ones(n_task_dims) * 1.29
     g = np.ones(n_task_dims) * 2.13
-    print("1")
     beh_original.set_meta_parameters(["x0", "g"], [x0, g])
 
     xva = np.zeros(3 * n_task_dims)
@@ -241,7 +240,6 @@ def test_dmp_save_and_load():
 
         beh_loaded = DMPBehavior(configuration_file="tmp_dmp_model.yaml")
         beh_loaded.init(3 * n_task_dims, 3 * n_task_dims)
-        print("2")
         beh_loaded.load_config("tmp_dmp_config.yaml")
     except Exception as e:
         raise e
@@ -432,31 +430,51 @@ def test_csdmp_save_and_load():
         execution_time=0.853, dt=0.001, n_features=10)
     beh_original.init(7, 7)
 
-    x = np.zeros(7)
+    x0 = np.array([1.27, 3.41, 2.72])
+    q0 = np.array([1.23, 2.33, 8.32, 9.29])
+    q0 /= np.linalg.norm(q0)
+    g = np.array([3.21, 9.34, 2.93])
+    qg = np.array([2.19, 2.39, 2.94, 9.32])
+    qg /= np.linalg.norm(qg)
+    beh_original.set_meta_parameters(
+        ["x0", "q0", "g", "qg"],
+        [x0, q0, g, qg])
+
+    x = np.hstack((x0, q0))
     beh_original.reset()
     t = 0
     while beh_original.can_step():
         eval_loop(beh_original, x)
+        if t == 0:
+            assert_array_almost_equal(x, np.hstack((x0, q0)))
         t += 1
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
     assert_equal(t, 854)
     assert_equal(beh_original.get_n_params(), 6 * 10)
 
     try:
         beh_original.save("csdmp_tmp.yaml")
+        beh_original.save_config("tmp_csdmp_config.yaml")
 
         beh_loaded = CartesianDMPBehavior(configuration_file="csdmp_tmp.yaml")
         beh_loaded.init(7, 7)
-    except e:
+        beh_loaded.load_config("tmp_csdmp_config.yaml")
+    except Exception as e:
         raise e
     finally:
         if os.path.exists("csdmp_tmp.yaml"):
             os.remove("csdmp_tmp.yaml")
+        if os.path.exists("tmp_csdmp_config.yaml"):
+            os.remove("tmp_csdmp_config.yaml")
 
-    x = np.zeros(7)
+    x = np.hstack((x0, q0))
     beh_loaded.reset()
     t = 0
     while beh_loaded.can_step():
         eval_loop(beh_loaded, x)
+        if t == 0:
+            assert_array_almost_equal(x, np.hstack((x0, q0)))
         t += 1
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
     assert_equal(t, 854)
     assert_equal(beh_loaded.get_n_params(), 6 * 10)
