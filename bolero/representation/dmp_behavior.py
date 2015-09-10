@@ -80,6 +80,7 @@ class DMPBehavior(BlackBoxBehavior):
         if hasattr(self, "initial_meta_params"):
             keys, meta_parameters = self.initial_meta_params
             self.dmp.set_metaparameters(keys, meta_parameters)
+            del self.initial_meta_params
 
         if not hasattr(self, "x0"):
             self.x0 = None
@@ -374,11 +375,27 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
 
-        self.x0, self.x0d, self.x0dd = np.zeros(3), np.zeros(3), np.zeros(3)
-        self.g, self.gd, self.gdd = np.zeros(3), np.zeros(3), np.zeros(3)
-        self.q0, self.q0d = (np.array([0.0, 1.0, 0.0, 0.0]),
-                             np.array([0.0, 0.0, 0.0]))
-        self.qg = np.array([0.0, 1.0, 0.0, 0.0])
+        if not hasattr(self, "x0"):
+            self.x0 = np.zeros(3)
+        if not hasattr(self, "x0d"):
+            self.x0d = np.zeros(3)
+        if not hasattr(self, "x0dd"):
+            self.x0dd = np.zeros(3)
+
+        if not hasattr(self, "g"):
+            self.g = np.zeros(3)
+        if not hasattr(self, "gd"):
+            self.gd = np.zeros(3)
+        if not hasattr(self, "gdd"):
+            self.gdd = np.zeros(3)
+
+        if not hasattr(self, "q0"):
+            self.q0 = np.array([0.0, 1.0, 0.0, 0.0])
+        if not hasattr(self, "q0d"):
+            self.q0d = np.zeros(3)
+
+        if not hasattr(self, "qg"):
+            self.qg = np.array([0.0, 1.0, 0.0, 0.0])
 
         self.x = np.empty(7)
         self.v = np.zeros(3)
@@ -425,9 +442,11 @@ class CartesianDMPBehavior(BlackBoxBehavior):
                     "Meta parameter '%s' is not allowed, use one of %r"
                     % (key, PERMITTED_CSDMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
-        self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
-                           self.g, self.gd, self.gdd, self.qg,
-                           self.execution_time)
+
+        if hasattr(self, "dmp"):
+            self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
+                               self.g, self.gd, self.gdd, self.qg,
+                               self.execution_time)
 
     def set_inputs(self, inputs):
         """Set input for the next step.

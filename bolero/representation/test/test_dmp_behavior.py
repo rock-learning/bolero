@@ -412,6 +412,28 @@ def test_csdmp_change_weights():
     assert_array_almost_equal(x, zeroq, decimal=3)
 
 
+def test_csdmp_set_meta_params_before_init():
+    beh = CartesianDMPBehavior()
+
+    x0 = np.ones(3) * 0.43
+    g = np.ones(3) * -0.21
+    gd = np.ones(3) * 0.12
+
+    beh.set_meta_parameters(["x0", "g", "gd"], [x0, g, gd])
+    beh.init(7, 7)
+
+    x = np.zeros(7)
+    x[:3] = x0
+
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, x)
+        t += 1
+
+    assert_array_almost_equal(x[:3], g, decimal=3)
+
+
 def test_csdmp_more_steps_than_allowed():
     beh = CartesianDMPBehavior()
     beh.init(7, 7)
