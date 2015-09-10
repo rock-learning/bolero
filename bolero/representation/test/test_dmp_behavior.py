@@ -168,6 +168,35 @@ def test_dmp_change_weights():
     assert_array_almost_equal(xva[-n_task_dims:], np.zeros(n_task_dims),
                               decimal=1)
 
+
+def test_dmp_set_meta_params_before_init():
+    beh = DMPBehavior()
+
+    x0 = np.ones(n_task_dims) * 0.43
+    g = np.ones(n_task_dims) * -0.21
+    gd = np.ones(n_task_dims) * 0.12
+    execution_time = 1.5
+
+    beh.set_meta_parameters(["x0", "g", "gd", "execution_time"],
+                            [x0, g, gd, execution_time])
+    beh.init(3 * n_task_dims, 3 * n_task_dims)
+
+    xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, xva)
+        t += 1
+
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=3)
+    assert_array_almost_equal(xva[n_task_dims:-n_task_dims], gd, decimal=2)
+    assert_array_almost_equal(xva[-n_task_dims:], np.zeros(n_task_dims),
+                              decimal=1)
+    assert_equal(t, 151)
+
+
 def test_dmp_more_steps_than_allowed():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)

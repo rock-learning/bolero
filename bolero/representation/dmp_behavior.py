@@ -77,9 +77,16 @@ class DMPBehavior(BlackBoxBehavior):
             weights = np.zeros((self.n_task_dims, self.dmp.get_num_features()))
             self.dmp.set_weights(weights)
 
-        self.x0 = None
-        self.g = np.zeros(self.n_task_dims)
-        self.gd = None
+        if hasattr(self, "initial_meta_params"):
+            keys, meta_parameters = self.initial_meta_params
+            self.dmp.set_metaparameters(keys, meta_parameters)
+
+        if not hasattr(self, "x0"):
+            self.x0 = None
+        if not hasattr(self, "g"):
+            self.g = np.zeros(self.n_task_dims)
+        if not hasattr(self, "gd"):
+            self.gd = None
 
         self.x = np.empty(self.n_task_dims)
         self.v = np.empty(self.n_task_dims)
@@ -116,7 +123,11 @@ class DMPBehavior(BlackBoxBehavior):
                     "Meta parameter '%s' is not allowed, use one of %r"
                     % (key, PERMITTED_DMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
-        self.dmp.set_metaparameters(keys, meta_parameters)
+
+        if hasattr(self, "dmp"):
+            self.dmp.set_metaparameters(keys, meta_parameters)
+        else:
+            self.initial_meta_params = (keys, meta_parameters)
 
     def set_inputs(self, inputs):
         """Set input for the next step.
