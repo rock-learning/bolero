@@ -42,10 +42,12 @@ class DMPBehavior(BlackBoxBehavior):
     """
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
                  configuration_file=None):
-        self.execution_time = execution_time
-        self.dt = dt
-        self.n_features = n_features
-        self.configuration_file = configuration_file
+        if configuration_file is None:
+            self.execution_time = execution_time
+            self.dt = dt
+            self.n_features = n_features
+        else:
+            self.configuration_file = configuration_file
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
@@ -62,11 +64,11 @@ class DMPBehavior(BlackBoxBehavior):
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
-        if self.configuration_file is None:
+        if hasattr(self, "configuration_file"):
+            self.dmp = DMP.from_file(self.configuration_file)
+        else:
             self.dmp = DMP(execution_time=self.execution_time, dt=self.dt,
                            n_features=self.n_features)
-        else:
-            self.dmp = DMP.from_file(self.configuration_file)
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -345,10 +347,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
     """
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
                  configuration_file=None):
-        self.execution_time = execution_time
-        self.dt = dt
-        self.n_features = n_features
-        self.configuration_file = configuration_file
+        if configuration_file is None:
+            self.execution_time = execution_time
+            self.dt = dt
+            self.n_features = n_features
+        else:
+            self.configuration_file = configuration_file
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
@@ -366,11 +370,13 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         if n_outputs != 7:
             raise ValueError("Number of outputs must be 7")
 
-        if self.configuration_file is None:
+        if hasattr(self, "configuration_file"):
+            self.dmp = RbDMP.from_file(self.configuration_file)
+            if not hasattr(self, "execution_time"):
+                self.execution_time = self.dmp.get_execution_time()
+        else:
             self.dmp = RbDMP(execution_time=self.execution_time, dt=self.dt,
                              n_features=self.n_features)
-        else:
-            self.dmp = RbDMP.from_file(self.configuration_file)
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs

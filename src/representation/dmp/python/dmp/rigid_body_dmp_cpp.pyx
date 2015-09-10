@@ -104,7 +104,7 @@ cdef class RbDMP:
         self.init_yaml = INIT_YAML.format(
             rbf_centers=rbf_centers.tolist(), rbf_widths=rbf_widths.tolist(),
             ft_weights=ft_weights.tolist(), ts_alpha_z=alpha, ts_beta_z=beta,
-            ts_tau=execution_time, ts_dt = dt, cs_execution_time=execution_time,
+            ts_tau=execution_time, ts_dt=dt, cs_execution_time=execution_time,
             cs_alpha=self.cs_alpha, cs_dt=dt)
 
         if not self.thisptr.initializeYaml(self.init_yaml):
@@ -112,6 +112,9 @@ cdef class RbDMP:
 
     def __dealloc__(self):
         del self.thisptr
+
+    def get_execution_time(self):
+        return self.execution_time
 
     def reset(self):
         self.initialized = False
