@@ -139,7 +139,6 @@ bool DMPModel::from_yaml_istream(istream &stream, std::string name)
 
     if(name == ""){
       name = name_buf;
-      clog << "No name was given to DMPModel::from_yaml_file. Will load the first dmp in file: " << name << endl;
     }
     if(name_buf != name){
       continue;
