@@ -66,6 +66,11 @@ cdef extern from "ContextualEnvironment.h" namespace "bolero":
     double* request_context(double *context, int numContext) except +
     int get_num_context_dims() except +
 
+cdef extern from "ParameterizedEnvironment.h" namespace "bolero":
+  cdef cppclass ParameterizedEnvironment(Environment):
+    int getNumParameters()
+    void getParameters(double *values, int numParameters)
+    void setParameters(const double *values, int numParameters)
 
 cdef extern from "Optimizer.h" namespace "bolero":
   cdef cppclass Optimizer:
@@ -97,5 +102,6 @@ cdef extern from "BLLoader.h" namespace "bolero::bl_loader":
     Environment* acquireEnvironment(string &name) except +
     LoadableBehavior* acquireBehavior(string &name) except +
     ContextualEnvironment* acquireContextualEnvironment(string &name) except +
+    ParameterizedEnvironment* acquireParameterizedEnvironment(string &name) except +
     void releaseLibrary(string &name) except +
     void dumpTo(string &file) except +

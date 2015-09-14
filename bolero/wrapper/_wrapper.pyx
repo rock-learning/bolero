@@ -140,6 +140,18 @@ cdef class CppBLLoader:
             environment.thisptr = self.thisptr.acquireContextualEnvironment(string(name_cstr))
         return environment
 
+    def acquire_parameterized_environment(self, name):
+        """Get an parameterized environment.
+
+        name : CppParameterizedEnvironment
+            ParameterizedEnvironment instance.
+        """
+        cdef char* name_cstr = name
+        environment = CppParameterizedEnvironment()
+        with HideExtern("stderr"):
+            environment.thisptr = self.thisptr.acquireParameterizedEnvironment(string(name_cstr))
+        return environment
+
     def release_library(self, name):
         """Release a C++ library."""
         cdef char* name_cstr = name
@@ -579,6 +591,153 @@ cdef class CppContextualEnvironment:
             the dimension of the context
         """
         return self.thisptr.get_num_context_dims()
+
+cdef class CppParameterizedEnvironment:
+    cdef ParameterizedEnvironment *thisptr
+
+    def __cinit__(self):
+        self.thisptr = NULL
+
+    def __dealloc__(self):
+        del self.thisptr
+
+    def init(self):
+        """Initialize environment."""
+        self.thisptr.init()
+
+    def reset(self):
+        """Reset state of the environment."""
+        self.thisptr.reset()
+
+    def get_num_inputs(self):
+        """Get number of environment inputs.
+
+        Parameters
+        ----------
+        n : int
+            number of environment inputs
+        """
+        return self.thisptr.getNumInputs()
+
+    def get_num_outputs(self):
+        """Get number of environment outputs.
+
+        Parameters
+        ----------
+        n : int
+            number of environment outputs
+        """
+        return self.thisptr.getNumOutputs()
+
+    def get_outputs(self, values):
+        """Get environment outputs, e.g. state of the environment.
+
+        Parameters
+        ----------
+        values : array
+            outputs for the environment, will be modified
+        """
+        cdef int n_outputs = self.get_num_outputs()
+        cdef np.ndarray[double, ndim=1, mode="c"] outputs = np.ndarray(n_outputs)
+        self.thisptr.getOutputs(&outputs[0], n_outputs)
+        values[:] = outputs
+
+    def set_inputs(self, values):
+        """Set environment inputs, e.g. next action.
+
+        Parameters
+        ----------
+        values : array,
+            input of the environment
+        """
+        cdef int n_inputs = self.get_num_inputs()
+        cdef np.ndarray[double, ndim=1, mode="c"] inputs = np.ndarray(n_inputs)
+        inputs[:] = values
+        self.thisptr.setInputs(&inputs[0], n_inputs)
+
+    def step_action(self):
+        """Take a step in the environment.
+        """
+        self.thisptr.stepAction()
+
+    def is_evaluation_done(self):
+        """Check if the evaluation of the behavior is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the evaluation finished?
+        """
+        return self.thisptr.isEvaluationDone()
+
+    def get_feedback(self, feedback):
+        """Get the feedbacks for the last evaluation period.
+
+        Parameters
+        ----------
+        feedback : array
+            feedback vector, will be modified
+
+        Returns
+        -------
+        success : bool
+            Has the feedback vector been filled?
+        """
+        cdef np.ndarray[double, ndim=1, mode="c"] tmp = np.ndarray(1000)
+        n_feedbacks = self.thisptr.getFeedback(&tmp[0])
+        feedback[:n_feedbacks] = tmp[:n_feedbacks]
+        return n_feedbacks
+
+    def is_behavior_learning_done(self):
+        """Check if the behavior learning is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
+        return self.thisptr.isBehaviorLearningDone()
+
+    def get_parameters(self, paramters):
+        """Get the parameters of the environment
+
+        Parameters
+        ----------
+        paramters : array
+            the current paramters of the environment
+
+        """
+        cdef int n_params = self.get_num_parameters()
+        cdef np.ndarray[double, ndim=1, mode="c"] parameters_out  = np.ndarray(n_params)
+        self.thisptr.getParameters(&parameters_out[0], n_params)
+        parameters = np.ndarray(n_params)
+        for i in range(n_params):
+            paramters[i] = parameters_out[i]
+
+    def set_parameters(self, parameters):
+        """set the parameters of the environment to the given one
+
+        Parameters
+        ----------
+        paramters : array
+            the requested paramters
+
+        """
+        cdef int n_params = self.get_num_parameters()
+        cdef np.ndarray[double, ndim=1, mode="c"] parameters_in  = np.ndarray(n_params)
+        for i in range(n_params):
+            parameters_in[i] = parameters[i]
+        self.thisptr.setParameters(&parameters_in[0], n_params)
+
+    def get_num_parameters(self):
+        """returns the count of the context dimensions
+
+        Returns
+        -------
+        contex_dimensions : int
+            the dimension of the context
+        """
+        return self.thisptr.getNumParameters()
 
 cdef class CppBehavior:
     cdef Behavior *thisptr
