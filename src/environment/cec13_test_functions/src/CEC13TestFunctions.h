@@ -56,7 +56,7 @@ namespace bolero {
       // for the whole evaluation
       virtual int getFeedback(double *feedback) const;
 
-      bool isBehaviorLearningDone() const {return false;}
+      bool isBehaviorLearningDone() const;
 
     private:
       int dimension, testFunction;

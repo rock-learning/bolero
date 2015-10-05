@@ -92,6 +92,13 @@ namespace bolero {
       if(testFunction > 0) return true;
     }
 
+    bool CEC13TestFunctions::isBehaviorLearningDone() const {
+      if(fabs(functionValue + 1400 - 100*(testFunction-1)) < 0.0001) {
+        return true;
+      }
+      return false;
+    }
+
   } // end of namespace cec13_test_functions
 } // end of namespace bolero
 

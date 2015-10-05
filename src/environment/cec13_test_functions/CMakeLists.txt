@@ -73,4 +73,4 @@ install(FILES ${HEADERS} DESTINATION include/bolero/${PROJECT_NAME})
 # using pkg-config
 configure_file(${PROJECT_NAME}.pc.in ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION lib/pkgconfig)
-install(DIRECTORY input_data DESTINATION configuration/share/benchmarking/${PROJECT_NAME})
+install(DIRECTORY input_data DESTINATION share/benchmarking/${PROJECT_NAME})
