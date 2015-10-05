@@ -26,8 +26,8 @@ namespace bolero {
     MARSEnvironmentHelper::MARSEnvironmentHelper(
             lib_manager::LibManager *theManager, const char* name, int version,
             MARSEnvPlugin *marsPlugin)
-      : Environment(theManager, name, version), marsPlugin(marsPlugin),
-        marsThread(0), initialized(false)
+      : Environment(theManager, name, version), initialized(false),
+        marsThread(0), marsPlugin(marsPlugin)
     {
     }
 
@@ -116,21 +116,21 @@ namespace bolero {
         }
       }
 
+      fprintf(stderr, "Loading default additional libraries...\n");
+      // loading errors will be silent for the following optional libraries
+      if(enableGUI) {
+        libManager->loadLibrary("connexion_plugin", NULL, true);
+        libManager->loadLibrary("data_broker_gui", NULL, true);
+        libManager->loadLibrary("cfg_manager_gui", NULL, true);
+        libManager->loadLibrary("lib_manager_gui", NULL, true);
+      }
+
       // load the simulation other_libs:
       std::string otherConfigFile = "other_libs.txt";
       testFile = fopen(otherConfigFile.c_str() , "r");
       if(testFile) {
         fclose(testFile);
         libManager->loadConfigFile(otherConfigFile);
-      } else {
-        fprintf(stderr, "Loading default additional libraries...\n");
-        // loading errors will be silent for the following optional libraries
-        if(enableGUI) {
-          libManager->loadLibrary("connexion_plugin", NULL, true);
-          libManager->loadLibrary("data_broker_gui", NULL, true);
-          libManager->loadLibrary("cfg_manager_gui", NULL, true);
-          libManager->loadLibrary("lib_manager_gui", NULL, true);
-        }
       }
 
       marsThread->startMARS();

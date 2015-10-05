@@ -16,9 +16,9 @@ namespace bolero {
                            int &argc, char** argv,
                            bool enableGUI) : libManager(theManager),
                                              argc(argc), argv(argv),
+                                             simulation(0),
                                              simulationStarted(false),
-                                             enableGUI(enableGUI),
-                                             simulation(0) {
+                                             enableGUI(enableGUI) {
       if(enableGUI) {
         myApp = new mars::app::MyApp(argc, argv);
       } else {
