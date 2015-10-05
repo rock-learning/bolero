@@ -44,7 +44,6 @@ bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
       doc["name"] >> name_buf;
       if(name == ""){
           name = name_buf;
-          clog << "No name was given to DMPConfig::from_yaml_parser. Will load the first dmp in file: " << name << endl;
       }
       if(name_buf != name){
           continue;

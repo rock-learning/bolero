@@ -1,7 +1,8 @@
 <package>
-    <description brief="cec13_test_functions">
-      This simple test problem searches for a minimum value in a test function.
-   </description>
-    <depend package="simulation/lib_manager" />
-    <depend package="simulation/configmaps" />
+  <description brief="cec13_test_functions">
+    This simple test problem searches for a minimum value in a test function.
+  </description>
+  <depend package="simulation/lib_manager" />
+  <depend package="simulation/configmaps" />
+  <depend package="learning/bolero/include" />
 </package>

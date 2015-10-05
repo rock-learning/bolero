@@ -17,6 +17,7 @@ namespace bolero {
   class BehaviorSearch;
   class Environment;
   class ContextualEnvironment;
+  class ParameterizedEnvironment;
   class LoadableBehavior;
 
   namespace bl_loader {
@@ -82,6 +83,7 @@ namespace bolero {
       */
       Environment* acquireEnvironment(const std::string &name);
       ContextualEnvironment* acquireContextualEnvironment(const std::string &name);
+      ParameterizedEnvironment* acquireParameterizedEnvironment(const std::string &name);
 
       /**
        * Loads the behavior specified by \p name.

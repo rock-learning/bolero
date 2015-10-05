@@ -168,6 +168,35 @@ def test_dmp_change_weights():
     assert_array_almost_equal(xva[-n_task_dims:], np.zeros(n_task_dims),
                               decimal=1)
 
+
+def test_dmp_set_meta_params_before_init():
+    beh = DMPBehavior()
+
+    x0 = np.ones(n_task_dims) * 0.43
+    g = np.ones(n_task_dims) * -0.21
+    gd = np.ones(n_task_dims) * 0.12
+    execution_time = 1.5
+
+    beh.set_meta_parameters(["x0", "g", "gd", "execution_time"],
+                            [x0, g, gd, execution_time])
+    beh.init(3 * n_task_dims, 3 * n_task_dims)
+
+    xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, xva)
+        t += 1
+
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=3)
+    assert_array_almost_equal(xva[n_task_dims:-n_task_dims], gd, decimal=2)
+    assert_array_almost_equal(xva[-n_task_dims:], np.zeros(n_task_dims),
+                              decimal=1)
+    assert_equal(t, 151)
+
+
 def test_dmp_more_steps_than_allowed():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
@@ -210,6 +239,58 @@ def test_dmp_imitate():
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()[0]
     assert_array_almost_equal(X2, X, decimal=3)
+
+
+def test_dmp_save_and_load():
+    beh_original = DMPBehavior(execution_time=0.853, dt=0.001, n_features=10)
+    beh_original.init(3 * n_task_dims, 3 * n_task_dims)
+
+    x0 = np.ones(n_task_dims) * 1.29
+    g = np.ones(n_task_dims) * 2.13
+    beh_original.set_meta_parameters(["x0", "g"], [x0, g])
+
+    xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
+    beh_original.reset()
+    t = 0
+    while beh_original.can_step():
+        eval_loop(beh_original, xva)
+        if t == 0:
+            assert_array_almost_equal(xva[:n_task_dims], x0)
+        t += 1
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=4)
+    assert_equal(t, 854)
+    assert_equal(beh_original.get_n_params(), n_task_dims * 10)
+
+    try:
+        beh_original.save("tmp_dmp_model.yaml")
+        beh_original.save_config("tmp_dmp_config.yaml")
+
+        beh_loaded = DMPBehavior(configuration_file="tmp_dmp_model.yaml")
+        beh_loaded.init(3 * n_task_dims, 3 * n_task_dims)
+        beh_loaded.load_config("tmp_dmp_config.yaml")
+    except Exception as e:
+        raise e
+    finally:
+        if os.path.exists("tmp_dmp_model.yaml"):
+            os.remove("tmp_dmp_model.yaml")
+        if os.path.exists("tmp_dmp_config.yaml"):
+            os.remove("tmp_dmp_config.yaml")
+
+    xva = np.zeros(3 * n_task_dims)
+    xva[:n_task_dims] = x0
+
+    beh_loaded.reset()
+    t = 0
+    while beh_loaded.can_step():
+        eval_loop(beh_loaded, xva)
+        if t == 0:
+            assert_array_almost_equal(xva[:n_task_dims], x0)
+        t += 1
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=4)
+    assert_equal(t, 854)
+    assert_equal(beh_loaded.get_n_params(), n_task_dims * 10)
 
 
 def test_csdmp_dimensions_do_not_match():
@@ -331,6 +412,28 @@ def test_csdmp_change_weights():
     assert_array_almost_equal(x, zeroq, decimal=3)
 
 
+def test_csdmp_set_meta_params_before_init():
+    beh = CartesianDMPBehavior()
+
+    x0 = np.ones(3) * 0.43
+    g = np.ones(3) * -0.21
+    gd = np.ones(3) * 0.12
+
+    beh.set_meta_parameters(["x0", "g", "gd"], [x0, g, gd])
+    beh.init(7, 7)
+
+    x = np.zeros(7)
+    x[:3] = x0
+
+    beh.reset()
+    t = 0
+    while beh.can_step():
+        eval_loop(beh, x)
+        t += 1
+
+    assert_array_almost_equal(x[:3], g, decimal=3)
+
+
 def test_csdmp_more_steps_than_allowed():
     beh = CartesianDMPBehavior()
     beh.init(7, 7)
@@ -371,3 +474,58 @@ def test_csdmp_imitate():
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()
     assert_array_almost_equal(X2, X, decimal=3)
+
+
+def test_csdmp_save_and_load():
+    beh_original = CartesianDMPBehavior(
+        execution_time=0.853, dt=0.001, n_features=10)
+    beh_original.init(7, 7)
+
+    x0 = np.array([1.27, 3.41, 2.72])
+    q0 = np.array([1.23, 2.33, 8.32, 9.29])
+    q0 /= np.linalg.norm(q0)
+    g = np.array([3.21, 9.34, 2.93])
+    qg = np.array([2.19, 2.39, 2.94, 9.32])
+    qg /= np.linalg.norm(qg)
+    beh_original.set_meta_parameters(
+        ["x0", "q0", "g", "qg"],
+        [x0, q0, g, qg])
+
+    x = np.hstack((x0, q0))
+    beh_original.reset()
+    t = 0
+    while beh_original.can_step():
+        eval_loop(beh_original, x)
+        if t == 0:
+            assert_array_almost_equal(x, np.hstack((x0, q0)))
+        t += 1
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
+    assert_equal(t, 854)
+    assert_equal(beh_original.get_n_params(), 6 * 10)
+
+    try:
+        beh_original.save("csdmp_tmp.yaml")
+        beh_original.save_config("tmp_csdmp_config.yaml")
+
+        beh_loaded = CartesianDMPBehavior(configuration_file="csdmp_tmp.yaml")
+        beh_loaded.init(7, 7)
+        beh_loaded.load_config("tmp_csdmp_config.yaml")
+    except Exception as e:
+        raise e
+    finally:
+        if os.path.exists("csdmp_tmp.yaml"):
+            os.remove("csdmp_tmp.yaml")
+        if os.path.exists("tmp_csdmp_config.yaml"):
+            os.remove("tmp_csdmp_config.yaml")
+
+    x = np.hstack((x0, q0))
+    beh_loaded.reset()
+    t = 0
+    while beh_loaded.can_step():
+        eval_loop(beh_loaded, x)
+        if t == 0:
+            assert_array_almost_equal(x, np.hstack((x0, q0)))
+        t += 1
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
+    assert_equal(t, 854)
+    assert_equal(beh_loaded.get_n_params(), 6 * 10)

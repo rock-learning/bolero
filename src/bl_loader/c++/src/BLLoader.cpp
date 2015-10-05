@@ -13,6 +13,7 @@
 #include <BehaviorSearch.h>
 #include <Environment.h>
 #include <ContextualEnvironment.h>
+#include <ParameterizedEnvironment.h>
 
 #include <cstdio>
 #include <stdexcept>
@@ -138,6 +139,15 @@ namespace bolero {
 
     ContextualEnvironment* BLLoader::acquireContextualEnvironment(const std::string &name) {
       ContextualEnvironment *lib = libManager->acquireLibraryAs<ContextualEnvironment>(name);
+      if(!lib) {
+        throw runtime_error("Could not acquire environment library \"" +
+                            name + "\".");
+      }
+      return lib;
+    }
+
+    ParameterizedEnvironment* BLLoader::acquireParameterizedEnvironment(const std::string &name) {
+      ParameterizedEnvironment *lib = libManager->acquireLibraryAs<ParameterizedEnvironment>(name);
       if(!lib) {
         throw runtime_error("Could not acquire environment library \"" +
                             name + "\".");

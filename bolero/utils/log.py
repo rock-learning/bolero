@@ -4,6 +4,7 @@
 import os
 import sys
 import logging
+from cStringIO import StringIO
 
 
 class HideExtern(object):
@@ -33,14 +34,13 @@ class HideExtern(object):
         except:
             self._oldstdout_fno = None
 
-        self._newstdout = os.dup(self._fno)
         os.dup2(self._target, self._fno)
         os.close(self._target)
 
         if self.stream == "stdout":
-            sys.stdout = os.fdopen(self._newstdout, 'w')
+            sys.stdout = StringIO()
         elif self.stream == "stderr":
-            sys.stderr = os.fdopen(self._newstdout, 'w')
+            sys.stderr = StringIO()
 
     def __exit__(self, *_):
         if self.stream == "stdout":

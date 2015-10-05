@@ -1,6 +1,7 @@
 # Authors: Jan Hendrik Metzen <jhm@informatik.uni-bremen.de>
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
+import yaml
 import numpy as np
 from .behavior import BlackBoxBehavior
 from dmp import DMP, RbDMP, imitate_dmp
@@ -41,10 +42,12 @@ class DMPBehavior(BlackBoxBehavior):
     """
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
                  configuration_file=None):
-        self.execution_time = execution_time
-        self.dt = dt
-        self.n_features = n_features
-        self.configuration_file = configuration_file
+        if configuration_file is None:
+            self.execution_time = execution_time
+            self.dt = dt
+            self.n_features = n_features
+        else:
+            self.configuration_file = configuration_file
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
@@ -61,11 +64,11 @@ class DMPBehavior(BlackBoxBehavior):
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
-        if self.configuration_file is None:
+        if hasattr(self, "configuration_file"):
+            self.dmp = DMP.from_file(self.configuration_file)
+        else:
             self.dmp = DMP(execution_time=self.execution_time, dt=self.dt,
                            n_features=self.n_features)
-        else:
-            self.dmp = DMP.from_file(self.configuration_file)
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -76,9 +79,17 @@ class DMPBehavior(BlackBoxBehavior):
             weights = np.zeros((self.n_task_dims, self.dmp.get_num_features()))
             self.dmp.set_weights(weights)
 
-        self.x0 = None
-        self.g = np.zeros(self.n_task_dims)
-        self.gd = None
+        if hasattr(self, "initial_meta_params"):
+            keys, meta_parameters = self.initial_meta_params
+            self.dmp.set_metaparameters(keys, meta_parameters)
+            del self.initial_meta_params
+
+        if not hasattr(self, "x0"):
+            self.x0 = None
+        if not hasattr(self, "g"):
+            self.g = np.zeros(self.n_task_dims)
+        if not hasattr(self, "gd"):
+            self.gd = None
 
         self.x = np.empty(self.n_task_dims)
         self.v = np.empty(self.n_task_dims)
@@ -115,7 +126,11 @@ class DMPBehavior(BlackBoxBehavior):
                     "Meta parameter '%s' is not allowed, use one of %r"
                     % (key, PERMITTED_DMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
-        self.dmp.set_metaparameters(keys, meta_parameters)
+
+        if hasattr(self, "dmp"):
+            self.dmp.set_metaparameters(keys, meta_parameters)
+        else:
+            self.initial_meta_params = (keys, meta_parameters)
 
     def set_inputs(self, inputs):
         """Set input for the next step.
@@ -265,6 +280,40 @@ class DMPBehavior(BlackBoxBehavior):
 
         return np.array(X), np.array(Xd), np.array(Xdd)
 
+    def save(self, filename):
+        """Save DMP model.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_model(filename)
+
+    def save_config(self, filename):
+        """Save DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_config(filename)
+
+    def load_config(self, filename):
+        """Load DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.load_config(filename)
+        config = yaml.load(open(filename, "r"))
+        self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
+        self.g = np.array(config["dmp_endPosition"], dtype=np.float)
+        self.gd = np.array(config["dmp_endVelocity"], dtype=np.float)
+
 
 class CartesianDMPBehavior(BlackBoxBehavior):
     """Cartesian Space Dynamical Movement Primitive.
@@ -298,10 +347,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
     """
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
                  configuration_file=None):
-        self.execution_time = execution_time
-        self.dt = dt
-        self.n_features = n_features
-        self.configuration_file = configuration_file
+        if configuration_file is None:
+            self.execution_time = execution_time
+            self.dt = dt
+            self.n_features = n_features
+        else:
+            self.configuration_file = configuration_file
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.
@@ -319,21 +370,38 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         if n_outputs != 7:
             raise ValueError("Number of outputs must be 7")
 
-        if self.configuration_file is None:
+        if hasattr(self, "configuration_file"):
+            self.dmp = RbDMP.from_file(self.configuration_file)
+            if not hasattr(self, "execution_time"):
+                self.execution_time = self.dmp.get_execution_time()
+        else:
             self.dmp = RbDMP(execution_time=self.execution_time, dt=self.dt,
                              n_features=self.n_features)
-        else:
-            self.dmp = RbDMP.from_file(self.configuration_file)
-            # TODO implement
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
 
-        self.x0, self.x0d, self.x0dd = np.zeros(3), np.zeros(3), np.zeros(3)
-        self.g, self.gd, self.gdd = np.zeros(3), np.zeros(3), np.zeros(3)
-        self.q0, self.q0d = (np.array([0.0, 1.0, 0.0, 0.0]),
-                             np.array([0.0, 0.0, 0.0]))
-        self.qg = np.array([0.0, 1.0, 0.0, 0.0])
+        if not hasattr(self, "x0"):
+            self.x0 = np.zeros(3)
+        if not hasattr(self, "x0d"):
+            self.x0d = np.zeros(3)
+        if not hasattr(self, "x0dd"):
+            self.x0dd = np.zeros(3)
+
+        if not hasattr(self, "g"):
+            self.g = np.zeros(3)
+        if not hasattr(self, "gd"):
+            self.gd = np.zeros(3)
+        if not hasattr(self, "gdd"):
+            self.gdd = np.zeros(3)
+
+        if not hasattr(self, "q0"):
+            self.q0 = np.array([0.0, 1.0, 0.0, 0.0])
+        if not hasattr(self, "q0d"):
+            self.q0d = np.zeros(3)
+
+        if not hasattr(self, "qg"):
+            self.qg = np.array([0.0, 1.0, 0.0, 0.0])
 
         self.x = np.empty(7)
         self.v = np.zeros(3)
@@ -380,9 +448,11 @@ class CartesianDMPBehavior(BlackBoxBehavior):
                     "Meta parameter '%s' is not allowed, use one of %r"
                     % (key, PERMITTED_CSDMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
-        self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
-                           self.g, self.gd, self.gdd, self.qg,
-                           self.execution_time)
+
+        if hasattr(self, "dmp"):
+            self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
+                               self.g, self.gd, self.gdd, self.qg,
+                               self.execution_time)
 
     def set_inputs(self, inputs):
         """Set input for the next step.
@@ -497,3 +567,43 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             Q.append(q.copy())
 
         return np.hstack((X, Q))
+
+    def save(self, filename):
+        """Save DMP model.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_model(filename)
+
+    def save_config(self, filename):
+        """Save DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.save_config(filename)
+
+    def load_config(self, filename):
+        """Load DMP configuration.
+
+        Parameters
+        ----------
+        filename : string
+            Name of YAML file
+        """
+        self.dmp.load_config(filename)
+        config = yaml.load(open(filename, "r"))
+        self.x0 = np.array(config["startPosition"], dtype=np.float)
+        self.x0d = np.array(config["startVelocity"], dtype=np.float)
+        self.x0dd = np.array(config["startAcceleration"], dtype=np.float)
+        self.g = np.array(config["endPosition"], dtype=np.float)
+        self.gd = np.array(config["endVelocity"], dtype=np.float)
+        self.gdd = np.array(config["endAcceleration"], dtype=np.float)
+        self.q0 = np.array(config["startRotation"], dtype=np.float)
+        self.qg = np.array(config["endRotation"], dtype=np.float)
+        self.execution_time = config["executionTime"]

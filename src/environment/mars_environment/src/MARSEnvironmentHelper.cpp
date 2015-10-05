@@ -160,12 +160,13 @@ namespace bolero {
       marsPlugin->waitForReset = true;
       marsPlugin->doNotContinue = false;
       marsPlugin->newOutputData = false;
-      mars::app::MARS::control->sim->resetSim();
-      mars::app::MARS::control->sim->finishedDraw();
 
       for(int i=0; i<getNumOutputs(); ++i) {
         marsPlugin->outputs[i] = 0.0;
       }
+
+      mars::app::MARS::control->sim->resetSim();
+      mars::app::MARS::control->sim->finishedDraw();
     }
 
     void MARSEnvironmentHelper::getOutputs(double *values,
