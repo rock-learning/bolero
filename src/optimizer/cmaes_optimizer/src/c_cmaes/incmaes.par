@@ -1,0 +1,84 @@
+function number 1 5 6  # the first number is read by example.c, see there
+
+#
+# Input parameter file for cmaes_t.  
+# Comments start with '#' or '%' until end of line.
+# Actual recent parameter setting is written to file actparcmaes.par.
+# 
+
+## --- OBLIGATORY SETTINGS
+
+ N 25        # Problem dimension, overwrites parameter in cmaes_init
+ xstart 1:   # Initial search point. Syntax see end of file. 
+   0.5
+ sigma  1:   #  Initial standard deviation per coordinate. 
+   0.4 
+             # Remark: stddev * (0.2*mueff+sqrt(N))/mueff was coordist
+             #             mueff = sum(weights)^2/sum(weights^2)
+             #             mueff == mu if weights[1]==weights[mu]
+
+stopfunvaldiff 1e-12 # stop if function value differences are 
+                     # smaller than stopfunvaldiff
+# stopfunval 1e-6  # stop if function value smaller than stopfunval
+                   # commented == never stop on function value (default)
+
+## --- OPTIONAL SETTINGS
+
+# resume allcmaes.dat   # reads restart distribution from given file
+
+maxeval 1e299     # maximal number of function evaluations
+# fac*maxeval 1e0 # increases or decreases maxeval by read number
+# seed 1
+
+# mincoorstddev 1 # Minimal coordinate wise standard dev. Syntax see below.
+# 	1e-13
+
+
+## --- Strategy internal parameter ---
+##     default values are set in readpara_SupplementDefaults()
+## -- Selection related parameters
+# lambda 100        # number of offspring == samplesize
+# mu  
+# weights      log # possible values: log (==default), 
+                   #   lin (==linearely decreasing), or equal 
+
+## -- Adaptation (distribution estimation) related parameters
+ fac*damp      1  # increase or decrease damping for step size control.
+# ccumcov      1  # default is 4/(N+4), 1 means no cumulation for p_c.
+# mucov        1  # 1 means only rank 1 update of C
+ fac*ccov      1  # multiplier for default learning rate for cov. matrix
+# updatecov    1  # default is updating after every 1/ccov/N/10-th generation.
+updatecovmaxtime 50  # maximal percent CPU-time for eigensystem evaluation.
+                     # Large updatecovmaxtime-values (up to 100) are better
+                     # w.r.t. the number of function evaluations to reach a 
+                     # certain function value. Only 100 yields exactly
+                     # reproducible results and seems safest.
+                     # Default is 20% which should be faster than larger values
+                     # w.r.t. the CPU-time to reach a certain function value. 
+
+# fac*updatecov 10
+
+
+## --- Syntax for xstart, sigma, mincoorstddev
+
+# The following:
+#
+#    N 7
+#    xstart 3 :       # read 3 numbers from next lines
+#      0.2 0.3 
+#      0.4 0.5 0.6 
+#      0.7         
+#
+# reads the first three numbers starting from the
+# line following the keyword "xstart" and recycles
+# these numbers (or cut them) to length N, resulting in 
+#   xstart=[0.2 0.3 0.4 0.2 0.3 0.4 0.2]
+# No comments are allowed between the numbers. I.e.
+#
+#    xstart 3      22 anything here is ok, 22 is disregarded  # still ok
+#      0.2 0.3     # this comment fails, if >2 numbers to be read
+#      0.4 0.5 0.6 
+#
+# would fail due to the comment between second and third number to 
+# be read. 
+

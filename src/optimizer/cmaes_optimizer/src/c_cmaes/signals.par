@@ -1,0 +1,57 @@
+#
+# Comment characters are '%' and '#' to end of line. 
+# Uncomment one or more rows (and/or add an uncommented line)
+# and save this file to induce an action.  
+#
+
+## --- set new stop condition 
+# stop now      
+# write resume allcmaes.dat  # write data for restart
+# stop gen 3e4  # stop after given number of generations
+# stop 4.5e6   # stop after given number of function evaluations
+
+## --- print data to stdout
+##   syntax (in one row): 
+##   print <keyword for cmaes_WriteToFilePtr()>[+<another keyword>] 
+##         [<seconds>] 
+##   After the first iteration ONLY the action with the smallest 
+##     seconds value will take place. 
+##   For more info see write data below. 
+
+#  print gen+funval    5
+## "few" prints Fevals Fval Sigma Max&MinCoorDev AxisRatio MinOfD
+  print fewinfo 200      # print every 200 seconds
+  print few+clock     2  # clock: used processor time since start
+#  print few          2  
+#  print funval+xmean 3 
+#  print gen+few  20
+#  print gen+few+few(diag(D)) 0
+#  print few(diag(D))     
+#  print all 100
+
+## --- write data to file (example.c can also write into data file)
+##  syntax (in one row): 
+##  write <keyword for cmaes_WriteToFilePtr()>[+<another keyword>] 
+##        [<filename>] [<seconds>] 
+##   After the first iteration ONLY the action with the smallest 
+##     seconds value will take place. 
+
+##  Default filename is tmpcmaes.dat.  Default seconds=1. For
+##  seconds=0 writing takes place every generation. For seconds < 0
+##  writing is blocked after the first key where seconds < 0 was
+##  written. Blocking lasts until all values for seconds are >=0 
+##  again. For keywords compare cmaes_interface.h and function
+##  cmaes_WriteToFilePtr in cmaes.c.
+
+##        keyword(s)        file       seconds until next writing
+ write few+few(diag(D)) rescmaes.dat     0    # writes every generation 
+ write few+diag(D)      tmp.dat         04    # writes every generation 
+# write few+few(diag(D)) rescmaes.dat         # writes once per second 
+# write few+few(diag(D)) rescmaes.dat   -1    # writes once, blocks further writing
+ write gen+xbest          xcmaes.dat     02
+# write gen+xmean          xcmaes.dat    0
+# write B                allcmaes.dat  100    # writes every 100 seconds
+# write all              allcmaes.dat  100
+# write gen+arfunval     tmpcmaes.dat    0
+
+
