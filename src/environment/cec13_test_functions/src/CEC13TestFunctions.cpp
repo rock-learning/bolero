@@ -90,6 +90,7 @@ namespace bolero {
 
     bool CEC13TestFunctions::isEvaluationDone() const {
       if(testFunction > 0) return true;
+      return false;
     }
 
     bool CEC13TestFunctions::isBehaviorLearningDone() const {
