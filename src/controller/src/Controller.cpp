@@ -175,6 +175,7 @@ namespace bolero {
             minFeedback = feedback;
             minRun = evaluationCount+1;
             fprintf(fitnessLog, "%d %g\n", evaluationCount, feedback);
+            behaviorSearch->writeResults(blLogPath);
           }
         }
         behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
