@@ -54,7 +54,7 @@ namespace bolero {
       bool initialized;
       MARSThread *marsThread;
       MARSEnvPlugin *marsPlugin;
-      unsigned int graphicsUpdateTime;
+      unsigned int graphicsUpdateTime, graphicsStepSkip;
 
     }; // end of class definition MARSEnvironmentHelper
 

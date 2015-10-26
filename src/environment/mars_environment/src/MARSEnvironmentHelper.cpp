@@ -63,19 +63,15 @@ namespace bolero {
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");
 
-      graphicsUpdateTime = 0;
+      graphicsStepSkip = graphicsUpdateTime = 0;
 
       bool enableGUI = true;
-      if(map.find("Environment Parameters") != map.end()) {
-        map2 = &(map["Environment Parameters"][0].children);
+      if(map.find("Environment") != map.end()) {
+        map2 = &(map["Environment"][0].children);
 
-        if(map2->find("enableGUI") != map2->end()) {
-          enableGUI = (*map2)["enableGUI"][0].getBool();
-        }
-
-        if(map2->find("graphicsUpdateTime") != map2->end()) {
-          graphicsUpdateTime = (*map2)["graphicsUpdateTime"][0].getUInt();
-        }
+	enableGUI = map2->get("enableGUI", true);
+	graphicsUpdateTime = map2->get("graphicsUpdateTime", 0u);
+	graphicsStepSkip = map2->get("graphicsStepSkip", 0u);
       }
       if(enableGUI)
         fprintf(stderr, "enableGUI: yes\n");
@@ -211,6 +207,7 @@ namespace bolero {
     }
 
     void MARSEnvironmentHelper::stepAction() {
+      static int updateCount = graphicsStepSkip;
       // do the evaluation
 
       //mars::app::MARS::control->sim->step();
@@ -223,14 +220,17 @@ namespace bolero {
         mars::app::MARS::control->sim->step(true);
       }
 
-      if(marsThread->myApp) {
-        marsThread->myApp->processEvents();
-      }
-      else {
-        mars::app::MARS::control->sim->finishedDraw();
-      }
-      if(graphicsUpdateTime) {
-        mars::utils::msleep(graphicsUpdateTime);
+      if(--updateCount < 0) {
+	updateCount = graphicsStepSkip;
+	if(marsThread->myApp) {
+	  marsThread->myApp->processEvents();
+	}
+	else {
+	  mars::app::MARS::control->sim->finishedDraw();
+	}
+	if(graphicsUpdateTime) {
+	  mars::utils::msleep(graphicsUpdateTime);
+	}
       }
     }
 
