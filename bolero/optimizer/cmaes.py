@@ -69,7 +69,7 @@ class CMAESOptimizer(Optimizer):
         Active CMA-ES (aCMA-ES) with negative weighted covariance matrix
         update
 
-    bounds : array-like, shape (n_samples, 2), optional (default: None)
+    bounds : array-like, shape (n_params, 2), optional (default: None)
         Upper and lower bounds for each parameter.
 
     maximize : boolean, optional (default: True)
