@@ -3,6 +3,6 @@
       A implementation of cmaes for the ml_interfaces::optimizer.
    </description>
    <depend package="simulation/lib_manager" />
-   <depend package="simulation/mars/common/utils" />
-   <depend package="learning/behavior_learning/interfaces/c++" />
+   <depend package="simulation/configmaps" />
+   <depend package="learning/bolero/include" />
 </package>
