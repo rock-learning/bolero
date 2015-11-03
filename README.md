@@ -1,4 +1,4 @@
-<img width="100%" src="doc/source/_static/logo.svg" />
+<img width="60%" src="doc/source/_static/logo.png" />
 
 # BOLeRo
 
