@@ -19,6 +19,10 @@ else(${USE_TR1})
     ADD_DEFINITIONS(-DNO_TR1)
 endif()
 
+if(DEFINED ROCK)
+    ADD_DEFINITIONS(-DROCK)
+endif()
+
 option(PYTHON_SUPPORT "Enable BLLoader to load and wrap Python modules" ON)
 
 add_subdirectory(c++)
