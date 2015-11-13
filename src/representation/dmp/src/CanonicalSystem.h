@@ -65,6 +65,7 @@ public:
   */
   explicit CanonicalSystem(const double executionTime, const double alpha, const double dt);
 
+  /** Get the execution time. **/
   virtual double getExecutionTime() const;
 
   /** Get the phase variable s at a given time t */
@@ -73,10 +74,13 @@ public:
   /** Get the time variable t at the given phase s  */
   virtual  double getTime(const double s) const;
 
+  /** Get the time between successive steps. */
   virtual double getDt() const;
 
+  /** Get the constant alpha of the canonical system's equation. */
   virtual double getAlpha() const;
 
+  /** Get the number of phases. */
   virtual unsigned getNumberOfPhases() const;
 
   /**

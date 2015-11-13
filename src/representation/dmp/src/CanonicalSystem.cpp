@@ -33,7 +33,7 @@ CanonicalSystem::CanonicalSystem(const double executionTime, const double alpha,
 
   //assert that the executionTime is approximately divisible by dt
   //if this is not the case the final phase value may not be reached
-  assert(abs(((numPhases -1) * dt) - executionTime) < 0.05);
+  assert(abs(((numPhases - 1) * dt) - executionTime) < 0.05);
 }
 
 

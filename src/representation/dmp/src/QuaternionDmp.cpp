@@ -122,6 +122,7 @@ bool QuaternionDmp::configure(const QuaternionDmpConfig &config)
     endPos.normalize();
     assert(ts.get());
     ts->initialize(startPos, startVel, endPos);
+    cs.reset(new CanonicalSystem(config.executionTime, cs->getAlpha(), cs->getDt()));
     stepPossible = true;
     return true;
   }
