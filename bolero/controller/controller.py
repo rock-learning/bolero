@@ -22,8 +22,10 @@ class Controller(Base):
 
     * n_episodes (int) - number of episodes that will be executed by
       :func:`learn`
-    * record_trajectories (bool) - store trajectories of each episode in
-      `self.trajectories_`
+    * record_trajectories (bool) - store control signal trajectories (outputs
+      of behaviors) of each episode in `self.trajectories_`
+    * record_outputs (bool) - store outputs of environment (inputs for
+      behaviors) for each episode in `self.outputs_`
     * record_contexts (bool) - store context vectors of each episode in
       `self.contexts_` (only available for contextual environments)
     * n_episodes_before_test (int) - the upper-level policy will be evaluated
@@ -75,12 +77,16 @@ class Controller(Base):
         self.__dict__.update(kwargs)
         self._set_attribute(config, "n_episodes", 10)
         self._set_attribute(config, "record_trajectories", False)
+        self._set_attribute(config, "record_outputs", False)
         self._set_attribute(config, "record_feedbacks", False)
         self._set_attribute(config, "verbose", False)
         self._set_attribute(config, "n_episodes_before_test", None)
 
         if self.record_trajectories:
             self.trajectories_ = []
+
+        if self.record_outputs:
+            self.outputs_ = []
 
         if self.record_feedbacks:
             self.feedbacks_ = []
@@ -214,6 +220,8 @@ class Controller(Base):
 
         if self.record_trajectories:
             trajectory = []
+        if self.record_outputs:
+            outputs = []
 
         while not self.environment.is_evaluation_done():
             # Sense
@@ -226,15 +234,21 @@ class Controller(Base):
             self.environment.set_inputs(self.inputs)
             self.environment.step_action()
 
-            if record and self.record_trajectories:
-                trajectory.append(self.outputs.copy())
-
-        if record and self.record_trajectories:
-            self.trajectories_.append(trajectory)
+            if record:
+                if self.record_trajectories:
+                    trajectory.append(self.inputs.copy())
+                if self.record_outputs:
+                    outputs.append(self.outputs.copy())
 
         feedbacks = self.environment.get_feedback()
-        if record and self.record_feedbacks:
-            self.feedbacks_.append(np.sum(feedbacks))
+
+        if record:
+            if self.record_trajectories:
+                self.trajectories_.append(trajectory)
+            if self.record_outputs:
+                self.outputs_.append(outputs)
+            if self.record_feedbacks:
+                self.feedbacks_.append(np.sum(feedbacks))
         return feedbacks
 
     def _perform_test(self, meta_parameter_keys, meta_parameters):
