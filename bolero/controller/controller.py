@@ -227,7 +227,7 @@ class Controller(Base):
             self.environment.step_action()
 
             if record and self.record_trajectories:
-                trajectory.append(self.inputs.copy())
+                trajectory.append(self.outputs.copy())
 
         if record and self.record_trajectories:
             self.trajectories_.append(trajectory)

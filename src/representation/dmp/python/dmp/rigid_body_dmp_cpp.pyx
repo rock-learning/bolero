@@ -116,6 +116,9 @@ cdef class RbDMP:
     def get_execution_time(self):
         return self.execution_time
 
+    def get_dt(self):
+        return self.dt
+
     def reset(self):
         self.initialized = False
         w = self.get_weights()

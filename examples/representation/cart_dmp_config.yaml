@@ -1,0 +1,11 @@
+endAcceleration: [0.0, 0.0, 0.0]
+endPosition: [0.4363735, -0.06956600000000002, 0.9428189999999999]
+endRotation: [1.0, 0.0, 0.0, 0.0]
+endVelocity: [0.0, 0.0, 0.0]
+executionTime: 5.995
+name: PythonCSDMP
+startAcceleration: [0.0, 0.0, 0.0]
+startAngularVelocity: [0.0, 0.0, 0.0]
+startPosition: [0.5, 0.1, 0.7]
+startRotation: [1.0, 0.0, 0.0, 0.0]
+startVelocity: [0.0, 0.0, 0.0]

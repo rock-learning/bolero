@@ -374,6 +374,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             self.dmp = RbDMP.from_file(self.configuration_file)
             if not hasattr(self, "execution_time"):
                 self.execution_time = self.dmp.get_execution_time()
+            self.dt = self.dmp.get_dt()
         else:
             self.dmp = RbDMP(execution_time=self.execution_time, dt=self.dt,
                              n_features=self.n_features)
