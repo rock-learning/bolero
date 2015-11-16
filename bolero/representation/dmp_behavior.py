@@ -8,7 +8,7 @@ from dmp import DMP, RbDMP, imitate_dmp
 
 
 PERMITTED_DMP_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
-PERMITTED_CSDMP_METAPARAMETERS = ["x0", "g", "gd", "q0", "qg"]
+PERMITTED_CSDMP_METAPARAMETERS = ["x0", "g", "gd", "q0", "qg", "execution_time"]
 
 
 class DMPBehavior(BlackBoxBehavior):

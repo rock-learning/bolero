@@ -139,15 +139,12 @@ def test_dmp_change_execution_time():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
 
+    beh.set_meta_parameters(["x0"], [np.ones(n_task_dims)])
+    X1 = beh.trajectory()[0]
     beh.set_meta_parameters(["execution_time"], [2.0])
-
-    xva = np.zeros(3 * n_task_dims)
-    beh.reset()
-    t = 0
-    while beh.can_step():
-        eval_loop(beh, xva)
-        t += 1
-    assert_equal(t, 201)
+    X2 = beh.trajectory()[0]
+    assert_equal(X2.shape[0], 201)
+    assert_array_almost_equal(X1, X2[::2], decimal=3)
 
 
 def test_dmp_change_weights():
@@ -396,6 +393,17 @@ def test_csdmp_change_goal_velocity():
     v = (x[:3] - x_prev[:3]) / dt
 
     assert_array_almost_equal(v, np.ones(3), decimal=3)
+
+
+def test_csdmp_change_execution_time():
+    beh = CartesianDMPBehavior()
+    beh.init(7, 7)
+
+    X1 = beh.trajectory()
+    beh.set_meta_parameters(["execution_time"], [2.0])
+    X2 = beh.trajectory()
+    assert_equal(X2.shape[0], 201)
+    assert_array_almost_equal(X1, X2[::2])
 
 
 def test_csdmp_change_weights():
