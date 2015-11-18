@@ -2,7 +2,7 @@
   <description brief="bl_loader">
     Loads C++ libraries for bolero.
   </description>
-  <depend package="learning/catch" />
+  <depend package="tools/catch" />
   <depend package="learning/bolero/include" />
   <depend package="simulation/lib_manager" />
   <depend package="external/yaml-cpp" />
