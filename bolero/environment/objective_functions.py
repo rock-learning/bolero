@@ -394,7 +394,7 @@ def rosenbrock(x):
     return np.sum(100 * (x[:-1] ** 2 - x[1:]) ** 2 + (x[:-1] - 1) ** 2)
 
 
-class ObjectiveFunction(object):
+class ObjectiveFunctionBase(object):
     """Base of objective functions for black-box optimization.
 
     The default constructor of a objective function will initialize the optimal
@@ -442,7 +442,7 @@ class ObjectiveFunction(object):
         """
 
 
-class Sphere(ObjectiveFunction):
+class Sphere(ObjectiveFunctionBase):
     """Sphere function.
 
     Properties
@@ -469,7 +469,7 @@ class Sphere(ObjectiveFunction):
         return -(np.linalg.norm(x - x_opt) ** 2) + self.f_opt
 
 
-class Ellipsoidal(ObjectiveFunction):
+class Ellipsoidal(ObjectiveFunctionBase):
     """Separable ellipsoid with monotone transformation.
 
     Properties
@@ -497,7 +497,7 @@ class Ellipsoidal(ObjectiveFunction):
         return -np.dot(self.scales, z ** 2) + self.f_opt
 
 
-class Rastrigin(ObjectiveFunction):
+class Rastrigin(ObjectiveFunctionBase):
     """Rastrigin with monotone transformation separable condition 10.
 
     The implementation is based on :func:`rastrigin`.
@@ -533,7 +533,7 @@ class Rastrigin(ObjectiveFunction):
         return -rastrigin(z) + self.f_opt
 
 
-class BuecheRastrigin(ObjectiveFunction):
+class BuecheRastrigin(ObjectiveFunctionBase):
     """Skew Rastrigin-Bueche, condition 10, skew-"condition" 100.
 
     The implementation is based on :func:`rastrigin`.
@@ -569,7 +569,7 @@ class BuecheRastrigin(ObjectiveFunction):
         return -(rastrigin(z) + 100.0 * f_pen(x)) + self.f_opt
 
 
-class LinearSlope(ObjectiveFunction):
+class LinearSlope(ObjectiveFunctionBase):
     """Linear slope.
 
     Properties
@@ -602,7 +602,7 @@ class LinearSlope(ObjectiveFunction):
         return -(self.offset - np.dot(self.scales, z)) + self.f_opt
 
 
-class AttractiveSector(ObjectiveFunction):
+class AttractiveSector(ObjectiveFunctionBase):
     """Attractive sector function.
 
     Properties
@@ -637,7 +637,7 @@ class AttractiveSector(ObjectiveFunction):
         return -T_osc(z.dot(z)) ** 0.9 + self.f_opt
 
 
-class StepEllipsoidal(ObjectiveFunction):
+class StepEllipsoidal(ObjectiveFunctionBase):
     """Step ellipsoidal function.
 
     Properties
@@ -679,7 +679,7 @@ class StepEllipsoidal(ObjectiveFunction):
                  100.0 * f_pen(z)) + self.f_opt
 
 
-class Rosenbrock(ObjectiveFunction):
+class Rosenbrock(ObjectiveFunctionBase):
     """Rosenbrock function.
 
     The implementation is based on :func:`rosenbrock`.
@@ -717,7 +717,7 @@ class Rosenbrock(ObjectiveFunction):
         return -rosenbrock(z) + self.f_opt
 
 
-class RosenbrockRotated(ObjectiveFunction):
+class RosenbrockRotated(ObjectiveFunctionBase):
     """Rotated Rosenbrock function.
 
     The implementation is based on :func:`rosenbrock`.
@@ -747,7 +747,7 @@ class RosenbrockRotated(ObjectiveFunction):
         return -rosenbrock(z) + self.f_opt
 
 
-class EllipsoidalRotated(ObjectiveFunction):
+class EllipsoidalRotated(ObjectiveFunctionBase):
     """Rotated ellipsoid with monotone transformation.
 
     Properties
@@ -780,7 +780,7 @@ class EllipsoidalRotated(ObjectiveFunction):
         return -f + self.f_opt
 
 
-class Discus(ObjectiveFunction):
+class Discus(ObjectiveFunctionBase):
     """Discus (tablet) with monotone transformation.
 
     Properties
@@ -809,7 +809,7 @@ class Discus(ObjectiveFunction):
         return -((self.condition - 1) * z[0] ** 2 + z.dot(z)) + self.f_opt
 
 
-class BentCigar(ObjectiveFunction):
+class BentCigar(ObjectiveFunctionBase):
     """Bent cigar with asymmetric space distortion.
 
     Properties
@@ -843,7 +843,7 @@ class BentCigar(ObjectiveFunction):
                  (1 - self.condition) * z[0] ** 2) + self.f_opt
 
 
-class SharpRidge(ObjectiveFunction):
+class SharpRidge(ObjectiveFunctionBase):
     """Sharp ridge.
 
     Properties
@@ -877,7 +877,7 @@ class SharpRidge(ObjectiveFunction):
         return -(z[0] ** 2 + 100.0 * np.sqrt(np.sum(z[1:] ** 2))) + self.f_opt
 
 
-class DifferentPowers(ObjectiveFunction):
+class DifferentPowers(ObjectiveFunctionBase):
     """Abstract Sum of different powers.
 
     Properties
@@ -908,7 +908,7 @@ class DifferentPowers(ObjectiveFunction):
         return -(np.sum(np.abs(z) ** np.linspace(2, 6, self.n_dims))) + self.f_opt
 
 
-class RastriginRotated(ObjectiveFunction):
+class RastriginRotated(ObjectiveFunctionBase):
     """Rastrigin with asymmetric non-linear distortion.
 
     The implementation is based on :func:`rastrigin`.
@@ -946,7 +946,7 @@ class RastriginRotated(ObjectiveFunction):
         return -rastrigin(z) + self.f_opt
 
 
-class Weierstrass(ObjectiveFunction):
+class Weierstrass(ObjectiveFunctionBase):
     """Weierstrass.
 
     Properties
@@ -986,7 +986,7 @@ class Weierstrass(ObjectiveFunction):
                  10.0 / self.n_dims * f_pen(x)) + self.f_opt
 
 
-class SchaffersF7(ObjectiveFunction):
+class SchaffersF7(ObjectiveFunctionBase):
     """Schaffers F7 with asymmetric non-linear transformation.
 
     Properties
@@ -1044,7 +1044,7 @@ class SchaffersF7Ill(SchaffersF7):
         super(SchaffersF7Ill, self).__init__(random_state, n_dims, 1000.0)
 
 
-class CompositeGriewankRosenbrockF8F2(ObjectiveFunction):
+class CompositeGriewankRosenbrockF8F2(ObjectiveFunctionBase):
     """F8F2 sum of Griewank-Rosenbrock 2-D blocks.
 
     The implementation is based on :func:`rosenbrock`.
@@ -1077,7 +1077,7 @@ class CompositeGriewankRosenbrockF8F2(ObjectiveFunction):
         return -f + self.f_opt
 
 
-class Schwefel(ObjectiveFunction):
+class Schwefel(ObjectiveFunctionBase):
     """Schwefel with tridiagonal variable transformation.
 
     Properties
@@ -1117,7 +1117,7 @@ class Schwefel(ObjectiveFunction):
         return -(f + fpen) + self.f_opt
 
 
-class GallaghersGaussian101mePeaks(ObjectiveFunction):
+class GallaghersGaussian101mePeaks(ObjectiveFunctionBase):
     """Gallagher with 101 Gaussian peaks, condition 30, one global rotation.
 
     Properties
@@ -1188,7 +1188,7 @@ class GallaghersGaussian21hiPeaks(GallaghersGaussian101mePeaks):
               random_state, n_dims, 1000.0, 21)
 
 
-class Katsuura(ObjectiveFunction):
+class Katsuura(ObjectiveFunctionBase):
     """Katsuura function.
 
     Properties
@@ -1224,7 +1224,7 @@ class Katsuura(ObjectiveFunction):
             self.scale + f_pen(x)) + self.f_opt
 
 
-class LunacekBiRastrigin(ObjectiveFunction):
+class LunacekBiRastrigin(ObjectiveFunctionBase):
     """Lunacek bi-Rastrigin.
 
     The implementation is based on :func:`rastrigin`.
