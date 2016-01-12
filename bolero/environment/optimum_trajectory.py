@@ -89,7 +89,7 @@ class OptimumTrajectory(Environment):
     def get_num_inputs(self):
         """Get number of environment inputs.
 
-        Parameters
+        Returns
         ----------
         n : int
             number of environment inputs
@@ -99,7 +99,7 @@ class OptimumTrajectory(Environment):
     def get_num_outputs(self):
         """Get number of environment outputs.
 
-        Parameters
+        Returns
         ----------
         n : int
             number of environment outputs
@@ -152,43 +152,116 @@ class OptimumTrajectory(Environment):
         """
         return self.t * self.dt > self.execution_time
 
+    def get_start_dist(self):
+        """Get distance of trajectory start and desired start location.
+
+        Returns
+        -------
+        start_dist : float
+            start distance
+        """
+        start_dist = np.linalg.norm(self.x0 - self.X[0])
+        self.logger.info("Distance to start: %.3f (* %.2f)"
+                         % (start_dist, self.penalty_start_dist))
+        return start_dist
+
+    def get_goal_dist(self):
+        """Get distance of trajectory end and desired goal location.
+
+        Returns
+        -------
+        goal_dist : float
+            goal distance
+        """
+        goal_dist = np.linalg.norm(self.g - self.X[-1])
+        self.logger.info("Distance to goal: %.3f (* %.2f)"
+                         % (goal_dist, self.penalty_goal_dist))
+        self.logger.info("Goal: %s, last position: %s" % (self.g, self.X[-1]))
+        return goal_dist
+
+    def get_speed(self):
+        """Get speed values during the performed movement.
+
+        Returns
+        -------
+        speed : array-like, shape (n_steps,)
+            the speed (scalar) at all previous timestamps
+        """
+        speed = np.sqrt(np.sum(self.Xd ** 2, axis=1))
+        self.logger.info("Speed: %r" % speed)
+        return speed
+
+    def get_acceleration(self):
+        """Get acceleration values during the performed movement.
+
+        Returns
+        -------
+        acceleration : array-like, shape (n_steps,)
+            the total acceleration (scalar) at all previous timestamps
+        """
+        acceleration = np.sqrt(np.sum(self.Xdd ** 2, axis=1))
+        self.logger.info("Accelerations: %r" % acceleration)
+        return acceleration
+
+    def get_collision(self, obstacle_filter=None):
+        """Get list of collisions with obstacles during the performed movement.
+
+        Parameters
+        ----------
+        obstacle_filter : array-like, shape (n_desired_obstacles, 1)
+            specify which obstacles cause collisions, e.g. set (0, 2) to exclude
+            the second of three obstacles
+        Returns
+        -------
+        collisions : array-like, shape (n_steps,)
+            vector of values in range [0, 1] where distances above self.obstacle_dist
+            result in 0 (no collision), and distance below are scaled linearly, so that
+            1 corresponds to an intersection.
+        """
+        if self.obstacles is None:
+            return np.zeros(self.t)
+        if obstacle_filter is None:
+            obstacles = self.obstacles
+        else:
+            obstacles = np.asarray(self.obstacles)[obstacle_filter, :]
+        distances = cdist(self.X, obstacles)
+        self.logger.info("Distances to obstacles: %r" % distances)
+        collision_penalties = np.maximum(0., 1.0 - distances /
+                                         self.obstacle_dist)
+        collisions = collision_penalties.sum(axis=1)
+        return collisions
+
+    def get_num_obstacles(self):
+        """Get number of obstacles in environment.
+
+        Returns
+        ----------
+        n : int
+            number of obstacles
+        """
+        if self.obstacles is None:
+            return 0
+        return self.obstacles.shape[0]
+
     def get_feedback(self):
-        X = self.X
-        Xd = self.Xd
-        Xdd = self.Xdd
+        """Get reward per timestamp based on weighted criteria (penalties)
 
+        Returns
+        -------
+        rewards : array-like, shape (n_steps,)
+            reward for every timestamp; non-positive values
+        """
         rewards = np.zeros(self.t)
-
         if self.penalty_start_dist > 0.0:
-            start_dist = np.linalg.norm(self.x0 - X[0])
-            self.logger.info("Distance to start: %.3f (* %.2f)"
-                             % (start_dist, self.penalty_start_dist))
-            rewards[0] -= start_dist * self.penalty_start_dist
-
+            rewards[0] -= self.get_start_dist() * self.penalty_start_dist
         if self.penalty_goal_dist > 0.0:
-            goal_dist = np.linalg.norm(self.g - X[-1])
-            self.logger.info("Distance to goal: %.3f (* %.2f)"
-                             % (goal_dist, self.penalty_goal_dist))
-            self.logger.info("Goal: %s, last position: %s" % (self.g, X[-1]))
-            rewards[-1] -= goal_dist * self.penalty_goal_dist
-
+            rewards[-1] -= self.get_goal_dist() * self.penalty_goal_dist
         if self.penalty_vel > 0.0:
-            velocities = np.sqrt(np.sum(Xd ** 2, axis=1))
-            self.logger.info("Velocities: %r" % velocities)
-            rewards -= velocities * self.penalty_vel
-
+            rewards -= self.get_speed() * self.penalty_vel
         if self.penalty_acc > 0.0:
-            accelerations = np.sqrt(np.sum(Xdd ** 2, axis=1))
-            self.logger.info("Accelerations: %r" % accelerations)
-            rewards -= accelerations * self.penalty_acc
-
+            rewards -= self.get_acceleration() * self.penalty_acc
         if self.obstacles is not None and self.penalty_obstacle > 0.0:
-            distances = cdist(X, self.obstacles)
-            self.logger.info("Distances to obstacles: %r" % distances)
-            collision_penalties = np.maximum(0, 1.0 - distances /
-                                             self.obstacle_dist)
-            rewards -= self.penalty_obstacle * collision_penalties.sum(axis=1)
-
+            rewards -= self.penalty_obstacle * self.get_collision()
         return rewards
 
     def is_behavior_learning_done(self):
