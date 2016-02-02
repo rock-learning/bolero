@@ -330,6 +330,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
     file describes all parameters of the DMP model and it is not recommended to
     generate it manually.
 
+    Note that it is possible to change the trajectory significantly by setting
+    the start and goal. However, do not expect to be able to convert the DMP
+    between coordinate frames by setting only the start and goal. Because
+    the position and the orientation parts are handled separately, this will
+    result in completely different trajectories.
+
     Parameters
     ----------
     execution_time : float, optional (default: 1)
