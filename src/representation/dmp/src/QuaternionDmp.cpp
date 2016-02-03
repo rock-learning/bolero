@@ -83,7 +83,6 @@ bool QuaternionDmp::initialize(const QuaternionDmpModel &model)
 
 bool QuaternionDmp::configureYaml(const std::string &yaml)
 {
-  QuaternionDmpConfig config;
   if(config.fromYamlString(yaml, ""))//FIXME find way to set name
   {
     return configure(config);
@@ -97,7 +96,6 @@ bool QuaternionDmp::configureYaml(const std::string &yaml)
 
 bool QuaternionDmp::configure(const std::string &configPath)
 {
-  QuaternionDmpConfig config;
   if(config.fromYamlFile(configPath, ""))//FIXME find way to set name
   {
     return configure(config);

@@ -111,7 +111,7 @@ bool RigidBodyDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
         fullyInitialized = false;
 
       rotationConfig.fullyInitialized = fullyInitialized;
-      translationConfig.fully_initialized = fullyInitialized;
+      translationConfig.fullyInitialized = fullyInitialized;
 
       return isValid();
     }

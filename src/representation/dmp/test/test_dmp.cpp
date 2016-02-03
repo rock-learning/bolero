@@ -622,7 +622,7 @@ TEST_CASE("initialize from config", "[Dmp]")
   cfg.dmp_endVelocity[0] = 0;
   cfg.dmp_endAcceleration.resize(1);
   cfg.dmp_endAcceleration[0] = 0;
-  cfg.fully_initialized = true;
+  cfg.fullyInitialized = true;
 
   dmp2.initialize(cfg);
 

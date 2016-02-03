@@ -34,7 +34,7 @@ TEST_CASE("read and write", "[RigidBodyDmpConfig]")
   cfg.translationConfig.dmp_startAcceleration = TestHelpers::random_vector(3);
   cfg.translationConfig.dmp_startPosition = TestHelpers::random_vector(3);
   cfg.translationConfig.dmp_execution_time = 42.42;
-  cfg.translationConfig.fully_initialized = true;
+  cfg.translationConfig.fullyInitialized = true;
   cfg.rotationConfig.fullyInitialized = true;
   REQUIRE(cfg.isValid());
 
@@ -60,7 +60,7 @@ TEST_CASE("read and write", "[RigidBodyDmpConfig]")
   vectorCompare(cfg.translationConfig.dmp_startAcceleration, cfg.translationConfig.dmp_startAcceleration);
   vectorCompare(cfg.translationConfig.dmp_startPosition, cfg2.translationConfig.dmp_startPosition);
   REQUIRE(cfg.translationConfig.dmp_execution_time == cfg2.translationConfig.dmp_execution_time);
-  REQUIRE(cfg.translationConfig.fully_initialized == cfg2.translationConfig.fully_initialized);
+  REQUIRE(cfg.translationConfig.fullyInitialized == cfg2.translationConfig.fullyInitialized);
   REQUIRE(cfg.rotationConfig.fullyInitialized == cfg2.rotationConfig.fullyInitialized);
 
 

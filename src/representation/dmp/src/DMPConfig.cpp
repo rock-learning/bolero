@@ -8,11 +8,11 @@ using namespace std;
 namespace dmp_cpp
 {
 
-DMPConfig::DMPConfig() : config_name("NOT INITIALIZED"), dmp_execution_time(0.0), fully_initialized(false)
+DMPConfig::DMPConfig() : config_name("NOT INITIALIZED"), dmp_execution_time(0.0), fullyInitialized(false)
 {}
 
 DMPConfig::DMPConfig(const string& filepath, const string& name) :
-    config_name("NOT INITIALIZED"), dmp_execution_time(0.0), fully_initialized(false)
+    config_name("NOT INITIALIZED"), dmp_execution_time(0.0), fullyInitialized(false)
 {
   if(!from_yaml_file(filepath, name))
   {
@@ -51,15 +51,12 @@ bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
           continue;
         }
       }
-      else
-      {
-        name = "";
-      }
 
-      const bool has_been_initialized = fully_initialized;
-
+      const bool has_been_initialized = fullyInitialized;
       bool new_config_is_complete = true;
+
       config_name = name_buf;
+
       if(doc.FindValue("dmp_execution_time"))
         doc["dmp_execution_time"] >> dmp_execution_time;
       else
@@ -95,7 +92,7 @@ bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
       else
         new_config_is_complete = false;
 
-      fully_initialized = new_config_is_complete || has_been_initialized;
+      fullyInitialized = new_config_is_complete || has_been_initialized;
 
       return is_valid();
   }
@@ -124,7 +121,7 @@ void DMPConfig::to_yaml_file(string filepath){
 
 bool DMPConfig::is_valid() const
 {
-  bool valid = fully_initialized; //can only be valid if fully initialized
+  bool valid = fullyInitialized; //can only be valid if fully initialized
 
   if(dmp_endPosition.size() != dmp_startPosition.size() ||
      dmp_endPosition.size() != dmp_startVelocity.size() ||

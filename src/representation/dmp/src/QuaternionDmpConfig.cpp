@@ -31,42 +31,45 @@ bool QuaternionDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
   string name_buf;
   while(parser.GetNextDocument(doc))
   {
-    doc["name"] >> name_buf;
-    if(name == "")
+    if(doc.FindValue("name"))
     {
-      name = name_buf;
+      doc["name"] >> name_buf;
+      if(name == "") {
+        name = name_buf;
+      }
+      if(name_buf != name) {
+        continue;
+      }
     }
-    if(name_buf != name)
-    {
-      continue;
-    }
+
+    const bool has_been_initialized = fullyInitialized;
+    bool new_config_is_complete = true;
+
+    config_name = name_buf;
+
+    if(doc.FindValue("executionTime"))
+      doc["executionTime"] >> executionTime;
     else
-    {
-      fullyInitialized = true;
-      config_name = name_buf;
+      new_config_is_complete = false;
 
-      if(doc.FindValue("executionTime"))
-        doc["executionTime"] >> executionTime;
-      else
-        fullyInitialized = false;
+    if(doc.FindValue("startPosition"))
+      doc["startPosition"] >> startPosition;
+    else
+      new_config_is_complete = false;
 
-      if(doc.FindValue("startPosition"))
-        doc["startPosition"] >> startPosition;
-      else
-        fullyInitialized = false;
+    if(doc.FindValue("endPosition"))
+      doc["endPosition"] >> endPosition;
+    else
+      new_config_is_complete = false;
 
-      if(doc.FindValue("endPosition"))
-        doc["endPosition"] >> endPosition;
-      else
-        fullyInitialized = false;
+    if(doc.FindValue("startVelocity"))
+      doc["startVelocity"] >> startVelocity;
+    else
+      new_config_is_complete = false;
 
-      if(doc.FindValue("startVelocity"))
-        doc["startVelocity"] >> startVelocity;
-      else
-        fullyInitialized = false;
+    fullyInitialized = new_config_is_complete || has_been_initialized;
 
-      return isValid();
-    }
+    return isValid();
   }
   return false;
 }
@@ -80,6 +83,7 @@ bool QuaternionDmpConfig::isValid() const
   }
   if(startPosition.size() != 4)
   {
+    cerr << startPosition.size() << endl;
     cerr << "QuaternionDmpConfing invalid. Start position should have exactly 4 elements" << endl;
     return false;
   }

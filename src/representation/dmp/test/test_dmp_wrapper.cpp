@@ -97,7 +97,7 @@ TEST_CASE("Test DMPWrapper", "[DMPWrapper]") {
         cfg.dmp_endVelocity = TestHelpers::random_vector(5);
         cfg.dmp_startAcceleration = TestHelpers::random_vector(5);
         cfg.dmp_endAcceleration = TestHelpers::random_vector(5);
-        cfg.fully_initialized = true;
+        cfg.fullyInitialized = true;
         REQUIRE_NOTHROW(wrapper.apply_config(cfg));
     }
 }

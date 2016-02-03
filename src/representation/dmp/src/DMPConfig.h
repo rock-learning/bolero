@@ -30,7 +30,7 @@ struct DMPConfig{
     bool is_valid() const;
 
     //True if all attributes have been initialized by any of the from_yaml methods
-    bool fully_initialized;
+    bool fullyInitialized;
 };
 }
 

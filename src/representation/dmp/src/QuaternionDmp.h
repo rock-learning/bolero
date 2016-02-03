@@ -3,6 +3,7 @@
 #include <LoadableBehavior.h>
 #include "QuaternionDmpModel.h"
 #include "QuaternionTransformationSystem.h"
+#include "QuaternionDmpConfig.h"
 
 
 namespace dmp
@@ -11,7 +12,6 @@ namespace dmp
 class CanonicalSystem;
 class RbfFunctionApproximator;
 class ForcingTerm;
-class QuaternionDmpConfig;
 
 /**
  * A quaternion dmp describes three dimensional rotation trajectories.
@@ -114,6 +114,7 @@ public:
   CREATE_MODULE_INFO();
 
 private:
+  QuaternionDmpConfig config;
 
   std::auto_ptr<CanonicalSystem> cs;
   std::auto_ptr<RbfFunctionApproximator> rbf;

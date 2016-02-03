@@ -51,10 +51,10 @@ RigidBodyDmpConfig getConfig(const DMPModel& model)
   cfg.translationConfig.dmp_startAcceleration = {0, 0, 0};
   cfg.translationConfig.dmp_startPosition = {0, 0, 0};
   cfg.translationConfig.dmp_execution_time = model.cs_execution_time;
-  cfg.translationConfig.fully_initialized = true;
+  cfg.translationConfig.fullyInitialized = true;
   cfg.rotationConfig.fullyInitialized = true;
   cfg.fullyInitialized = true;
-  cfg.translationConfig.fully_initialized = true;
+  cfg.translationConfig.fullyInitialized = true;
   cfg.rotationConfig.fullyInitialized = true;
   return cfg;
 }
