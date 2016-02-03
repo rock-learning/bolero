@@ -43,6 +43,8 @@ RigidBodyDmpConfig getConfig(const DMPModel& model)
   cfg.rotationConfig.startVelocity = {0, 0, 0};
   cfg.rotationConfig.endPosition = {1, 0.1, 0.7, 13};
   cfg.rotationConfig.startPosition = {1, 2, 3, 4};
+  cfg.rotationConfig.executionTime = model.cs_execution_time;
+  cfg.rotationConfig.fullyInitialized = true;
 
   cfg.translationConfig.dmp_endAcceleration ={0, 0, 0};
   cfg.translationConfig.dmp_endPosition = {1, 2, 3};
@@ -52,10 +54,7 @@ RigidBodyDmpConfig getConfig(const DMPModel& model)
   cfg.translationConfig.dmp_startPosition = {0, 0, 0};
   cfg.translationConfig.dmp_execution_time = model.cs_execution_time;
   cfg.translationConfig.fullyInitialized = true;
-  cfg.rotationConfig.fullyInitialized = true;
   cfg.fullyInitialized = true;
-  cfg.translationConfig.fullyInitialized = true;
-  cfg.rotationConfig.fullyInitialized = true;
   return cfg;
 }
 

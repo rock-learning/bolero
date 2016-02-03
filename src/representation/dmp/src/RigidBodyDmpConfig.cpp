@@ -39,82 +39,84 @@ bool RigidBodyDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
   string name_buf;
   while(parser.GetNextDocument(doc))
   {
-    doc["name"] >> name_buf;
-    if(name == "")
+    if(doc.FindValue("name"))
     {
-      name = name_buf;
+      doc["name"] >> name_buf;
+      if(name == "") {
+        name = name_buf;
+      }
+      if(name_buf != name) {
+        continue;
+      }
     }
-    if(name_buf != name)
+
+    const bool has_been_initialized = fullyInitialized;
+    bool new_config_is_complete = true;
+
+    rotationConfig.config_name = name_buf;
+    translationConfig.config_name = name_buf;
+
+    if(doc.FindValue("startPosition"))
+      doc["startPosition"] >> translationConfig.dmp_startPosition;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("endPosition"))
+      doc["endPosition"] >> translationConfig.dmp_endPosition;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("startVelocity"))
+      doc["startVelocity"] >> translationConfig.dmp_startVelocity;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("endVelocity"))
+      doc["endVelocity"] >> translationConfig.dmp_endVelocity;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("startAcceleration"))
+      doc["startAcceleration"] >> translationConfig.dmp_startAcceleration;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("endAcceleration"))
+      doc["endAcceleration"] >> translationConfig.dmp_endAcceleration;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("startRotation"))
+      doc["startRotation"] >> rotationConfig.startPosition;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("endRotation"))
+      doc["endRotation"] >> rotationConfig.endPosition;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("startAngularVelocity"))
+      doc["startAngularVelocity"] >> rotationConfig.startVelocity;
+    else
+      new_config_is_complete = false;
+
+    if(doc.FindValue("executionTime"))
     {
-      continue;
+      double executionTime;
+      doc["executionTime"] >> executionTime;
+      translationConfig.dmp_execution_time = executionTime;
+      rotationConfig.executionTime = executionTime;
     }
     else
-    {
+      new_config_is_complete = false;
 
-      fullyInitialized = true;
-      rotationConfig.config_name = name_buf;
-      translationConfig.config_name = name_buf;
+    fullyInitialized = new_config_is_complete || has_been_initialized;
 
-      if(doc.FindValue("startPosition"))
-        doc["startPosition"] >> translationConfig.dmp_startPosition;
-      else
-        fullyInitialized = false;
+    rotationConfig.fullyInitialized = fullyInitialized;
+    translationConfig.fullyInitialized = fullyInitialized;
 
-      if(doc.FindValue("endPosition"))
-        doc["endPosition"] >> translationConfig.dmp_endPosition;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("startVelocity"))
-        doc["startVelocity"] >> translationConfig.dmp_startVelocity;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("endVelocity"))
-        doc["endVelocity"] >> translationConfig.dmp_endVelocity;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("startAcceleration"))
-        doc["startAcceleration"] >> translationConfig.dmp_startAcceleration;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("endAcceleration"))
-        doc["endAcceleration"] >> translationConfig.dmp_endAcceleration;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("startRotation"))
-        doc["startRotation"] >> rotationConfig.startPosition;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("endRotation"))
-        doc["endRotation"] >> rotationConfig.endPosition;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("startAngularVelocity"))
-        doc["startAngularVelocity"] >> rotationConfig.startVelocity;
-      else
-        fullyInitialized = false;
-
-      if(doc.FindValue("executionTime"))
-      {
-        double executionTime;
-        doc["executionTime"] >> executionTime;
-        translationConfig.dmp_execution_time = executionTime;
-        rotationConfig.executionTime = executionTime;
-      }
-      else
-        fullyInitialized = false;
-
-      rotationConfig.fullyInitialized = fullyInitialized;
-      translationConfig.fullyInitialized = fullyInitialized;
-
-      return isValid();
-    }
+    return isValid();
   }
   return false;
 }
