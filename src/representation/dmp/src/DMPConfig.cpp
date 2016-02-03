@@ -41,54 +41,63 @@ bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
   string name_buf;
   while(parser.GetNextDocument(doc))
   {
-      doc["name"] >> name_buf;
-      if(name == ""){
+      if(doc.FindValue("name"))
+      {
+        doc["name"] >> name_buf;
+        if(name == "") {
           name = name_buf;
-      }
-      if(name_buf != name){
+        }
+        if(name_buf != name) {
           continue;
+        }
       }
       else
       {
-          fully_initialized = true;
-          config_name = name_buf;
-          if(doc.FindValue("dmp_execution_time"))
-            doc["dmp_execution_time"] >> dmp_execution_time;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_startPosition"))
-            doc["dmp_startPosition"] >> dmp_startPosition;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_endPosition"))
-            doc["dmp_endPosition"] >> dmp_endPosition;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_startVelocity"))
-            doc["dmp_startVelocity"] >> dmp_startVelocity;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_endVelocity"))
-            doc["dmp_endVelocity"] >> dmp_endVelocity;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_startAcceleration"))
-            doc["dmp_startAcceleration"] >> dmp_startAcceleration;
-          else
-            fully_initialized = false;
-
-          if(doc.FindValue("dmp_endAcceleration"))
-            doc["dmp_endAcceleration"] >> dmp_endAcceleration;
-          else
-            fully_initialized = false;
-
-          return is_valid();
+        name = "";
       }
+
+      const bool has_been_initialized = fully_initialized;
+
+      bool new_config_is_complete = true;
+      config_name = name_buf;
+      if(doc.FindValue("dmp_execution_time"))
+        doc["dmp_execution_time"] >> dmp_execution_time;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_startPosition"))
+        doc["dmp_startPosition"] >> dmp_startPosition;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_endPosition"))
+        doc["dmp_endPosition"] >> dmp_endPosition;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_startVelocity"))
+        doc["dmp_startVelocity"] >> dmp_startVelocity;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_endVelocity"))
+        doc["dmp_endVelocity"] >> dmp_endVelocity;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_startAcceleration"))
+        doc["dmp_startAcceleration"] >> dmp_startAcceleration;
+      else
+        new_config_is_complete = false;
+
+      if(doc.FindValue("dmp_endAcceleration"))
+        doc["dmp_endAcceleration"] >> dmp_endAcceleration;
+      else
+        new_config_is_complete = false;
+
+      fully_initialized = new_config_is_complete || has_been_initialized;
+
+      return is_valid();
   }
   return false;
 }
