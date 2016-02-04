@@ -72,9 +72,6 @@ bool RigidBodyDmp::configureYaml(const std::string& yaml)
 {
   if(config.fromYamlString(yaml, ""))//FIXME find way to set name
   {
-    config.toYamlFile("tmp-rb.yaml");
-    config.rotationConfig.toYamlFile("tmp-rot.yaml");
-    config.translationConfig.to_yaml_file("tmp-pos.yaml");
     return configure(config);
   }
   else
