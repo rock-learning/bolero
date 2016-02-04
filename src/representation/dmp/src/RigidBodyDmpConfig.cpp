@@ -14,6 +14,12 @@ using std::ofstream;
 using std::ios;
 using std::endl;
 
+
+RigidBodyDmpConfig::RigidBodyDmpConfig()
+  : fullyInitialized(false)
+{
+}
+
 bool RigidBodyDmpConfig::isValid() const
 {
   return translationConfig.is_valid() && rotationConfig.isValid();

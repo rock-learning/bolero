@@ -58,7 +58,6 @@ bool RigidBodyDmp::canStep() const
 
 bool RigidBodyDmp::configure(const std::string& configPath)
 {
-  RigidBodyDmpConfig config;
   if(config.fromYamlFile(configPath, ""))//FIXME find way to set name
   {
     return configure(config);
@@ -71,9 +70,11 @@ bool RigidBodyDmp::configure(const std::string& configPath)
 
 bool RigidBodyDmp::configureYaml(const std::string& yaml)
 {
-  RigidBodyDmpConfig config;
   if(config.fromYamlString(yaml, ""))//FIXME find way to set name
   {
+    config.toYamlFile("tmp-rb.yaml");
+    config.rotationConfig.toYamlFile("tmp-rot.yaml");
+    config.translationConfig.to_yaml_file("tmp-pos.yaml");
     return configure(config);
   }
   else

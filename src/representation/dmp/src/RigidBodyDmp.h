@@ -173,6 +173,7 @@ public:
 
 private:
   lib_manager::LibManager* manager;
+  RigidBodyDmpConfig config;
   std::auto_ptr<DmpBehavior> translationDmp;
   std::auto_ptr<QuaternionDmp> rotationDmp;
   bool initialized; /**<True if initialize() has been called successfully */

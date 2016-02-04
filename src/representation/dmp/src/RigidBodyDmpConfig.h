@@ -19,6 +19,7 @@ namespace dmp
 class RigidBodyDmpConfig
 {
 public:
+  RigidBodyDmpConfig();
   QuaternionDmpConfig rotationConfig;
   dmp_cpp::DMPConfig translationConfig;
   bool fromYamlFile(const std::string& filepath, const std::string& name);

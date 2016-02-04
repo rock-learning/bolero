@@ -64,6 +64,7 @@ configure_file(
 enable_testing()
 add_subdirectory(test_dmp_behavior)
 add_subdirectory(test_dmp_quaternion_behavior)
+add_subdirectory(test_dmp_rigid_body_behavior)
 add_subdirectory(test)
 
 # Custom python target that runs 'setup.py build' to build all python
