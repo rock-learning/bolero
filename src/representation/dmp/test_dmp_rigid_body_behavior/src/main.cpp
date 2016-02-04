@@ -1,13 +1,25 @@
 #include <BLLoader.h>
 #include <LoadableBehavior.h>
 #include <iostream>
+#include <sstream>
 
 
-void printPose(double* data)
+void printPose(double* pose)
 {
-  std::cout << "Pos. " << data[0] << ", " << data[1] << ", " << data[2]
-    << std::endl << "Rot. " << data[9] << ", " << data[10]
-    << ", " << data[11] << ", " << data[12] << std::endl << std::endl;
+  std::cout << "Pos. " << pose[0] << ", " << pose[1] << ", " << pose[2]
+    << std::endl << "Rot. " << pose[9] << ", " << pose[10]
+    << ", " << pose[11] << ", " << pose[12] << std::endl << std::endl;
+}
+
+
+void setStartToCurrentPose(bolero::LoadableBehavior* behav, double* pose)
+{
+  std::stringstream newStartPose;
+  newStartPose << "startPosition: [" << pose[0] << ", " << pose[1]
+    << ", " << pose[2] << "]" << std::endl;
+  newStartPose << "startRotation: [" << pose[9] << ", " << pose[10]
+    << ", " << pose[11] << ", " << pose[12] << "]" << std::endl;
+  behav->configureYaml(newStartPose.str());
 }
 
 
@@ -23,20 +35,24 @@ int main()
   behav->initialize("model.yaml");
   behav->configure("config.yaml");
 
-  std::string newConfig = "endPosition: [0.3, -0.4, 0.2]\n"
-                          "endRotation: [0.18257419, 0.36514837, 0.54772256, 0.73029674]";
+  std::string newGoalPose = "endPosition: [0.3, -0.4, 0.2]\n"
+                            "endRotation: [0.27216553, 0.40824829, 0.54433105, 0.68041382]";
 
+  // initial position and rotation are different from original configuration
   double data[13] = {
-    -0.222118008304239, -0.2662358159780513, 0.6547806356235144,
+    -0.5, -0.5, 0.5,
     0.09067497083437709, -0.018982788402122086, -0.0017532559390687208,
     1.1358714507546386, 0.5246758316059669, -1.2672900153373745,
-    0.8455458276450503, 0.35979028320593454, -0.38358503075862216, -0.09200939974017508};
+    0.18257419, 0.36514837, 0.54772256, 0.73029674};
 
   printPose(data);
   for(int i = 0; behav->canStep(); i++)
   {
-    if(i == 10)
-      behav->configureYaml(newConfig);
+    if(i == 0)
+      setStartToCurrentPose(behav, data);
+    else if(i == 10)
+      behav->configureYaml(newGoalPose);
+
     behav->setInputs(&data[0], 13);
     behav->step();
     behav->getOutputs(&data[0], 13);
