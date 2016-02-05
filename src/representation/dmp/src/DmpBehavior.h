@@ -92,6 +92,7 @@ private:
   {
     INITIALIZE,
     CONFIGURE,
+    CONFIGURED,
     SET_INPUTS,
     STEP,
     GET_OUTPUTS

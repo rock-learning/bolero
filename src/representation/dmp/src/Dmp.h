@@ -158,6 +158,18 @@ public:
    */
   virtual void changeGoal(const double* position, const double* velocity,
                           const double* acceleration, const unsigned len);
+  /**
+   * Changes the start position of the DMP during run time.
+   * \note This WILL NOT RESET the phase. If you want to reinitialize the DMP
+   *       call initialize() instead.
+   * \note This method will change the 'initial state'.
+   *       I.e. if you call changeTime() after calling changeStart()
+   *       the goal will not be reset to the value given to initialize()
+   *       but to the value given to changeStart().
+   * \note This method can only be called after initialize() has been called
+   */
+  virtual void changeStart(const double* position, const double* velocity,
+                          const double* acceleration, const unsigned len);
 
   /**
    * Changes the execution time of the DMP.

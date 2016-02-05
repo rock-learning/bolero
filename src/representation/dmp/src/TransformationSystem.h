@@ -113,7 +113,19 @@ public:
    *
    **/
   void changeGoal(const Eigen::ArrayXd& position, const Eigen::ArrayXd& velocity,
-                const Eigen::ArrayXd& acceleration);
+                  const Eigen::ArrayXd& acceleration);
+
+  /**
+   * Change start position during execution.
+   * \note the transformation system needs to be initialized before
+   *       this method has any effect.
+   * \param position the new start position
+   * \param velocity the new start velocity
+   * \param acceleration the new start acceleration
+   *
+   **/
+  void changeStart(const Eigen::ArrayXd& position, const Eigen::ArrayXd& velocity,
+                   const Eigen::ArrayXd& acceleration);
 
   /**
    * Changes the execution time.

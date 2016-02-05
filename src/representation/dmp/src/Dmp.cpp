@@ -234,6 +234,20 @@ void Dmp::changeGoal(const double* position, const double* velocity,
   ts.changeGoal(endPos, endVel, endAcc);
 }
 
+void Dmp::changeStart(const double* position, const double* velocity,
+                      const double* acceleration, const unsigned len)
+{
+  //dimensionality may not change without reinitialization
+  assert(len == endPos.size());
+  for(unsigned i = 0; i < len; ++i)
+  {
+    startPos[i] = position[i];
+    startVel[i] = velocity[i];
+    startAcc[i] = acceleration[i];
+  }
+  ts.changeStart(startPos, startVel, startAcc);
+}
+
 void Dmp::changeTime(const double newTime)
 {
   cs = CanonicalSystem(newTime, cs.getAlpha(), cs.getDt());

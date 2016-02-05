@@ -83,7 +83,7 @@ bool DmpBehavior::configure(const dmp_cpp::DMPConfig& config)
       assert(getNumInputs() > 0);
 
       data.resize(getNumInputs());
-      expectedState = SET_INPUTS; //now the dmp is ready to use
+      expectedState = CONFIGURED; //now the dmp is ready to use
     }
     else
     {
@@ -93,21 +93,35 @@ bool DmpBehavior::configure(const dmp_cpp::DMPConfig& config)
   else
   {
     //the dmp has been initialized before.
-    //It is not possible to change the startPos/Vel/Acc
-    //without resetting the phase.
-    //FIXME right now it is also not possible to change the execution time
-    //Therefore we just change the goal.
-    
-    //only a partialy innitialized config is needed for reconfiguration
-    if(config.dmp_endPosition.size() <= 0 ||
-       config.dmp_endVelocity.size() != config.dmp_endPosition.size() ||
-       config.dmp_endAcceleration.size() != config.dmp_endPosition.size())
-    {
-        return false;
-    }
 
-    dmp->changeGoal(config.dmp_endPosition.data(), config.dmp_endVelocity.data(),
-                    config.dmp_endAcceleration.data(), config.dmp_endAcceleration.size());
+    //FIXME right now it is also not possible to change the execution time
+    //Therefore we just change the goal. It is possible to change the start
+    //in the first step.
+
+    //only a partialy innitialized config is needed for reconfiguration
+    bool changed = false;
+    if(config.dmp_endPosition.size() >= 0 &&
+       config.dmp_endVelocity.size() == config.dmp_endPosition.size() &&
+       config.dmp_endAcceleration.size() == config.dmp_endPosition.size())
+    {
+      dmp->changeGoal(
+          config.dmp_endPosition.data(), config.dmp_endVelocity.data(),
+          config.dmp_endAcceleration.data(), config.dmp_endAcceleration.size());
+      changed = true;
+    }
+    if(config.dmp_startPosition.size() >= 0 &&
+       config.dmp_startVelocity.size() == config.dmp_startPosition.size() &&
+       config.dmp_startAcceleration.size() == config.dmp_startPosition.size() &&
+       expectedState == CONFIGURED)
+    {
+      //It is not possible to change the startPos/Vel/Acc
+      //without resetting the phase.
+      dmp->changeStart(
+          config.dmp_startPosition.data(), config.dmp_startVelocity.data(),
+          config.dmp_startAcceleration.data(), config.dmp_startAcceleration.size());
+      changed = true;
+    }
+    return changed;
   }
 
   return true;
@@ -116,7 +130,7 @@ bool DmpBehavior::configure(const dmp_cpp::DMPConfig& config)
 void DmpBehavior::setInputs(const double* values, int numInputs)
 {
   assert(numInputs == data.size());
-  assert(expectedState == SET_INPUTS);
+  assert(expectedState == SET_INPUTS || expectedState == CONFIGURED);
 
   //the const_cast is ok because we only read from the Map
   data = Map<ArrayXd>(const_cast<double*>(values), numInputs);//create a temporary map and copy the values

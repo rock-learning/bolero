@@ -47,6 +47,20 @@ void TransformationSystem::changeGoal(const ArrayXd& position, const ArrayXd& ve
 }
 
 
+void TransformationSystem::changeStart(const ArrayXd& position, const ArrayXd& velocity,
+                                       const ArrayXd& acceleration){
+  assert(initialized);
+  assert(position.size() == y0.size());
+  assert(velocity.size() == y0d.size());
+  assert(acceleration.size() == y0dd.size());
+  y0 = position;
+  y0d = velocity;
+  y0dd = acceleration;
+  fifthOrderPoly.setConstraints(y0, y0d, y0dd, position, velocity, acceleration,
+                                0.0, tau); //starting phase is always 1.0 => starting time is always 0.0
+}
+
+
 
 void TransformationSystem::determineForces(const ArrayXXd& positions, ArrayXXd& velocities,
                                            ArrayXXd& accelerations, ArrayXXd& forces,

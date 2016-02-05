@@ -12,14 +12,14 @@ void printPose(double* pose)
 }
 
 
-void setStartToCurrentPose(bolero::LoadableBehavior* behav, double* pose)
+bool setStartToCurrentPose(bolero::LoadableBehavior* behav, double* pose)
 {
   std::stringstream newStartPose;
   newStartPose << "startPosition: [" << pose[0] << ", " << pose[1]
     << ", " << pose[2] << "]" << std::endl;
   newStartPose << "startRotation: [" << pose[9] << ", " << pose[10]
     << ", " << pose[11] << ", " << pose[12] << "]" << std::endl;
-  behav->configureYaml(newStartPose.str());
+  return behav->configureYaml(newStartPose.str());
 }
 
 
