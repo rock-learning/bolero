@@ -25,7 +25,8 @@ cdef extern from "Dmp.h" namespace "dmp::Dmp":
                          int posVelAccCols, double* forces,
                          int forcesRows, int forcesCols,
                          double executionTime, double dt,
-                         double alphaZ, double betaZ)
+                         double alphaZ, double betaZ,
+                         bool allowFinalVelocity)
 
 
 cdef extern from "Dmp.h" namespace "dmp":
@@ -91,17 +92,11 @@ cdef extern from "DMPWrapper.h" namespace "dmp_cpp":
 
 
 cdef extern from "RigidBodyDmp.h" namespace "dmp::RigidBodyDmp":
-    void determineForces(double* positions, int positionRows,
-                         int positionCols, double* rotations,
-                         int rotationRows, int rotationCols,
-                         double* forces, int forcesRows, int forcesCols,
-                         double executionTime, double dt,
-                         double alphaZ, double betaZ)
-
-    void determineForces(double* positions, int positionRows,
-                         int positionCols,double* forces, int forcesRows,
-                         int forcesCols, double executionTime, double dt,
-                         double alphaZ, double betaZ)
+    void determineForcesRb(double* positions, int positionRows,
+                           int positionCols,double* forces, int forcesRows,
+                           int forcesCols, double executionTime, double dt,
+                           double alphaZ, double betaZ,
+                           bool allowFinalVelocity)
 
 
 cdef extern from "RigidBodyDmp.h" namespace "dmp":

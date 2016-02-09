@@ -32,7 +32,7 @@ void QuaternionTransformationSystem::initialize(const Quaterniond& startPos,
 }
 void QuaternionTransformationSystem::gradient(const QuaternionVector& rotations,
                                               ArrayXXd& velocities,
-                                              const double dt)
+                                              const double dt, bool allowFinalVelocity)
 {
   assert(velocities.rows() == 0);
   assert(velocities.cols() == 0);
@@ -52,7 +52,10 @@ void QuaternionTransformationSystem::gradient(const QuaternionVector& rotations,
 
   //backward difference quotient (special case for last element)
   const int last = rotations.size() - 1;
-  velocities.col(last) = 2 * qLog(rotations[last] * rotations[last - 1].conjugate()) / dt;
+  if(allowFinalVelocity)
+    velocities.col(last) = 2 * qLog(rotations[last] * rotations[last - 1].conjugate()) / dt;
+  else
+    velocities.col(last).setZero();
 }
 
 Array3d QuaternionTransformationSystem::qLog(const Quaterniond& q)
@@ -85,17 +88,18 @@ void QuaternionTransformationSystem::determineForces(const QuaternionVector &rot
                                                      ArrayXXd &accelerations,
                                                      ArrayXXd& forces,
                                                      const double dt, const double executionTime,
-                                                     const double alphaZ, const double betaZ)
+                                                     const double alphaZ, const double betaZ,
+                                                     bool allowFinalVelocity)
 {
   assert(rotations.size() > 0);
 
   if(velocities.size() == 0)
   {
-    gradient(rotations, velocities, dt);
+    gradient(rotations, velocities, dt, allowFinalVelocity);
   }
   if(accelerations.size() == 0)
   {
-    EigenHelpers::gradient(velocities, accelerations, dt);
+    EigenHelpers::gradient(velocities, accelerations, dt, false);
   }
 
   assert(rotations.size() == unsigned(velocities.cols()));

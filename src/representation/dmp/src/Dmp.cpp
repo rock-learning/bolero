@@ -91,13 +91,14 @@ Dmp::Dmp(const Dmp& other) :
 
 void Dmp::determineForces(const ArrayXXd& positions, ArrayXXd& velocities,
     ArrayXXd& accelerations, ArrayXXd& forces, const double executionTime,
-    const double dt, const double alphaZ, const double betaZ)
+    const double dt, const double alphaZ, const double betaZ,
+    bool allowFinalVelocity)
 {
   //positions.cols() == numPhases is required to be able to determine the forces
   assert(positions.cols() == (int)(executionTime / dt + 0.5) + 1);
   TransformationSystem::determineForces(positions, velocities,
                                         accelerations, forces, executionTime, dt,
-                                        alphaZ, betaZ);
+                                        alphaZ, betaZ, allowFinalVelocity);
 }
 
 void Dmp::determineForces(const double* positions, double* velocities,
@@ -105,7 +106,8 @@ void Dmp::determineForces(const double* positions, double* velocities,
                           const int posVelAccCols, double* forces,
                           const int forcesRows, const int forcesCols,
                           const double executionTime, const double dt,
-                          const double alphaZ, const double betaZ)
+                          const double alphaZ, const double betaZ,
+                          bool allowFinalVelocity)
 {
   //This Method is not performance critical, therefore we just copy the data
   //The const_cast is ok because the map is only a temporary that is never modified
@@ -122,7 +124,7 @@ void Dmp::determineForces(const double* positions, double* velocities,
   }
   ArrayXXd forcesArr;
   Dmp::determineForces(positionsArr, velsArr, accelArr, forcesArr, executionTime,
-                       dt, alphaZ, betaZ);
+                       dt, alphaZ, betaZ, allowFinalVelocity);
   Map<ArrayXXd>(forces, forcesRows, forcesCols) = forcesArr;
 }
 

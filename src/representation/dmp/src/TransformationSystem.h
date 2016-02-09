@@ -188,7 +188,8 @@ public:
   static void determineForces(const Eigen::ArrayXXd& positions, Eigen::ArrayXXd& velocities,
                               Eigen::ArrayXXd& accelerations, Eigen::ArrayXXd& forces,
                               const double executionTime, const double dt,
-                              const double alphaZ = 25.0, const double betaZ = 6.25);
+                              const double alphaZ = 25.0, const double betaZ = 6.25,
+                              bool allowFinalVelocity = true);
 
   virtual double getDt() const;
 

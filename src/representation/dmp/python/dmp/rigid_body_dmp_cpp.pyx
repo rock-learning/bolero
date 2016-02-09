@@ -146,7 +146,8 @@ cdef class RbDMP:
         if not self.thisptr.configureYaml(self.config_yaml):
             raise Exception("DMP configuration failed")
 
-    def determine_forces(self, np.ndarray[double, ndim=2] X, *args, **kwargs):
+    def determine_forces(self, np.ndarray[double, ndim=2] X, Xd=None, Xdd=None,
+                         allow_final_velocity=True):
         """Determine forces for given demonstration.
 
         Parameters
@@ -161,9 +162,10 @@ cdef class RbDMP:
            Row 5: rot_y
            Row 6: rot_z
 
-        args: Only exists to stay compatible with an old interface. Will be ignored. DO NOT USE
+        Xd, Xdd : ignored
 
-        kwargs: Only exists to stay compatible with an old interface. Will be ignored. DO NOT USE
+        allow_final_velocity : bool
+            Allow the final velocity to be greater than 0
 
         Return:
         -------
@@ -182,9 +184,9 @@ cdef class RbDMP:
 
         cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
             (6, self.n_phases), order="F")
-        cb.determineForces(&X[0, 0], 7, self.n_phases, &forces[0, 0], 6,
-                           self.n_phases, self.execution_time, self.dt,
-                           self.alpha, self.beta)
+        cb.determineForcesRb(&X[0, 0], 7, self.n_phases, &forces[0, 0], 6,
+                             self.n_phases, self.execution_time, self.dt,
+                             self.alpha, self.beta, allow_final_velocity)
         return forces
 
     @classmethod
@@ -210,41 +212,6 @@ cdef class RbDMP:
         cb.calculateCenters(s_num_phases, execution_time, dt, num_centers,
                             overlap, &centers[0], &widths[0])
         return centers, widths
-
-    @classmethod
-    def _determine_forces(cls, np.ndarray[double, ndim=2] positions,
-                          np.ndarray[double, ndim=2] rotations, dt,
-                          execution_time, alpha_z=25.0, beta_z=6.25):
-        """Determine forces for given demonstration.
-
-        Parameters
-        ----------
-        positions: 3xN array
-            Contains the positions. Each column should contain one
-            3-dimensional position.
-
-        rotations: 4xN array
-            Contains the rotations. Each column should contain one quaternion.
-            Quaternion encoding: Row 0: w; Row 1: x; Row 2: y; Row 3: z
-        """
-        assert positions.shape[0] == 3
-        assert rotations.shape[0] == 4
-        assert positions.shape[1] == rotations.shape[1]
-        num_phases = rotations.shape[1]
-
-        #the c++ interfaces requires that the arrays are stored in column major order
-        if not positions.flags["F_CONTIGUOUS"]:
-            positions = np.asfortranarray(positions)
-        if not rotations.flags["F_CONTIGUOUS"]:
-            rotations = np.asfortranarray(rotations)
-
-        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
-            (6, num_phases), order="F")
-
-        cb.determineForces(&positions[0,0], 3, num_phases, &rotations[0,0], 4,
-                           num_phases, &forces[0,0], 6, num_phases,
-                           execution_time, dt, alpha_z, beta_z)
-        return forces
 
     def can_step(self):
         return self.thisptr.canStep()

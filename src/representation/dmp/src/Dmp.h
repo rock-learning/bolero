@@ -77,15 +77,17 @@ public:
    * \param[in,out] accelerations The accelerations of the trajectory. Will be approximated
    *                   if empty (size == 0).
    * \param[out] forces The resulting forces.
-  *  \param[in] executionTime Execution time of the whole trajectory
-  *  \param[in] dt Time step between two data points
+   * \param[in] executionTime Execution time of the whole trajectory
+   * \param[in] dt Time step between two data points
+   * \param[in] allowFinalVelocity Allow the final velocity to be greater than 0
    * \note  This is essentially a wrapper for TransformationSystem::determineForces().
    *        Therefore detailed documentation of this function can be found there.
    */
   static void determineForces(const Eigen::ArrayXXd& positions, Eigen::ArrayXXd& velocities,
                               Eigen::ArrayXXd& accelerations, Eigen::ArrayXXd& forces,
                               const double executionTime, const double dt,
-                              const double alphaZ = 25.0, const double betaZ = 6.25);
+                              const double alphaZ = 25.0, const double betaZ = 6.25,
+                              bool allowFinalVelocity = true);
 
   /**
    * Same as above but accepts raw pointers.
@@ -103,7 +105,8 @@ public:
                               const int posVelAccCols, double* forces,
                               const int forcesRows, const int forcesCols,
                               const double executionTime, const double dt,
-                              const double alphaZ = 25.0, const double betaZ = 6.25);
+                              const double alphaZ = 25.0, const double betaZ = 6.25,
+                              bool allowFinalVelocity = true);
 
 
   /**

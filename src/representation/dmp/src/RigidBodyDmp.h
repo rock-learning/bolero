@@ -83,6 +83,7 @@ public:
   *                    the last 3 rows contain the forces for the rotations.
   * \param[in] forcesRows Should always be 6.
   * \param[in] forcesCols Should be the same as rotationCols and positionCols
+  * \param[in] allowFinalVelocity Allow the final velocity to be greater than 0
   *
   * \note The pointers should use the same storage order as eigen, by default this
   *       is column-major. However it is possible to change eigens storage order
@@ -94,7 +95,8 @@ public:
                               const int rotationRows, const int rotationCols,
                               double* forces, const int forcesRows, const int forcesCols,
                               const double executionTime, const double dt,
-                              const double alphaZ = 25.0, const double betaZ = 6.25);
+                              const double alphaZ = 25.0, const double betaZ = 6.25,
+                              bool allowFinalVelocity = true);
 
   /** Same as above but expects all data in one matrix.
   *
@@ -114,16 +116,18 @@ public:
   * \param[in] positionCols The number of columns in the positions matrix.
   * \param[in] forcesRows Should always be 6.
   * \param[in] forcesCols Should be the same as positionCols
+  * \param[in] allowFinalVelocity Allow the final velocity to be greater than 0
   * \param[out] forces A 6xN matrix of forces. Should be allocated by the user.
   *                    Will be filled by this function.
   *                    Each column contains the forces for one data point.
   *                    The first 3 rows contain the forces for the positions,
   *                    the last 3 rows contain the forces for the rotations.
   */
-  static void determineForces(const double* positions, const int positionRows,
+  static void determineForcesRb(const double* positions, const int positionRows,
           const int positionCols, double* forces, const int forcesRows,
           const int forcesCols, const double executionTime, const double dt,
-          const double alphaZ = 25.0, const double betaZ = 6.25);
+          const double alphaZ = 25.0, const double betaZ = 6.25,
+          bool allowFinalVelocity = true);
 
 
 

@@ -10,7 +10,8 @@ from .dmp_cpp import DMP
 from .rigid_body_dmp_cpp import RbDMP
 
 
-def imitate_dmp(dmp, X, Xd=None, Xdd=None, alpha=0.0, set_weights=True):
+def imitate_dmp(dmp, X, Xd=None, Xdd=None, alpha=0.0, set_weights=True,
+                allow_final_velocity=True):
     """Imitate DMP from demonstrations.
 
     Parameters
@@ -37,6 +38,9 @@ def imitate_dmp(dmp, X, Xd=None, Xdd=None, alpha=0.0, set_weights=True):
     set_weights : bool, optional (default: True)
         Set weights of the DMP after learning.
 
+    allow_final_velocity : bool, optional (default: True)
+        Allow the final velocity to be greater than 0
+
     Returns
     -------
     weights_mean : array, shape (n_task_dims, n_weights)
@@ -45,20 +49,21 @@ def imitate_dmp(dmp, X, Xd=None, Xdd=None, alpha=0.0, set_weights=True):
     weights_variance : array, shape (n_task_dims, n_weights)
         Variance of the best weight estimate
     """
-    F = _determine_forces(dmp, X, Xd, Xdd)
+    F = _determine_forces(dmp, X, Xd, Xdd, allow_final_velocity)
     mean, variance = _learn_dmp_weights(dmp, F, alpha)
     if set_weights:
         dmp.set_weights(mean)
     return mean, variance
 
 
-def _determine_forces(dmp, X, Xd=None, Xdd=None):
+def _determine_forces(dmp, X, Xd=None, Xdd=None, allow_final_velocity=True):
     """Reconstruct forces of a DMP to obtain the trajectories X."""
     F = []
     for i in range(X.shape[2]):
         Xdi = None if Xd is None else Xd[:, :, i]
         Xddi = None if Xdd is None else Xdd[:, :, i]
-        F.append(dmp.determine_forces(X[:, :, i], Xdi, Xddi))
+        F.append(dmp.determine_forces(X[:, :, i], Xdi, Xddi,
+                                      allow_final_velocity))
     return F
 
 

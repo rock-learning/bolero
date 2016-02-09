@@ -44,10 +44,12 @@ QuaternionDmp::QuaternionDmp(lib_manager::LibManager* manager) :
 void QuaternionDmp::determineForces(const QuaternionTransformationSystem::QuaternionVector &rotations,
                                     ArrayXXd &velocities, ArrayXXd &accelerations, ArrayXXd &forces,
                                     const double dt, const double executionTime,
-                                    const double alphaZ, const double betaZ)
+                                    const double alphaZ, const double betaZ,
+                                    bool allowFinalVelocity)
 {
   QuaternionTransformationSystem::determineForces(rotations,
-          velocities, accelerations, forces, dt, executionTime, alphaZ, betaZ);
+          velocities, accelerations, forces, dt, executionTime, alphaZ, betaZ,
+          allowFinalVelocity);
 }
 
 bool QuaternionDmp::initialize(const std::string &initialConfigPath)

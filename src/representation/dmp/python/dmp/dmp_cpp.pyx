@@ -78,7 +78,8 @@ cdef class DMP:
 
     def determine_forces(self, np.ndarray[double, ndim=2] X,
                          np.ndarray[double, ndim=2] Xd=None,
-                         np.ndarray[double, ndim=2] Xdd=None):
+                         np.ndarray[double, ndim=2] Xdd=None,
+                         allow_final_velocity=True):
         cdef int n_task_dims = X.shape[0]
         cdef int n_phases = X.shape[1]
         
@@ -104,7 +105,8 @@ cdef class DMP:
 
         cb.determineForces(&X[0,0], pXd, pXdd, n_task_dims,
                            n_phases, &F[0,0], n_task_dims, n_phases,
-                           self.execution_time, self.dt, self.alpha, self.beta) 
+                           self.execution_time, self.dt, self.alpha, self.beta,
+                           allow_final_velocity) 
 
         return F
 

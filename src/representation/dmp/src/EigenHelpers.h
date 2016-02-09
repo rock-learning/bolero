@@ -61,7 +61,9 @@ struct EigenHelpers
    *
    * @note this is the same as python's numpy.gradient()
    */
-  static inline void gradient(const ArrayXXd& in, ArrayXXd& out, const double dt)
+  static inline void gradient(
+      const ArrayXXd& in, ArrayXXd& out, const double dt,
+      bool allowFinalVelocity = true)
   {
     assert(in.cols() > 1);
     out.resize(in.rows(), in.cols());
@@ -74,6 +76,8 @@ struct EigenHelpers
     {// Difference quotient for each following element
       out.col(i) = (in.col(i) - in.col(i - 1))/dt;
     }
+    if(!allowFinalVelocity)
+      out.col(end - 1).setZero();
   }
 
 };

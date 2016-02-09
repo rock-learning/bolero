@@ -153,7 +153,8 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
                                    const int rotationRows, const int rotationCols,
                                    double *forces, const int forcesRows,
                                    const int forcesCols, const double executionTime,
-                                   const double dt, double const alphaZ, double const betaZ)
+                                   const double dt, double const alphaZ, double const betaZ,
+                                   bool allowFinalVelocity)
 {
   assert(positionCols > 0);
   assert(positionRows == 3);
@@ -173,7 +174,7 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
 
   ArrayXXd positionForces(positionRows, positionCols);
   Dmp::determineForces(positionsArr, velsArr, accArr, positionForces, executionTime,
-                       dt, alphaZ, betaZ);
+                       dt, alphaZ, betaZ, allowFinalVelocity);
 
   ArrayXXd rotationsArr = Map<ArrayXXd>(const_cast<double*>(rotations), rotationRows, rotationCols);
   assert(rotationsArr.allFinite());
@@ -193,7 +194,7 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
   ArrayXXd rotationAccelerations(0,0);
   ArrayXXd rotationForces(rotationRows, rotationCols);
   QuaternionDmp::determineForces(rotationsVector, rotationVelocities, rotationAccelerations, rotationForces,
-                                 dt, executionTime, alphaZ, betaZ);
+                                 dt, executionTime, alphaZ, betaZ, allowFinalVelocity);
 
   ArrayXXd forcesArr(6, positionCols);
   forcesArr.setConstant(NAN); //initially set forces to nan, this way we can assert afterwards that all forces have been calculated correctly
@@ -204,9 +205,10 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
   Map<ArrayXXd>(forces, forcesRows, forcesCols) = forcesArr;
 }
 
-void RigidBodyDmp::determineForces(const double *positions, const int positionRows, const int positionCols,
-                                   double *forces, const int forcesRows, const int forcesCols,
-                                   const double executionTime, const double dt, double const alphaZ, double const betaZ)
+void RigidBodyDmp::determineForcesRb(const double *positions, const int positionRows, const int positionCols,
+                                     double *forces, const int forcesRows, const int forcesCols,
+                                     const double executionTime, const double dt, double const alphaZ, double const betaZ,
+                                     bool allowFinalVelocity)
 {
   assert(positionRows == 7);
   assert(forcesCols == positionCols);
@@ -221,7 +223,7 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
 
   ArrayXXd positionForces(3, positionCols);
   Dmp::determineForces(translations, velsArr, accArr, positionForces, executionTime,
-                       dt, alphaZ, betaZ);
+                       dt, alphaZ, betaZ, allowFinalVelocity);
 
   ArrayXXd rotations = positionsArr.block(3, 0, 4, positionCols);
 
@@ -241,7 +243,7 @@ void RigidBodyDmp::determineForces(const double *positions, const int positionRo
   ArrayXXd rotationAccelerations(0,0);
   ArrayXXd rotationForces(3, positionCols);
   QuaternionDmp::determineForces(rotationsVector, rotationVelocities, rotationAccelerations, rotationForces,
-          dt, executionTime, alphaZ, betaZ);
+          dt, executionTime, alphaZ, betaZ, allowFinalVelocity);
 
   ArrayXXd forcesArr(6, positionCols);
   forcesArr.setConstant(NAN); //initially set forces to nan, this way we can assert afterwards that all forces have been calculated correctly

@@ -537,7 +537,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         """Reset DMP."""
         self.dmp.reset()
 
-    def imitate(self, X, alpha=0.0):
+    def imitate(self, X, alpha=0.0, allow_final_velocity=True):
         """Learn weights of the DMP from demonstrations.
 
         Parameters
@@ -550,8 +550,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             The ridge parameter of linear regression. Small positive values of
             alpha improve the conditioning of the problem and reduce the
             variance of the estimates.
+
+        allow_final_velocity : bool, optional (default: True)
+            Allow the final velocity to be greater than 0
         """
-        imitate_dmp(self.dmp, X, alpha=alpha, set_weights=True)
+        imitate_dmp(self.dmp, X, alpha=alpha, set_weights=True,
+                    allow_final_velocity=allow_final_velocity)
 
     def trajectory(self):
         """Generate trajectory represented by the DMP in open loop.

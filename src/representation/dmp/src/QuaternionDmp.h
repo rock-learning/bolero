@@ -49,7 +49,8 @@ public:
    static void determineForces(const QuaternionTransformationSystem::QuaternionVector &rotations, Eigen::ArrayXXd& velocities,
                                Eigen::ArrayXXd& accelerations, Eigen::ArrayXXd& forces,
                                const double dt, const double executionTime,
-                               const double alphaZ = 25.0, const double betaZ = 6.25);
+                               const double alphaZ = 25.0, const double betaZ = 6.25,
+                               bool allowFinalVelocity = true);
 
 
   /**Initializes the dmp from the given config file*/

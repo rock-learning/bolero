@@ -250,7 +250,7 @@ TEST_CASE("determine forces 2", "[RigidBodyDmp]")
   }
 
   double forcesArr[50][6];
-  RigidBodyDmp::determineForces(&positionsArr[0][0], 7, 50, &forcesArr[0][0], 6, 50, T, dt);
+  RigidBodyDmp::determineForcesRb(&positionsArr[0][0], 7, 50, &forcesArr[0][0], 6, 50, T, dt);
 
   for(int i = 0; i < 50; ++i)
   {

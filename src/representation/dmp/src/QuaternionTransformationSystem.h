@@ -62,7 +62,8 @@ public:
                        Eigen::ArrayXXd& accelerations,
                        Eigen::ArrayXXd& forces,
                        const double dt, const double executionTime,
-                       const double alphaZ = 25.0, const double betaZ = 6.25);
+                       const double alphaZ = 25.0, const double betaZ = 6.25,
+                       bool allowFinalVelocity = true);
 
 private:
 
@@ -77,7 +78,8 @@ private:
   * @note Use this method to approximate the first derivative the
   */
   static void gradient(const QuaternionVector& rotations,
-                       Eigen::ArrayXXd& velocities, const double dt);
+                       Eigen::ArrayXXd& velocities, const double dt,
+                       bool allowFinalVelocity = true);
 
 
   /**

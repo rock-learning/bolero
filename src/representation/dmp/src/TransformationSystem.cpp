@@ -65,18 +65,18 @@ void TransformationSystem::changeStart(const ArrayXd& position, const ArrayXd& v
 void TransformationSystem::determineForces(const ArrayXXd& positions, ArrayXXd& velocities,
                                            ArrayXXd& accelerations, ArrayXXd& forces,
                                            const double executionTime, const double dt,
-                                           const double alphaZ, const double betaZ)
+                                           const double alphaZ, const double betaZ,
+                                           bool allowFinalVelocity)
 {
   assert(positions.rows() > 0);
   assert(positions.cols() > 0);
 
   if(velocities.size() == 0){ //need to approximate velocities
-    EigenHelpers::gradient(positions, velocities, dt);
+    EigenHelpers::gradient(positions, velocities, dt, allowFinalVelocity);
   }
 
   if(accelerations.size() == 0){ //need to approximate accelerations
-    EigenHelpers::gradient(velocities, accelerations, dt);
-    accelerations.col(accelerations.cols() - 1).setZero();
+    EigenHelpers::gradient(velocities, accelerations, dt, false);
   }
 
   //the final acceleration is needs to be zero for the imitation learning to work
