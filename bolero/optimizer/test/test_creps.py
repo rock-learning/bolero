@@ -1,7 +1,7 @@
 import numpy as np
 from bolero.optimizer.creps import solve_dual_contextual_reps, CREPSOptimizer
 from bolero.representation.context_transformations import quadratic
-from nose.tools import assert_raises_regexp, assert_true, assert_equal
+from nose.tools import assert_raises_regexp, assert_true, assert_equal, assert_almost_equal
 
 
 def test_shapes_mismatch():
@@ -21,7 +21,7 @@ def test_baseline_overestimates():
     assert_equal(eta, min_eta)
     assert_true(np.all(R_baseline >= R))
     assert_true(np.all(d >= 0))
-    assert_equal(np.sum(d), 1.0)
+    assert_almost_equal(np.sum(d), 1.0)
 
 
 def test_cmaes_dimensions_mismatch():

@@ -49,9 +49,12 @@ class Controller(Base):
     kwargs : dict
         Additional controller parameters
     """
-    def __init__(self, config={}, environment=None, behavior_search=None,
+    def __init__(self, config=None, environment=None, behavior_search=None,
                  **kwargs):
-        config = from_dict(config)
+        if config is None:
+            config = {}
+        else:
+            config = from_dict(config)
 
         if environment is not None:
             self.environment = environment
@@ -152,7 +155,7 @@ class Controller(Base):
         return np.array([self.episode(meta_parameter_keys, meta_parameters)
                          for _ in range(self.n_episodes)])
 
-    def episode(self, meta_parameter_keys=[], meta_parameters=[]):
+    def episode(self, meta_parameter_keys=[], meta_parameters=[]):  # ToDo: can we replace [] wit () ?
         """Execute one learning episode.
 
         Parameters
