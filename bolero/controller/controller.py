@@ -155,15 +155,15 @@ class Controller(Base):
         return np.array([self.episode(meta_parameter_keys, meta_parameters)
                          for _ in range(self.n_episodes)])
 
-    def episode(self, meta_parameter_keys=[], meta_parameters=[]):  # ToDo: can we replace [] wit () ?
+    def episode(self, meta_parameter_keys=(), meta_parameters=()):
         """Execute one learning episode.
 
         Parameters
         ----------
-        meta_parameter_keys : list
+        meta_parameter_keys : array-like, shape = (n_meta_parameters,)
             Meta parameter keys
 
-        meta_parameters : list
+        meta_parameters : array-like, shape = (n_meta_parameters,)
             Meta parameter values
 
         Returns
