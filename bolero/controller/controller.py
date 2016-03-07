@@ -107,17 +107,25 @@ class Controller(Base):
 
     def _set_attribute(self, config, name, default):
         value = config.get("Controller", {}).get(name, default)
+        # config info available -> value set to config info
+        # no config info -> value set to default
         if hasattr(self, name):
+            # attribute was set by kwargs
             if value != default:
+                # config info *is* available for this attribute
                 warnings.warn(
                     "Attribute '%s' exists already as keyword argument "
                     "(value: '%s'). Overwriting with '%s' from configuration "
                     "dictionary." % (name, getattr(self, name), value),
                     stacklevel=2)
+                # we warn, but where do we overwrite?
         else:
+            # this only happens if the attribute was not defined earlier
             setattr(self, name, value)
 
     def _init_environment(self, environment):
+        # why do we pass an environment here? If the arg is used on the "C++ side", I'd suggest to use it here as well.
+        # anyway, depending on how the user initialized the controller, environment is None or equal to self.environment
         self.environment.init()
         self.n_inputs = self.environment.get_num_inputs()
         self.n_outputs = self.environment.get_num_outputs()
