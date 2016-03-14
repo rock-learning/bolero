@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include "DmpBehavior.h"
 #include "Dmp.h"
 #include "CanonicalSystem.h"

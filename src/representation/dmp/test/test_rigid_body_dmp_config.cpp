@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include <vector>
 #include <iostream>
 #include <string>

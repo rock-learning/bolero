@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include "DMPConfig.h"
 #include "test_helpers.h"
 #include <fstream>

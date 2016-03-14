@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include <Eigen/Core>
 #include <Eigen/StdVector>
 #define private public //to be able to access private members from the polynome

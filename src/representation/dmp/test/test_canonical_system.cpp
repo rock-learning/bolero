@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include "CanonicalSystem.h"
 using namespace dmp;
 

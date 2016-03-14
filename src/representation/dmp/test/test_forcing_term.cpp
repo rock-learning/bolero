@@ -4,7 +4,7 @@
  *  Created on: Oct 16, 2013
  *      Author: Arne Boeckmann (arne.boeckmann@dfki.de)
  */
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include "CanonicalSystem.h"
 #include "RbfFunctionApproximator.h"
 #include "ForcingTerm.h"

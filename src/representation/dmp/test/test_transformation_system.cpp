@@ -4,7 +4,7 @@
  *  Created on: Oct 23, 2013
  *      Author: Arne Boeckmann (arne.boeckmann@dfki.de)
  */
-#include "catch.hpp"
+#include <catch/catch.hpp>
 #include <iostream>
 #include <Eigen/Core>
 #include "TransformationSystem.h"
