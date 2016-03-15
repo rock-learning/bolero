@@ -69,9 +69,20 @@ namespace bolero {
       if(map.find("Environment") != map.end()) {
         map2 = &(map["Environment"][0].children);
 
-	enableGUI = map2->get("enableGUI", true);
-	graphicsUpdateTime = map2->get("graphicsUpdateTime", 0u);
-	graphicsStepSkip = map2->get("graphicsStepSkip", 0u);
+        if(map2->find("enableGUI") != map2->end())
+          enableGUI = (*map2)["enableGUI"][0].getBool();
+        else
+          enableGUI = false;
+
+        if(map2->find("graphicsUpdateTime") != map2->end())
+          graphicsUpdateTime = (*map2)["graphicsUpdateTime"][0].getUInt();
+        else
+          graphicsUpdateTime = 0u;
+
+        if(map2->find("graphicsStepSkip") != map2->end())
+          graphicsStepSkip = (*map2)["graphicsStepSkip"][0].getUInt();
+        else
+          graphicsStepSkip = 0u;
       }
       if(enableGUI)
         fprintf(stderr, "enableGUI: yes\n");
