@@ -1,9 +1,5 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-#ifdef ROCK
 #include <catch/catch.hpp>
-#else
-#include "catch.hpp"
-#endif
 #include <LoadableBehavior.h>
 #include <BLLoader.h>
 #include <Optimizer.h>
