@@ -17,7 +17,7 @@ def assert_pickle(name, obj):
             os.remove(filename)
 
 
-def all_subclasses(base_class, exclude_classes=[]):
+def all_subclasses(base_class, exclude_classes=[], root=bolero):
     """Get a list of subclasses of the base class.
 
     Parameters
@@ -27,6 +27,9 @@ def all_subclasses(base_class, exclude_classes=[]):
 
     exclude_classes : list of strings
         List of classes that will be excluded
+
+    root : package
+        root package to search for subclasses
 
     Returns
     -------
@@ -42,9 +45,9 @@ def all_subclasses(base_class, exclude_classes=[]):
         return True
 
     all_classes = []
-    path = bolero.__path__
+    path = root.__path__
     for importer, modname, ispkg in pkgutil.walk_packages(
-            path=path, prefix='bolero.', onerror=lambda x: None):
+            path=path, prefix=root.__name__+'.', onerror=lambda x: None):
         if ".test." in modname:
             continue
         module = __import__(modname, fromlist="dummy")
