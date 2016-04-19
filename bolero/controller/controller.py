@@ -152,19 +152,22 @@ class Controller(Base):
             Accumulated feedbacks for each episode. If is_behavior_learning_done is True before the n_episodes is
             reached, the length of accumulated_feedbacks is shorter than n_episodes
         """
-        episode_counter = 0
-        is_behavior_learning_done = False
+        episode_idx = 0
+        is_done = False
         accumulated_feedbacks = []
-        while (self.n_episodes > episode_counter) and not is_behavior_learning_done:
-            episode_counter += 1
-            accumulated_feedbacks.append(self.episode(meta_parameter_keys, meta_parameters))
+        while self.n_episodes > episode_idx and not is_done:
+            episode_idx += 1
+            accumulated_feedbacks.append(self.episode(meta_parameter_keys,
+                                                      meta_parameters))
 
-            is_behavior_learning_done = self.behavior_search.is_behavior_learning_done() or \
-                self.environment.is_behavior_learning_done()
-        if self.verbose:
-            print("is_behavior_learning_done returned these values at termination of the learning process:\n"
-                  "behavior_search: %s, environment %s" % (str(self.behavior_search.is_behavior_learning_done()),
-                                                           str(self.environment.is_behavior_learning_done())))
+            is_done = (self.behavior_search.is_behavior_learning_done() or
+                       self.environment.is_behavior_learning_done())
+        if self.verbose >= 2:
+            print("is_behavior_learning_done returned these values at "
+                  "termination of the learning process:\n"
+                  "behavior_search: %s, environment %s"
+                  % (self.behavior_search.is_behavior_learning_done(),
+                     self.environment.is_behavior_learning_done()))
         return np.array(accumulated_feedbacks)
 
     def episode(self, meta_parameter_keys=(), meta_parameters=()):
