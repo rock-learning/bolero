@@ -107,21 +107,14 @@ class Controller(Base):
 
     def _set_attribute(self, config, name, default):
         value = config.get("Controller", {}).get(name, default)
-        # config info available -> value set to config info
-        # no config info -> value set to default
-        if hasattr(self, name):
-            # attribute was set by kwargs
-            if value != default:
-                # config info *is* available for this attribute
-                warnings.warn(
-                    "Attribute '%s' exists already as keyword argument "
-                    "(value: '%s'). Overwriting with '%s' from configuration "
-                    "dictionary." % (name, getattr(self, name), value),
-                    stacklevel=2)
-                # we warn, but where do we overwrite?
-        else:
-            # this only happens if the attribute was not defined earlier
+        if not hasattr(self, name):
             setattr(self, name, value)
+        elif value != default:
+            warnings.warn(
+                "Attribute '%s' exists already as keyword argument "
+                "(value: '%s') and overwrites '%s' from configuration "
+                "dictionary." % (name, getattr(self, name), value),
+                stacklevel=2)
 
     def _init_environment(self):
         self.environment.init()
