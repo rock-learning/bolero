@@ -71,7 +71,7 @@ class Controller(Base):
             self.behavior_search = None
 
         self._check()
-        self._init_environment(environment)
+        self._init_environment()
         self._init_behavior_search()
 
         self.inputs = np.zeros(self.n_inputs)
@@ -123,9 +123,7 @@ class Controller(Base):
             # this only happens if the attribute was not defined earlier
             setattr(self, name, value)
 
-    def _init_environment(self, environment):
-        # why do we pass an environment here? If the arg is used on the "C++ side", I'd suggest to use it here as well.
-        # anyway, depending on how the user initialized the controller, environment is None or equal to self.environment
+    def _init_environment(self):
         self.environment.init()
         self.n_inputs = self.environment.get_num_inputs()
         self.n_outputs = self.environment.get_num_outputs()
