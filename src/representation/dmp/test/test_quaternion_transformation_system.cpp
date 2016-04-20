@@ -281,10 +281,6 @@ TEST_CASE("gradient angular velocity", "[QuaternionTransformationSystem]") {
   REQUIRE(approxAccs.cols() == rotations.size());
 
   Array3d vel = vels.col(0);
-  //divide first and last acceleration by 2 to compensate for the fact
-  //that gradient() does forward/backward quotient for those elements
-  approxAccs.col(0) /= 2;
-  approxAccs.col(approxAccs.cols() - 1) /= 2;
   for(size_t i = 0; i < rotations.size(); ++i)
   {
     vel += approxAccs.col(i);
