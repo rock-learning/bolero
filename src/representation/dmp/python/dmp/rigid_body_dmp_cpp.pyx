@@ -213,6 +213,45 @@ cdef class RbDMP:
                             overlap, &centers[0], &widths[0])
         return centers, widths
 
+    @classmethod
+    def _determine_forces(cls, np.ndarray[double, ndim=2] positions,
+                          np.ndarray[double, ndim=2] rotations, dt,
+                          execution_time, alpha_z=25.0, beta_z=6.25,
+                          allow_final_velocity=True):
+        """Determine forces for given demonstration.
+
+        This function is for testing purposes only!
+
+        Parameters
+        ----------
+        positions: 3xN array
+            Contains the positions. Each column should contain one
+            3-dimensional position.
+
+        rotations: 4xN array
+            Contains the rotations. Each column should contain one quaternion.
+            Quaternion encoding: Row 0: w; Row 1: x; Row 2: y; Row 3: z
+        """
+        assert positions.shape[0] == 3
+        assert rotations.shape[0] == 4
+        assert positions.shape[1] == rotations.shape[1]
+        num_phases = rotations.shape[1]
+
+        #the c++ interfaces requires that the arrays are stored in column major order
+        if not positions.flags["F_CONTIGUOUS"]:
+            positions = np.asfortranarray(positions)
+        if not rotations.flags["F_CONTIGUOUS"]:
+            rotations = np.asfortranarray(rotations)
+
+        cdef np.ndarray[double, ndim=2, mode="fortran"] forces = np.ndarray(
+            (6, num_phases), order="F")
+
+        cb.determineForces(&positions[0,0], 3, num_phases, &rotations[0,0], 4,
+                           num_phases, &forces[0,0], 6, num_phases,
+                           execution_time, dt, alpha_z, beta_z,
+                           allow_final_velocity)
+        return forces
+
     def can_step(self):
         return self.thisptr.canStep()
 
