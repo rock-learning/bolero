@@ -80,5 +80,21 @@ struct EigenHelpers
       out.col(end - 1).setZero();
   }
 
+  static inline void integrate(
+      const ArrayXd& start, const ArrayXXd& in, ArrayXXd& out, const double dt)
+  {
+    assert(in.cols() > 1);
+    out.resize(in.rows(), in.cols());
+
+    // Special case for first element: assume gradient to be zero
+    out.col(0) = start;
+
+    const int end = in.cols();
+    for(int i = 1; i < end; ++i)
+    {// Difference quotient for each following element
+      out.col(i) = out.col(i - 1) + in.col(i) * dt;
+    }
+  }
+
 };
 }

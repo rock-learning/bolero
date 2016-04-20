@@ -11,6 +11,7 @@
 #include "CanonicalSystem.h"
 #include "RbfFunctionApproximator.h"
 #include "ForcingTerm.h"
+#include "EigenHelpers.h"
 #include <memory>
 using namespace dmp;
 using namespace Eigen;
@@ -90,21 +91,23 @@ TEST_CASE("Gradient calculation", "[TransformationSystem]") {
 
   //Fill positions with test data
   for(int i = 0; i < taskSpaceDimensions; ++i) {
-    for(int j = 0; j < numPhases; ++j) {
-      positions(i, j) = i*j;
+    positions(i, 0) = (double) i;
+    for(int j = 1; j < numPhases; ++j) {
+      positions(i, j) = i + (j - 1) * 0.05;
     }
   }
 
   ts.determineForces(positions, velocities, accelerations, forces, executionTime, dt);
-  for(unsigned i = 0; i < positions.cols()-1; ++i)
+  ArrayXXd integratedPositions, integratedVelocities;
+  EigenHelpers::integrate(positions.col(0), velocities, integratedPositions, dt);
+  EigenHelpers::integrate(velocities.col(0), accelerations, integratedVelocities, dt);
+  for(unsigned i = 0; i < positions.cols(); ++i)
   {
-    ArrayXd nextPos = positions.col(i) + velocities.col(i) * dt;
-    ArrayXd nextVel = velocities.col(i) + accelerations.col(i) * dt;
     for(int j = 0; j < positions.rows(); ++j) {
-      //element wise comparision is required because Approx() does not support
+      //element-wise comparison is required because Approx() does not support
       //Eigen types
-      REQUIRE(positions.col(i+1)(j) == Approx(nextPos(j)));
-      REQUIRE(velocities(j, i) == Approx(nextVel(j)));
+      REQUIRE(positions(j, i) == Approx(integratedPositions(j, i)));
+      REQUIRE(velocities(j, i) == Approx(integratedVelocities(j, i)));
     }
   }
 }
