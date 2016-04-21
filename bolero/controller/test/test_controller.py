@@ -80,14 +80,14 @@ def test_record_test_results():
     assert_true(np.all(results[:-1] <= results[1:]))
 
 
-def test_record_trajectories():
+def test_record_inputs():
     opt = CMAESOptimizer(initial_params=np.zeros(2))
     ctrl = Controller(environment=ObjectiveFunction(),
                       behavior_search=JustOptimizer(opt),
-                      record_trajectories=True)
+                      record_inputs=True)
     returns = ctrl.learn()
     assert_equal(len(returns), 10)
-    assert_equal(np.array(ctrl.trajectories_).shape, (10, 1, 2))
+    assert_equal(np.array(ctrl.inputs_).shape, (10, 1, 2))
 
 
 def test_record_outputs():
