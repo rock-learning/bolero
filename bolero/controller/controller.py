@@ -26,6 +26,8 @@ class Controller(Base):
       of behaviors) of each episode in `self.inputs_`
     * record_outputs (bool) - store outputs of environment (inputs for
       behaviors) for each episode in `self.outputs_`
+    * accumulate_feedbacks (bool) - compute sum of feedbacks (episode returns
+      a scalar) or return all feedbacks
     * record_contexts (bool) - store context vectors of each episode in
       `self.contexts_` (only available for contextual environments)
     * n_episodes_before_test (int) - the upper-level policy will be evaluated
@@ -90,6 +92,7 @@ class Controller(Base):
         self._set_attribute(config, "record_inputs", False)
         self._set_attribute(config, "record_outputs", False)
         self._set_attribute(config, "record_feedbacks", False)
+        self._set_attribute(config, "accumulate_feedbacks", True)
         self._set_attribute(config, "verbose", False)
         self._set_attribute(config, "n_episodes_before_test", None)
 
@@ -212,9 +215,15 @@ class Controller(Base):
                                       meta_parameters)
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
-        accumulated_feedback = np.sum(feedbacks)
-        if self.verbose >= 2:
-            print("[Controller] Accumulated feedback: %g" % accumulated_feedback)
+        if self.accumulate_feedbacks:
+            accumulated_feedback = np.sum(feedbacks)
+            if self.verbose >= 2:
+                print("[Controller] Accumulated feedback: %g" % accumulated_feedback)
+            out = accumulated_feedback
+        else:
+            if self.verbose >= 2:
+                print("[Controller] Multiobjective feedback: %s" % np.array_str(feedbacks, precision=4))
+            out = feedbacks
 
         self.episode_cnt += 1
 
@@ -222,7 +231,7 @@ class Controller(Base):
             self.test_results_.append(
                 self._perform_test(meta_parameter_keys, meta_parameters))
 
-        return accumulated_feedback
+        return out
 
     def episode_with(self, behavior, meta_parameter_keys=[],
                      meta_parameters=[], record=True):
