@@ -165,16 +165,16 @@ class Controller(Base):
 
         Returns
         -------
-        accumulated_feedbacks : array, shape (n_episodes or less,)
-            Accumulated feedbacks for each episode. If is_behavior_learning_done is True before the n_episodes is
-            reached, the length of accumulated_feedbacks is shorter than n_episodes
+        feedback_history : array, shape (n_episodes or less, dim_feedback)
+            Feedbacks for each episode. If is_behavior_learning_done is True before the n_episodes is
+            reached, the length of feedback_history is shorter than n_episodes
         """
         episode_idx = 0
         is_done = False
-        accumulated_feedbacks = []
+        feedback_history = []
         while self.n_episodes > episode_idx and not is_done:
             episode_idx += 1
-            accumulated_feedbacks.append(self.episode(meta_parameter_keys,
+            feedback_history.append(self.episode(meta_parameter_keys,
                                                       meta_parameters))
 
             is_done = (self.behavior_search.is_behavior_learning_done() or
@@ -185,7 +185,7 @@ class Controller(Base):
                   "behavior_search: %s, environment %s"
                   % (self.behavior_search.is_behavior_learning_done(),
                      self.environment.is_behavior_learning_done()))
-        return np.array(accumulated_feedbacks)
+        return np.array(feedback_history)
 
     def episode(self, meta_parameter_keys=(), meta_parameters=()):
         """Execute one learning episode.
@@ -200,8 +200,9 @@ class Controller(Base):
 
         Returns
         -------
-        accumulated_feedback : float
-            Accumulated feedback of the episode
+        accumulated_feedback : float or array-like, shape = (n_feedbacks,)
+            Feedback(s) of the episode. If the flag accumulate_feedbacks is
+            True, the feedback sum is returned as a scalar.
         """
         if self.behavior_search is None:
             raise ValueError("A BehaviorSearch is required to execute an "
