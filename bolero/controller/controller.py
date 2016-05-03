@@ -22,8 +22,8 @@ class Controller(Base):
 
     * n_episodes (int) - number of episodes that will be executed by
       :func:`learn`
-    * record_trajectories (bool) - store control signal trajectories (outputs
-      of behaviors) of each episode in `self.trajectories_`
+    * record_inputs (bool) - store control signal trajectories (outputs
+      of behaviors) of each episode in `self.inputs_`
     * record_outputs (bool) - store outputs of environment (inputs for
       behaviors) for each episode in `self.outputs_`
     * record_contexts (bool) - store context vectors of each episode in
@@ -77,16 +77,24 @@ class Controller(Base):
         self.inputs = np.zeros(self.n_inputs)
         self.outputs = np.zeros(self.n_outputs)
 
+        if "record_trajectories" in config.keys() + kwargs.keys():
+            warnings.warn("record_trajectories is deprecated. Please use record_inputs.")
+            if "record_inputs" in config.keys() + kwargs.keys():
+                raise ValueError("Specifying record_inputs and record_trajectories (deprecated) not allowed")
+            else:
+                config["record_inputs"] = config.pop("record_trajectories", False)
+                kwargs["record_inputs"] = kwargs.pop("record_trajectories", False)
+
         self.__dict__.update(kwargs)
         self._set_attribute(config, "n_episodes", 10)
-        self._set_attribute(config, "record_trajectories", False)
+        self._set_attribute(config, "record_inputs", False)
         self._set_attribute(config, "record_outputs", False)
         self._set_attribute(config, "record_feedbacks", False)
         self._set_attribute(config, "verbose", False)
         self._set_attribute(config, "n_episodes_before_test", None)
 
-        if self.record_trajectories:
-            self.trajectories_ = []
+        if self.record_inputs:
+            self.inputs_ = []
 
         if self.record_outputs:
             self.outputs_ = []
@@ -104,6 +112,12 @@ class Controller(Base):
             print("[Controller] Initialized with")
             print("             - %d inputs" % self.n_inputs)
             print("             - %d outputs" % self.n_outputs)
+
+    def __get_inputs_bw_compatible(self):
+        # just for backwards compatibility
+        warnings.warn("property 'trajectories_' is deprecated. Please use 'inputs_'")
+        return self.inputs_
+    trajectories_ = property(__get_inputs_bw_compatible, doc="inputs to the environment (outputs of the behavior)")
 
     def _set_attribute(self, config, name, default):
         value = config.get("Controller", {}).get(name, default)
@@ -236,8 +250,8 @@ class Controller(Base):
         self.environment.reset()
         behavior.set_meta_parameters(meta_parameter_keys, meta_parameters)
 
-        if self.record_trajectories:
-            trajectory = []
+        if self.record_inputs:
+            inputs = []
         if self.record_outputs:
             outputs = []
 
@@ -251,18 +265,20 @@ class Controller(Base):
             # Act
             self.environment.set_inputs(self.inputs)
             self.environment.step_action()
+            # Sense
+            self.environment.get_outputs(self.outputs)
 
             if record:
-                if self.record_trajectories:
-                    trajectory.append(self.inputs.copy())
+                if self.record_inputs:
+                    inputs.append(self.inputs.copy())
                 if self.record_outputs:
                     outputs.append(self.outputs.copy())
 
         feedbacks = self.environment.get_feedback()
 
         if record:
-            if self.record_trajectories:
-                self.trajectories_.append(trajectory)
+            if self.record_inputs:
+                self.inputs_.append(inputs)
             if self.record_outputs:
                 self.outputs_.append(outputs)
             if self.record_feedbacks:

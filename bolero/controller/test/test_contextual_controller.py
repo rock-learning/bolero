@@ -64,14 +64,14 @@ def test_controller_cmaes_sphere_via_config():
     assert_equal(len(returns), 10)
 
 
-def test_record_trajectories():
+def test_record_inputs():
     opt = CREPSOptimizer(initial_params=np.zeros(1))
     ctrl = ContextualController(environment=ContextualObjectiveFunction(),
                                 behavior_search=JustContextualOptimizer(opt),
-                                record_trajectories=True)
+                                record_inputs=True)
     returns = ctrl.learn()
     assert_equal(len(returns), 10)
-    assert_equal(np.array(ctrl.trajectories_).shape, (10, 1, 1))
+    assert_equal(np.array(ctrl.inputs_).shape, (10, 1, 1))
 
 
 def test_record_outputs():

@@ -37,8 +37,8 @@ controller = Controller(environment=env, behavior_search=bs,
 
 rewards = controller.learn(["x0", "g"], [x0, g])
 controller.episode_with(bs.get_best_behavior(), ["x0", "g"], [x0, g])
-X = np.asarray(controller.trajectories_[-1])
-X_hist = np.asarray(controller.trajectories_)
+X = np.asarray(controller.inputs_[-1])
+X_hist = np.asarray(controller.inputs_)
 
 plt.figure()
 ax = plt.subplot(121)
