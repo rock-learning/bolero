@@ -88,7 +88,6 @@ namespace bolero {
 
     blLoader->loadLibrary(strEnvironment);
     blLoader->loadLibrary(strBehaviorSearch);
-    blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
 
     if(map["Controller"][0].children.find("GenerateFitnessLog") != map.end()) {
       if(map["Controller"]["GenerateFitnessLog"]) {
@@ -128,6 +127,7 @@ namespace bolero {
     behaviorSearch->init(numInputs, numOutputs);
     // behaviorSearch->init(numInputs, numOutputs, map["BehaviorSearch"][0].children.toYamlString());
 
+    blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
     int evaluationCount = 0;
     do {
       if(evaluateExperiment) {
