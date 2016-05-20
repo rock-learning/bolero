@@ -66,8 +66,8 @@ namespace bolero {
       graphicsStepSkip = graphicsUpdateTime = 0;
 
       bool enableGUI = true;
-      if(map.find("Environment Parameters") != map.end()) {
-        map2 = &(map["Environment Parameters"][0].children);
+      if(map.find("Environment") != map.end()) {
+        map2 = &(map["Environment"][0].children);
 
         if(map2->find("enableGUI") != map2->end())
           enableGUI = (*map2)["enableGUI"][0].getBool();

@@ -47,8 +47,8 @@ namespace bolero {
       configmaps::ConfigMap *map2;
       map = configmaps::ConfigMap::fromYamlFile("learning_config.yml");
 
-      if(map.find("Environment Parameters") != map.end()) {
-        map2 = &(map["Environment Parameters"][0].children);
+      if(map.find("Environment") != map.end()) {
+        map2 = &(map["Environment"][0].children);
         if(map2->find("DataFile") != map2->end()) {
           dataFile = (*map2)["DataFile"][0].getString();
         }

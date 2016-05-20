@@ -49,8 +49,8 @@ namespace bolero {
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");
 
-      if(map.find("Environment Parameters") != map.end()) {
-        map2 = &(map["Environment Parameters"][0].children);
+      if(map.find("Environment") != map.end()) {
+        map2 = &(map["Environment"][0].children);
 
         if(map2->find("calc_ms") != map2->end()) {
           double dValue = (*map2)["calc_ms"][0].getDouble();
