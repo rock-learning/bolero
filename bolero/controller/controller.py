@@ -275,8 +275,6 @@ class Controller(Base):
             # Act
             self.environment.set_inputs(self.inputs)
             self.environment.step_action()
-            # Sense
-            self.environment.get_outputs(self.outputs)
 
             if record:
                 if self.record_inputs:
