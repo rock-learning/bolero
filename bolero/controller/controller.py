@@ -257,8 +257,8 @@ class Controller(Base):
         feedbacks : array, shape (n_steps,)
             Feedback for each step in the environment
         """
-        self.environment.reset()
         behavior.set_meta_parameters(meta_parameter_keys, meta_parameters)
+        self.environment.reset()
 
         if self.record_inputs:
             inputs = []
