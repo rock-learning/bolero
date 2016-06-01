@@ -265,9 +265,9 @@ class Controller(Base):
         if self.record_outputs:
             outputs = []
 
+        # Sense initial state
+        self.environment.get_outputs(self.outputs)
         while not self.environment.is_evaluation_done():
-            # Sense
-            self.environment.get_outputs(self.outputs)
             behavior.set_inputs(self.outputs)
             if behavior.can_step():
                 behavior.step()
@@ -275,6 +275,8 @@ class Controller(Base):
             # Act
             self.environment.set_inputs(self.inputs)
             self.environment.step_action()
+            # Sense
+            self.environment.get_outputs(self.outputs)
 
             if record:
                 if self.record_inputs:
