@@ -152,7 +152,7 @@ class Controller(Base):
                 not isinstance(self.behavior_search, BehaviorSearch)):
             raise TypeError("Controller requires subclass of 'BehaviorSearch'")
 
-    def learn(self, meta_parameter_keys=[], meta_parameters=[]):
+    def learn(self, meta_parameter_keys=(), meta_parameters=()):
         """Learn the behavior.
 
         Parameters
@@ -166,23 +166,20 @@ class Controller(Base):
         Returns
         -------
         feedback_history : array, shape (n_episodes or less, dim_feedback)
-            Feedbacks for each episode. If is_behavior_learning_done is True before the n_episodes is
-            reached, the length of feedback_history is shorter than n_episodes
+            Feedbacks for each episode. If is_behavior_learning_done is True
+            before the n_episodes is reached, the length of feedback_history
+            is shorter than n_episodes.
         """
-        episode_idx = 0
-        is_done = False
         feedback_history = []
-        while self.n_episodes > episode_idx and not is_done:
-            episode_idx += 1
-            feedback_history.append(self.episode(meta_parameter_keys,
-                                                      meta_parameters))
-
-            is_done = (self.behavior_search.is_behavior_learning_done() or
-                       self.environment.is_behavior_learning_done())
+        for _ in range(self.n_episodes):
+            feedbacks = self.episode(meta_parameter_keys, meta_parameters)
+            feedback_history.append(feedbacks)
+            if (self.behavior_search.is_behavior_learning_done() or
+                    self.environment.is_behavior_learning_done()):
+                break
         if self.verbose >= 2:
-            print("is_behavior_learning_done returned these values at "
-                  "termination of the learning process:\n"
-                  "behavior_search: %s, environment %s"
+            print("[Controller] Terminated because of:\nbehavior_search: %s, "
+                  "environment: %s"
                   % (self.behavior_search.is_behavior_learning_done(),
                      self.environment.is_behavior_learning_done()))
         return np.array(feedback_history)
@@ -217,14 +214,14 @@ class Controller(Base):
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
         if self.accumulate_feedbacks:
-            accumulated_feedback = np.sum(feedbacks)
-            if self.verbose >= 2:
-                print("[Controller] Accumulated feedback: %g" % accumulated_feedback)
-            out = accumulated_feedback
-        else:
-            if self.verbose >= 2:
-                print("[Controller] Multiobjective feedback: %s" % np.array_str(feedbacks, precision=4))
-            out = feedbacks
+            feedbacks = np.sum(feedbacks)
+
+        if self.verbose >= 2:
+            if self.accumulate_feedbacks:
+                print("[Controller] Accumulated feedback: %g" % feedbacks)
+            else:
+                print("[Controller] Feedbacks: %s"
+                      % np.array_str(feedbacks, precision=4))
 
         self.episode_cnt += 1
 
@@ -232,7 +229,7 @@ class Controller(Base):
             self.test_results_.append(
                 self._perform_test(meta_parameter_keys, meta_parameters))
 
-        return out
+        return feedbacks
 
     def episode_with(self, behavior, meta_parameter_keys=[],
                      meta_parameters=[], record=True):
@@ -363,7 +360,7 @@ class ContextualController(Controller):
 
         return context
 
-    def episode(self, meta_parameter_keys=[], meta_parameters=[]):
+    def episode(self, meta_parameter_keys=(), meta_parameters=()):
         if self.behavior_search is None:
             raise ValueError("A ContextualBehaviorSearch is required to "
                              "execute an episode without specifying a "
