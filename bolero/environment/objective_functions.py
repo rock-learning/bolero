@@ -1503,10 +1503,11 @@ class ObjectiveFunction(Environment):
         return 0
 
     def get_outputs(self, _):
-        self.done = True
+        pass
 
     def set_inputs(self, values):
         self.params[:] = values[:]
+        self.done = True
 
     def step_action(self):
         self.f = self.objective.feedback(self.params)
