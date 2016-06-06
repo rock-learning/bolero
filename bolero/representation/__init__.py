@@ -12,5 +12,7 @@ try:
     __all__.append("DMPBehavior")
     from .dmp_behavior import CartesianDMPBehavior
     __all__.append("CartesianDMPBehavior")
+    from .dmp_sequence import DMPSequence
+    __all__.append("DMPSequence")
 except ImportError:
     pass
