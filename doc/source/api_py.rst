@@ -119,6 +119,7 @@ Behavior classes
    RandomBehavior
    DMPBehavior
    CartesianDMPBehavior
+   DMPSequence
 
 Policy classes
 --------------
