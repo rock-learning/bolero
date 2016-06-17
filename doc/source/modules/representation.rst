@@ -68,6 +68,12 @@ BOLeRo.
      - positions, velocities, accelerations
      - weights of the internal function approximator
 
+   * - :ref:`Sequence of DMPs <dmp_seq>`
+     - trajectories in joint space
+     - positions, velocities, accelerations
+     - positions, velocities, accelerations
+     - weights of the internal function approximators and subgoals
+
 
 .. _constant_beh:
 
@@ -110,3 +116,15 @@ velocity at the goal, execution time) and can be learned from demonstrations.
 .. figure:: ../auto_examples/representation/images/plot_dmp_meta_parameters_001.png
    :target: ../auto_examples/representation/plot_dmp_meta_parameters.html
    :align: center
+
+A variant of DMPs that works in Cartesian space is
+:class:`CartesianDMPBehavior`.
+
+
+.. _dmp_seq:
+
+Sequence of DMPs
+----------------
+
+We can learn a sequence of DMPs. In the class :class:`DMPSequence` allows us to
+optimize the DMP weights and the subgoals of the DMPs.

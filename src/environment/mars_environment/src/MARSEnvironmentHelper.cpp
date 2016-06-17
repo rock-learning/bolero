@@ -71,8 +71,6 @@ namespace bolero {
 
         if(map2->find("enableGUI") != map2->end())
           enableGUI = (*map2)["enableGUI"][0].getBool();
-        else
-          enableGUI = false;
 
         if(map2->find("graphicsUpdateTime") != map2->end())
           graphicsUpdateTime = (*map2)["graphicsUpdateTime"][0].getUInt();

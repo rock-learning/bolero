@@ -6,6 +6,6 @@ from .creps import CREPSOptimizer
 
 
 __all__ = [
-    "Optimizer", "ContextualOptimizer", "CMAESOptimizer",
+    "Optimizer", "ContextualOptimizer", "NoOptimizer", "RandomOptimizer", "CMAESOptimizer",
     "RestartCMAESOptimizer", "IPOPCMAESOptimizer", "BIPOPCMAESOptimizer",
     "fmin", "CREPSOptimizer"]

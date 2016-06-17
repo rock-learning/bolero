@@ -26,6 +26,8 @@ class Controller(Base):
       of behaviors) of each episode in `self.inputs_`
     * record_outputs (bool) - store outputs of environment (inputs for
       behaviors) for each episode in `self.outputs_`
+    * accumulate_feedbacks (bool) - compute sum of feedbacks (episode returns
+      a scalar) or return all feedbacks
     * record_contexts (bool) - store context vectors of each episode in
       `self.contexts_` (only available for contextual environments)
     * n_episodes_before_test (int) - the upper-level policy will be evaluated
@@ -90,6 +92,7 @@ class Controller(Base):
         self._set_attribute(config, "record_inputs", False)
         self._set_attribute(config, "record_outputs", False)
         self._set_attribute(config, "record_feedbacks", False)
+        self._set_attribute(config, "accumulate_feedbacks", True)
         self._set_attribute(config, "verbose", False)
         self._set_attribute(config, "n_episodes_before_test", None)
 
@@ -149,7 +152,7 @@ class Controller(Base):
                 not isinstance(self.behavior_search, BehaviorSearch)):
             raise TypeError("Controller requires subclass of 'BehaviorSearch'")
 
-    def learn(self, meta_parameter_keys=[], meta_parameters=[]):
+    def learn(self, meta_parameter_keys=(), meta_parameters=()):
         """Learn the behavior.
 
         Parameters
@@ -162,27 +165,24 @@ class Controller(Base):
 
         Returns
         -------
-        accumulated_feedbacks : array, shape (n_episodes or less,)
-            Accumulated feedbacks for each episode. If is_behavior_learning_done is True before the n_episodes is
-            reached, the length of accumulated_feedbacks is shorter than n_episodes
+        feedback_history : array, shape (n_episodes or less, dim_feedback)
+            Feedbacks for each episode. If is_behavior_learning_done is True
+            before the n_episodes is reached, the length of feedback_history
+            is shorter than n_episodes.
         """
-        episode_idx = 0
-        is_done = False
-        accumulated_feedbacks = []
-        while self.n_episodes > episode_idx and not is_done:
-            episode_idx += 1
-            accumulated_feedbacks.append(self.episode(meta_parameter_keys,
-                                                      meta_parameters))
-
-            is_done = (self.behavior_search.is_behavior_learning_done() or
-                       self.environment.is_behavior_learning_done())
+        feedback_history = []
+        for _ in range(self.n_episodes):
+            feedbacks = self.episode(meta_parameter_keys, meta_parameters)
+            feedback_history.append(feedbacks)
+            if (self.behavior_search.is_behavior_learning_done() or
+                    self.environment.is_behavior_learning_done()):
+                break
         if self.verbose >= 2:
-            print("is_behavior_learning_done returned these values at "
-                  "termination of the learning process:\n"
-                  "behavior_search: %s, environment %s"
+            print("[Controller] Terminated because of:\nbehavior_search: %s, "
+                  "environment: %s"
                   % (self.behavior_search.is_behavior_learning_done(),
                      self.environment.is_behavior_learning_done()))
-        return np.array(accumulated_feedbacks)
+        return np.array(feedback_history)
 
     def episode(self, meta_parameter_keys=(), meta_parameters=()):
         """Execute one learning episode.
@@ -197,8 +197,9 @@ class Controller(Base):
 
         Returns
         -------
-        accumulated_feedback : float
-            Accumulated feedback of the episode
+        accumulated_feedback : float or array-like, shape = (n_feedbacks,)
+            Feedback(s) of the episode. If the flag accumulate_feedbacks is
+            True, the feedback sum is returned as a scalar.
         """
         if self.behavior_search is None:
             raise ValueError("A BehaviorSearch is required to execute an "
@@ -212,9 +213,15 @@ class Controller(Base):
                                       meta_parameters)
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
-        accumulated_feedback = np.sum(feedbacks)
+        if self.accumulate_feedbacks:
+            feedbacks = np.sum(feedbacks)
+
         if self.verbose >= 2:
-            print("[Controller] Accumulated feedback: %g" % accumulated_feedback)
+            if self.accumulate_feedbacks:
+                print("[Controller] Accumulated feedback: %g" % feedbacks)
+            else:
+                print("[Controller] Feedbacks: %s"
+                      % np.array_str(feedbacks, precision=4))
 
         self.episode_cnt += 1
 
@@ -222,7 +229,7 @@ class Controller(Base):
             self.test_results_.append(
                 self._perform_test(meta_parameter_keys, meta_parameters))
 
-        return accumulated_feedback
+        return feedbacks
 
     def episode_with(self, behavior, meta_parameter_keys=[],
                      meta_parameters=[], record=True):
@@ -247,17 +254,17 @@ class Controller(Base):
         feedbacks : array, shape (n_steps,)
             Feedback for each step in the environment
         """
-        self.environment.reset()
         behavior.set_meta_parameters(meta_parameter_keys, meta_parameters)
+        self.environment.reset()
 
         if self.record_inputs:
             inputs = []
         if self.record_outputs:
             outputs = []
 
+        # Sense initial state
+        self.environment.get_outputs(self.outputs)
         while not self.environment.is_evaluation_done():
-            # Sense
-            self.environment.get_outputs(self.outputs)
             behavior.set_inputs(self.outputs)
             if behavior.can_step():
                 behavior.step()
@@ -353,7 +360,7 @@ class ContextualController(Controller):
 
         return context
 
-    def episode(self, meta_parameter_keys=[], meta_parameters=[]):
+    def episode(self, meta_parameter_keys=(), meta_parameters=()):
         if self.behavior_search is None:
             raise ValueError("A ContextualBehaviorSearch is required to "
                              "execute an episode without specifying a "
