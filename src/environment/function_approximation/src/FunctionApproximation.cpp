@@ -32,13 +32,13 @@ namespace bolero {
 
       dataFile = "data_to_fit.txt";
 
-      if(map.find("Environment Parameters") != map.end()) {
-        map2 = &(map["Environment Parameters"][0].children);
-        if(map2->find("DataFile") != map2->end()) {
-          dataFile = (*map2)["DataFile"][0].getString();
+      if(map.hasKey("Environment")) {
+        configmaps::ConfigMap &map2 = map["Environment"];
+        if(map2.hasKey("DataFile")) {
+          dataFile << map2["DataFile"];
         }
-        if(map2->find("TestDataFile") != map2->end()) {
-          testDataFile = (*map2)["TestDataFile"][0].getString();
+        if(map2.hasKey("TestDataFile")) {
+          testDataFile << map2["TestDataFile"];
         }
       }
 
