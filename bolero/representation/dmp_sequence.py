@@ -13,7 +13,7 @@ class DMPSequence(BlackBoxBehavior):
 
     Parameters
     ----------
-    n_dmps : int
+    n_dmps : int, optional (default: 1)
         Number of DMPs in this sequence
 
     execution_times : array-like, shape (n_dmps,), optional (default: ones)
@@ -36,7 +36,7 @@ class DMPSequence(BlackBoxBehavior):
     initial_weights : list
         List of initial weight vectors for the DMPs
     """
-    def __init__(self, n_dmps, execution_times=None, dt=0.01, n_features=None,
+    def __init__(self, n_dmps=1, execution_times=None, dt=0.01, n_features=None,
                  subgoals=None, learn_goal_velocities=False,
                  initial_weights=None):
         super(DMPSequence, self).__init__()
@@ -63,14 +63,17 @@ class DMPSequence(BlackBoxBehavior):
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
+        self.n_task_dims = n_inputs / 3
+
         if self.execution_times is None:
             self.execution_times = np.ones(self.n_dmps)
         self.execution_times = np.asarray(self.execution_times)
         if self.n_features is None:
             self.n_features = 50 * np.ones(self.n_dmps, dtype=int)
-        self.subgoals = np.copy(self.subgoals)
-
-        self.n_task_dims = n_inputs / 3
+        if self.subgoals is None:
+            self.subgoals = np.zeros((self.n_dmps + 1, self.n_task_dims))
+        else:
+            self.subgoals = np.copy(self.subgoals)
 
         self.dmps = []
         for i in range(self.n_dmps):
@@ -152,6 +155,9 @@ class DMPSequence(BlackBoxBehavior):
 
     def step(self):
         """Compute next step."""
+        if self.n_task_dims == 0:
+            return
+
         dmp_idx = np.where(self.t <= self.split_steps)[0][0]
         dmp = self.dmps[dmp_idx]
 
