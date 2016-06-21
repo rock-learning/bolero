@@ -152,7 +152,7 @@ class BoundedScalingPolicy(UpperLevelPolicy):
             Weights of individual samples (should depend on the obtained
             reward)
         """
-        Y = self.scaling.inv_scale(Y)
+        Y = self.scaling.inv_scale(Y.T).T
         self.upper_level_policy.fit(X, Y, weights, context_transform)
 
 
