@@ -17,10 +17,13 @@ except:
                          ' instance' % seed)
 
 
-def check_feedback(feedback, compute_sum=False):
-    finite = np.isfinite(feedback)
-    if not np.all(finite):
-        raise ValueError("Received illegal feedback. Check your environment!")
+def check_feedback(feedback, compute_sum=False, check_inf=True, check_nan=True):
+    # Todo: add unit test
+    if check_inf and any(np.isinf(feedback)):
+        raise ValueError("Received illegal feedback (inf). Check your environment!")
+
+    if check_nan and any(np.isnan(feedback)):
+        raise ValueError("Received illegal feedback (NaN). Check your environment!")
 
     if compute_sum:
         return np.sum(feedback)
