@@ -18,14 +18,30 @@ except:
 
 
 def check_feedback(feedback, compute_sum=False, check_inf=True, check_nan=True):
-    # Todo: add unit test
-    if check_inf and any(np.isinf(feedback)):
+    """Check feedbacks.
+
+    Parameters
+    ----------
+    feedback : float or array-like, shape (n_feedbacks,)
+        Feedbacks, rewards, or fitness values
+
+    compute_sum : bool, optional (default: False)
+        Return the sum of feedbacks (e.g. the sum of rewards is called the
+        return)
+
+    check_inf : bool, optional (default: True)
+        Raise ValueError if feedback contains 'inf'
+
+    check_nan : bool, optional (default: True)
+        Raise ValueError if feedback contains 'nan'
+    """
+    if check_inf and np.any(np.isinf(feedback)):
         raise ValueError("Received illegal feedback (inf). Check your environment!")
 
-    if check_nan and any(np.isnan(feedback)):
+    if check_nan and np.any(np.isnan(feedback)):
         raise ValueError("Received illegal feedback (NaN). Check your environment!")
 
     if compute_sum:
         return np.sum(feedback)
     else:
-        return feedback
+        return np.asarray(feedback)
