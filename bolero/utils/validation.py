@@ -45,3 +45,21 @@ def check_feedback(feedback, compute_sum=False, check_inf=True, check_nan=True):
         return np.sum(feedback)
     else:
         return np.asarray(feedback)
+
+
+def check_context(context):
+    """Check context vector.
+
+    Parameters
+    ----------
+    context : array-like, shape (n_context_dims,)
+        Context vector
+
+    Returns
+    -------
+    context : array, shape (n_context_dims,)
+        Context vector
+    """
+    if context is None:
+        raise ValueError("Context is None.")
+    return np.asarray(context)

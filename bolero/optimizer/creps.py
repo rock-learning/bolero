@@ -10,7 +10,7 @@ from ..utils.scaling import Scaling
 from ..representation.ul_policies import (ContextTransformationPolicy,
                                           LinearGaussianPolicy,
                                           BoundedScalingPolicy)
-from ..utils.validation import check_random_state, check_feedback
+from ..utils.validation import check_random_state, check_feedback, check_context
 from ..utils.log import get_logger
 
 
@@ -225,7 +225,7 @@ class CREPSOptimizer(ContextualOptimizer):
         context : array-like, shape (n_context_dims,)
             The context in which the next rollout will be performed
         """
-        self.context = context
+        self.context = check_context(context)
 
     def get_next_parameters(self, params, explore=True):
         """Get next individual/parameter vector for evaluation.
