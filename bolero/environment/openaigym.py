@@ -32,7 +32,7 @@ class HighLowHandler(object):
 
 
 class OpenAiGym(Environment):
-    def __init__(self, env_name, render=False, verbose=0):
+    def __init__(self, env_name="CartPole-v0", render=False, verbose=0):
         self.env_name = env_name
         self.render = render
         self.verbose = verbose
