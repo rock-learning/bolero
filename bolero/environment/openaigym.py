@@ -51,11 +51,15 @@ class OpenAiGym(Environment):
         self.n_outputs, _ = self._init_space(self.env.observation_space)
         self.outputs = np.empty(self.n_outputs)
 
+        if self.verbose:
+            print("[OpenAiGym] Number of inputs: %d" % self.n_inputs)
+            print("[OpenAiGym] Number of outputs: %d" % self.n_outputs)
+
     def _init_space(self, space):
         if not isinstance(space, self.gym.Space):
             raise ValueError("Unknown space, type '%s'" % type(space))
         elif isinstance(space, self.gym.spaces.Box):
-            n_dims = space.shape[0]
+            n_dims = np.product(space.shape)
             handler = BoxClipHandler(space.low, space.high)
         elif isinstance(space, self.gym.spaces.Discrete):
             n_dims = 1
@@ -69,7 +73,7 @@ class OpenAiGym(Environment):
         return n_dims, handler
 
     def reset(self):
-        self.outputs[:] = self.env.reset()
+        self.outputs[:] = self.env.reset().ravel()
         self.rewards = []
         self.done = False
         if self.render:
@@ -89,11 +93,14 @@ class OpenAiGym(Environment):
 
     def step_action(self):
         inputs = self.input_handler(self.inputs)
-        self.outputs[:], reward, done, info = self.env.step(inputs)
+        observations, reward, done, info = self.env.step(inputs)
+        self.outputs[:] = observations.ravel()
         self.rewards.append(reward)
         self.done = self.done or done
         if self.verbose:
             print(info)
+        if self.render:
+            self.env.render()
 
     def is_evaluation_done(self):
         return self.done
