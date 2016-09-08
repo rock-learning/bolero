@@ -1,3 +1,4 @@
+import numpy as np
 from .environment import Environment
 
 
@@ -16,7 +17,7 @@ class IntHandler(object):
 
     def __call__(self, values):
         assert values.shape[0] == 1
-        return np.array([np.clip(int(values[0]), 0, self.n - 1)])
+        return np.clip(int(values[0]), 0, self.n - 1)
 
 
 class HighLowHandler(object):
@@ -27,21 +28,23 @@ class HighLowHandler(object):
         values = np.clip(values, self.matrix[:, 0], self.matrix[:, 1])
         for i in range(len(values)):
             values[i] = round(values[i], self.matrix[i, 2])
+        return values
 
 
 class OpenAiGym(Environment):
-    def __init__(self, env_name, verbose=0):
+    def __init__(self, env_name, render=False, verbose=0):
         self.env_name = env_name
+        self.render = render
         self.verbose = verbose
 
     def init(self):
         try:
-            import gym
+            self.gym = __import__("gym")
         except ImportError:
             raise ImportError("OpenAiGym environment requires the Python "
                               "package 'gym'.")
 
-        self.env = gym.make(self.env_name)
+        self.env = self.gym.make(self.env_name)
         self.n_inputs, self.input_handler = self._init_space(
             self.env.action_space)
         self.inputs = np.empty(self.n_inputs)
@@ -49,18 +52,18 @@ class OpenAiGym(Environment):
         self.outputs = np.empty(self.n_outputs)
 
     def _init_space(self, space):
-        if not isinstance(space, gym.Space):
+        if not isinstance(space, self.gym.Space):
             raise ValueError("Unknown space, type '%s'" % type(space))
-        elif isinstance(space, gym.spaces.Box):
+        elif isinstance(space, self.gym.spaces.Box):
             n_dims = space.shape[0]
             handler = BoxClipHandler(space.low, space.high)
-        elif isinstance(space, gym.spaces.Discrete):
+        elif isinstance(space, self.gym.spaces.Discrete):
             n_dims = 1
             handler = IntHandler(space.n)
-        elif isinstance(space, gym.spaces.HighLow):
+        elif isinstance(space, self.gym.spaces.HighLow):
             n_dims = space.num_rows
             handler = HighLowHandler(space.matrix)
-        elif isinstance(space, gym.spaces.Tuple):
+        elif isinstance(space, self.gym.spaces.Tuple):
             raise NotImplementedError("Space of type '%s' is not supported"
                                       % type(space))
         return n_dims, handler
@@ -69,6 +72,8 @@ class OpenAiGym(Environment):
         self.outputs[:] = self.env.reset()
         self.rewards = []
         self.done = False
+        if self.render:
+            self.env.render()
 
     def get_num_inputs(self):
         return self.n_inputs
@@ -80,10 +85,11 @@ class OpenAiGym(Environment):
         values[:] = self.outputs
 
     def set_inputs(self, values):
-        self.inputs[:] = self.input_handler(values)
+        self.inputs[:] = values
 
     def step_action(self):
-        self.outputs[:], reward, done, info = self.step(self.inputs)
+        inputs = self.input_handler(self.inputs)
+        self.outputs[:], reward, done, info = self.env.step(inputs)
         self.rewards.append(reward)
         self.done = self.done or done
         if self.verbose:
