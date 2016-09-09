@@ -32,6 +32,9 @@ class Controller(Base):
       `self.contexts_` (only available for contextual environments)
     * n_episodes_before_test (int) - the upper-level policy will be evaluated
       after `n_episodes_before_test` episodes
+    * finish_after_convergence (bool) - finish the evaluation after either the
+      environment or the behavior search reports convergence even though the
+      maximum number of episodes might not be reached yet
     * verbose (bool) - print information to stdout
 
     Parameters
@@ -93,8 +96,9 @@ class Controller(Base):
         self._set_attribute(config, "record_outputs", False)
         self._set_attribute(config, "record_feedbacks", False)
         self._set_attribute(config, "accumulate_feedbacks", True)
-        self._set_attribute(config, "verbose", False)
         self._set_attribute(config, "n_episodes_before_test", None)
+        self._set_attribute(config, "finish_after_convergence", False)
+        self._set_attribute(config, "verbose", False)
 
         if self.record_inputs:
             self.inputs_ = []
@@ -174,8 +178,9 @@ class Controller(Base):
         for _ in range(self.n_episodes):
             feedbacks = self.episode(meta_parameter_keys, meta_parameters)
             feedback_history.append(feedbacks)
-            if (self.behavior_search.is_behavior_learning_done() or
-                    self.environment.is_behavior_learning_done()):
+            if (self.finish_after_convergence and
+                    (self.behavior_search.is_behavior_learning_done() or
+                     self.environment.is_behavior_learning_done())):
                 break
         if self.verbose >= 2:
             print("[Controller] Terminated because of:\nbehavior_search: %s, "
