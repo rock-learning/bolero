@@ -20,10 +20,10 @@ from bolero.controller import Controller
 
 
 beh = LinearBehavior()
-env = OpenAiGym("CartPole-v0", max_steps=200, render=False, seed=0)
-opt = CMAESOptimizer(variance=100.0 ** 2, random_state=0)
+env = OpenAiGym("CartPole-v0", render=False, seed=0)
+opt = CMAESOptimizer(variance=10.0 ** 2, random_state=0)
 bs = BlackBoxSearch(beh, opt)
-controller = Controller(environment=env, behavior_search=bs, n_episodes=500)
+controller = Controller(environment=env, behavior_search=bs, n_episodes=300)
 
 rewards = controller.learn()
 controller.episode_with(bs.get_best_behavior())

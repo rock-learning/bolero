@@ -44,9 +44,6 @@ class OpenAiGym(Environment):
         Name of the environment. See `here <https://gym.openai.com/envs>`_ for
         an overview.
 
-    max_steps : int, optional (default: None)
-        Episode will be aborted after 'max_steps' steps
-
     render : bool, optional (default: False)
         Visualize the environment
 
@@ -59,10 +56,9 @@ class OpenAiGym(Environment):
     seed : int, optional (default: None)
         Seed for the environment
     """
-    def __init__(self, env_name="CartPole-v0", max_steps=None, render=False,
-                 log_to_file=False, log_to_stdout=False, seed=None):
+    def __init__(self, env_name="CartPole-v0", render=False, log_to_file=False,
+                 log_to_stdout=False, seed=None):
         self.env_name = env_name
-        self.max_steps = max_steps
         self.render = render
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
@@ -136,7 +132,7 @@ class OpenAiGym(Environment):
         self.done = self.done or done
 
         self.step += 1
-        if self.step >= self.max_steps:
+        if self.step >= self.env.spec.timestep_limit:
             self.done = True
 
         if self.log_to_stdout or self.log_to_file:
