@@ -47,7 +47,7 @@ class OpenAiGym(Environment):
     max_steps : int, optional (default: None)
         Episode will be aborted after 'max_steps' steps
 
-    rander : bool, optional (default: False)
+    render : bool, optional (default: False)
         Visualize the environment
 
     log_to_file: optional, boolean or string (default: False)
