@@ -150,4 +150,7 @@ class OpenAiGym(Environment):
         return False
 
     def get_maximum_feedback(self):
-        return np.inf
+        if self.env.spec.reward_threshold is None:
+            return np.inf
+        else:
+            return self.env.spec.reward_threshold

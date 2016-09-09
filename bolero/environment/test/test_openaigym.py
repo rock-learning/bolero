@@ -27,6 +27,8 @@ def test_discrete_input():
     feedback = env.get_feedback()
     assert_equal(len(feedback), i)
 
+    assert_equal(env.get_maximum_feedback(), 195.0)
+
 
 def test_box_input():
     env = OpenAiGym("InvertedPendulum-v1")
@@ -51,3 +53,5 @@ def test_box_input():
 
     feedback = env.get_feedback()
     assert_equal(len(feedback), i)
+
+    assert_equal(env.get_maximum_feedback(), 950.0)
