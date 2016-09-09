@@ -60,7 +60,8 @@ function in the following plots.
 OpenAI Gym
 ----------
 
-A wrapper for `OpenAI Gym <https://gym.openai.com>`_ environments.
+The environment :class:`OpenAiGym` is a wrapper for
+`OpenAI Gym <https://gym.openai.com>`_ environments.
 
 
 .. _optimum_trajectory:
