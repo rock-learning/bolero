@@ -1,3 +1,4 @@
+import logging
 import numpy as np
 from .environment import Environment
 from ..utils.log import get_logger
@@ -67,6 +68,7 @@ class OpenAiGym(Environment):
     def init(self):
         try:
             self.gym = __import__("gym")
+            self.gym.configuration.undo_logger_setup()
         except ImportError:
             raise ImportError("OpenAiGym environment requires the Python "
                               "package 'gym'.")
