@@ -1,5 +1,6 @@
 import numpy as np
 from .environment import Environment
+from ..utils.log import get_logger
 
 
 class BoxClipHandler(object):
@@ -32,10 +33,40 @@ class HighLowHandler(object):
 
 
 class OpenAiGym(Environment):
-    def __init__(self, env_name="CartPole-v0", render=False, verbose=0):
+    """Wrapper for OpenAI Gym environments.
+
+    OpenAI Gym is a toolkit for developing and comparing reinforcement
+    learning algorithms. See `here <https://gym.openai.com/>`_ for details.
+
+    Parameters
+    ----------
+    env_name : string, optional (default: 'CartPole-v0')
+        Name of the environment. See `here <https://gym.openai.com/envs>`_ for
+        an overview.
+
+    max_steps : int, optional (default: None)
+        Episode will be aborted after 'max_steps' steps
+
+    rander : bool, optional (default: False)
+        Visualize the environment
+
+    log_to_file: optional, boolean or string (default: False)
+        Log results to given file, it will be located in the $BL_LOG_PATH
+
+    log_to_stdout: optional, boolean (default: False)
+        Log to standard output
+
+    seed : int, optional (default: None)
+        Seed for the environment
+    """
+    def __init__(self, env_name="CartPole-v0", max_steps=None, render=False,
+                 log_to_file=False, log_to_stdout=False, seed=None):
         self.env_name = env_name
+        self.max_steps = max_steps
         self.render = render
-        self.verbose = verbose
+        self.log_to_file = log_to_file
+        self.log_to_stdout = log_to_stdout
+        self.seed = seed
 
     def init(self):
         try:
@@ -51,9 +82,14 @@ class OpenAiGym(Environment):
         self.n_outputs, _ = self._init_space(self.env.observation_space)
         self.outputs = np.empty(self.n_outputs)
 
-        if self.verbose:
-            print("[OpenAiGym] Number of inputs: %d" % self.n_inputs)
-            print("[OpenAiGym] Number of outputs: %d" % self.n_outputs)
+        if self.seed is not None:
+            self.env.seed(self.seed)
+
+        self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
+
+        if self.log_to_stdout or self.log_to_file:
+            self.logger.info("Number of inputs: %d" % self.n_inputs)
+            self.logger.info("Number of outputs: %d" % self.n_outputs)
 
     def _init_space(self, space):
         if not isinstance(space, self.gym.Space):
@@ -76,6 +112,7 @@ class OpenAiGym(Environment):
         self.outputs[:] = self.env.reset().ravel()
         self.rewards = []
         self.done = False
+        self.step = 0
         if self.render:
             self.env.render()
 
@@ -97,8 +134,13 @@ class OpenAiGym(Environment):
         self.outputs[:] = observations.ravel()
         self.rewards.append(reward)
         self.done = self.done or done
-        if self.verbose:
-            print(info)
+
+        self.step += 1
+        if self.step >= self.max_steps:
+            self.done = True
+
+        if self.log_to_stdout or self.log_to_file:
+            self.logger.info(str(info))
         if self.render:
             self.env.render()
 
@@ -109,7 +151,7 @@ class OpenAiGym(Environment):
         return np.asarray(self.rewards)
 
     def is_behavior_learning_done(self):
-        False
+        return False
 
     def get_maximum_feedback(self):
         return np.inf

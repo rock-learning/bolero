@@ -25,6 +25,9 @@ BOLeRo.
    * - :ref:`Objective Function <objective_function>`
      - Benchmark functions for black-box optimization
 
+   * - :ref:`OpenAI Gym <openaigym>`
+     - Benchmark problems for reinforcement learning
+
    * - :ref:`Optimum Trajectory <optimum_trajectory>`
      - Optimize a trajectory to avoid obstacles and minimize the effort
 
@@ -50,6 +53,14 @@ function in the following plots.
    :target: ../auto_examples/optimizer/plot_optimization.html
    :align: center
    :scale: 50%
+
+
+.. _openaigym:
+
+OpenAI Gym
+----------
+
+A wrapper for `OpenAI Gym <https://gym.openai.com>`_ environments.
 
 
 .. _optimum_trajectory:

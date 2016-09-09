@@ -49,6 +49,7 @@ Environment search classes
    ContextualObjectiveFunction
    OptimumTrajectory
    Catapult
+   OpenAiGym
 
 :mod:`bolero.behavior_search`: Behavior Search
 ==============================================
@@ -120,6 +121,7 @@ Behavior classes
    DMPBehavior
    CartesianDMPBehavior
    DMPSequence
+   LinearBehavior
 
 Policy classes
 --------------

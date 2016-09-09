@@ -56,6 +56,12 @@ BOLeRo.
      - random
      - none
 
+   * - :ref:`Linear <linear_beh>`
+     - anything
+     - anything
+     - linear combination of the inputs
+     - weights of the linear mapping
+
    * - :ref:`Dummy <dummy_beh>`
      - function optimization
      - parameters
@@ -91,6 +97,16 @@ Random Behavior
 
 A :class:`RandomBehavior` always produces a random output that is completely
 random and normal distributed. It can be used as a behavior baseline.
+
+
+.. _linear_beh:
+
+Linear Behavior
+---------------
+
+A :class:`LinearBehavior` generates a linear mapping :math:`y = W x` from
+an input vector :math:`x` (with an additional bias component that is always 1)
+to an output vector :math:`y`.
 
 
 .. _dummy_beh:
