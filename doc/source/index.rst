@@ -106,3 +106,9 @@ API
    api_cpp
    mars_environment
    contributing
+
+Funding
+=======
+
+.. image:: _static/241-logo-bmwi-jpg.jpg
+   :alt: German Federal Ministry for Economic Affairs and Energy
