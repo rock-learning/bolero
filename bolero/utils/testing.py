@@ -17,7 +17,7 @@ def assert_pickle(name, obj):
             os.remove(filename)
 
 
-def all_subclasses(base_class, exclude_classes=[], root=bolero):
+def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
     """Get a list of subclasses of the base class.
 
     Parameters
@@ -30,6 +30,9 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero):
 
     root : package
         root package to search for subclasses
+
+    verbose : int
+        inform about modules that are skipped during the search
 
     Returns
     -------
@@ -50,7 +53,11 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero):
             path=path, prefix=root.__name__+'.', onerror=lambda x: None):
         if ".test." in modname:
             continue
-        module = __import__(modname, fromlist="dummy")
+        try:
+            module = __import__(modname, fromlist="dummy")
+        except ImportError:
+            if verbose:
+                print("Module %s is skipped due to an import error" % modname)
         classes = inspect.getmembers(module, inspect.isclass)
         all_classes.extend(classes)
 
