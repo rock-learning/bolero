@@ -28,11 +28,11 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
     exclude_classes : list of strings
         List of classes that will be excluded
 
-    root : package
-        root package to search for subclasses
+    root : package, optional (default: bolero)
+        Root package to search for subclasses
 
-    verbose : int
-        inform about modules that are skipped during the search
+    verbose : int, optional (default: 0)
+        Inform about modules that are skipped during the search
 
     Returns
     -------
@@ -58,8 +58,8 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
         except ImportError:
             if verbose:
                 print("Module %s is skipped due to an import error" % modname)
-        classes = inspect.getmembers(module, inspect.isclass)
-        all_classes.extend(classes)
+            classes = inspect.getmembers(module, inspect.isclass)
+            all_classes.extend(classes)
 
     all_classes = set(all_classes)
 
