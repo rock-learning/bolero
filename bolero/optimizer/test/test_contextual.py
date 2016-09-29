@@ -7,7 +7,7 @@ def target_function(x, c):
     return -(x[0] - c[0]) ** 2
 
 
-def eval_loop(x, opt, n_evals=1000, fixed_set=True, baseline_fct=lambda x: 0):
+def eval_loop(x, opt, n_evals=300, fixed_set=True, baseline_fct=lambda x: 0):
     results = np.ndarray(n_evals)
     if fixed_set:
         contexts = np.linspace(-1.0, 1.0, 10)[:, np.newaxis]
