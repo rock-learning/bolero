@@ -249,17 +249,7 @@ class CREPSOptimizer(ContextualOptimizer):
         rewards : list of float
             Feedbacks for each step or for the episode, depends on the problem
         """
-        self.reward = check_feedback(rewards, compute_sum=True)
-
-        inv_scaled_params = self.scaler.inv_scale(self.params)
-        phi_s = self.policy_.transform_context(self.context)
-
-        self.history_theta.append(inv_scaled_params)
-        self.history_R.append(self.reward)
-        self.history_s.append(self.context)
-        self.history_phi_s.append(phi_s)
-
-        self.it += 1
+        self._add_sample(rewards)
 
         if self.it % self.train_freq == 0:
             phi_s = np.asarray(self.history_phi_s)
@@ -271,7 +261,19 @@ class CREPSOptimizer(ContextualOptimizer):
             # NOTE the context have already been transformed
             self.policy_.fit(phi_s, theta, d, context_transform=False)
 
+    def _add_sample(self, rewards):
+        self.reward = check_feedback(rewards, compute_sum=True)
         self.logger.info("Reward %.6f" % self.reward)
+
+        inv_scaled_params = self.scaler.inv_scale(self.params)
+        phi_s = self.policy_.transform_context(self.context)
+
+        self.history_theta.append(inv_scaled_params)
+        self.history_R.append(self.reward)
+        self.history_s.append(self.context)
+        self.history_phi_s.append(phi_s)
+
+        self.it += 1
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
