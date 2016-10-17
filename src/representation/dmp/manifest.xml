@@ -1,6 +1,6 @@
 <package>
   <description brief="wrapper">
-    Wrappers for bolero C++ interfaces
+    Dynamical Movement Primitive
   </description>
   <depend package="learning/bolero/include" />
   <depend package="learning/bolero/src/bl_loader" />
