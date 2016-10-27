@@ -4,7 +4,7 @@
 import yaml
 import numpy as np
 from .behavior import BlackBoxBehavior
-from dmp import DMP, RbDMP, imitate_dmp
+import dmp
 
 
 PERMITTED_DMP_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
