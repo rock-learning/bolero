@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from dmp import DMP
 from bolero.representation import DMPBehavior, CartesianDMPBehavior
 from bolero.datasets import make_minimum_jerk
 from nose.tools import assert_equal, assert_raises_regexp

@@ -64,36 +64,55 @@ class DMPBehavior(BlackBoxBehavior):
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
-        if hasattr(self, "configuration_file"):
-            self.dmp = DMP.from_file(self.configuration_file)
-        else:
-            self.dmp = DMP(execution_time=self.execution_time, dt=self.dt,
-                           n_features=self.n_features)
-
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
-
         self.n_task_dims = self.n_inputs / 3
 
-        if self.dmp.get_weights() is None:
-            weights = np.zeros((self.n_task_dims, self.dmp.get_num_features()))
-            self.dmp.set_weights(weights)
+        if hasattr(self, "configuration_file"):
+            model = yaml.load(open(self.configuration_file, "r"))
+            self.name = model["name"]
+            self.alpha_z = model["cs_alpha"]
+            self.widths = np.array(model["rbf_widths"], dtype=np.float)
+            self.centers = np.array(model["rbf_centers"], dtype=np.float)
+            self.alpha_y = model["ts_alpha_z"]
+            self.beta_y = model["ts_beta_z"]
+            self.execution_time = model["ts_tau"]
+            self.dt = model["ts_dt"]
+            self.weights = np.array(model["ft_weights"], dtype=np.float).ravel()
 
-        if hasattr(self, "initial_meta_params"):
-            keys, meta_parameters = self.initial_meta_params
-            self.dmp.set_metaparameters(keys, meta_parameters)
-            del self.initial_meta_params
+            if self.execution_time != model["cs_execution_time"]:
+                raise ValueError("Inconsistent execution times: %g != %g"
+                                 % (model["ts_tau"],
+                                    model["cs_execution_time"]))
+            if self.dt != model["cs_dt"]:
+                raise ValueError("Inconsistent execution times: %g != %g"
+                                 % (model["ts_dt"], model["cs_dt"]))
+        else:
+            self.name = "Python DMP"
+            self.alpha_z = dmp.calculate_alpha(0.01, self.execution_time, 0.0)
+            self.widths = np.empty(self.n_features)
+            self.centers = np.empty(self.n_features)
+            dmp.initialize_rbf(self.widths, self.centers, self.execution_time,
+                               0.0, 0.8, self.alpha_z)
+            self.alpha_y = 25.0
+            self.beta_y = self.alpha_y / 4.0
+            self.weights = np.zeros((self.n_features, self.n_task_dims)).ravel()
 
         if not hasattr(self, "x0"):
             self.x0 = None
+        if not hasattr(self, "x0d"):
+            self.x0d = np.zeros(self.n_task_dims)
+        if not hasattr(self, "x0dd"):
+            self.x0dd = np.zeros(self.n_task_dims)
         if not hasattr(self, "g"):
             self.g = np.zeros(self.n_task_dims)
         if not hasattr(self, "gd"):
-            self.gd = None
+            self.gd = np.zeros(self.n_task_dims)
+        if not hasattr(self, "gdd"):
+            self.gdd = np.zeros(self.n_task_dims)
 
-        self.x = np.empty(self.n_task_dims)
-        self.v = np.empty(self.n_task_dims)
-        self.a = np.empty(self.n_task_dims)
+        self.reset()
+
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set DMP meta parameters.
@@ -127,11 +146,6 @@ class DMPBehavior(BlackBoxBehavior):
                     % (key, PERMITTED_DMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
 
-        if hasattr(self, "dmp"):
-            self.dmp.set_metaparameters(keys, meta_parameters)
-        else:
-            self.initial_meta_params = (keys, meta_parameters)
-
     def set_inputs(self, inputs):
         """Set input for the next step.
 
@@ -145,13 +159,12 @@ class DMPBehavior(BlackBoxBehavior):
             Each type is stored contiguously, i.e. for n_task_dims=2 the order
             would be: xxvvaa (x: position, v: velocity, a: acceleration).
         """
-        n_task_dims = len(inputs) / 3
-        self.x[:] = inputs[:n_task_dims]
-        self.v[:] = inputs[n_task_dims:-n_task_dims]
-        self.a[:] = inputs[-n_task_dims:]
+        self.last_y[:] = inputs[:self.n_task_dims]
+        self.last_yd[:] = inputs[self.n_task_dims:-self.n_task_dims]
+        self.last_ydd[:] = inputs[-self.n_task_dims:]
 
         if self.x0 is None:
-            self.x0 = self.x.copy()
+            self.x0 = self.last_y.copy()
 
     def get_outputs(self, outputs):
         """Get outputs of the last step.
@@ -163,22 +176,34 @@ class DMPBehavior(BlackBoxBehavior):
             Each type is stored contiguously, i.e. for n_task_dims=2 the order
             would be: xxvvaa (x: position, v: velocity, a: acceleration).
         """
-        n_task_dims = len(outputs) / 3
-        outputs[:n_task_dims] = self.x[:]
-        outputs[n_task_dims:-n_task_dims] = self.v[:]
-        outputs[-n_task_dims:] = self.a[:]
+        outputs[:self.n_task_dims] = self.y[:]
+        outputs[self.n_task_dims:-self.n_task_dims] = self.yd[:]
+        outputs[-self.n_task_dims:] = self.ydd[:]
 
     def step(self):
         """Compute desired position, velocity and acceleration."""
         if self.n_task_dims == 0:
             return
 
-        if self.dmp.can_step():
-            self.x, self.v, self.a = self.dmp.execute_step(
-                self.x, self.v, self.a, self.x0, self.g, self.gd)
+        dmp.dmp_step(
+            self.last_t, self.t,
+            self.last_y, self.last_yd, self.last_ydd,
+            self.y, self.yd, self.ydd,
+            self.g, self.gd, self.gdd,
+            self.x0, self.x0d, self.x0dd,
+            self.execution_time, 0.0,
+            self.weights,
+            self.widths,
+            self.centers,
+            self.alpha_y, self.beta_y, self.alpha_z,
+            0.001
+        )
+
+        if self.t == self.last_t:
+            self.last_t = -1.0
         else:
-            self.v[:] = 0.0
-            self.a[:] = 0.0
+            self.last_t = self.t
+            self.t += self.dt
 
     def can_step(self):
         """Returns if step() can be called again.
@@ -192,7 +217,7 @@ class DMPBehavior(BlackBoxBehavior):
         can_step : bool
             Can we call step() again?
         """
-        return self.dmp.can_step()
+        return self.t <= self.execution_time
 
     def get_n_params(self):
         """Get number of weights.
@@ -202,7 +227,7 @@ class DMPBehavior(BlackBoxBehavior):
         n_params : int
             Number of DMP weights
         """
-        return self.dmp.get_weights().size
+        return self.weights.size
 
     def get_params(self):
         """Get current weights.
@@ -212,7 +237,7 @@ class DMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current weights
         """
-        return self.dmp.get_weights().ravel()
+        return self.weights
 
     def set_params(self, params):
         """Set new weights.
@@ -222,12 +247,23 @@ class DMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New weights
         """
-        self.dmp.set_weights(params)
+        self.weights[:] = params
 
     def reset(self):
         """Reset DMP."""
-        self.dmp.reset()
-        self.x0 = None
+        if self.x0 is None:
+            self.last_y = np.zeros(self.n_task_dims)
+        else:
+            self.last_y = np.copy(self.x0)
+        self.last_yd = np.copy(self.x0d)
+        self.last_ydd = np.copy(self.x0dd)
+
+        self.y = np.empty(self.n_task_dims)
+        self.yd = np.empty(self.n_task_dims)
+        self.ydd = np.empty(self.n_task_dims)
+
+        self.last_t = 0.0
+        self.t = 0.0
 
     def imitate(self, X, Xd=None, Xdd=None, alpha=0.0,
                 allow_final_velocity=True):
@@ -252,8 +288,10 @@ class DMPBehavior(BlackBoxBehavior):
         allow_final_velocity : bool, optional (default: True)
             Allow the final velocity to be greater than 0
         """
-        imitate_dmp(self.dmp, X, Xd, Xdd, alpha=alpha, set_weights=True,
-                    allow_final_velocity=allow_final_velocity)
+        dmp.imitate(np.arange(0, self.execution_time + self.dt, self.dt),
+                    X.ravel(), self.weights, self.widths, self.centers,
+                    1e-10, self.alpha_y, self.beta_y, self.alpha_z,
+                    allow_final_velocity)
 
     def trajectory(self):
         """Generate trajectory represented by the DMP in open loop.
@@ -271,19 +309,41 @@ class DMPBehavior(BlackBoxBehavior):
         Xdd : array, shape (n_steps, n_task_dims)
             Accelerations
         """
-        x, xd, xdd = (np.copy(self.x0), np.zeros_like(self.x0),
-                      np.zeros_like(self.x0))
-        X, Xd, Xdd = [], [], []
+        last_t = 0.0
+        last_y = np.copy(self.x0)
+        last_yd = np.copy(self.x0d)
+        last_ydd = np.copy(self.x0dd)
 
-        self.dmp.reset()
-        while self.dmp.can_step():
-            x, xd, xdd = self.dmp.execute_step(x, xd, xdd, self.x0, self.g,
-                                               self.gd)
-            X.append(x.copy())
-            Xd.append(xd.copy())
-            Xdd.append(xdd.copy())
+        y = np.empty(self.n_task_dims)
+        yd = np.empty(self.n_task_dims)
+        ydd = np.empty(self.n_task_dims)
 
-        return np.array(X), np.array(Xd), np.array(Xdd)
+        Y = []
+        Yd = []
+        Ydd = []
+        for t in np.arange(0, self.execution_time + self.dt, self.dt):
+            dmp.dmp_step(
+                last_t, t,
+                last_y, last_yd, last_ydd,
+                y, yd, ydd,
+                self.g, self.gd, self.gdd,
+                self.x0, self.x0d, self.x0dd,
+                self.execution_time, 0.0,
+                self.weights,
+                self.widths,
+                self.centers,
+                self.alpha_y, self.beta_y, self.alpha_z,
+                0.001
+            )
+            last_t = t
+            last_y[:] = y
+            last_yd[:] = yd
+            last_ydd[:] = ydd
+            Y.append(y.copy())
+            Yd.append(yd.copy())
+            Ydd.append(ydd.copy())
+
+        return np.asarray(Y), np.asarray(Yd), np.asarray(Ydd)
 
     def save(self, filename):
         """Save DMP model.
@@ -293,7 +353,7 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        self.dmp.save_model(filename)
+        raise NotImplementedError()
 
     def save_config(self, filename):
         """Save DMP configuration.
@@ -303,7 +363,7 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        self.dmp.save_config(filename)
+        raise NotImplementedError()
 
     def load_config(self, filename):
         """Load DMP configuration.
@@ -313,6 +373,7 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
+        raise NotImplementedError()
         self.dmp.load_config(filename)
         config = yaml.load(open(filename, "r"))
         self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
