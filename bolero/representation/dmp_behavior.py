@@ -2,6 +2,7 @@
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import yaml
+import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
 import dmp
@@ -78,7 +79,9 @@ class DMPBehavior(BlackBoxBehavior):
             self.beta_y = model["ts_beta_z"]
             self.execution_time = model["ts_tau"]
             self.dt = model["ts_dt"]
-            self.weights = np.array(model["ft_weights"], dtype=np.float).ravel()
+            self.n_features = self.widths.shape[0]
+            self.weights = np.array(model["ft_weights"], dtype=np.float
+                ).reshape(self.n_task_dims, self.n_features).T.ravel()
 
             if self.execution_time != model["cs_execution_time"]:
                 raise ValueError("Inconsistent execution times: %g != %g"
@@ -361,7 +364,27 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        raise NotImplementedError()
+        model = {}
+        model["name"] = self.name
+        model["cs_alpha"] = self.alpha_z
+        model["cs_execution_time"] = self.execution_time
+        model["cs_dt"] = self.dt
+        model["rbf_widths"] = self.widths.tolist()
+        model["rbf_centers"] = self.centers.tolist()
+        model["ts_alpha_z"] = self.alpha_y
+        model["ts_beta_z"] = self.beta_y
+        model["ts_tau"] = self.execution_time
+        model["ts_dt"] = self.dt
+        model["ft_weights"] = self.weights.reshape(
+            self.n_features, self.n_task_dims).T.tolist()
+
+        model_content = StringIO.StringIO()
+        yaml.dump(model, model_content)
+        with open(filename, "w") as f:
+            f.write("---\n")
+            f.write(model_content.getvalue())
+            f.write("...\n")
+        model_content.close()
 
     def save_config(self, filename):
         """Save DMP configuration.
@@ -371,7 +394,23 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        raise NotImplementedError()
+        config = {}
+        config["name"] = self.name
+        config["dmp_execution_time"] = self.execution_time
+        config["dmp_startPosition"] = self.x0.tolist()
+        config["dmp_startVelocity"] = self.x0d.tolist()
+        config["dmp_startAcceleration"] = self.x0dd.tolist()
+        config["dmp_endPosition"] = self.g.tolist()
+        config["dmp_endVelocity"] = self.gd.tolist()
+        config["dmp_endAcceleration"] = self.gdd.tolist()
+
+        config_content = StringIO.StringIO()
+        yaml.dump(config, config_content)
+        with open(filename, "w") as f:
+            f.write("---\n")
+            f.write(config_content.getvalue())
+            f.write("...\n")
+        config_content.close()
 
     def load_config(self, filename):
         """Load DMP configuration.
@@ -381,12 +420,14 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        raise NotImplementedError()
-        self.dmp.load_config(filename)
         config = yaml.load(open(filename, "r"))
+        self.execution_time = config["dmp_execution_time"]
         self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
+        self.x0d = np.array(config["dmp_startVelocity"], dtype=np.float)
+        self.x0dd = np.array(config["dmp_startAcceleration"], dtype=np.float)
         self.g = np.array(config["dmp_endPosition"], dtype=np.float)
         self.gd = np.array(config["dmp_endVelocity"], dtype=np.float)
+        self.gdd = np.array(config["dmp_endAcceleration"], dtype=np.float)
 
 
 class CartesianDMPBehavior(BlackBoxBehavior):

@@ -265,8 +265,6 @@ def test_dmp_save_and_load():
         beh_loaded = DMPBehavior(configuration_file="tmp_dmp_model.yaml")
         beh_loaded.init(3 * n_task_dims, 3 * n_task_dims)
         beh_loaded.load_config("tmp_dmp_config.yaml")
-    except Exception as e:
-        raise e
     finally:
         if os.path.exists("tmp_dmp_model.yaml"):
             os.remove("tmp_dmp_model.yaml")
@@ -283,6 +281,6 @@ def test_dmp_save_and_load():
         if t == 0:
             assert_array_almost_equal(xva[:n_task_dims], x0)
         t += 1
-    assert_array_almost_equal(xva[:n_task_dims], g, decimal=4)
+    assert_array_almost_equal(xva[:n_task_dims], g, decimal=3)
     assert_equal(t, 854)
     assert_equal(beh_loaded.get_n_params(), n_task_dims * 10)
