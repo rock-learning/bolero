@@ -288,9 +288,17 @@ class DMPBehavior(BlackBoxBehavior):
         allow_final_velocity : bool, optional (default: True)
             Allow the final velocity to be greater than 0
         """
+        if X.shape[2] > 1:
+            warnings.warn("Imitation only accepts one demonstration.")
+        if Xd is not None:
+            warnings.warn("Xd is deprecated")
+        if Xdd is not None:
+            warnings.warn("Xdd is deprecated")
+
+        X = X[:, :, 0].T.copy()
         dmp.imitate(np.arange(0, self.execution_time + self.dt, self.dt),
                     X.ravel(), self.weights, self.widths, self.centers,
-                    1e-10, self.alpha_y, self.beta_y, self.alpha_z,
+                    alpha, self.alpha_y, self.beta_y, self.alpha_z,
                     allow_final_velocity)
 
     def trajectory(self):
