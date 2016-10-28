@@ -121,6 +121,44 @@ def test_imitate_ill_conditioning():
         alpha / 4.0, alpha / 3.0, False)
 
 
+def test_step_invalid_times():
+    last_y = np.array([0.0])
+    last_yd = np.array([0.0])
+    last_ydd = np.array([0.0])
+
+    y = np.empty([1])
+    yd = np.empty([1])
+    ydd = np.empty([1])
+
+    g = np.array([1.0])
+    gd = np.array([0.0])
+    gdd = np.array([0.0])
+
+    n_weights = 10
+    weights = np.zeros(n_weights)
+    execution_time = 1.0
+    alpha = 25.0
+
+    widths = np.empty(n_weights)
+    centers = np.empty(n_weights)
+    dmp.initialize_rbf(widths, centers, execution_time, 0.0, 0.8, alpha / 3.0)
+
+    assert_raises_regexp(
+        ValueError, "Goal must be chronologically after start", dmp.dmp_step,
+        0.0, 0.1,
+        last_y, last_yd, last_ydd,
+        y, yd, ydd,
+        g, gd, gdd,
+        np.array([0.0]), np.array([0.0]), np.array([0.0]),
+        0.0, 0.0,
+        weights,
+        widths,
+        centers,
+        alpha, alpha / 4.0, alpha / 3.0,
+        0.001
+    )
+
+
 def test_step():
     last_y = np.array([0.0])
     last_yd = np.array([0.0])
@@ -227,6 +265,49 @@ def test_imitate():
     assert_less(distances.min(), 1e-10)
     assert_less(sorted(distances)[len(distances) // 2], 0.02)
     assert_less(np.mean(distances), 0.02)
+
+
+def test_quaternion_step_invalid_times():
+    last_r = np.array([0.0, 1.0, 0.0, 0.0])
+    last_rd = np.array([0.0, 0.0, 0.0])
+    last_rdd = np.array([0.0, 0.0, 0.0])
+
+    r = np.array([0.0, 1.0, 0.0, 0.0])
+    rd = np.array([0.0, 0.0, 0.0])
+    rdd = np.array([0.0, 0.0, 0.0])
+
+    g = np.array([0.0, 0.0, 7.07106781e-01, 7.07106781e-01])
+    gd = np.array([0.0, 0.0, 0.0])
+    gdd = np.array([0.0, 0.0, 0.0])
+
+    r0 = np.array([0.0, 1.0, 0.0, 0.0])
+    r0d = np.array([0.0, 0.0, 0.0])
+    r0dd = np.array([0.0, 0.0, 0.0])
+
+    n_features = 10
+    weights = np.zeros(3 * n_features)
+    execution_time = 1.0
+    alpha = 25.0
+
+    widths = np.empty(n_features)
+    centers = np.empty(n_features)
+    dmp.initialize_rbf(widths, centers, execution_time, 0.0, 0.8, alpha / 3.0)
+
+    assert_raises_regexp(
+        ValueError, "Goal must be chronologically after start",
+        dmp.quaternion_dmp_step,
+        0.0, 0.1,
+        last_r, last_rd, last_rdd,
+        r, rd, rdd,
+        g, gd, gdd,
+        r0, r0d, r0dd,
+        0.0, 0.0,
+        weights,
+        widths,
+        centers,
+        alpha, alpha / 4.0, alpha / 3.0,
+        0.001
+    )
 
 
 def test_quaternion_step():

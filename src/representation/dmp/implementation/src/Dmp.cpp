@@ -333,6 +333,8 @@ void dmpStep(
 )
 {
   const int num_dimensions = num_last_y;
+  if(start_t >= goal_t)
+    throw std::invalid_argument("Goal must be chronologically after start!");
 
   assert(num_dimensions == num_last_y);
   assert(num_dimensions == num_last_yd);
@@ -792,6 +794,9 @@ void quaternionDmpStep(
   const double integration_dt
 )
 {
+  if(start_t >= goal_t)
+    throw std::invalid_argument("Goal must be chronologically after start!");
+
   assert(4 == num_last_r);
   assert(3 == num_last_rd);
   assert(3 == num_last_rdd);
