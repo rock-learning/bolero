@@ -2,7 +2,7 @@
 
 import numpy as np
 from .behavior import BlackBoxBehavior
-from dmp import DMP
+import dmp
 
 
 class DMPSequence(BlackBoxBehavior):
@@ -71,36 +71,46 @@ class DMPSequence(BlackBoxBehavior):
         if self.n_features is None:
             self.n_features = 50 * np.ones(self.n_dmps, dtype=int)
         if self.subgoals is None:
-            self.subgoals = np.zeros((self.n_dmps + 1, self.n_task_dims))
+            self.subgoals = [np.zeros(self.n_task_dims)
+                             for _ in range(self.n_dmps + 1)]
         else:
-            self.subgoals = np.copy(self.subgoals)
-
-        self.dmps = []
-        for i in range(self.n_dmps):
-            dmp = DMP(execution_time=self.execution_times[i], dt=self.dt,
-                      n_features=self.n_features[i])
-            if dmp.get_weights() is None:
-                weights = np.zeros((self.n_task_dims, dmp.get_num_features()))
-                dmp.set_weights(weights)
-            self.dmps.append(dmp)
+            self.subgoals = [np.asarray(g) for g in self.subgoals]
 
         self.n_steps_per_dmp = (self.execution_times / self.dt).astype(int) + 1
         self.n_weights_per_dmp = self.n_task_dims * self.n_features
 
         self.subgoal_velocities = [np.zeros(self.n_task_dims)
-                                   for _ in range(self.n_dmps)]
+                                   for _ in range(self.n_dmps + 1)]
 
         self.n_weights = np.sum(self.n_weights_per_dmp)
 
         self.split_steps = np.cumsum(self.n_steps_per_dmp - 1)
         self.split_weights = np.cumsum(self.n_weights_per_dmp)
 
-        self.x = None
-        self.v = None
-        self.a = None
+        self.alpha_z = []
+        self.widths = []
+        self.centers = []
+        for i in range(self.n_dmps):
+            alpha_z = dmp.calculate_alpha(0.01, self.execution_times[i], 0.0)
+            widths = np.empty(self.n_features[i])
+            centers = np.empty(self.n_features[i])
+            dmp.initialize_rbf(widths, centers, self.execution_times[i],
+                               0.0, 0.8, alpha_z)
+            self.alpha_z.append(alpha_z)
+            self.widths.append(widths)
+            self.centers.append(centers)
+        self.alpha_y = 25.0
+        self.beta_y = self.alpha_y / 4.0
+        if self.initial_weights is None:
+            self.weights = [np.zeros(self.n_weights_per_dmp[i])
+                            for i in range(self.n_dmps)]
+        else:
+            self.weights = [w.ravel() for w in self.initial_weights]
+
         self.x0 = None
         self.g = None
-        self.t = 0
+
+        self.reset()
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set DMP meta parameters.
@@ -136,9 +146,9 @@ class DMPSequence(BlackBoxBehavior):
             Position, velocitie and rotation of each dimension
         """
         assert len(inputs) == self.n_task_dims * 3
-        self.x = inputs[:self.n_task_dims]
-        self.v = inputs[self.n_task_dims:-self.n_task_dims]
-        self.a = inputs[-self.n_task_dims:]
+        self.last_y = inputs[:self.n_task_dims]
+        self.last_yd = inputs[self.n_task_dims:-self.n_task_dims]
+        self.last_ydd = inputs[-self.n_task_dims:]
 
     def get_outputs(self, outputs):
         """Get desired next system state.
@@ -149,34 +159,43 @@ class DMPSequence(BlackBoxBehavior):
             Position, velocitie and rotation of each dimension
         """
         assert len(outputs) == self.n_task_dims * 3
-        outputs[:self.n_task_dims] = self.x
-        outputs[self.n_task_dims:-self.n_task_dims] = self.v
-        outputs[-self.n_task_dims:] = self.a
+        outputs[:self.n_task_dims] = self.y
+        outputs[self.n_task_dims:-self.n_task_dims] = self.yd
+        outputs[-self.n_task_dims:] = self.ydd
 
     def step(self):
         """Compute next step."""
         if self.n_task_dims == 0:
             return
 
-        dmp_idx = np.where(self.t <= self.split_steps)[0][0]
-        dmp = self.dmps[dmp_idx]
+        dmp_idx = np.where(self.steps <= self.split_steps)[0][0]
 
-        if self.t == self.split_steps[dmp_idx] and dmp_idx < self.n_dmps - 1:
-            next_dmp_idx = dmp_idx + 1
-            next_dmp = self.dmps[next_dmp_idx]
-            # Because the next DMP starts already when the current DMP reaches
-            # its goal, we have to generate the first step here
-            next_dmp.execute_step(
-                self.x, self.v, self.a,
-                self.subgoals[next_dmp_idx], self.subgoals[next_dmp_idx + 1],
-                self.subgoal_velocities[next_dmp_idx])
+        dmp.dmp_step(
+            self.last_t, self.t,
+            self.last_y, self.last_yd, self.last_ydd,
+            self.y, self.yd, self.ydd,
+            self.subgoals[dmp_idx + 1],
+            self.subgoal_velocities[dmp_idx + 1],
+            np.zeros(self.n_task_dims),
+            self.subgoals[dmp_idx],
+            self.subgoal_velocities[dmp_idx],
+            np.zeros(self.n_task_dims),
+            np.sum(self.execution_times[:dmp_idx + 1]),
+            np.sum(self.execution_times[:dmp_idx]),
+            self.weights[dmp_idx],
+            self.widths[dmp_idx],
+            self.centers[dmp_idx],
+            self.alpha_y, self.beta_y, self.alpha_z[dmp_idx],
+            0.001
+        )
 
-        self.x, self.v, self.a = dmp.execute_step(
-            self.x, self.v, self.a,
-            self.subgoals[dmp_idx], self.subgoals[dmp_idx + 1],
-            self.subgoal_velocities[dmp_idx])
+        if self.t == self.last_t:
+            self.last_t = -1.0
+        else:
+            self.last_t = self.t
+            self.t += self.dt
 
-        self.t += 1
+        self.steps += 1
 
     def get_n_params(self):
         """Get number of parameters."""
@@ -188,8 +207,7 @@ class DMPSequence(BlackBoxBehavior):
 
     def get_params(self):
         """Utility function: get currently optimizable parameters."""
-        weights = np.concatenate([dmp.get_weights()
-                                  for dmp in self.dmps]).ravel()
+        weights = np.concatenate([w for w in self.weights]).ravel()
         goals = np.concatenate(self.subgoals[1:-1])
         if self.learn_goal_velocities:
             goal_velocities = np.concatenate(self.subgoal_velocities)
@@ -203,10 +221,8 @@ class DMPSequence(BlackBoxBehavior):
             self.n_weights + (self.n_dmps - 1) * self.n_task_dims))
         G = np.split(goals, [i * self.n_task_dims
                              for i in range(1, self.n_dmps - 1)])
-        weights_per_dmp = np.split(weights, self.split_weights)
+        self.weights = [w.ravel() for w in np.split(weights, self.split_weights)]
 
-        for i in range(self.n_dmps):
-            self.dmps[i].set_weights(weights_per_dmp[i])
         for i in range(self.n_dmps - 1):
             self.subgoals[i + 1] = G[i]
         if self.learn_goal_velocities:
@@ -280,10 +296,23 @@ class DMPSequence(BlackBoxBehavior):
         assert np.abs(idx) < len(self.subgoal_velocities)
         return self.subgoal_velocities[idx]
 
+
     def reset(self):
-        self.t = 0
-        for dmp in self.dmps:
-            dmp.reset()
+        """Reset DMP."""
+        if self.x0 is None:
+            self.last_y = np.zeros(self.n_task_dims)
+        else:
+            self.last_y = np.copy(self.subgoals[0])
+        self.last_yd = np.copy(self.subgoal_velocities[0])
+        self.last_ydd = np.zeros(self.n_task_dims)
+
+        self.y = np.empty(self.n_task_dims)
+        self.yd = np.empty(self.n_task_dims)
+        self.ydd = np.empty(self.n_task_dims)
+
+        self.last_t = 0.0
+        self.t = 0.0
+        self.steps = 0
 
     def can_step(self):
         """Returns true if step() can be called again, false otherwise."""
