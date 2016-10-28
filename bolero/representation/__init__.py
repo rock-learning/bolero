@@ -12,7 +12,7 @@ __all__ = [
 try:
     from .dmp_behavior import DMPBehavior
     __all__.append("DMPBehavior")
-    from .dmp_behavior import CartesianDMPBehavior
+    from .csdmp_behavior import CartesianDMPBehavior
     __all__.append("CartesianDMPBehavior")
     from .dmp_sequence import DMPSequence
     __all__.append("DMPSequence")

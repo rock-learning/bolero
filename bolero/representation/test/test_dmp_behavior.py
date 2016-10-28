@@ -8,10 +8,8 @@ from numpy.testing import assert_array_equal, assert_array_almost_equal
 
 CURRENT_PATH = os.sep.join(__file__.split(os.sep)[:-1])
 DMP_CONFIG_FILE = CURRENT_PATH + os.sep + "dmp_model.yaml"
-CSDMP_CONFIG_FILE = CURRENT_PATH + os.sep + "cs_dmp_model.yaml"
 if not CURRENT_PATH:
     DMP_CONFIG_FILE = "dmp_model.yaml"
-    CSDMP_CONFIG_FILE = "dmp_model.yaml"
 
 n_task_dims = 1
 
