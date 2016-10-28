@@ -122,7 +122,7 @@ def test_csdmp_change_goal_velocity():
 
     v = (x[:3] - x_prev[:3]) / dt
 
-    assert_array_almost_equal(v, np.ones(3), decimal=3)
+    assert_array_almost_equal(v, np.ones(3), decimal=2)
 
 
 def test_csdmp_change_execution_time():
@@ -201,7 +201,7 @@ def test_csdmp_imitate():
     # Without regularization
     beh.imitate(X_demo)
     X = beh.trajectory()
-    assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+    assert_array_almost_equal(X_demo.T[0], X, decimal=2)
 
     # With alpha > 0
     beh.imitate(X.T[:, :, np.newaxis], alpha=1.0)
@@ -237,7 +237,7 @@ def test_csdmp_save_and_load():
         if t == 0:
             assert_array_almost_equal(x, np.hstack((x0, q0)))
         t += 1
-    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=2)
     assert_equal(t, 854)
     assert_equal(beh_original.get_n_params(), 6 * 10)
 
@@ -248,8 +248,6 @@ def test_csdmp_save_and_load():
         beh_loaded = CartesianDMPBehavior(configuration_file="csdmp_tmp.yaml")
         beh_loaded.init(7, 7)
         beh_loaded.load_config("tmp_csdmp_config.yaml")
-    except Exception as e:
-        raise e
     finally:
         if os.path.exists("csdmp_tmp.yaml"):
             os.remove("csdmp_tmp.yaml")
@@ -264,6 +262,6 @@ def test_csdmp_save_and_load():
         if t == 0:
             assert_array_almost_equal(x, np.hstack((x0, q0)))
         t += 1
-    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=3)
+    assert_array_almost_equal(x, np.hstack((g, qg)), decimal=2)
     assert_equal(t, 854)
     assert_equal(beh_loaded.get_n_params(), 6 * 10)

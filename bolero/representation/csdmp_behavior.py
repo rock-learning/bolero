@@ -5,6 +5,7 @@ import yaml
 import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
+from .dmp_behavior import load_dmp_model, save_dmp_model
 import dmp
 
 
@@ -72,17 +73,24 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         if n_outputs != 7:
             raise ValueError("Number of outputs must be 7")
 
-        if hasattr(self, "configuration_file"):
-            self.dmp = RbDMP.from_file(self.configuration_file)
-            if not hasattr(self, "execution_time"):
-                self.execution_time = self.dmp.get_execution_time()
-            self.dt = self.dmp.get_dt()
-        else:
-            self.dmp = RbDMP(execution_time=self.execution_time, dt=self.dt,
-                             n_features=self.n_features)
+        self.n_inputs = 7
+        self.n_outputs = 7
+        self.n_task_dims = 6
 
-        self.n_inputs = n_inputs
-        self.n_outputs = n_outputs
+        if hasattr(self, "configuration_file"):
+            load_dmp_model(self, self.configuration_file)
+        else:
+            self.name = "Python CSDMP"
+            self.alpha_z = dmp.calculate_alpha(0.01, self.execution_time, 0.0)
+            self.widths = np.empty(self.n_features)
+            self.centers = np.empty(self.n_features)
+            dmp.initialize_rbf(self.widths, self.centers, self.execution_time,
+                               0.0, 0.8, self.alpha_z)
+            self.alpha_y = 25.0
+            self.beta_y = self.alpha_y / 4.0
+            self.position_weights = np.empty(3 * self.n_features)
+            self.orientation_weights = np.empty(3 * self.n_features)
+            self.weights = np.zeros((self.n_features, self.n_task_dims)).ravel()
 
         if not hasattr(self, "x0"):
             self.x0 = np.zeros(3)
@@ -102,17 +110,34 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             self.q0 = np.array([0.0, 1.0, 0.0, 0.0])
         if not hasattr(self, "q0d"):
             self.q0d = np.zeros(3)
+        if not hasattr(self, "q0dd"):
+            self.q0dd = np.zeros(3)
 
         if not hasattr(self, "qg"):
             self.qg = np.array([0.0, 1.0, 0.0, 0.0])
+        if not hasattr(self, "qgd"):
+            self.qgd = np.zeros(3)
+        if not hasattr(self, "qgdd"):
+            self.qgdd = np.zeros(3)
 
-        self.x = np.empty(7)
-        self.v = np.zeros(3)
-        self.a = np.zeros(3)
+        self.reset()
 
-        self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
-                           self.g, self.gd, self.gdd, self.qg,
-                           self.execution_time)
+    def get_weights(self):
+        return np.hstack((self.position_weights.reshape(-1, 3), 
+                          self.orientation_weights.reshape(-1, 3))).ravel()
+
+    def set_weights(self, weights):
+        if not hasattr(self, "position_weights"):
+            self.position_weights = np.empty(self.n_features * 3)
+        if not hasattr(self, "orientation_weights"):
+            self.orientation_weights = np.empty(self.n_features * 3)
+
+        self.position_weights[:] = weights.reshape(
+            self.n_features, self.n_task_dims)[:, :3].ravel()
+        self.orientation_weights[:] = weights.reshape(
+            self.n_features, self.n_task_dims)[:, 3:].ravel()
+
+    weights = property(get_weights, set_weights)
 
     def set_meta_parameters(self, keys, meta_parameters):
         """Set DMP meta parameters.
@@ -152,11 +177,6 @@ class CartesianDMPBehavior(BlackBoxBehavior):
                     % (key, PERMITTED_CSDMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
 
-        if hasattr(self, "dmp"):
-            self.dmp.configure(self.x0, self.x0d, self.x0dd, self.q0, self.q0d,
-                               self.g, self.gd, self.gdd, self.qg,
-                               self.execution_time)
-
     def set_inputs(self, inputs):
         """Set input for the next step.
 
@@ -166,7 +186,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             Contains positions and rotations represented by quaternions,
             order (order: x, y, z, w, rx, ry, rz)
         """
-        self.x[:] = inputs[:]
+        self.last_y[:] = inputs[:3]
+        self.last_r[:] = inputs[3:]
+        self.last_yd[:] = self.yd
+        self.last_rd[:] = self.rd
+        self.last_ydd[:] = self.ydd
+        self.last_rdd[:] = self.rdd
 
     def get_outputs(self, outputs):
         """Get outputs of the last step.
@@ -177,13 +202,44 @@ class CartesianDMPBehavior(BlackBoxBehavior):
             Contains positions and rotations represented by quaternions,
             order (order: x, y, z, w, rx, ry, rz)
         """
-        outputs[:] = self.x[:]
+        outputs[:3] = self.y
+        outputs[3:] = self.r
 
     def step(self):
         """Compute desired position, velocity and acceleration."""
-        if self.dmp.can_step():
-            self.x[:3], self.v, self.a, self.x[3:] = self.dmp.execute_step(
-                self.x[:3], self.v, self.a, self.x[3:])
+        dmp.dmp_step(
+            self.last_t, self.t,
+            self.last_y, self.last_yd, self.last_ydd,
+            self.y, self.yd, self.ydd,
+            self.g, self.gd, self.gdd,
+            self.x0, self.x0d, self.x0dd,
+            self.execution_time, 0.0,
+            self.position_weights,
+            self.widths,
+            self.centers,
+            self.alpha_y, self.beta_y, self.alpha_z,
+            0.001
+        )
+
+        dmp.quaternion_dmp_step(
+            self.last_t, self.t,
+            self.last_r, self.last_rd, self.last_rdd,
+            self.r, self.rd, self.rdd,
+            self.qg, self.qgd, self.qgdd,
+            self.q0, self.q0d, self.q0dd,
+            self.execution_time, 0.0,
+            self.orientation_weights,
+            self.widths,
+            self.centers,
+            self.alpha_y, self.beta_y, self.alpha_z,
+            0.001
+        )
+
+        if self.t == self.last_t:
+            self.last_t = -1.0
+        else:
+            self.last_t = self.t
+            self.t += self.dt
 
     def can_step(self):
         """Returns if step() can be called again.
@@ -197,7 +253,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         can_step : bool
             Can we call step() again?
         """
-        return self.dmp.can_step()
+        return self.t <= self.execution_time
 
     def get_n_params(self):
         """Get number of weights.
@@ -207,7 +263,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         n_params : int
             Number of DMP weights
         """
-        return self.dmp.get_weights().size
+        return self.weights.size
 
     def get_params(self):
         """Get current weights.
@@ -217,7 +273,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current weights
         """
-        return self.dmp.get_weights().ravel()
+        return self.weights
 
     def set_params(self, params):
         """Set new weights.
@@ -227,11 +283,28 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New weights
         """
-        self.dmp.set_weights(params)
+        self.weights = params
 
     def reset(self):
         """Reset DMP."""
-        self.dmp.reset()
+        self.last_y = np.copy(self.x0)
+        self.last_yd = np.copy(self.x0d)
+        self.last_ydd = np.copy(self.x0dd)
+
+        self.y = np.empty(3)
+        self.yd = np.empty(3)
+        self.ydd = np.empty(3)
+
+        self.last_r = np.copy(self.q0)
+        self.last_rd = np.copy(self.q0d)
+        self.last_rdd = np.copy(self.q0dd)
+
+        self.r = np.empty(4)
+        self.rd = np.empty(3)
+        self.rdd = np.empty(3)
+
+        self.last_t = 0.0
+        self.t = 0.0
 
     def imitate(self, X, alpha=0.0, allow_final_velocity=True):
         """Learn weights of the DMP from demonstrations.
@@ -250,8 +323,18 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         allow_final_velocity : bool, optional (default: True)
             Allow the final velocity to be greater than 0
         """
-        imitate_dmp(self.dmp, X, alpha=alpha, set_weights=True,
-                    allow_final_velocity=allow_final_velocity)
+        X_pos = X[:3, :].T.copy()
+        X_rot = X[3:, :].T.copy()
+        dmp.imitate(
+            np.arange(0, self.execution_time + self.dt, self.dt),
+            X_pos.ravel(), self.position_weights, self.widths, self.centers,
+            alpha, self.alpha_y, self.beta_y, self.alpha_z,
+            allow_final_velocity)
+        dmp.quaternion_imitate(
+            np.arange(0, self.execution_time + self.dt, self.dt),
+            X_rot.ravel(), self.orientation_weights, self.widths, self.centers,
+            alpha, self.alpha_y, self.beta_y, self.alpha_z,
+            allow_final_velocity)
 
     def trajectory(self):
         """Generate trajectory represented by the DMP in open loop.
@@ -263,27 +346,68 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         X : array, shape (n_steps, 7)
             Positions and rotations (order: x, y, z, w, rx, ry, rz)
         """
-        x, xd, xdd, q = (np.copy(self.x0), np.zeros(3), np.zeros(3),
-                         np.copy(self.q0))
-        X, Q = [], []
+        last_t = 0.0
 
-        self.dmp.reset()
-        while self.dmp.can_step():
-            x, xd, xdd, q = self.dmp.execute_step(x, xd, xdd, q)
-            X.append(x.copy())
-            Q.append(q.copy())
+        last_y = np.copy(self.x0)
+        last_yd = np.copy(self.x0d)
+        last_ydd = np.copy(self.x0dd)
 
-        return np.hstack((X, Q))
+        y = np.empty(3)
+        yd = np.empty(3)
+        ydd = np.empty(3)
 
-    def save(self, filename):
-        """Save DMP model.
+        last_r = np.copy(self.q0)
+        last_rd = np.copy(self.q0d)
+        last_rdd = np.copy(self.q0dd)
 
-        Parameters
-        ----------
-        filename : string
-            Name of YAML file
-        """
-        self.dmp.save_model(filename)
+        r = np.empty(4)
+        rd = np.empty(3)
+        rdd = np.empty(3)
+
+        Y = []
+        R = []
+        for t in np.arange(0, self.execution_time + self.dt, self.dt):
+            dmp.dmp_step(
+                last_t, t,
+                last_y, last_yd, last_ydd,
+                y, yd, ydd,
+                self.g, self.gd, self.gdd,
+                self.x0, self.x0d, self.x0dd,
+                self.execution_time, 0.0,
+                self.position_weights,
+                self.widths,
+                self.centers,
+                self.alpha_y, self.beta_y, self.alpha_z,
+                0.001
+            )
+
+            dmp.quaternion_dmp_step(
+                last_t, t,
+                last_r, last_rd, last_rdd,
+                r, rd, rdd,
+                self.qg, self.qgd, self.qgdd,
+                self.q0, self.q0d, self.q0dd,
+                self.execution_time, 0.0,
+                self.orientation_weights,
+                self.widths,
+                self.centers,
+                self.alpha_y, self.beta_y, self.alpha_z,
+                0.001
+            )
+
+            last_t = t
+            last_y[:] = y
+            last_yd[:] = yd
+            last_ydd[:] = ydd
+            last_r[:] = r
+            last_rd[:] = rd
+            last_rdd[:] = rdd
+            Y.append(y.copy())
+            R.append(r.copy())
+
+        return np.hstack((Y, R))
+
+    save = save_dmp_model
 
     def save_config(self, filename):
         """Save DMP configuration.
@@ -293,7 +417,26 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        self.dmp.save_config(filename)
+        config = {}
+        config["name"] = self.name
+        config["executionTime"] = self.execution_time
+        config["startPosition"] = self.x0.tolist()
+        config["startVelocity"] = self.x0d.tolist()
+        config["startAcceleration"] = self.x0dd.tolist()
+        config["startRotation"] = self.q0.tolist()
+        config["startAngularVelocity"] = self.q0d.tolist()
+        config["endPosition"] = self.g.tolist()
+        config["endVelocity"] = self.gd.tolist()
+        config["endAcceleration"] = self.gdd.tolist()
+        config["endRotation"] = self.qg.tolist()
+
+        config_content = StringIO.StringIO()
+        yaml.dump(config, config_content)
+        with open(filename, "w") as f:
+            f.write("---\n")
+            f.write(config_content.getvalue())
+            f.write("...\n")
+        config_content.close()
 
     def load_config(self, filename):
         """Load DMP configuration.
@@ -303,14 +446,14 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        self.dmp.load_config(filename)
         config = yaml.load(open(filename, "r"))
+        self.execution_time = config["executionTime"]
         self.x0 = np.array(config["startPosition"], dtype=np.float)
         self.x0d = np.array(config["startVelocity"], dtype=np.float)
         self.x0dd = np.array(config["startAcceleration"], dtype=np.float)
+        self.q0 = np.array(config["startRotation"], dtype=np.float)
+        self.q0d = np.array(config["startAngularVelocity"], dtype=np.float)
         self.g = np.array(config["endPosition"], dtype=np.float)
         self.gd = np.array(config["endVelocity"], dtype=np.float)
         self.gdd = np.array(config["endAcceleration"], dtype=np.float)
-        self.q0 = np.array(config["startRotation"], dtype=np.float)
         self.qg = np.array(config["endRotation"], dtype=np.float)
-        self.execution_time = config["executionTime"]

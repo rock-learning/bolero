@@ -11,6 +11,73 @@ import dmp
 PERMITTED_DMP_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
 
 
+def load_dmp_model(dmp, filename):
+    """Load DMP model.
+
+    Parameters
+    ----------
+    dmp : object
+        DMP
+
+    filename : string
+        Name of YAML file
+    """
+    model = yaml.load(open(filename, "r"))
+    dmp.name = model["name"]
+    dmp.alpha_z = model["cs_alpha"]
+    dmp.widths = np.array(model["rbf_widths"], dtype=np.float)
+    dmp.centers = np.array(model["rbf_centers"], dtype=np.float)
+    dmp.alpha_y = model["ts_alpha_z"]
+    dmp.beta_y = model["ts_beta_z"]
+    dmp.execution_time = model["ts_tau"]
+    dmp.dt = model["ts_dt"]
+    dmp.n_features = dmp.widths.shape[0]
+    dmp.weights = np.array(model["ft_weights"], dtype=np.float
+        ).reshape(dmp.n_task_dims, dmp.n_features).T.ravel()
+
+    if dmp.execution_time != model["cs_execution_time"]:
+        raise ValueError("Inconsistent execution times: %g != %g"
+                         % (model["ts_tau"],
+                            model["cs_execution_time"]))
+    if dmp.dt != model["cs_dt"]:
+        raise ValueError("Inconsistent execution times: %g != %g"
+                         % (model["ts_dt"], model["cs_dt"]))
+
+
+def save_dmp_model(dmp, filename):
+    """Save DMP model.
+
+    Parameters
+    ----------
+    dmp : object
+        DMP
+
+    filename : string
+        Name of YAML file
+    """
+    model = {}
+    model["name"] = dmp.name
+    model["cs_alpha"] = dmp.alpha_z
+    model["cs_execution_time"] = dmp.execution_time
+    model["cs_dt"] = dmp.dt
+    model["rbf_widths"] = dmp.widths.tolist()
+    model["rbf_centers"] = dmp.centers.tolist()
+    model["ts_alpha_z"] = dmp.alpha_y
+    model["ts_beta_z"] = dmp.beta_y
+    model["ts_tau"] = dmp.execution_time
+    model["ts_dt"] = dmp.dt
+    model["ft_weights"] = dmp.weights.reshape(
+        dmp.n_features, dmp.n_task_dims).T.tolist()
+
+    model_content = StringIO.StringIO()
+    yaml.dump(model, model_content)
+    with open(filename, "w") as f:
+        f.write("---\n")
+        f.write(model_content.getvalue())
+        f.write("...\n")
+    model_content.close()
+
+
 class DMPBehavior(BlackBoxBehavior):
     """Dynamical Movement Primitive.
 
@@ -69,26 +136,7 @@ class DMPBehavior(BlackBoxBehavior):
         self.n_task_dims = self.n_inputs / 3
 
         if hasattr(self, "configuration_file"):
-            model = yaml.load(open(self.configuration_file, "r"))
-            self.name = model["name"]
-            self.alpha_z = model["cs_alpha"]
-            self.widths = np.array(model["rbf_widths"], dtype=np.float)
-            self.centers = np.array(model["rbf_centers"], dtype=np.float)
-            self.alpha_y = model["ts_alpha_z"]
-            self.beta_y = model["ts_beta_z"]
-            self.execution_time = model["ts_tau"]
-            self.dt = model["ts_dt"]
-            self.n_features = self.widths.shape[0]
-            self.weights = np.array(model["ft_weights"], dtype=np.float
-                ).reshape(self.n_task_dims, self.n_features).T.ravel()
-
-            if self.execution_time != model["cs_execution_time"]:
-                raise ValueError("Inconsistent execution times: %g != %g"
-                                 % (model["ts_tau"],
-                                    model["cs_execution_time"]))
-            if self.dt != model["cs_dt"]:
-                raise ValueError("Inconsistent execution times: %g != %g"
-                                 % (model["ts_dt"], model["cs_dt"]))
+            load_dmp_model(self, self.configuration_file)
         else:
             self.name = "Python DMP"
             self.alpha_z = dmp.calculate_alpha(0.01, self.execution_time, 0.0)
@@ -355,35 +403,7 @@ class DMPBehavior(BlackBoxBehavior):
 
         return np.asarray(Y), np.asarray(Yd), np.asarray(Ydd)
 
-    def save(self, filename):
-        """Save DMP model.
-
-        Parameters
-        ----------
-        filename : string
-            Name of YAML file
-        """
-        model = {}
-        model["name"] = self.name
-        model["cs_alpha"] = self.alpha_z
-        model["cs_execution_time"] = self.execution_time
-        model["cs_dt"] = self.dt
-        model["rbf_widths"] = self.widths.tolist()
-        model["rbf_centers"] = self.centers.tolist()
-        model["ts_alpha_z"] = self.alpha_y
-        model["ts_beta_z"] = self.beta_y
-        model["ts_tau"] = self.execution_time
-        model["ts_dt"] = self.dt
-        model["ft_weights"] = self.weights.reshape(
-            self.n_features, self.n_task_dims).T.tolist()
-
-        model_content = StringIO.StringIO()
-        yaml.dump(model, model_content)
-        with open(filename, "w") as f:
-            f.write("---\n")
-            f.write(model_content.getvalue())
-            f.write("...\n")
-        model_content.close()
+    save = save_dmp_model
 
     def save_config(self, filename):
         """Save DMP configuration.
