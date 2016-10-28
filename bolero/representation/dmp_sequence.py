@@ -102,7 +102,8 @@ class DMPSequence(BlackBoxBehavior):
         self.alpha_y = 25.0
         self.beta_y = self.alpha_y / 4.0
         if self.initial_weights is None:
-            self.weights = [np.zeros(self.n_weights_per_dmp[i])
+            self.weights = [np.zeros(self.n_weights_per_dmp[i]
+                            * self.n_task_dims)
                             for i in range(self.n_dmps)]
         else:
             self.weights = [w.ravel() for w in self.initial_weights]
