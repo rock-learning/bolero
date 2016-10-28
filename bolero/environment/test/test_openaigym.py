@@ -31,11 +31,11 @@ def test_discrete_input():
 
 
 def test_box_input():
-    env = OpenAiGym("InvertedPendulum-v1")
+    env = OpenAiGym("Pendulum-v0")
     env.init()
 
     assert_equal(env.get_num_inputs(), 1)
-    assert_equal(env.get_num_outputs(), 4)
+    assert_equal(env.get_num_outputs(), 3)
 
     inputs = np.zeros(env.get_num_inputs())
     outputs = np.zeros(env.get_num_outputs())
@@ -54,4 +54,4 @@ def test_box_input():
     feedback = env.get_feedback()
     assert_equal(len(feedback), i)
 
-    assert_equal(env.get_maximum_feedback(), 950.0)
+    assert_equal(env.get_maximum_feedback(), float("inf"))
