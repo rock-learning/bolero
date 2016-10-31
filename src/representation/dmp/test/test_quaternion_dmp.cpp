@@ -133,21 +133,21 @@ TEST_CASE("configure" ,"[QuaternionDmp]")
 
   Quaterniond start(0, 1, 2, 3);
   start.normalize();
-  REQUIRE(dmp.startPos.w() == start.w());
-  REQUIRE(dmp.startPos.vec().x() == start.vec().x());
-  REQUIRE(dmp.startPos.vec().y() == start.vec().y());
-  REQUIRE(dmp.startPos.vec().z() == start.vec().z());
+  REQUIRE(dmp.startData(0) == start.w());
+  REQUIRE(dmp.startData(1) == start.vec().x());
+  REQUIRE(dmp.startData(2) == start.vec().y());
+  REQUIRE(dmp.startData(3) == start.vec().z());
 
   Quaterniond end(4, 5, 6, 7);
   end.normalize();
 
-  REQUIRE(dmp.endPos.w() == end.w());
-  REQUIRE(dmp.endPos.vec().x() == end.vec().x());
-  REQUIRE(dmp.endPos.vec().y() == end.vec().y());
-  REQUIRE(dmp.endPos.vec().z() == end.vec().z());
-  REQUIRE(dmp.startVel.x() == 8);
-  REQUIRE(dmp.startVel.y() == 9);
-  REQUIRE(dmp.startVel.z() == 10);
+  REQUIRE(dmp.goalData(0) == end.w());
+  REQUIRE(dmp.goalData(1) == end.vec().x());
+  REQUIRE(dmp.goalData(2) == end.vec().y());
+  REQUIRE(dmp.goalData(3) == end.vec().z());
+  REQUIRE(dmp.startData(4) == 8);
+  REQUIRE(dmp.startData(5) == 9);
+  REQUIRE(dmp.startData(6) == 10);
 
   REQUIRE(dmp.initialized);
 }
@@ -166,10 +166,10 @@ TEST_CASE("stepping", "[QuaternionDmp]")
     dmp.setInputs(&pos[0], 4);
     Quaterniond temp(pos[0], pos[1], pos[2], pos[3]);
     temp.normalize();
-    REQUIRE(dmp.currentPos.w() == temp.w());
-    REQUIRE(dmp.currentPos.vec().x() == temp.vec().x());
-    REQUIRE(dmp.currentPos.vec().y() == temp.vec().y());
-    REQUIRE(dmp.currentPos.vec().z() == temp.vec().z());
+    REQUIRE(dmp.lastData(0) == temp.w());
+    REQUIRE(dmp.lastData(1) == temp.vec().x());
+    REQUIRE(dmp.lastData(2) == temp.vec().y());
+    REQUIRE(dmp.lastData(3) == temp.vec().z());
     dmp.step();
     dmp.getOutputs(&pos[0], 4);
   }

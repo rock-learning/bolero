@@ -177,8 +177,7 @@ void DmpBehavior::setInputs(const double* values, int numInputs)
   assert(numInputs == data.size());
   assert(expectedState == SET_INPUTS || expectedState == CONFIGURED);
 
-  //the const_cast is ok because we only read from the Map
-  lastData = Map<ArrayXd>(const_cast<double*>(values), numInputs); // Create a temporary map and copy the values
+  lastData = Map<const ArrayXd>(values, numInputs);
 
   expectedState = STEP;
 }

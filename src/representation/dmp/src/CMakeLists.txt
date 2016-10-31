@@ -56,7 +56,7 @@ target_link_libraries(dmp_cpp dmp ${YAMLCPP_LIBRARIES})
 set_target_properties(dmp_cpp PROPERTIES COMPILE_FLAGS "-DBUILD_DMP_BEHAVIOR_STANDALONE")
 
 add_library(quaternion_dmp_cpp SHARED ${quaternion_sources} ${quaternion_headers})
-target_link_libraries(quaternion_dmp_cpp ${YAMLCPP_LIBRARIES})
+target_link_libraries(quaternion_dmp_cpp dmp ${YAMLCPP_LIBRARIES})
 # BUILD_QUATERNION_STANDALONE enables the behavior macros for the QuaternionDMP
 set_target_properties(quaternion_dmp_cpp PROPERTIES COMPILE_FLAGS "-DBUILD_QUATERNION_STANDALONE")
 

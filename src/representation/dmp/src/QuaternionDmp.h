@@ -56,6 +56,15 @@ public:
   *  @see configure(QuaternionDmpConfig)*/
   virtual bool configureYaml(const std::string& yaml);
 
+
+  /**Applies the given configuration.
+  *  This can be done at any time after initialize() has been called.
+  *  The dmp can be reconfigured mid-run, e.g. to change the goal.
+  *
+  *  \note The start and end positions will be normalized. Therefore the values
+  *        might differ from the values defined in the configuration file. */
+  bool configure(const QuaternionDmpConfig& config);
+
   /**
   * @param[in] values array of size >= 4 that represents a quaternion. [w, x, ,y, z]
   *                   Only the first 4 elements of the array will be used.
@@ -75,15 +84,6 @@ public:
   virtual bool canStep() const;
 
 
-  /**Applies the given configuration.
-  *  This can be done at any time after initialize() has been called.
-  *  The dmp can be reconfigured mid-run, e.g. to change the goal.
-  *
-  *  \note The start and end positions will be normalized. Therefore the values
-  *        might differ from the values defined in the configuration file. */
-  bool configure(const QuaternionDmpConfig& config);
-
-
   /**
   * Sets the weights matrix of the forcing term
   * Should be a 3xN matrix.
@@ -97,7 +97,7 @@ public:
   * Should be a 3xN matrix.
   * N should be equal to the number of centers in the function approximator.
   */
-  virtual const Eigen::MatrixXd& getWeights();
+  virtual const Eigen::MatrixXd getWeights();
 
   //creates the module info needed by the lib manager.
   //without it the lib manager would be unable to load this module at run time.
@@ -105,15 +105,24 @@ public:
 
 private:
   QuaternionDmpConfig config;
-
-  Eigen::Quaterniond startPos;
-  Eigen::Quaterniond endPos;
-  Eigen::Quaterniond currentPos; /**< set by setInputs() */
-  Eigen::Array3d startVel;
-
   bool initialized;/**<If true initialize() has been called successfully */
-  double currentPhase;
-  unsigned currentPhaseIndex;
-  bool stepPossible; /**<True if at least one more step is possible */
+
+  double dt;
+
+  std::string name;
+  double alphaY;
+  double betaY;
+  double alphaZ;
+  Eigen::ArrayXd widths;
+  Eigen::ArrayXd centers;
+  Eigen::ArrayXXd weights;
+  double startT;
+  double goalT;
+  Eigen::ArrayXd startData; //contains concatenation of position, velocity and acceleration
+  Eigen::ArrayXd goalData; //contains concatenation of position, velocity and acceleration
+  double lastT;
+  double t;
+  Eigen::ArrayXd lastData; //contains concatenation of position, velocity and acceleration
+  Eigen::ArrayXd data; //contains concatenation of position, velocity and acceleration
 };
 }
