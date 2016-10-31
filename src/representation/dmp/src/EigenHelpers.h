@@ -96,5 +96,14 @@ struct EigenHelpers
     }
   }
 
+  static inline void assertNonNanInf(const Eigen::ArrayXd& data)
+  {
+    for(unsigned i = 0; i < data.size(); ++i)
+    {
+      assert(!isnan(data[i]));
+      assert(!isinf(data[i]));
+    }
+  }
+
 };
 }

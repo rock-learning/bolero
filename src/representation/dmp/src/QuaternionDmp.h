@@ -2,7 +2,6 @@
 #include <Eigen/Geometry>
 #include <LoadableBehavior.h>
 #include "QuaternionDmpModel.h"
-#include "QuaternionTransformationSystem.h"
 #include "QuaternionDmpConfig.h"
 
 
@@ -42,16 +41,6 @@ class QuaternionDmp :  public bolero::LoadableBehavior
 
 public:
   QuaternionDmp(lib_manager::LibManager *manager);
-
-  /**
-  * \see QuaternionTransformationSystem::determineForces()
-  */
-   static void determineForces(const QuaternionTransformationSystem::QuaternionVector &rotations, Eigen::ArrayXXd& velocities,
-                               Eigen::ArrayXXd& accelerations, Eigen::ArrayXXd& forces,
-                               const double dt, const double executionTime,
-                               const double alphaZ = 25.0, const double betaZ = 6.25,
-                               bool allowFinalVelocity = true);
-
 
   /**Initializes the dmp from the given config file*/
   virtual bool initialize(const std::string& initialConfigPath);
@@ -116,11 +105,6 @@ public:
 
 private:
   QuaternionDmpConfig config;
-
-  std::auto_ptr<CanonicalSystem> cs;
-  std::auto_ptr<RbfFunctionApproximator> rbf;
-  std::auto_ptr<ForcingTerm> ft;
-  std::auto_ptr<QuaternionTransformationSystem> ts;
 
   Eigen::Quaterniond startPos;
   Eigen::Quaterniond endPos;

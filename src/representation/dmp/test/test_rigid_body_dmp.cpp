@@ -8,8 +8,6 @@
 #include "RigidBodyDmp.h"
 #include "DMPModel.h"
 #include <lib_manager/LibManager.hpp>
-#include "CanonicalSystem.h"
-#include "Dmp.h"
 
 using namespace std;
 using namespace dmp;

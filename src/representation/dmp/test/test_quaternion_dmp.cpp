@@ -10,9 +10,6 @@
 #include "QuaternionDmpModel.h"
 #define private public
 #include "QuaternionDmp.h"
-#include "CanonicalSystem.h"
-#include "RbfFunctionApproximator.h"
-#include "ForcingTerm.h"
 
 using namespace dmp;
 using namespace lib_manager;
@@ -93,33 +90,6 @@ string createConfigFile()
   fout << yaml;
   fout.close();
   return filepath;
-}
-
-TEST_CASE("initialize", "[QuaternionDmp]") {
-  LibManager manager;
-  QuaternionDmp dmp(&manager);
-
-  dmp.initialize(createModelFile());
-
-  REQUIRE(dmp.cs->getDt() == Approx(0.105263157894737));
-  REQUIRE(dmp.cs->getExecutionTime() == Approx(2));
-  REQUIRE(dmp.cs->getAlpha() == Approx(4.08956056332224));
-  REQUIRE(dmp.rbf->getCenters().size() == 25);
-  REQUIRE(dmp.rbf->getWidths().size() == 25);
-
-  for(int i = 0; i < 25; ++i)
-  {
-    REQUIRE(dmp.rbf->getWidths()[i] == Approx(widths[i]));
-    REQUIRE(dmp.rbf->getCenters()[i] == Approx(centers[i]));
-  }
-
-  REQUIRE(dmp.ft->weights.rows() == 3);
-  for(int i = 0; i < dmp.ft->weights.cols(); ++i)
-  {
-    REQUIRE(dmp.ft->weights.row(0)(i) == 1);
-    REQUIRE(dmp.ft->weights.row(1)(i) == 2);
-    REQUIRE(dmp.ft->weights.row(2)(i) == 3);
-  }
 }
 
 TEST_CASE("initialize without model", "[QuaternionDmp]")

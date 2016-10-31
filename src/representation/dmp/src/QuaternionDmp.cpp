@@ -1,8 +1,4 @@
 #include "QuaternionDmp.h"
-#include "CanonicalSystem.h"
-#include "RbfFunctionApproximator.h"
-#include "QuaternionTransformationSystem.h"
-#include "ForcingTerm.h"
 #include "QuaternionDmpModel.h"
 #include "QuaternionDmpConfig.h"
 #include <assert.h>
@@ -41,17 +37,6 @@ QuaternionDmp::QuaternionDmp(lib_manager::LibManager* manager) :
   LoadableBehavior::init(4, 4);
 }
 
-void QuaternionDmp::determineForces(const QuaternionTransformationSystem::QuaternionVector &rotations,
-                                    ArrayXXd &velocities, ArrayXXd &accelerations, ArrayXXd &forces,
-                                    const double dt, const double executionTime,
-                                    const double alphaZ, const double betaZ,
-                                    bool allowFinalVelocity)
-{
-  QuaternionTransformationSystem::determineForces(rotations,
-          velocities, accelerations, forces, dt, executionTime, alphaZ, betaZ,
-          allowFinalVelocity);
-}
-
 bool QuaternionDmp::initialize(const std::string &initialConfigPath)
 {
   QuaternionDmpModel model;
@@ -66,11 +51,7 @@ bool QuaternionDmp::initialize(const QuaternionDmpModel &model)
 {
   if(model.is_valid())
   {
-    //creating the components this way
-    cs.reset(new CanonicalSystem(model.cs_execution_time, model.cs_alpha, model.cs_dt));
-    rbf.reset(new RbfFunctionApproximator(EigenHelpers::toEigen(model.rbf_centers), EigenHelpers::toEigen(model.rbf_widths)));
-    ft.reset(new ForcingTerm(*(rbf.get()), EigenHelpers::toEigen(model.ft_weights)));
-    ts.reset(new QuaternionTransformationSystem(*(ft.get()), model.ts_tau, model.ts_dt, model.ts_alpha_z, model.ts_beta_z));
+    // TODO
 
     currentPhase = 1.0;
     currentPhaseIndex = 0;
@@ -120,9 +101,9 @@ bool QuaternionDmp::configure(const QuaternionDmpConfig &config)
             config.startVelocity[2];
     startPos.normalize();
     endPos.normalize();
-    assert(ts.get());
-    ts->initialize(startPos, startVel, endPos);
-    cs.reset(new CanonicalSystem(config.executionTime, cs->getAlpha(), cs->getDt()));
+
+    // TODO
+
     stepPossible = true;
     return true;
   }
@@ -151,13 +132,7 @@ void QuaternionDmp::getOutputs(double *values, int numOutputs) const
 void QuaternionDmp::step()
 {
   assert(initialized);
-  const double currentTime = cs->getTime(currentPhase);
-  ts->executeStep(currentPhase, currentPos);
-  //calculate next phase
-  currentPhase = cs->getPhase(currentTime + cs->getDt());
-  //check if another step is possible
-  ++currentPhaseIndex;
-  stepPossible = currentPhaseIndex < cs->getNumberOfPhases() - 1;
+  // TODO
 }
 
 bool QuaternionDmp::canStep() const
@@ -167,13 +142,12 @@ bool QuaternionDmp::canStep() const
 
 void QuaternionDmp::setWeights(const Eigen::ArrayXXd &weights)
 {
-  assert(NULL != ft.get());
   assert(weights.rows() == 3);
-  ft->setWeights(weights);
+  // TODO
 }
 
 const Eigen::MatrixXd& QuaternionDmp::getWeights()
 {
-  return ft->getWeights();
+  // TODO
 }
 }//end namespace
