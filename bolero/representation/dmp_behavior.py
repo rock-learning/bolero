@@ -33,7 +33,7 @@ def load_dmp_model(dmp, filename):
     dmp.dt = model["ts_dt"]
     dmp.n_features = dmp.widths.shape[0]
     dmp.weights = np.array(model["ft_weights"], dtype=np.float
-        ).reshape(dmp.n_task_dims, dmp.n_features).T.ravel()
+        ).reshape(dmp.n_task_dims, dmp.n_features).T
 
     if dmp.execution_time != model["cs_execution_time"]:
         raise ValueError("Inconsistent execution times: %g != %g"
@@ -66,8 +66,7 @@ def save_dmp_model(dmp, filename):
     model["ts_beta_z"] = dmp.beta_y
     model["ts_tau"] = dmp.execution_time
     model["ts_dt"] = dmp.dt
-    model["ft_weights"] = dmp.weights.reshape(
-        dmp.n_features, dmp.n_task_dims).T.tolist()
+    model["ft_weights"] = dmp.weights.T.tolist()
 
     model_content = StringIO.StringIO()
     yaml.dump(model, model_content)
@@ -146,7 +145,7 @@ class DMPBehavior(BlackBoxBehavior):
                                0.0, 0.8, self.alpha_z)
             self.alpha_y = 25.0
             self.beta_y = self.alpha_y / 4.0
-            self.weights = np.zeros((self.n_features, self.n_task_dims)).ravel()
+            self.weights = np.zeros((self.n_features, self.n_task_dims))
 
         if not hasattr(self, "x0"):
             self.x0 = None
@@ -287,7 +286,7 @@ class DMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current weights
         """
-        return self.weights
+        return self.weights.ravel()
 
     def set_params(self, params):
         """Set new weights.
@@ -297,7 +296,7 @@ class DMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New weights
         """
-        self.weights[:] = params
+        self.weights[:, :] = params.reshape(self.n_features, self.n_task_dims)
 
     def reset(self):
         """Reset DMP."""
@@ -347,7 +346,7 @@ class DMPBehavior(BlackBoxBehavior):
 
         X = X[:, :, 0].T.copy()
         dmp.imitate(np.arange(0, self.execution_time + self.dt, self.dt),
-                    X.ravel(), self.weights, self.widths, self.centers,
+                    X, self.weights, self.widths, self.centers,
                     alpha, self.alpha_y, self.beta_y, self.alpha_z,
                     allow_final_velocity)
 

@@ -11,11 +11,8 @@ def test_compute_gradient():
     P[:, 0] = np.cos(2 + np.pi * T)
     P[:, 1] = np.sin(2 + np.pi * T)
 
-    P = P.ravel()
     V = np.empty_like(P)
     dmp.compute_gradient(P, V, T, True)
-    P = P.reshape(n_steps, 2)
-    V = V.reshape(n_steps, 2)
 
     P_derivative = np.vstack((np.zeros(2), np.diff(P, axis=0) / np.diff(T)[:, np.newaxis]))
     assert_array_almost_equal(V, P_derivative)
@@ -34,11 +31,9 @@ def test_compute_quaternion_gradient():
                          np.sqrt(0.5) * np.sin(angle / 2.0),
                          np.sqrt(0.5) * np.sin(angle / 2.0),
                          0.0])
-    R = R.ravel()
-    V = np.empty((n_steps, 3)).ravel()
+
+    V = np.empty((n_steps, 3))
     dmp.compute_quaternion_gradient(R, V, T, True)
-    R = R.reshape(n_steps, 4)
-    V = V.reshape(n_steps, 3)
 
     V_integral = np.empty((n_steps, 4))
     V_integral[0] = R[0]
@@ -109,15 +104,15 @@ def test_imitate_ill_conditioning():
     dmp.initialize_rbf(widths, centers, 1.0, 0.0, 0.8, 25.0 / 3.0)
     T = np.linspace(0, 1, 101)
     Y = np.hstack((T[:, np.newaxis], np.cos(2 * np.pi * T)[:, np.newaxis]))
-    weights = np.empty(n_features * 2)
+    weights = np.empty((n_features, 2))
     alpha = 25.0
     assert_raises_regexp(
         ValueError, "must be >= 0",
-        dmp.imitate, T, Y.ravel(), weights, widths, centers, -1.0, alpha,
+        dmp.imitate, T, Y, weights, widths, centers, -1.0, alpha,
         alpha / 4.0, alpha / 3.0, False)
     assert_raises_regexp(
         ValueError, "instable",
-        dmp.imitate, T, Y.ravel(), weights, widths, centers, 0.0, alpha,
+        dmp.imitate, T, Y, weights, widths, centers, 0.0, alpha,
         alpha / 4.0, alpha / 3.0, False)
 
 
@@ -135,7 +130,7 @@ def test_step_invalid_times():
     gdd = np.array([0.0])
 
     n_weights = 10
-    weights = np.zeros(n_weights)
+    weights = np.zeros((n_weights, 1))
     execution_time = 1.0
     alpha = 25.0
 
@@ -173,7 +168,7 @@ def test_step():
     gdd = np.array([0.0])
 
     n_weights = 10
-    weights = np.zeros(n_weights)
+    weights = np.zeros((n_weights, 1))
     execution_time = 1.0
     alpha = 25.0
 
@@ -214,9 +209,9 @@ def test_imitate():
     centers = np.empty(n_features)
     dmp.initialize_rbf(widths, centers, T[-1], T[0], 0.8, 25.0 / 3.0)
     Y = np.hstack((T[:, np.newaxis], np.cos(np.pi * T)[:, np.newaxis]))
-    weights = np.empty(n_features * 2)
+    weights = np.empty((n_features, 2))
     alpha = 25.0
-    dmp.imitate(T, Y.ravel(), weights, widths, centers, 1e-10, alpha, alpha / 4.0, alpha / 3.0, False)
+    dmp.imitate(T, Y, weights, widths, centers, 1e-10, alpha, alpha / 4.0, alpha / 3.0, False)
 
     last_t = T[0]
 
@@ -285,7 +280,7 @@ def test_quaternion_step_invalid_times():
     r0dd = np.array([0.0, 0.0, 0.0])
 
     n_features = 10
-    weights = np.zeros(3 * n_features)
+    weights = np.zeros((n_features, 3))
     execution_time = 1.0
     alpha = 25.0
 
@@ -328,7 +323,7 @@ def test_quaternion_step():
     r0dd = np.array([0.0, 0.0, 0.0])
 
     n_features = 10
-    weights = np.zeros(3 * n_features)
+    weights = np.zeros((n_features, 3))
     execution_time = 1.0
     alpha = 25.0
 
@@ -381,9 +376,9 @@ def test_quaternion_imitate():
                          np.sqrt(0.5) * np.sin(angle / 2.0),
                          np.sqrt(0.5) * np.sin(angle / 2.0),
                          0.0])
-    weights = np.empty(3 * n_features)
+    weights = np.empty((n_features, 3))
     dmp.quaternion_imitate(
-        T, R.ravel(), weights, widths, centers, 1e-10,
+        T, R, weights, widths, centers, 1e-10,
         alpha, alpha / 4.0, alpha / 3.0, False)
 
     last_t = T[0]

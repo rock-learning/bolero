@@ -102,11 +102,13 @@ class DMPSequence(BlackBoxBehavior):
         self.alpha_y = 25.0
         self.beta_y = self.alpha_y / 4.0
         if self.initial_weights is None:
-            self.weights = [np.zeros(self.n_weights_per_dmp[i]
-                            * self.n_task_dims)
+            self.weights = [np.zeros((self.n_weights_per_dmp[i],
+                                      self.n_task_dims))
                             for i in range(self.n_dmps)]
         else:
-            self.weights = [w.ravel() for w in self.initial_weights]
+            self.weights = [w.reshape(self.n_weights_per_dmp[i],
+                                      self.n_task_dims)
+                            for w in self.initial_weights]
 
         self.x0 = None
         self.g = None
@@ -222,7 +224,9 @@ class DMPSequence(BlackBoxBehavior):
             self.n_weights + (self.n_dmps - 1) * self.n_task_dims))
         G = np.split(goals, [i * self.n_task_dims
                              for i in range(1, self.n_dmps - 1)])
-        self.weights = [w.ravel() for w in np.split(weights, self.split_weights)]
+        self.weights = [w.reshape(self.n_weights_per_dmp[i], self.n_task_dims)
+                        for i, w in enumerate(np.split(
+                            weights, self.split_weights)[:self.n_dmps])]
 
         for i in range(self.n_dmps - 1):
             self.subgoals[i + 1] = G[i]

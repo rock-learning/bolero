@@ -243,9 +243,11 @@ void imitate(
   const double* T,
   int num_T,
   const double* Y,
-  int num_Y,
+  int num_steps,
+  int num_task_dims,
   double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -257,11 +259,10 @@ void imitate(
   bool allow_final_velocity
 )
 {
-  assert(num_Y % num_T == 0);
-  const int num_dimensions = num_Y / num_T;
-  const int num_weights_per_dim = num_widths;
+  assert(num_steps == num_T);
+  assert(num_weights_per_dim == num_widths);
   assert(num_weights_per_dim == num_centers);
-  assert(num_weights_per_dim == num_weights / num_dimensions);
+  assert(num_task_dims == num_weight_dims);
 
   if(regularization_coefficient < 0.0)
   {
@@ -278,16 +279,14 @@ void imitate(
   Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
   Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
 
-  assert(num_Y % num_T == 0);
-
   Eigen::ArrayXd T_array = Eigen::Map<const Eigen::ArrayXd>(T, num_T);
-  Eigen::ArrayXXd Y_array = Eigen::Map<const Eigen::ArrayXXd>(Y, num_dimensions, num_T);
-  Eigen::ArrayXXd F(num_dimensions, num_T);
+  Eigen::ArrayXXd Y_array = Eigen::Map<const Eigen::ArrayXXd>(Y, num_task_dims, num_steps);
+  Eigen::ArrayXXd F(num_task_dims, num_steps);
   determineForces(T_array, Y_array, F, alpha_y, beta_y, allow_final_velocity);
 
   const Eigen::MatrixXd X = rbfDesignMatrix(T_array, alpha_z, widths_array, centers_array);
 
-  Eigen::Map<Eigen::ArrayXXd> weights_array(weights, num_dimensions, num_weights_per_dim);
+  Eigen::Map<Eigen::ArrayXXd> weights_array(weights, num_task_dims, num_weights_per_dim);
   ridgeRegression(X, F, regularization_coefficient, weights_array);
 }
 
@@ -321,7 +320,8 @@ void dmpStep(
   const double goal_t,
   const double start_t,
   const double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -389,6 +389,14 @@ void dmpStep(
     Eigen::ArrayXd gd(num_y);
     Eigen::ArrayXd gdd(num_y);
 
+    assert(num_weights_per_dim == num_widths);
+    assert(num_weights_per_dim == num_centers);
+    assert(num_weight_dims == num_dimensions);
+    Eigen::Map<const Eigen::ArrayXXd> weights_array(
+        weights, num_dimensions, num_weights_per_dim);
+    Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
+    Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
+
     // We use multiple integration steps to improve numerical precision
     double current_t = last_t;
     while(current_t < t)
@@ -398,15 +406,6 @@ void dmpStep(
         dt_int = t - current_t;
 
       current_t += dt_int;
-
-      const int num_weights_per_dim = num_weights / num_dimensions;
-      assert(num_weights % num_dimensions == 0);
-      assert(num_weights_per_dim == num_widths);
-      assert(num_weights_per_dim == num_centers);
-      Eigen::Map<const Eigen::ArrayXXd> weights_array(
-          weights, num_dimensions, num_weights_per_dim);
-      Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
-      Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
 
       const double z = phase(current_t, alpha_z, goal_t, start_t);
       const Eigen::ArrayXd f = forcingTerm(z, weights_array, widths_array, centers_array);
@@ -698,9 +697,11 @@ void quaternionImitate(
   const double* T,
   int num_T,
   const double* R,
-  int num_R,
+  int num_steps,
+  int num_task_dims,
   double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -712,19 +713,17 @@ void quaternionImitate(
   bool allow_final_velocity
 )
 {
-  assert(num_R % num_T == 0);
-  assert(num_R / num_T == 4);
-  const int num_weights_per_dim = num_widths;
+  assert(num_steps == num_T);
+  assert(num_task_dims == 4);
+  assert(num_weights_per_dim == num_widths);
   assert(num_weights_per_dim == num_centers);
-  assert(num_weights_per_dim == num_weights / 3);
-  const int num_weight_dims = 3;
-  const int num_quaternion_dims = 4;
+  assert(num_weight_dims == 3);
 
   if(regularization_coefficient < 0.0)
   {
     throw std::invalid_argument("Regularization coefficient must be >= 0!");
   }
-  else if(regularization_coefficient == 0.0 && num_weights_per_dim >= num_T)
+  else if(regularization_coefficient == 0.0 && num_weights_per_dim >= num_steps)
   {
     throw std::invalid_argument(
         "If the regularization coefficient is set to zero, the number of "
@@ -736,15 +735,15 @@ void quaternionImitate(
   Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
 
   Eigen::ArrayXd T_array = Eigen::Map<const Eigen::ArrayXd>(T, num_T);
-  Eigen::ArrayXXd R_array = Eigen::Map<const Eigen::ArrayXXd>(R, num_quaternion_dims, num_T);
+  Eigen::ArrayXXd R_array = Eigen::Map<const Eigen::ArrayXXd>(R, num_task_dims, num_steps);
   QuaternionVector rotationsVector;
-  for(int i = 0; i < num_T; ++i)
+  for(int i = 0; i < num_steps; ++i)
   {
     Eigen::Quaterniond q(R_array(0, i), R_array(1, i), R_array(2, i), R_array(3, i));
     q.normalize(); // has to be done to avoid nans
     rotationsVector.push_back(q);
   }
-  Eigen::ArrayXXd F(num_weight_dims, num_T);
+  Eigen::ArrayXXd F(num_weight_dims, num_steps);
   quaternionDetermineForces(T_array, rotationsVector, F, alpha_r, beta_r, allow_final_velocity);
 
   const Eigen::MatrixXd X = rbfDesignMatrix(T_array, alpha_z, widths_array, centers_array);
@@ -783,7 +782,8 @@ void quaternionDmpStep(
   const double goal_t,
   const double start_t,
   const double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -839,6 +839,14 @@ void quaternionDmpStep(
     rd_array = last_rd_array;
     rdd_array = last_rdd_array;
 
+    assert(num_weights_per_dim == num_widths);
+    assert(num_weights_per_dim == num_centers);
+    assert(num_weight_dims == 3);
+    Eigen::Map<const Eigen::ArrayXXd> weights_array(
+        weights, num_weight_dims, num_weights_per_dim);
+    Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
+    Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
+
     // We use multiple integration steps to improve numerical precision
     double current_t = last_t;
     while(current_t < t)
@@ -848,15 +856,6 @@ void quaternionDmpStep(
         dt_int = t - current_t;
 
       current_t += dt_int;
-
-      const int num_weights_per_dim = num_weights / 3;
-      assert(num_weights % 3 == 0);
-      assert(num_weights_per_dim == num_widths);
-      assert(num_weights_per_dim == num_centers);
-      Eigen::Map<const Eigen::ArrayXXd> weights_array(
-          weights, 3, num_weights_per_dim);
-      Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
-      Eigen::Map<const Eigen::ArrayXd> centers_array(centers, num_centers);
 
       const double z = phase(current_t, alpha_z, goal_t, start_t);
       const Eigen::ArrayXd f = forcingTerm(z, weights_array, widths_array, centers_array);
@@ -884,18 +883,21 @@ namespace internal
 
 void compute_gradient(
   const double* in,
-  int num_in,
+  int num_in_steps,
+  int num_in_dims,
   double* out,
-  int num_out,
+  int num_out_steps,
+  int num_out_dims,
   const double* time,
   int num_time,
   bool allow_final_velocity
 )
 {
-  assert(num_in % num_time == 0);
-  const int num_dimensions = num_in / num_time;
-  Eigen::Map<const Eigen::ArrayXXd> in_array(in, num_dimensions, num_time);
-  Eigen::Map<Eigen::ArrayXXd> out_array(out, num_dimensions, num_time);
+  assert(num_in_steps == num_time);
+  assert(num_out_steps == num_time);
+  assert(num_in_dims == num_out_dims);
+  Eigen::Map<const Eigen::ArrayXXd> in_array(in, num_in_dims, num_time);
+  Eigen::Map<Eigen::ArrayXXd> out_array(out, num_out_dims, num_time);
   Eigen::Map<const Eigen::ArrayXd> time_array(time, num_time);
   gradient(in_array, out_array, time_array, allow_final_velocity);
 }
@@ -903,21 +905,22 @@ void compute_gradient(
 
 void compute_quaternion_gradient(
   const double* in,
-  int num_in,
+  int num_in_steps,
+  int num_in_dims,
   double* out,
-  int num_out,
+  int num_out_steps,
+  int num_out_dims,
   const double* time,
   int num_time,
   bool allow_final_velocity
 )
 {
-  assert(num_in % num_time == 0);
-  assert(num_in / num_time == 4);
-  assert(num_out % num_time == 0);
-  assert(num_out / num_time == 3);
-  const int num_dimensions = num_in / num_time;
+  assert(num_in_steps == num_time);
+  assert(num_out_steps == num_time);
+  assert(num_in_dims == 4);
+  assert(num_out_dims == 3);
 
-  Eigen::Map<const Eigen::ArrayXXd> in_array(in, num_dimensions, num_time);
+  Eigen::Map<const Eigen::ArrayXXd> in_array(in, num_in_dims, num_time);
   QuaternionVector rotationsVector;
   for(int i = 0; i < num_time; ++i)
   {
@@ -925,7 +928,7 @@ void compute_quaternion_gradient(
     q.normalize(); // has to be done to avoid nans
     rotationsVector.push_back(q);
   }
-  Eigen::Map<Eigen::ArrayXXd> out_array(out, 3, num_time);
+  Eigen::Map<Eigen::ArrayXXd> out_array(out, num_out_dims, num_time);
   Eigen::Map<const Eigen::ArrayXd> time_array(time, num_time);
   quaternionGradient(rotationsVector, out_array, time_array, allow_final_velocity);
 }

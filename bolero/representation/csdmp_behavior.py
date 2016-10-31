@@ -88,9 +88,9 @@ class CartesianDMPBehavior(BlackBoxBehavior):
                                0.0, 0.8, self.alpha_z)
             self.alpha_y = 25.0
             self.beta_y = self.alpha_y / 4.0
-            self.position_weights = np.empty(3 * self.n_features)
-            self.orientation_weights = np.empty(3 * self.n_features)
-            self.weights = np.zeros((self.n_features, self.n_task_dims)).ravel()
+            self.position_weights = np.empty((self.n_features, 3))
+            self.orientation_weights = np.empty((self.n_features, 3))
+            self.weights = np.zeros((self.n_features, self.n_task_dims))
 
         if not hasattr(self, "x0"):
             self.x0 = np.zeros(3)
@@ -123,19 +123,16 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         self.reset()
 
     def get_weights(self):
-        return np.hstack((self.position_weights.reshape(-1, 3), 
-                          self.orientation_weights.reshape(-1, 3))).ravel()
+        return np.hstack((self.position_weights, self.orientation_weights))
 
     def set_weights(self, weights):
         if not hasattr(self, "position_weights"):
-            self.position_weights = np.empty(self.n_features * 3)
+            self.position_weights = np.empty((self.n_features, 3))
         if not hasattr(self, "orientation_weights"):
-            self.orientation_weights = np.empty(self.n_features * 3)
+            self.orientation_weights = np.empty((self.n_features, 3))
 
-        self.position_weights[:] = weights.reshape(
-            self.n_features, self.n_task_dims)[:, :3].ravel()
-        self.orientation_weights[:] = weights.reshape(
-            self.n_features, self.n_task_dims)[:, 3:].ravel()
+        self.position_weights[:] = weights[:, :3]
+        self.orientation_weights[:] = weights[:, 3:]
 
     weights = property(get_weights, set_weights)
 
@@ -273,7 +270,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             Current weights
         """
-        return self.weights
+        return self.weights.ravel()
 
     def set_params(self, params):
         """Set new weights.
@@ -283,7 +280,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New weights
         """
-        self.weights = params
+        self.weights = params.reshape(self.n_features, 6)
 
     def reset(self):
         """Reset DMP."""
@@ -327,12 +324,12 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         X_rot = X[3:, :].T.copy()
         dmp.imitate(
             np.arange(0, self.execution_time + self.dt, self.dt),
-            X_pos.ravel(), self.position_weights, self.widths, self.centers,
+            X_pos, self.position_weights, self.widths, self.centers,
             alpha, self.alpha_y, self.beta_y, self.alpha_z,
             allow_final_velocity)
         dmp.quaternion_imitate(
             np.arange(0, self.execution_time + self.dt, self.dt),
-            X_rot.ravel(), self.orientation_weights, self.widths, self.centers,
+            X_rot, self.orientation_weights, self.widths, self.centers,
             alpha, self.alpha_y, self.beta_y, self.alpha_z,
             allow_final_velocity)
 

@@ -196,20 +196,20 @@ def test_csdmp_imitate():
 
     X_demo = make_minimum_jerk(x0, g, execution_time, dt)[0]
     X_rot = np.tile(zeroq[3:], (X_demo.shape[1], 1)).T
-    X_demo = np.vstack((X_demo[:, :, 0], X_rot))[:, :, np.newaxis]
+    X_demo = np.vstack((X_demo[:, :, 0], X_rot))[:, :, np.newaxis][:, :, 0]
 
     # Without regularization
     beh.imitate(X_demo)
     X = beh.trajectory()
-    assert_array_almost_equal(X_demo.T[0], X, decimal=2)
+    assert_array_almost_equal(X_demo.T, X, decimal=2)
 
     # With alpha > 0
-    beh.imitate(X.T[:, :, np.newaxis], alpha=1.0)
+    beh.imitate(X.T, alpha=1.0)
     X = beh.trajectory()
-    assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+    assert_array_almost_equal(X_demo.T, X, decimal=3)
 
     # Self-imitation
-    beh.imitate(X.T[:, :, np.newaxis])
+    beh.imitate(X.T)
     X2 = beh.trajectory()
     assert_array_almost_equal(X2, X, decimal=3)
 

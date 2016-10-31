@@ -54,9 +54,11 @@ void initializeRbf(
  * \param Y positions, contains num_T * num_dimensions entries in row-major
  *        order, i.e. the first position is located at the first num_dimensions
  *        entries of the array
- * \param num_Y number of positions
+ * \param num_steps number of steps
+ * \param num_task_dims number of dimensions
  * \param weights weights that reproduce the trajectory (will be updated)
- * \param num_weights number of weights
+ * \param num_weights_per_dim number of features per dimension
+ * \param num_weight_dims number of dimensions
  * \param widths widths of the radial basis functions (shared among DOFs)
  * \param num_widths number of RBFs
  * \param centers centers of the radial basis functions (shared among DOFs)
@@ -74,9 +76,11 @@ void imitate(
   const double* T,
   int num_T,
   const double* Y,
-  int num_Y,
+  int num_steps,
+  int num_task_dims,
   double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -122,7 +126,8 @@ void imitate(
  * \param goal_t time at the end of the DMP
  * \param start_t time at the start of the DMP
  * \param weights weights of the forcing term
- * \param num_weights number of weights
+ * \param num_weights_per_dim number of features per dimension
+ * \param num_weight_dims number of dimensions
  * \param widths widths of the radial basis functions (shared among DOFs)
  * \param num_widths number of RBFs
  * \param centers centers of the radial basis functions (shared among DOFs)
@@ -165,7 +170,8 @@ void dmpStep(
   const double goal_t,
   const double start_t,
   const double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -190,9 +196,11 @@ void dmpStep(
  * \param num_T number of steps
  * \param R rotations, contains num_T * 4 entries in row-major order, i.e.
  *        the first quaternion is located at the first 4 entries of the array
- * \param num_R number of rotations
+ * \param num_steps number of steps
+ * \param num_task_dims should be 4
  * \param weights weights that reproduce the trajectory (will be updated)
- * \param num_weights must be 3 per radial basis function
+ * \param num_weights_per_dim number of features per dimension
+ * \param num_weight_dims should be 3
  * \param widths widths of the radial basis functions (shared among DOFs)
  * \param num_widths number of RBFs
  * \param centers centers of the radial basis functions (shared among DOFs)
@@ -210,9 +218,11 @@ void quaternionImitate(
   const double* T,
   int num_T,
   const double* R,
-  int num_R,
+  int num_steps,
+  int num_task_dims,
   double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -258,7 +268,8 @@ void quaternionImitate(
  * \param goal_t time at the end of the DMP
  * \param start_t time at the start of the DMP
  * \param weights weights of the forcing term
- * \param num_weights must be 3 per radial basis function
+ * \param num_weights_per_dim number of features per dimension
+ * \param num_weight_dims should be 3
  * \param widths widths of the radial basis functions (shared among DOFs)
  * \param num_widths number of RBFs
  * \param centers centers of the radial basis functions (shared among DOFs)
@@ -301,7 +312,8 @@ void quaternionDmpStep(
   const double goal_t,
   const double start_t,
   const double* weights,
-  int num_weights,
+  int num_weights_per_dim,
+  int num_weight_dims,
   const double* widths,
   int num_widths,
   const double* centers,
@@ -317,9 +329,11 @@ namespace internal
 
 void compute_gradient(
   const double* in,
-  int num_in,
+  int num_in_steps,
+  int num_in_dims,
   double* out,
-  int num_out,
+  int num_out_steps,
+  int num_out_dims,
   const double* time,
   int num_time,
   bool allow_final_velocity = true
@@ -327,9 +341,11 @@ void compute_gradient(
 
 void compute_quaternion_gradient(
   const double* in,
-  int num_in,
+  int num_in_steps,
+  int num_in_dims,
   double* out,
-  int num_out,
+  int num_out_steps,
+  int num_out_dims,
   const double* time,
   int num_time,
   bool allow_final_velocity = true
