@@ -23,6 +23,10 @@ set(dmp_rigid_body_sources
     test_rigid_body_dmp_config.cpp
     test_rigid_body_dmp.cpp)
 
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/model.yaml DESTINATION .)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config.yaml DESTINATION .)
+
 add_executable (dmp_cpp_test ${dmp_sources})
 target_link_libraries(dmp_cpp_test dmp_cpp ${LIB_MANAGER_LIBRARIES})
 
