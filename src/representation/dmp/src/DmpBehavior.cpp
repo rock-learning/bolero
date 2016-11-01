@@ -229,6 +229,17 @@ void DmpBehavior::getOutputs(double* values, int numOutputs) const
   expectedState = SET_INPUTS;
 }
 
+void DmpBehavior::setWeights(const Eigen::ArrayXXd &weights)
+{
+  assert(weights.rows() == taskDimensions);
+  this->weights = weights;
+}
+
+const Eigen::MatrixXd DmpBehavior::getWeights()
+{
+  return weights.matrix();
+}
+
 } /* namespace dmp */
 
 

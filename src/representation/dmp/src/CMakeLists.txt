@@ -61,7 +61,7 @@ target_link_libraries(quaternion_dmp_cpp dmp ${YAMLCPP_LIBRARIES})
 set_target_properties(quaternion_dmp_cpp PROPERTIES COMPILE_FLAGS "-DBUILD_QUATERNION_STANDALONE")
 
 add_library(rigid_body_dmp_cpp SHARED ${rigid_body_sources} ${rigid_body_headers})
-target_link_libraries(rigid_body_dmp_cpp ${YAMLCPP_LIBRARIES})
+target_link_libraries(rigid_body_dmp_cpp dmp ${YAMLCPP_LIBRARIES})
 
 install (TARGETS dmp_cpp DESTINATION lib)
 install (TARGETS quaternion_dmp_cpp DESTINATION lib)

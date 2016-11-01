@@ -1,5 +1,6 @@
 #pragma once
 #include "QuaternionDmp.h"
+#include "DmpBehavior.h"
 #include "RigidBodyDmpConfig.h"
 #include <LoadableBehavior.h>
 #include <lib_manager/LibInterface.hpp>
@@ -74,7 +75,7 @@ public:
 private:
   lib_manager::LibManager* manager;
   RigidBodyDmpConfig config;
-  //std::auto_ptr<DmpBehavior> translationDmp;
+  std::auto_ptr<DmpBehavior> translationDmp;
   std::auto_ptr<QuaternionDmp> rotationDmp;
   bool initialized; /**<True if initialize() has been called successfully */
   bool configured; /**<True if configure() has been called successfully */

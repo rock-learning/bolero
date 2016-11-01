@@ -38,11 +38,10 @@ add_executable(dmp_cpp_quaternion_behavior_test
 target_link_libraries(dmp_cpp_quaternion_behavior_test
     quaternion_dmp_cpp ${LIB_MANAGER_LIBRARIES})
 
-# TODO
-#add_executable(dmp_cpp_rigid_body_test ${dmp_rigid_body_sources})
-#target_link_libraries(dmp_cpp_rigid_body_test
-#    rigid_body_dmp_cpp ${LIB_MANAGER_LIBRARIES})
-#set_target_properties(dmp_cpp_rigid_body_test PROPERTIES COMPILE_FLAGS "-std=c++0x")
+add_executable(dmp_cpp_rigid_body_test ${dmp_rigid_body_sources})
+target_link_libraries(dmp_cpp_rigid_body_test
+    rigid_body_dmp_cpp ${LIB_MANAGER_LIBRARIES})
+set_target_properties(dmp_cpp_rigid_body_test PROPERTIES COMPILE_FLAGS "-std=c++0x")
 
 
 enable_testing()

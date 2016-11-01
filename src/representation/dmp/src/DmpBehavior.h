@@ -74,6 +74,24 @@ public:
 
   bool configure(const dmp_cpp::DMPConfig& config);
 
+
+  /**
+  * Sets the weights matrix of the forcing term
+  * Should be a DxN matrix.
+  * N should be equal to the number of centers in the function approximator
+  * and D is the number of dimensions.
+  */
+  virtual void setWeights(const Eigen::ArrayXXd& newWeights);
+
+
+  /**
+  * Gets the weights matrix of the forcing term
+  * Should be a DxN matrix.
+  * N should be equal to the number of centers in the function approximator
+  * and D is the number of dimensions.
+  */
+  virtual const Eigen::MatrixXd getWeights();
+
   CREATE_MODULE_INFO();
 
 private:
