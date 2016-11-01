@@ -161,7 +161,8 @@ void QuaternionDmp::setInputs(const double *values, int numInputs)
   assert(initialized);
   assert(numInputs >= 4); //quaternions always have 4 elements
 
-  lastData.segment(0, 4) = Map<const ArrayXd>(values, numInputs);
+  lastData.segment<4>(0) = Map<const Array<double, 4, 1> >(values, 4);
+  lastData.segment<4>(0) /= lastData.segment<4>(0).matrix().norm();
 }
 
 void QuaternionDmp::getOutputs(double *values, int numOutputs) const
@@ -169,17 +170,18 @@ void QuaternionDmp::getOutputs(double *values, int numOutputs) const
   assert(initialized);
   assert(numOutputs >= 4);
 
-  Map<ArrayXd> map(values, numOutputs);
-  map = data.segment(0, 4);
+  Map<Array<double, 4, 1> > map(values);
+  map = data.segment<4>(0);
 
-  lastData.segment<6>(4) = data.segment<6>(4);
+  // TODO That should be easier. Why does segment not work on the left side?
+  Map<ArrayXd>((double*) (lastData.data() + 4), 6) = data.segment<6>(4);
 }
 
 void QuaternionDmp::step()
 {
   assert(initialized);
 
-  Dmp::dmpStep(
+  Dmp::quaternionDmpStep(
     lastT, t,
     lastData.data(), 4,
     lastData.data() + 4, 3,
