@@ -96,8 +96,8 @@ namespace bolero {
 
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
-      if(map.find("Optimizer") != map.end()) {
-        ConfigMap &m = map["Optimizer"][0].children;
+      if(map.hasKey("Optimizer")) {
+        ConfigMap &m = map["Optimizer"];
         if(!lambda) {
           lambda = m.get("PopulationSize", lambda);
         }

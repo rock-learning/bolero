@@ -66,19 +66,19 @@ namespace bolero {
       graphicsStepSkip = graphicsUpdateTime = 0;
 
       bool enableGUI = true;
-      if(map.find("Environment") != map.end()) {
-        map2 = &(map["Environment"][0].children);
+      if(map.hasKey("Environment")) {
+        map2 = map["Environment"];
 
-        if(map2->find("enableGUI") != map2->end())
-          enableGUI = (*map2)["enableGUI"][0].getBool();
+        if(map2->hasKey("enableGUI"))
+          enableGUI = (*map2)["enableGUI"];
 
-        if(map2->find("graphicsUpdateTime") != map2->end())
-          graphicsUpdateTime = (*map2)["graphicsUpdateTime"][0].getUInt();
+        if(map2->hasKey("graphicsUpdateTime"))
+          graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
         else
           graphicsUpdateTime = 0u;
 
-        if(map2->find("graphicsStepSkip") != map2->end())
-          graphicsStepSkip = (*map2)["graphicsStepSkip"][0].getUInt();
+        if(map2->hasKey("graphicsStepSkip"))
+          graphicsStepSkip = (*map2)["graphicsStepSkip"];
         else
           graphicsStepSkip = 0u;
       }
@@ -170,7 +170,7 @@ namespace bolero {
         marsPlugin->outputs[i] = 0.0;
       }
 
-      mars::app::MARS::control->sim->resetSim();
+      mars::app::MARS::control->sim->resetSim(false);
       mars::app::MARS::control->sim->finishedDraw();
     }
 

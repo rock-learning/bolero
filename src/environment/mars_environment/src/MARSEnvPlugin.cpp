@@ -49,19 +49,19 @@ namespace bolero {
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");
 
-      if(map.find("Environment") != map.end()) {
-        map2 = &(map["Environment"][0].children);
+      if(map.hasKey("Environment")) {
+        map2 = map["Environment"];
 
-        if(map2->find("calc_ms") != map2->end()) {
-          double dValue = (*map2)["calc_ms"][0].getDouble();
+        if(map2->hasKey("calc_ms")) {
+          double dValue = (*map2)["calc_ms"][0];
           if(control->cfg) {
             control->cfg->setPropertyValue("Simulator", "calc_ms", "value",
                                            dValue);
           }
         }
 
-        if(map2->find("stepTimeMs") != map2->end()) {
-          stepTimeMs = (*map2)["stepTimeMs"][0].getDouble();
+        if(map2->hasKey("stepTimeMs")) {
+          stepTimeMs = (*map2)["stepTimeMs"];
         }
       }
 

@@ -80,8 +80,8 @@ namespace bolero {
     }
 
     ConfigMap map = ConfigMap::fromYamlFile("learning_config.yml");
-    string strEnvironment = (std::string)map["Environment"]["type"];
-    string strBehaviorSearch = (std::string)map["BehaviorSearch"]["type"];
+    string strEnvironment = map["Environment"]["type"];
+    string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
     bool evaluateExperiment = false;
     string experimentDir;
@@ -89,7 +89,7 @@ namespace bolero {
     blLoader->loadLibrary(strEnvironment);
     blLoader->loadLibrary(strBehaviorSearch);
 
-    if(map["Controller"][0].children.find("GenerateFitnessLog") != map.end()) {
+    if(map["Controller"].hasKey("GenerateFitnessLog")) {
       if(map["Controller"]["GenerateFitnessLog"]) {
         string fLogFilename = string(blLogPath) + "/fitness.txt";
         fitnessLog = fopen(fLogFilename.c_str(), "w");
@@ -98,14 +98,14 @@ namespace bolero {
       }
     }
 
-    if(map["Controller"][0].children.find("EvaluateExperiment") != map.end()) {
+    if(map["Controller"].hasKey("EvaluateExperiment")) {
       evaluateExperiment = map["Controller"]["EvaluateExperiment"];
     }
-    if(map["Controller"][0].children.find("EvaluatePathToExpEriment") != map.end()) {
-      experimentDir = (std::string)map["Controller"]["EvaluatePathToExperiment"];
+    if(map["Controller"].hasKey("EvaluatePathToExperiment")) {
+      experimentDir << map["Controller"]["EvaluatePathToExperiment"];
     }
 
-    if(map["Controller"][0].children.find("TestEveryXRun") != map.end()) {
+    if(map["Controller"].hasKey("TestEveryXRun")) {
       testEveryXRun = map["Controller"]["TestEveryXRun"];
       fprintf(stderr, "testevery: %d\n", testEveryXRun);
     }
