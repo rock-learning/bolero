@@ -84,10 +84,10 @@ namespace bolero {
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");
 
-      if(map.find("BehaviorSearch Parameters") != map.end()) {
-        map2 = &(map["BehaviorSearch Parameters"][0].children);
+      if(map.hasKey("BehaviorSearch Parameters")) {
+        map2 = map["BehaviorSearch Parameters"];
         if(map2->find("PopulationSize") != map2->end()) {
-          particleCount = (*map2)["PopulationSize"][0].getInt();
+          particleCount = (*map2)["PopulationSize"];
         }
       }
     
