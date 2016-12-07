@@ -26,8 +26,8 @@ class Controller(Base):
       of behaviors) of each episode in `self.inputs_`
     * record_outputs (bool) - store outputs of environment (inputs for
       behaviors) for each episode in `self.outputs_`
-    * accumulate_feedbacks (bool) - compute sum of feedbacks (episode returns
-      a scalar) or return all feedbacks
+    * accumulate_feedbacks (bool) - log the sum of feedbacks (episode returns
+      a scalar) or all feedbacks
     * record_contexts (bool) - store context vectors of each episode in
       `self.contexts_` (only available for contextual environments)
     * n_episodes_before_test (int) - the upper-level policy will be evaluated
@@ -203,8 +203,7 @@ class Controller(Base):
         Returns
         -------
         accumulated_feedback : float or array-like, shape = (n_feedbacks,)
-            Feedback(s) of the episode. If the flag accumulate_feedbacks is
-            True, the feedback sum is returned as a scalar.
+            Feedback(s) of the episode
         """
         if self.behavior_search is None:
             raise ValueError("A BehaviorSearch is required to execute an "
@@ -218,12 +217,10 @@ class Controller(Base):
                                       meta_parameters)
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
-        if self.accumulate_feedbacks:
-            feedbacks = np.sum(feedbacks)
-
         if self.verbose >= 2:
             if self.accumulate_feedbacks:
-                print("[Controller] Accumulated feedback: %g" % feedbacks)
+                print("[Controller] Accumulated feedback: %g"
+                      % np.sum(feedbacks))
             else:
                 print("[Controller] Feedbacks: %s"
                       % np.array_str(feedbacks, precision=4))
@@ -294,7 +291,7 @@ class Controller(Base):
             if self.record_outputs:
                 self.outputs_.append(outputs)
             if self.record_feedbacks:
-                self.feedbacks_.append(np.sum(feedbacks))
+                self.feedbacks_.append(feedbacks)
         return feedbacks
 
     def _perform_test(self, meta_parameter_keys, meta_parameters):
