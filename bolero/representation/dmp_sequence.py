@@ -202,10 +202,9 @@ class DMPSequence(BlackBoxBehavior):
 
     def get_n_params(self):
         """Get number of parameters."""
-        n_params = self.n_weights
-        n_params += (self.n_dmps - 1) * self.n_task_dims
+        n_params = self.n_weights + (self.n_dmps - 1) * self.n_task_dims
         if self.learn_goal_velocities:
-            n_params += self.n_dmps * self.n_task_dims
+            n_params += (self.n_dmps + 1) * self.n_task_dims
         return n_params
 
     def get_params(self):
