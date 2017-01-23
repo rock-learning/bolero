@@ -48,7 +48,7 @@ namespace bolero {
       testFunction = 1;
 
       if(map.find("Environment") != map.end()) {
-        map2 = &(map["Environment"][0].children);
+        map2 = map["Environment"];
         dimension = map2->get("Dimension", dimension);
         assert(dimension>0);
         testFunction = map2->get("CEC13TestFunction", testFunction);
