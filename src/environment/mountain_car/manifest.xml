@@ -4,5 +4,5 @@
   </description>
   <depend package="learning/bolero/include" />
   <depend package="simulation/lib_manager" />
-  <depend package="simulation/configmaps" />
+  <depend package="tools/configmaps" />
 </package>
