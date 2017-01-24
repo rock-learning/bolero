@@ -7,6 +7,6 @@ Name: quaternion_dmp_cpp
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Requires: @DEPS_PKGCONFIG@ yaml-cpp
-Libs: -L${libdir} -lquaternion_dmp_cpp
+Libs: -L${libdir} -lquaternion_dmp_cpp -ldmp
 Cflags: -I${includedir}
 

@@ -3,6 +3,6 @@
     This simple test problem searches for a minimum value in a test function.
   </description>
   <depend package="simulation/lib_manager" />
-  <depend package="simulation/configmaps" />
+  <depend package="tools/configmaps" />
   <depend package="learning/bolero/include" />
 </package>

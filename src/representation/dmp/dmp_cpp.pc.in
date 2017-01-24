@@ -7,6 +7,6 @@ Name: @PROJECT_NAME@
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Requires: @DEPS_PKGCONFIG@ yaml-cpp
-Libs: -L${libdir} -ldmp_cpp
+Libs: -L${libdir} -ldmp_cpp -ldmp
 Cflags: -I${includedir}
 

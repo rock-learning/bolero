@@ -13,7 +13,6 @@
 #include <lib_manager/LibInterface.hpp>
 
 namespace dmp {
-class Dmp;
 
 /**
  * A simple wrapper around the DMP class that provides the Behavior interface.
@@ -75,16 +74,29 @@ public:
 
   bool configure(const dmp_cpp::DMPConfig& config);
 
-  /**Returns the underlying dmp*/
-  Dmp& getDmp();
+
+  /**
+  * Sets the weights matrix of the forcing term
+  * Should be a DxN matrix.
+  * N should be equal to the number of centers in the function approximator
+  * and D is the number of dimensions.
+  */
+  virtual void setWeights(const Eigen::ArrayXXd& newWeights);
+
+
+  /**
+  * Gets the weights matrix of the forcing term
+  * Should be a DxN matrix.
+  * N should be equal to the number of centers in the function approximator
+  * and D is the number of dimensions.
+  */
+  virtual const Eigen::MatrixXd getWeights();
 
   CREATE_MODULE_INFO();
 
 private:
   dmp_cpp::DMPModel model;
   dmp_cpp::DMPConfig config;
-  std::auto_ptr<Dmp> dmp;
-  Eigen::ArrayXd data;//contains concatenation of position, velocity and acceleration
 
   //This class needs a certain call order to function properly.
   //This enum is used to enforce the call order
@@ -98,7 +110,25 @@ private:
     GET_OUTPUTS
   };
   mutable State expectedState;//contains the function that should be called next
-  bool stepPossible; //True if step() can be called at least one more time
+
+  int taskDimensions;
+  double dt;
+
+  std::string name;
+  double alphaY;
+  double betaY;
+  double alphaZ;
+  Eigen::ArrayXd widths;
+  Eigen::ArrayXd centers;
+  Eigen::ArrayXXd weights;
+  double startT;
+  double goalT;
+  Eigen::ArrayXd startData; //contains concatenation of position, velocity and acceleration
+  Eigen::ArrayXd goalData; //contains concatenation of position, velocity and acceleration
+  double lastT;
+  double t;
+  Eigen::ArrayXd lastData; //contains concatenation of position, velocity and acceleration
+  Eigen::ArrayXd data; //contains concatenation of position, velocity and acceleration
 };
 
 }

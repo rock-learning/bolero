@@ -52,7 +52,7 @@ void RigidBodyDmp::step()
 
 bool RigidBodyDmp::canStep() const
 {
-  return translationDmp->canStep() && rotationDmp->canStep();
+  return translationDmp->canStep() && rotationDmp->canStep(); // TODO
 }
 
 
@@ -112,6 +112,7 @@ bool RigidBodyDmp::configure(const RigidBodyDmpConfig &config)
 
 bool RigidBodyDmp::initialize(const dmp_cpp::DMPModel &model)
 {
+  // TODO
   /*@note  Some part of the code will only work correctly
   *        if the canonical systems of both dmps are initialized
   *        using the same parameters.*/
@@ -148,126 +149,13 @@ bool RigidBodyDmp::initialize(const dmp_cpp::DMPModel &model)
   }
 }
 
-void RigidBodyDmp::determineForces(const double *positions, const int positionRows,
-                                   const int positionCols, const double *rotations,
-                                   const int rotationRows, const int rotationCols,
-                                   double *forces, const int forcesRows,
-                                   const int forcesCols, const double executionTime,
-                                   const double dt, double const alphaZ, double const betaZ,
-                                   bool allowFinalVelocity)
-{
-  assert(positionCols > 0);
-  assert(positionRows == 3);
-  assert(rotationCols == positionCols);
-  assert(rotationRows == 4);
-  assert(forcesCols == positionCols);
-  assert(forcesRows == 6);
-
-  //This Method is not performance critical, therefore we just copy the data a few times
-
-  //The const_cast is ok because the map is only a temporary that is never modified
-  ArrayXXd positionsArr = Map<ArrayXXd>(const_cast<double*>(positions), positionRows, positionCols);
-  assert(positionsArr.allFinite());
-  ArrayXXd velsArr(0, 0); //will be filled by Dmp::determineForces
-  ArrayXXd accArr(0, 0); //will be filled by Dmp::determineForces
-
-
-  ArrayXXd positionForces(positionRows, positionCols);
-  Dmp::determineForces(positionsArr, velsArr, accArr, positionForces, executionTime,
-                       dt, alphaZ, betaZ, allowFinalVelocity);
-
-  ArrayXXd rotationsArr = Map<ArrayXXd>(const_cast<double*>(rotations), rotationRows, rotationCols);
-  assert(rotationsArr.allFinite());
-  QuaternionTransformationSystem::QuaternionVector rotationsVector;
-  for(int i = 0; i < rotationCols; ++i)
-  {
-    Quaterniond q;
-    q.w() = rotationsArr.col(i)(0);
-    q.x() = rotationsArr.col(i)(1);
-    q.y() = rotationsArr.col(i)(2);
-    q.z() = rotationsArr.col(i)(3);
-    q.normalize();//has to be done to avoid nans
-    rotationsVector.push_back(q);
-  }
-
-  ArrayXXd rotationVelocities(0,0);
-  ArrayXXd rotationAccelerations(0,0);
-  ArrayXXd rotationForces(rotationRows, rotationCols);
-  QuaternionDmp::determineForces(rotationsVector, rotationVelocities, rotationAccelerations, rotationForces,
-                                 dt, executionTime, alphaZ, betaZ, allowFinalVelocity);
-
-  ArrayXXd forcesArr(6, positionCols);
-  forcesArr.setConstant(NAN); //initially set forces to nan, this way we can assert afterwards that all forces have been calculated correctly
-  forcesArr.block(0, 0, 3, forcesCols) = positionForces;
-  forcesArr.block(3, 0, 3, forcesCols) = rotationForces;
-  assert(forcesArr.allFinite());
-
-  Map<ArrayXXd>(forces, forcesRows, forcesCols) = forcesArr;
-}
-
-void RigidBodyDmp::determineForcesRb(const double *positions, const int positionRows, const int positionCols,
-                                     double *forces, const int forcesRows, const int forcesCols,
-                                     const double executionTime, const double dt, double const alphaZ, double const betaZ,
-                                     bool allowFinalVelocity)
-{
-  assert(positionRows == 7);
-  assert(forcesCols == positionCols);
-  assert(forcesRows == 6);
-  //This Method is not performance critical, therefore we just copy the data a few times
-  ArrayXXd positionsArr = Map<ArrayXXd>(const_cast<double*>(positions), positionRows, positionCols);
-  assert(positionsArr.allFinite());
-  ArrayXXd translations = positionsArr.block(0, 0, 3, positionCols);
-
-  ArrayXXd velsArr(0, 0); //will be filled by Dmp::determineForces
-  ArrayXXd accArr(0, 0); //will be filled by Dmp::determineForces
-
-  ArrayXXd positionForces(3, positionCols);
-  Dmp::determineForces(translations, velsArr, accArr, positionForces, executionTime,
-                       dt, alphaZ, betaZ, allowFinalVelocity);
-
-  ArrayXXd rotations = positionsArr.block(3, 0, 4, positionCols);
-
-  QuaternionTransformationSystem::QuaternionVector rotationsVector;
-  for(int i = 0; i < positionCols; ++i)
-  {
-    Quaterniond q;
-    q.w() = rotations.col(i)(0);
-    q.x() = rotations.col(i)(1);
-    q.y() = rotations.col(i)(2);
-    q.z() = rotations.col(i)(3);
-    q.normalize();//has to be done to avoid nans
-    rotationsVector.push_back(q);
-  }
-
-  ArrayXXd rotationVelocities(0,0);
-  ArrayXXd rotationAccelerations(0,0);
-  ArrayXXd rotationForces(3, positionCols);
-  QuaternionDmp::determineForces(rotationsVector, rotationVelocities, rotationAccelerations, rotationForces,
-          dt, executionTime, alphaZ, betaZ, allowFinalVelocity);
-
-  ArrayXXd forcesArr(6, positionCols);
-  forcesArr.setConstant(NAN); //initially set forces to nan, this way we can assert afterwards that all forces have been calculated correctly
-  forcesArr.block(0, 0, 3, forcesCols) = positionForces;
-  forcesArr.block(3, 0, 3, forcesCols) = rotationForces;
-  assert(forcesArr.allFinite());
-
-  Map<ArrayXXd>(forces, forcesRows, forcesCols) = forcesArr;
-}
-
-void RigidBodyDmp::getActivations(const double s, const bool normalized,
-                                  double *activations, const int size) const
-{
-  assert(initialized);
-  translationDmp->getDmp().getActivations(s, normalized, activations, size);
-}
-
 void RigidBodyDmp::setWeights(const double *weights, const int rows, const int cols)
 {
   assert(initialized);
   assert(rows == 6);
 
   ArrayXXd weightsArr = Map<ArrayXXd>(const_cast<double*>(weights), rows, cols);
-  translationDmp->getDmp().setWeights(weightsArr.block(0, 0, 3, cols));
+  translationDmp->setWeights(weightsArr.block(0, 0, 3, cols));
   rotationDmp->setWeights(weightsArr.block(3, 0, 3, cols));
 }
 
@@ -277,18 +165,8 @@ void RigidBodyDmp::getWeights(double* weights, const int rows, const int cols)
   assert(rows == 6);
 
   Map<ArrayXXd> weightsArr = Map<ArrayXXd>(weights, rows, cols);
-  weightsArr.block(0, 0, 3, cols) = translationDmp->getDmp().getWeights();
+  weightsArr.block(0, 0, 3, cols) = translationDmp->getWeights();
   weightsArr.block(3, 0, 3, cols) = rotationDmp->getWeights();
 }
 
-void RigidBodyDmp::getPhases(double *phases, const int len) const
-{
-  assert(translationDmp.get());
-  //note: this works as long as both the translation and the rotation
-  //      dmp use the same canonical system.
-  //      Right now this is always the case. If it ever changes this code needs
-  //      to change as well.
-  assert(rotationDmp.get());
-  translationDmp->getDmp().getPhases(phases, len);
-}
 }//end namespace

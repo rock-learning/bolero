@@ -3,7 +3,7 @@
     An implementation of the standard controller for the learning framework.
   </description>
   <depend package="simulation/lib_manager" />
-  <depend package="simulation/configmaps" />
+  <depend package="tools/configmaps" />
   <depend package="learning/bolero/include" />
   <depend package="learning/bolero/src/bl_loader" />
 </package>

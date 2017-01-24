@@ -9,27 +9,23 @@ include_directories(
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
 
 set(dmp_sources
-    test_canonical_system.cpp
-    test_dmp.cpp
     test_dmp_config.cpp
     test_dmp_model.cpp
-    test_dmp_wrapper.cpp
-    test_fifth_order_polynomial.cpp
-    test_forcing_term.cpp
-    test_function_approximator.cpp
-    test_main.cpp
-    test_transformation_system.cpp)
+    test_main.cpp)
 
 set(dmp_quaternion_behavior_sources
     test_main.cpp
     test_quaternion_dmp.cpp
-    test_quaternion_transformation_system.cpp
     test_quaternion_dmp_config.cpp)
 
 set(dmp_rigid_body_sources
     test_main.cpp
     test_rigid_body_dmp_config.cpp
     test_rigid_body_dmp.cpp)
+
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/model.yaml DESTINATION .)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config.yaml DESTINATION .)
 
 add_executable (dmp_cpp_test ${dmp_sources})
 target_link_libraries(dmp_cpp_test dmp_cpp ${LIB_MANAGER_LIBRARIES})

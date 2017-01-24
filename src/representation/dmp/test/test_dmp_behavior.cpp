@@ -1,7 +1,5 @@
 #include <catch/catch.hpp>
 #include "DmpBehavior.h"
-#include "Dmp.h"
-#include "CanonicalSystem.h"
 #include "DMPModel.h"
 #include "test_helpers.h"
 #include <stdio.h>  /* defines FILENAME_MAX */
@@ -25,7 +23,7 @@ const double lastPhaseValue = 0.01;
 double executionTime = 2;
 const double overlap = 0.1;
 const double dt = executionTime/(numPhases - 1);
-const double alpha = CanonicalSystem::calculateAlpha(lastPhaseValue, numPhases);
+const double alpha = 5.0;
 
 ArrayXXd weights(2,2);
 ArrayXd startPos(2);
@@ -56,72 +54,8 @@ std::string getFilePath(const std::string& name)
   return filepath;
 }
 
-void createFiles()
-{
-  Dmp dmp(executionTime, alpha, dt, numCenters, overlap);
-  dmp.initialize(startPos, startVel, startAcc, endPos, endVel, endAcc);
-  dmp.setWeights(weights);
-
-  DMPModel model = dmp.generateModel();
-  std::string path = getFilePath("model.yaml");
-  TestHelpers::delete_file_if_exists(path);
-  model.to_yaml_file(path);
-
-  DMPConfig config = dmp.generateConfig();
-  path = getFilePath("config.yaml");
-  TestHelpers::delete_file_if_exists(path);
-  config.to_yaml_file(path);
-}
-
-TEST_CASE("Test DMPBehavior", "[DmpBehavior]")
-{
-  /**
-   * create a DmpBhavior from two config files and compare its output to the normal
-   * dmp.
-   */
-  initArrays();
-  createFiles();
-  lib_manager::LibManager manager;
-  DmpBehavior behav(&manager);
-  behav.initialize(getFilePath("model.yaml"));
-  behav.configure(getFilePath("config.yaml"));
-
-  Dmp dmp(executionTime, alpha, dt, numCenters, overlap);
-  dmp.initialize(startPos, startVel, startAcc, endPos, endVel, endAcc);
-  dmp.setWeights(weights);
-
-  double data[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-  ArrayXd pos(2); pos << 0, 0;
-  ArrayXd vel(2); vel << 0, 0;
-  ArrayXd acc(2); acc << 0, 0;
-  for(int i = 1; i < numPhases; ++i) //start at phase 1 because phase 0 is the inital phase
-  {
-    REQUIRE(behav.canStep());
-
-    //re-configure often to make sure that it is always possible
-    //and does not cause strange side effects
-    behav.configure(getFilePath("config.yaml"));
-    behav.setInputs(&data[0], 6);
-    behav.configure(getFilePath("config.yaml"));
-    behav.step();
-    behav.configure(getFilePath("config.yaml"));
-    behav.getOutputs(&data[0], 6);
-    behav.configure(getFilePath("config.yaml"));
-
-    dmp.executeStep(pos, vel, acc);
-    REQUIRE(pos(0) == Approx(data[0]));
-    REQUIRE(pos(1) == Approx(data[1]));
-    REQUIRE(vel(0) == Approx(data[2]));
-    REQUIRE(vel(1) == Approx(data[3]));
-    REQUIRE(acc(0) == Approx(data[4]));
-    REQUIRE(acc(1) == Approx(data[5]));
-  }
-  REQUIRE(!behav.canStep());
-}
-
 TEST_CASE("Reconfigure midrun", "[DmpBehavior]")
 {
-  createFiles();
   lib_manager::LibManager manager;
   DmpBehavior behav(&manager);
   behav.initialize(getFilePath("model.yaml"));

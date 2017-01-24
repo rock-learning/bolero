@@ -97,6 +97,7 @@ Optimizer classes
    NoOptimizer
    RandomOptimizer
    CREPSOptimizer
+   SkOptOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================
