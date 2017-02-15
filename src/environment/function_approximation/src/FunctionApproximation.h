@@ -59,13 +59,14 @@ namespace bolero {
     private:
       std::vector<FitData>::iterator dataPoint;
       std::vector<FitData> *currentData;
-      std::vector<FitData> fitData;
+      std::vector<FitData> fitData, fitData2;
       std::vector<FitData> testData;
       int numInputs, numOutputs;
       double error;
-      std::string dataFile;
+      std::string dataFile, dataFile2;
       std::string testDataFile;
       double *y;
+      unsigned long numEvaluationsToSwitch, evaluationCount;
 
       void readExpData(std::vector<FitData> *expData, std::string filename);
       void readValue(char **linePtr, char *buf, int bufSize, int lineLength);

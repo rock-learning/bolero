@@ -31,11 +31,17 @@ namespace bolero {
       map = configmaps::ConfigMap::fromYamlFile("learning_config.yml");
 
       dataFile = "data_to_fit.txt";
-
+      dataFile2 = "";
+      numEvaluationsToSwitch = 0;
+      evaluationCount = 0;
       if(map.hasKey("Environment")) {
         configmaps::ConfigMap &map2 = map["Environment"];
         if(map2.hasKey("DataFile")) {
           dataFile << map2["DataFile"];
+        }
+        if(map2.hasKey("DataFile2")) {
+          dataFile2 << map2["DataFile2"];
+          numEvaluationsToSwitch = map2["NumEvaluationsToSwitchDataFile"];
         }
         if(map2.hasKey("TestDataFile")) {
           testDataFile << map2["TestDataFile"];
@@ -44,6 +50,10 @@ namespace bolero {
 
       fprintf(stderr, "scan: %s\n", dataFile.c_str());
       readExpData(&fitData, dataFile);
+      if(dataFile2 != "") {
+        readExpData(&fitData2, dataFile2);
+      }
+
       fprintf(stderr, "scan: %s\n", testDataFile.c_str());
       readExpData(&testData, testDataFile);
       currentData = &fitData;
@@ -107,6 +117,11 @@ namespace bolero {
           break;
         default:
           break;
+        }
+        ++evaluationCount;
+        if(numEvaluationsToSwitch > 0 && numEvaluationsToSwitch == evaluationCount) {
+          fitData.swap(fitData2);
+          dataPoint = fitData.end();
         }
       }
     }
