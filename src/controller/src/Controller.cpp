@@ -83,8 +83,13 @@ namespace bolero {
     string strEnvironment = map["Environment"]["type"];
     string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
+    bool logAllBehaviors = false;
     bool evaluateExperiment = false;
     string experimentDir;
+
+    if(map["Controller"].hasKey("LogAllBehaviors")) {
+      logAllBehaviors = map["Controller"]["LogAllBehaviors"];
+    }
 
     blLoader->loadLibrary(strEnvironment);
     blLoader->loadLibrary(strBehaviorSearch);
@@ -175,6 +180,9 @@ namespace bolero {
             minFeedback = feedback;
             minRun = evaluationCount+1;
             fprintf(fitnessLog, "%d %g\n", evaluationCount, feedback);
+            behaviorSearch->writeResults(blLogPath);
+          }
+          else if(logAllBehaviors) {
             behaviorSearch->writeResults(blLogPath);
           }
         }
