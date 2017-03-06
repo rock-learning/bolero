@@ -28,7 +28,7 @@ namespace bolero {
     void FunctionApproximation::init() {
       configmaps::ConfigMap map;
       configmaps::ConfigMap *map2;
-      map = configmaps::ConfigMap::fromYamlFile("learning_config.yml");
+      map = configmaps::ConfigMap::fromYamlFile("learning_config.yml",true);
 
       dataFile = "data_to_fit.txt";
       dataFile2 = "";
