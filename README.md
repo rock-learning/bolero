@@ -45,4 +45,5 @@ BOLeRo contains the following directories:
 
 ## License
 
-BOLeRo is distributed under the [GNU Public License (GPL)](https://www.gnu.org/licenses/gpl.html).
+BOLeRo is distributed under the
+[3-clause BSD license](https://opensource.org/licenses/BSD-3-Clause).
