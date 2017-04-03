@@ -17,12 +17,11 @@ else(WIN32)
         SET(CMAKE_CXX_FLAGS "-fPIC -Wall")
 endif(WIN32)
 
-pkg_check_modules(LIB_MANAGER REQUIRED "lib_manager")
-include_directories(${LIB_MANAGER_INCLUDE_DIRS})
-link_directories(${LIB_MANAGER_LIBRARY_DIRS})
-
-pkg_check_modules(BOLERO REQUIRED bolero)
-include_directories(${BOLERO_INCLUDE_DIRS})
+pkg_check_modules(PKGCONFIG lib_manager
+                            configmaps
+                            bolero )
+include_directories(${PKGCONFIG_INCLUDE_DIRS})
+link_directories(${PKGCONFIG_LIBRARY_DIRS})
 
 set(SOURCES src/MountainCar.cpp)
 set(HEADERS src/MountainCar.h)
@@ -32,8 +31,7 @@ include_directories(src)
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-                      ${LIB_MANAGER_LIBRARIES}
-                      ${MARS_UTILS_LIBRARIES})
+                      ${PKGCONFIG_LIBRARIES})
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
