@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cmath>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 namespace dmp_cpp
@@ -25,25 +26,23 @@ DMPConfig::DMPConfig(const string& filepath, const string& name) :
 bool DMPConfig::from_yaml_string(const string& yaml, const string& name)
 {
   stringstream sin(yaml);
-  YAML::Parser parser(sin);
-  return from_yaml_parser(parser, name);
+  return from_yaml_istream(sin, name);
 }
 
 bool DMPConfig::from_yaml_file(const string& filepath, const string& name){
   ifstream fin(filepath.c_str());
-  YAML::Parser parser(fin);
-  return from_yaml_parser(parser, name);
+  return from_yaml_istream(fin, name);
 }
 
-bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
+bool DMPConfig::from_yaml_istream(std::istream& stream, string name)
 {
-  YAML::Node doc;
   string name_buf;
-  while(parser.GetNextDocument(doc))
-  {
-      if(doc.FindValue("name"))
+  vector<YAML::Node> all_docs = YAML::LoadAll(stream);
+  for(size_t i = 0; i<all_docs.size(); i++) {
+      YAML::Node doc = all_docs[i];
+      if(doc["name"])
       {
-        doc["name"] >> name_buf;
+        name_buf = doc["name"].as<std::string>();
         if(name == "") {
           name = name_buf;
         }
@@ -57,38 +56,38 @@ bool DMPConfig::from_yaml_parser(YAML::Parser& parser, string name)
 
       config_name = name_buf;
 
-      if(doc.FindValue("dmp_execution_time"))
-        doc["dmp_execution_time"] >> dmp_execution_time;
+      if(doc["dmp_execution_time"])
+        dmp_execution_time = doc["dmp_execution_time"].as<double>();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_startPosition"))
-        doc["dmp_startPosition"] >> dmp_startPosition;
+      if(doc["dmp_startPosition"])
+        dmp_startPosition = doc["dmp_startPosition"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_endPosition"))
-        doc["dmp_endPosition"] >> dmp_endPosition;
+      if(doc["dmp_endPosition"])
+        dmp_endPosition = doc["dmp_endPosition"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_startVelocity"))
-        doc["dmp_startVelocity"] >> dmp_startVelocity;
+      if(doc["dmp_startVelocity"])
+        dmp_startVelocity = doc["dmp_startVelocity"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_endVelocity"))
-        doc["dmp_endVelocity"] >> dmp_endVelocity;
+      if(doc["dmp_endVelocity"])
+        dmp_endVelocity = doc["dmp_endVelocity"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_startAcceleration"))
-        doc["dmp_startAcceleration"] >> dmp_startAcceleration;
+      if(doc["dmp_startAcceleration"])
+        dmp_startAcceleration = doc["dmp_startAcceleration"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 
-      if(doc.FindValue("dmp_endAcceleration"))
-        doc["dmp_endAcceleration"] >> dmp_endAcceleration;
+      if(doc["dmp_endAcceleration"])
+        dmp_endAcceleration = doc["dmp_endAcceleration"].as<std::vector<double> >();
       else
         new_config_is_complete = false;
 

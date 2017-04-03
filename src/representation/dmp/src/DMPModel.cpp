@@ -3,6 +3,7 @@
  *  @author Arne Boeckmann (arne.boeckmann@dfki.de)
  */
 #include "DMPModel.h"
+#include <iostream>
 using namespace std;
 
 namespace dmp_cpp
@@ -30,7 +31,6 @@ void DMPModel::to_yaml_file(string filepath){
     out << YAML::Key << "cs_execution_time" << YAML::Value << cs_execution_time;
     out << YAML::Key << "cs_alpha" << YAML::Value << cs_alpha;
     out << YAML::Key << "cs_dt" << YAML::Value << cs_dt;
-    //out << YAML::Key << "fop_coefficients" << YAML::Value << YAML::Flow << fop_coefficients;
     out << YAML::Key << "ft_weights" << YAML::Value << YAML::Flow << ft_weights;
     out << YAML::EndMap;
     out << YAML::EndDoc;
@@ -118,24 +118,15 @@ bool DMPModel::from_yaml_string(const string &yaml, string name)
   return from_yaml_istream(sin, name);
 }
 
-bool DMPModel::from_yaml_istream(istream &stream, std::string name)
+bool DMPModel::from_yaml_istream(istream& stream, std::string name)
 {
   YAML::Node doc;
   string name_buf;
 
-#ifdef NEW_YAML_API
-    vector<YAML::Node> all_docs = YAML::LoadAll(fin);
-    for(size_t i = 0; i<all_docs.size(); i++){
-        doc = all_docs[i];
-
-        name_buf = doc["name"].as<string>();
-#else
-  YAML::Parser parser(stream);
-
-  while(parser.GetNextDocument(doc))
-  {
-    doc["name"] >> name_buf;
-#endif
+  vector<YAML::Node> all_docs = YAML::LoadAll(stream);
+  for(size_t i = 0; i<all_docs.size(); i++) {
+    YAML::Node doc = all_docs[i];
+    name_buf = doc["name"].as<string>();
 
     if(name == ""){
       name = name_buf;
@@ -145,31 +136,16 @@ bool DMPModel::from_yaml_istream(istream &stream, std::string name)
     }
     else{
       model_name = name_buf;
-#ifdef NEW_YAML_API
-            rbf_centers = doc["rbf_centers"].as<vector<double> >();
-            rbf_widths = doc["rbf_widths"].as<vector<double> >();;
-            ts_alpha_z = doc["ts_alpha_z"].as<double>();
-            ts_beta_z = doc["ts_beta_z"].as<double>();
-            ts_tau = doc["ts_tau"].as<double>();
-            ts_dt = doc["ts_dt"].as<double>();
-            cs_execution_time = doc["cs_execution_time"].as<double>();
-            cs_alpha = doc["cs_alpha"].as<double>();
-            cs_dt = doc["cs_dt"].as<double>();
-            //doc["fop_coefficients"] >> fop_coefficients;
-            ft_weights = doc["ft_weights"].as<vector<vector<double> > >();
-#else
-      doc["rbf_centers"] >> rbf_centers;
-      doc["rbf_widths"] >> rbf_widths;
-      doc["ts_alpha_z"] >> ts_alpha_z;
-      doc["ts_beta_z"] >> ts_beta_z;
-      doc["ts_tau"] >> ts_tau;
-      doc["ts_dt"] >> ts_dt;
-      doc["cs_execution_time"] >> cs_execution_time;
-      doc["cs_alpha"] >> cs_alpha;
-      doc["cs_dt"] >> cs_dt;
-      //doc["fop_coefficients"] >> fop_coefficients;
-      doc["ft_weights"] >> ft_weights;
-#endif
+      rbf_centers = doc["rbf_centers"].as<vector<double> >();
+      rbf_widths = doc["rbf_widths"].as<vector<double> >();;
+      ts_alpha_z = doc["ts_alpha_z"].as<double>();
+      ts_beta_z = doc["ts_beta_z"].as<double>();
+      ts_tau = doc["ts_tau"].as<double>();
+      ts_dt = doc["ts_dt"].as<double>();
+      cs_execution_time = doc["cs_execution_time"].as<double>();
+      cs_alpha = doc["cs_alpha"].as<double>();
+      cs_dt = doc["cs_dt"].as<double>();
+      ft_weights = doc["ft_weights"].as<vector<vector<double> > >();
       //yaml-cpp does not handle the storing/loading of doubles
       //correctly resulting in some wrong digits.
       //e.g. 0.16666666666666666666 is rounded to 0.166...67

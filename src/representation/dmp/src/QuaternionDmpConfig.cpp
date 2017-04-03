@@ -1,6 +1,7 @@
 #include "QuaternionDmpConfig.h"
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <math.h>
 #include <yaml-cpp/yaml.h>
 
@@ -14,26 +15,24 @@ QuaternionDmpConfig::QuaternionDmpConfig() : fullyInitialized(false)
 bool QuaternionDmpConfig::fromYamlFile(const std::string &filepath, const std::string &name)
 {
   ifstream fin(filepath.c_str());
-  YAML::Parser parser(fin);
-  return fromYamlParser(parser, name);
+  return fromIstream(fin, name);
 }
 
 bool QuaternionDmpConfig::fromYamlString(const std::string &yaml, const std::string &name)
 {
   stringstream sin(yaml);
-  YAML::Parser parser(sin);
-  return fromYamlParser(parser, name);
+  return fromIstream(sin, name);
 }
 
-bool QuaternionDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
+bool QuaternionDmpConfig::fromIstream(std::istream& stream, std::string name)
 {
-  YAML::Node doc;
-  string name_buf;
-  while(parser.GetNextDocument(doc))
-  {
-    if(doc.FindValue("name"))
+  vector<YAML::Node> all_docs = YAML::LoadAll(stream);
+  for(size_t i = 0; i<all_docs.size(); i++) {
+    YAML::Node doc = all_docs[i];
+    string name_buf;
+    if(doc["name"])
     {
-      doc["name"] >> name_buf;
+      name_buf = doc["name"].as<std::string>();
       if(name == "") {
         name = name_buf;
       }
@@ -47,23 +46,23 @@ bool QuaternionDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
 
     config_name = name_buf;
 
-    if(doc.FindValue("executionTime"))
-      doc["executionTime"] >> executionTime;
+    if(doc["executionTime"])
+      executionTime = doc["executionTime"].as<double>();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startPosition"))
-      doc["startPosition"] >> startPosition;
+    if(doc["startPosition"])
+      startPosition = doc["startPosition"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("endPosition"))
-      doc["endPosition"] >> endPosition;
+    if(doc["endPosition"])
+      endPosition = doc["endPosition"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startVelocity"))
-      doc["startVelocity"] >> startVelocity;
+    if(doc["startVelocity"])
+      startVelocity = doc["startVelocity"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 

@@ -2,11 +2,7 @@
 
 #include <string>
 #include <vector>
-
-namespace YAML
-{
-  class Parser;
-}
+#include <istream>
 
 namespace dmp_cpp{
 struct DMPConfig{
@@ -24,7 +20,7 @@ struct DMPConfig{
 
     bool from_yaml_file(const std::string& filepath, const std::string& name);
     bool from_yaml_string(const std::string& yaml, const std::string& name);
-    bool from_yaml_parser(YAML::Parser& parser, std::string name);
+    bool from_yaml_istream(std::istream& stream, std::string name);
     void to_yaml_file(std::string filepath);
 
     bool is_valid() const;

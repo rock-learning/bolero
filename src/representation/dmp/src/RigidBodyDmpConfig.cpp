@@ -2,6 +2,8 @@
 #include "RigidBodyDmpConfig.h"
 #include <sstream>
 #include <fstream>
+#include <iostream>
+#include <vector>
 #include <yaml-cpp/yaml.h>
 
 namespace dmp
@@ -13,6 +15,7 @@ using std::clog;
 using std::ofstream;
 using std::ios;
 using std::endl;
+using std::vector;
 
 
 RigidBodyDmpConfig::RigidBodyDmpConfig()
@@ -28,26 +31,25 @@ bool RigidBodyDmpConfig::isValid() const
 bool RigidBodyDmpConfig::fromYamlFile(const std::string &filepath, const std::string &name)
 {
   ifstream fin(filepath.c_str());
-  YAML::Parser parser(fin);
-  return fromYamlParser(parser, name);
+  return fromIstream(fin, name);
 }
 
 bool RigidBodyDmpConfig::fromYamlString(const std::string &yaml, const std::string &name)
 {
   stringstream sin(yaml);
-  YAML::Parser parser(sin);
-  return fromYamlParser(parser, name);
+  return fromIstream(sin, name);
 }
 
-bool RigidBodyDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
+bool RigidBodyDmpConfig::fromIstream(std::istream& stream, std::string name)
 {
   YAML::Node doc;
   string name_buf;
-  while(parser.GetNextDocument(doc))
-  {
-    if(doc.FindValue("name"))
+  vector<YAML::Node> all_docs = YAML::LoadAll(stream);
+  for(size_t i = 0; i<all_docs.size(); i++) {
+    YAML::Node doc = all_docs[i];
+    if(doc["name"])
     {
-      doc["name"] >> name_buf;
+      name_buf = doc["name"].as<std::string>();
       if(name == "") {
         name = name_buf;
       }
@@ -62,55 +64,54 @@ bool RigidBodyDmpConfig::fromYamlParser(YAML::Parser &parser, std::string name)
     rotationConfig.config_name = name_buf;
     translationConfig.config_name = name_buf;
 
-    if(doc.FindValue("startPosition"))
-      doc["startPosition"] >> translationConfig.dmp_startPosition;
+    if(doc["startPosition"])
+      translationConfig.dmp_startPosition = doc["startPosition"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("endPosition"))
-      doc["endPosition"] >> translationConfig.dmp_endPosition;
+    if(doc["endPosition"])
+      translationConfig.dmp_endPosition = doc["endPosition"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startVelocity"))
-      doc["startVelocity"] >> translationConfig.dmp_startVelocity;
+    if(doc["startVelocity"])
+      translationConfig.dmp_startVelocity = doc["startVelocity"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("endVelocity"))
-      doc["endVelocity"] >> translationConfig.dmp_endVelocity;
+    if(doc["endVelocity"])
+      translationConfig.dmp_endVelocity = doc["endVelocity"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startAcceleration"))
-      doc["startAcceleration"] >> translationConfig.dmp_startAcceleration;
+    if(doc["startAcceleration"])
+      translationConfig.dmp_startAcceleration = doc["startAcceleration"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("endAcceleration"))
-      doc["endAcceleration"] >> translationConfig.dmp_endAcceleration;
+    if(doc["endAcceleration"])
+      translationConfig.dmp_endAcceleration = doc["endAcceleration"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startRotation"))
-      doc["startRotation"] >> rotationConfig.startPosition;
+    if(doc["startRotation"])
+      rotationConfig.startPosition = doc["startRotation"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("endRotation"))
-      doc["endRotation"] >> rotationConfig.endPosition;
+    if(doc["endRotation"])
+      rotationConfig.endPosition = doc["endRotation"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("startAngularVelocity"))
-      doc["startAngularVelocity"] >> rotationConfig.startVelocity;
+    if(doc["startAngularVelocity"])
+      rotationConfig.startVelocity = doc["startAngularVelocity"].as<std::vector<double> >();
     else
       new_config_is_complete = false;
 
-    if(doc.FindValue("executionTime"))
+    if(doc["executionTime"])
     {
-      double executionTime;
-      doc["executionTime"] >> executionTime;
+      double executionTime = doc["executionTime"].as<double>();
       translationConfig.dmp_execution_time = executionTime;
       rotationConfig.executionTime = executionTime;
     }

@@ -21,7 +21,7 @@ struct QuaternionDmpConfig
   QuaternionDmpConfig();
   bool fromYamlFile(const std::string& filepath, const std::string& name);
   bool fromYamlString(const std::string& yaml, const std::string& name);
-  bool fromYamlParser(YAML::Parser& parser,std::string name);
+  bool fromIstream(std::istream& stream, std::string name);
   void toYamlFile(std::string filepath);
   bool isValid() const;
 
