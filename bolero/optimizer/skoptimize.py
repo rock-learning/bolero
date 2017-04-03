@@ -141,10 +141,18 @@ class SkOptOptimizer(Optimizer):
                     "Valid strings for the base_estimator parameter"
                     " are: 'RF', 'ET', or 'GP', not '%s'" % base_estimator)
 
+        acq_func_kwargs = {
+            "xi": xi,
+            "kappa": kappa
+        }
+        acq_optimizer_kwargs = {
+            "n_points": n_points,
+            "n_restarts_optimizer": n_restarts_optimizer,
+            "n_jobs": n_jobs
+        }
         self.optimizer = _SkOptOptimizer(
             dimensions, base_estimator, n_random_starts, acq_func,
-            acq_optimizer, random_state, n_points, n_restarts_optimizer, xi,
-            kappa, n_jobs)
+            acq_optimizer, random_state, acq_func_kwargs, acq_optimizer_kwargs)
 
     def init(self, n_params):
         """Initialize the behavior search.

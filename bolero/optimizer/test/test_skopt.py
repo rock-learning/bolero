@@ -1,10 +1,18 @@
 import numpy as np
-from bolero.optimizer import SkOptOptimizer
+try:
+    from bolero.optimizer import SkOptOptimizer
+    skip_tests = False
+except ImportError:
+    skip_tests = True
+from nose import SkipTest
 from nose.tools import (assert_greater, assert_raises_regexp, assert_equal,
                         assert_false)
 
 
 def test_bayes_opt_base_estimator():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
+
     from skopt.learning import GaussianProcessRegressor
     from skopt.learning.gaussian_process.kernels import ConstantKernel
     from skopt.learning.gaussian_process.kernels import Matern
@@ -27,6 +35,8 @@ def test_bayes_opt_base_estimator():
 
 
 def test_bayes_opt_gpr():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", random_state=0)
     opt.init(2)
@@ -43,6 +53,8 @@ def test_bayes_opt_gpr():
 
 
 def test_bayes_opt_gpr_minimize():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", maximize=False,
         random_state=0)
@@ -56,6 +68,8 @@ def test_bayes_opt_gpr_minimize():
 
 
 def test_bayes_opt_gbrt():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GBRT",
         acq_optimizer="sampling", random_state=0)
@@ -69,6 +83,8 @@ def test_bayes_opt_gbrt():
 
 
 def test_bayes_opt_rf():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="RF",
         acq_optimizer="sampling", random_state=0)
@@ -82,6 +98,8 @@ def test_bayes_opt_rf():
 
 
 def test_bayes_opt_et():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="ET",
         acq_optimizer="sampling", random_state=0)
@@ -95,12 +113,16 @@ def test_bayes_opt_et():
 
 
 def test_bayes_opt_unknown_base_estimator():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     assert_raises_regexp(ValueError, "base_estimator parameter",
         SkOptOptimizer, [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="unknown",
         random_state=0)
 
 
 def test_bayes_opt_wrong_dimensions():
+    if skip_tests:
+        raise SkipTest("scikit-optimize is not installed")
     opt = SkOptOptimizer(
         [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", random_state=0)
     assert_raises_regexp(ValueError, "Number of dimensions", opt.init, 1)
