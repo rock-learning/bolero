@@ -24,28 +24,28 @@ namespace bolero {
     inline void clamp(double *val, double minVal, double maxVal) {
       *val = (*val < minVal) ? minVal : ((*val > maxVal) ? maxVal : *val);
     }
-  
+
 
     Particle::Particle(size_t dimension) {
       position = new double[dimension];
       velocity = new double[dimension];
       pMin = new double[dimension];
       pMinCost = std::numeric_limits<double>::max();
-    
+
       for(size_t i = 0; i < dimension; ++i) {
         position[i] = double(rand()) / RAND_MAX;
         velocity[i] = 0;
         pMin[i] = position[i];
       }
     }
-  
+
     Particle::~Particle() {
       delete[] position;
       delete[] velocity;
       delete[] pMin;
     }
 
-  
+
 
     PSOOptimizer::PSOOptimizer(lib_manager::LibManager *theManager)
       : Optimizer(theManager, "pso_optimizer", 1)
@@ -90,7 +90,7 @@ namespace bolero {
           particleCount = (*map2)["PopulationSize"];
         }
       }
-    
+
       particles = new Particle*[particleCount];
       for(int i = 0; i < particleCount; ++i) {
         particles[i] = new Particle(dimension);
@@ -131,7 +131,7 @@ namespace bolero {
     void PSOOptimizer::setEvaluationFeedback(const double *rewards,
                                              int numRewards) {
       double fitness = 0;
-    
+
       if(numRewards==1) {
         fitness = rewards[0];
       }
@@ -154,7 +154,7 @@ namespace bolero {
         updateParticles();
         individual = 0;
         generation++;
-        fprintf(stdout, "Generation %3d's best fitness: %12.6f\n", 
+        fprintf(stdout, "Generation %3d's best fitness: %12.6f\n",
                 generation, gMinCost);
         fprintf(stdout, "parameters: ");
         for(int i = 0; i < dimension; ++i) {
@@ -183,7 +183,7 @@ namespace bolero {
         setEvaluationFeedback(&(*it), 1);
       }
     }
-  
+
     void PSOOptimizer::updateParticles() {
       for(int i = 0; i < particleCount; ++i) {
         Particle *p = particles[i];
@@ -193,16 +193,23 @@ namespace bolero {
           clamp(&(p->position[j]), 0, 1);
         }
         // update velocity
+        double sum = 0;
         for(int j = 0; j < dimension; ++j) {
           double rp = static_cast<double>(rand()) / RAND_MAX;
           double rg = static_cast<double>(rand()) / RAND_MAX;
           p->velocity[j] = (r * p->velocity[j] +
-                            wp * rp * (p->pMin[j] - p->position[j]) + 
+                            wp * rp * (p->pMin[j] - p->position[j]) +
                             wg * rg * (gMin[j] - p->position[j]));
+          sum += fabs(p->velocity[j]);
+        }
+        if( sum / dimension < 0.0001) {
+          for(int j = 0; j < dimension; ++j) {
+            p->velocity[i] = double(rand()) / RAND_MAX;
+          }
         }
       }
     }
-  
+
   } // end of namespace pso_optimizer
 } // end of namespace bolero
 
