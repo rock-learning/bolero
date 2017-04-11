@@ -48,7 +48,7 @@ namespace bolero {
     double minFeedback = DBL_MAX;
     double minTestFeedback = DBL_MAX;
     int minRun;
-    int minTestRun;
+    int minTestRun = 0;
     FILE *fitnessLog = NULL;
     FILE *testFitnessLog = NULL;
     bool testMode = false;
@@ -85,6 +85,7 @@ namespace bolero {
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
     bool logAllBehaviors = false;
     bool evaluateExperiment = false;
+    bool logResults = false;
     string experimentDir;
 
     if(map["Controller"].hasKey("LogAllBehaviors")) {
@@ -102,7 +103,9 @@ namespace bolero {
         testFitnessLog = fopen(fLogFilename.c_str(), "w");
       }
     }
-
+    if(map["Controller"].hasKey("LogResults")) {
+      logResults = map["Controller"]["LogResults"];
+    }
     if(map["Controller"].hasKey("EvaluateExperiment")) {
       evaluateExperiment = map["Controller"]["EvaluateExperiment"];
     }
@@ -175,12 +178,16 @@ namespace bolero {
       for(int i = 0; i < num_feedbacks; i++)
         feedback += feedbacks[i];
       if(!testMode) {
-        if(fitnessLog) {
+        if(fitnessLog || logResults) {
           if(feedback < minFeedback-epsilon) {
             minFeedback = feedback;
             minRun = evaluationCount+1;
-            fprintf(fitnessLog, "%d %g\n", evaluationCount, feedback);
-            behaviorSearch->writeResults(blLogPath);
+            if(fitnessLog) {
+              fprintf(fitnessLog, "%d %g\n", evaluationCount, feedback);
+            }
+            if(logResults) {
+              behaviorSearch->writeResults(blLogPath);
+            }
           }
           else if(logAllBehaviors) {
             behaviorSearch->writeResults(blLogPath);
