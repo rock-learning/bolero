@@ -118,6 +118,7 @@ namespace bolero {
           libManager->loadLibrary("main_gui");
           libManager->loadLibrary("mars_graphics");
           libManager->loadLibrary("mars_gui");
+          libManager->loadLibrary("entity_view");
         }
       }
 
