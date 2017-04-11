@@ -137,7 +137,7 @@ namespace bolero {
         double *sigma = new double[dimension];
 
         //#ifdef DEBUG_FOO
-        fprintf(stderr, "c%d ", dimension);
+        //fprintf(stderr, "c%d ", dimension);
         //#endif
         for(int i=0; i<dimension; ++i) {
           if(start) {
@@ -269,7 +269,7 @@ namespace bolero {
         cmaes_ReadSignals(&evo, (char*)"signals.par");
         rgx = cmaes_SampleDistribution(&evo, NULL);
         individual = 0;
-        if(evo.sigma < 0.000000001) {
+        if(evo.sigma < 0.000000001 || evo.sigma > 100) {
           if(reinitSigma > 0) reinitSigma *= 2;
           double *start = new double[dimension];
           memcpy(start, bestParams, sizeof(double)*dimension);
