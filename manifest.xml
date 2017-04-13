@@ -3,4 +3,5 @@
     Behavior Optimization and Learning for Robots
   </description>
   <rosdep name="python" />
+  <depend package="learning/bolero/bolero/wrapper" />
 </package>
