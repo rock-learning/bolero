@@ -4,6 +4,7 @@
 import numpy as np
 import warnings
 from ..utils import from_dict
+from ..utils.validation import check_feedback
 from ..environment import Environment, ContextualEnvironment
 from ..behavior_search import BehaviorSearch
 from ..base import Base
@@ -230,6 +231,9 @@ class Controller(Base):
         if self.do_test and self.episode_cnt % self.n_episodes_before_test == 0:
             self.test_results_.append(
                 self._perform_test(meta_parameter_keys, meta_parameters))
+
+        feedbacks = check_feedback(
+            feedbacks, compute_sum=self.accumulate_feedbacks)
 
         return feedbacks
 

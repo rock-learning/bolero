@@ -88,6 +88,7 @@ def test_record_feedbacks():
     opt = CREPSOptimizer(initial_params=np.zeros(1))
     ctrl = ContextualController(environment=ContextualObjectiveFunction(),
                                 behavior_search=JustContextualOptimizer(opt),
+                                accumulate_feedbacks=False,
                                 record_feedbacks=True)
     returns = ctrl.learn()
     assert_array_equal(returns, ctrl.feedbacks_)

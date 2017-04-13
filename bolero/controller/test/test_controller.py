@@ -104,7 +104,7 @@ def test_record_feedbacks():
     opt = CMAESOptimizer(initial_params=np.zeros(2))
     ctrl = Controller(environment=ObjectiveFunction(),
                       behavior_search=JustOptimizer(opt),
-                      record_feedbacks=True)
+                      record_feedbacks=True, accumulate_feedbacks=False)
     returns = ctrl.learn()
     assert_array_equal(returns, ctrl.feedbacks_)
 
