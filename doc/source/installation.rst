@@ -11,11 +11,10 @@ installation script and run it with
 
 .. code-block:: bash
 
-    git clone git@git.hb.dfki.de:team-learning/bootstrap.git --branch bolero
-    cd bootstrap
-    ./bootstrap.sh
+    git clone https://github.com/rock-learning/bolero.git
+    ./bootstrap_bolero.sh
 
-Confirm everything and follow the instructions.
+Follow the instructions.
 
 Environment
 ===========
@@ -27,7 +26,7 @@ following structure:
 .. code-block:: text
 
     $BOLEROPATH
-      |-bolero/
+      |-bolero-dev/
       |-install/
       |--bin/
       |--configuration/
@@ -73,3 +72,21 @@ and run it with
     nosetests
 
 in the bolero main directory.
+
+Building the Documentation
+==========================
+
+Install dependencies:
+
+.. code-block:: bash
+
+    sudo apt-get install doxygen
+    sudo pip install joblib pillow
+
+Go to the folder 'doc' and run
+
+.. code-block:: bash
+
+    make html
+
+The result will be located in doc/build/html/index.html.

@@ -2,6 +2,7 @@
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import yaml
+import warnings
 import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
