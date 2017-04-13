@@ -1,6 +1,10 @@
 import os
 import numpy as np
-from bolero.representation import CartesianDMPBehavior
+try:
+    from bolero.representation import CartesianDMPBehavior
+except ImportError:
+    from nose import SkipTest
+    raise SkipTest("dmp is not installed")
 from bolero.datasets import make_minimum_jerk
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_equal, assert_array_almost_equal

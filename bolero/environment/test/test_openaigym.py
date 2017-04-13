@@ -1,5 +1,9 @@
 import numpy as np
-from bolero.environment import OpenAiGym
+try:
+    from bolero.environment import OpenAiGym
+except ImportError:
+    from nose import SkipTest
+    raise SkipTest("gym is not installed")
 from nose.tools import assert_equal, assert_true
 
 

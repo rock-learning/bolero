@@ -1,5 +1,9 @@
 import numpy as np
-from bolero.representation import DMPSequence
+try:
+    from bolero.representation import DMPSequence
+except ImportError:
+    from nose import SkipTest
+    raise SkipTest("dmp is not installed")
 from bolero.controller import Controller
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_equal, assert_almost_equal, assert_raises_regexp
