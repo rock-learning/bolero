@@ -11,6 +11,7 @@ if not CURRENT_PATH:
 
 
 def test_load_optimizer():
+    os.environ["BL_CONF_PATH"] = CURRENT_PATH
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     opt = bll.acquire_optimizer("pso_optimizer")
@@ -42,7 +43,7 @@ def test_load_environment():
 
 
 def test_load_behavior_search():
-    os.environ["CONF_PATH"] = CURRENT_PATH
+    os.environ["BL_CONF_PATH"] = CURRENT_PATH
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     bhs = bll.acquire_behavior_search("Python")
@@ -62,7 +63,7 @@ def test_load_behavior_search():
 
 
 def test_load_python_optimizer():
-    os.environ["CONF_PATH"] = CURRENT_PATH
+    os.environ["BL_CONF_PATH"] = CURRENT_PATH
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     opt = bll.acquire_optimizer("Python")

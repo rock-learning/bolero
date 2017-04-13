@@ -82,7 +82,13 @@ namespace bolero {
 
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml");
+      std::string confFile = "learning_config.yml";
+      char *confPath = getenv("BL_CONF_PATH");
+      if(confPath) {
+        confFile = confPath;
+        confFile += "/learning_config.yml";
+      }
+      map = ConfigMap::fromYamlFile(confFile);
 
       if(map.hasKey("BehaviorSearch Parameters")) {
         map2 = map["BehaviorSearch Parameters"];

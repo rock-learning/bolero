@@ -39,10 +39,10 @@ def from_yaml(filename, conf_path=None):
     filename : string
         The name of the YAML file to load.
 
-    conf_path : string, optional (default: $CONF_PATH)
+    conf_path : string, optional (default: $BL_CONF_PATH)
         You can specify a path that is searched for the configuration file.
         Otherwise we try to read it from the environment variable
-        'CONF_PATH'. If that environment variable is not present we search
+        'BL_CONF_PATH'. If that environment variable is not present we search
         in the current path.
 
     Returns
@@ -62,14 +62,14 @@ def __load_config_from_file(filename, conf_path=None):
     filename : string
         The name of the YAML file to load.
 
-    conf_path : string, optional (default: $CONF_PATH)
+    conf_path : string, optional (default: $BL_CONF_PATH)
         You can specify a path that is searched for the configuration file.
         Otherwise we try to read it from the environment variable
-        'CONF_PATH'. If that environment variable is not present we search
+        'BL_CONF_PATH'. If that environment variable is not present we search
         in the current path.
     """
     if conf_path is None:
-        conf_path = os.environ.get("CONF_PATH", None)
+        conf_path = os.environ.get("BL_CONF_PATH", None)
 
     if conf_path is None:
         conf_filename = filename
