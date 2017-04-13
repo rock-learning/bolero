@@ -233,6 +233,30 @@ def test_dmp_imitate():
     X2 = beh.trajectory()[0]
     assert_array_almost_equal(X2, X, decimal=3)
 
+def test_dmp_imitate_2d():
+    x0, g, execution_time, dt = np.zeros(2), np.ones(2), 1.0, 0.001
+
+    beh = DMPBehavior(execution_time, dt, 20)
+    beh.init(6, 6)
+    beh.set_meta_parameters(["x0", "g"], [x0, g])
+
+    X_demo = make_minimum_jerk(x0, g, execution_time, dt)[0]
+
+    # Without regularization
+    beh.imitate(X_demo)
+    X = beh.trajectory()[0]
+    assert_array_almost_equal(X_demo.T[0], X, decimal=2)
+
+    # With alpha > 0
+    beh.imitate(X_demo, alpha=1.0)
+    X = beh.trajectory()[0]
+    assert_array_almost_equal(X_demo.T[0], X, decimal=3)
+
+    # Self-imitation
+    beh.imitate(X.T[:, :, np.newaxis])
+    X2 = beh.trajectory()[0]
+    assert_array_almost_equal(X2, X, decimal=3)
+
 
 def test_dmp_save_and_load():
     beh_original = DMPBehavior(execution_time=0.853, dt=0.001, n_features=10)

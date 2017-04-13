@@ -27,16 +27,19 @@ def dmp_to_trajectory(dmp, x0, g, gd, execution_time):
 x0 = np.zeros(2)
 g = np.ones(2)
 dt = 0.001
-dmp = DMPBehavior(execution_time=1.0, dt=dt, n_features=10)
+execution_time = 1.0
+dmp = DMPBehavior(execution_time, dt, n_features=20)
 dmp.init(6, 6)
-dmp.imitate(*make_minimum_jerk(x0, g, 1.0, 0.001))
+dmp.set_meta_parameters(["x0", "g"], [x0, g])
+X_demo = make_minimum_jerk(x0, g, execution_time, dt)[0]
+dmp.imitate(X_demo)
 
 plt.figure()
 plt.subplots_adjust(wspace=0.3, hspace=0.6)
 
 for gx in np.linspace(0.5, 1.5, 6):
     g_new = np.array([gx, 1.0])
-    X, Xd, Xdd = dmp_to_trajectory(dmp, x0, g_new, None, 1.0)
+    X, Xd, Xdd = dmp_to_trajectory(dmp, x0, g_new, np.zeros(2), 1.0)
 
     ax = plt.subplot(321)
     ax.set_title("Goal adaption")
