@@ -11,10 +11,9 @@ installation script and run it with
 
 .. code-block:: bash
 
-    git clone https://github.com/rock-learning/bolero.git
+    wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
+    chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
-
-Follow the instructions.
 
 Environment
 ===========
