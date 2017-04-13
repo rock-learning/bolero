@@ -12,6 +12,7 @@
 #include <vector>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 
 using namespace std;
@@ -41,18 +42,16 @@ bool PyLoadableBehavior::initialize(const std::string& initialConfigPath)
 bool PyLoadableBehavior::configure(const std::string& configPath)
 {
   std::ifstream fin(configPath.c_str());
-  YAML::Parser parser(fin);
-  return configureFromYamlParser(parser);
+  return configureFromIstream(fin);
 }
 
 bool PyLoadableBehavior::configureYaml(const string& yaml)
 {
   std::stringstream sin(yaml);
-  YAML::Parser parser(sin);
-  return configureFromYamlParser(parser);
+  return configureFromIstream(sin);
 }
 
-bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
+bool PyLoadableBehavior::configureFromIstream(std::istream& stream)
 {
   if(!pyBehavior)
     throw std::runtime_error("Behavior must be initialized");
@@ -60,24 +59,22 @@ bool PyLoadableBehavior::configureFromYamlParser(YAML::Parser& parser)
    * Parse the yaml file into PyBehavior::MetaParameters
    * and call pyBehavior->setMetaParameters
    */
-  YAML::Node doc;
-  if(parser.GetNextDocument(doc)) //we assume that there is only one document
+  vector<YAML::Node> all_docs = YAML::LoadAll(stream);
+  if(all_docs.size() == 1) //we assume that there is only one document
   {
+    YAML::Node doc = all_docs[0];
     PyBehavior::MetaParameters parameters;
-    for(YAML::Iterator it = doc.begin(); it != doc.end(); ++it)
+    for(YAML::const_iterator it = doc.begin(); it != doc.end(); ++it)
     {
-        string key;
-        it.first() >> key;
-        parameters[key] = vector<double>();
-        it.second() >> parameters[key];
+        string key = it->first.as<string>();
+        parameters[key] = it->second.as<vector<double> >();
     }
     pyBehavior->setMetaParameters(parameters);
     return true;
   }
   else
   {
-    //No document in yaml file
-    std::cerr << "Invalid yaml document" << endl;
+    std::cerr << "Invalid yaml document, there must be exactly 1 document." << endl;
     return false;
   }
 }

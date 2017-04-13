@@ -7,6 +7,7 @@
 #include <PythonInterpreter.hpp>
 #include "PyBehavior.h"
 #include <string>
+#include <istream>
 #include <Behavior.h>
 #include <memory>
 #include <LoadableBehavior.h>
@@ -68,7 +69,7 @@ public:
   virtual bool canStep() const;
 
 private:
-  bool configureFromYamlParser(YAML::Parser& parser);
+  bool configureFromIstream(std::istream& stream);
 
   /**Wrapper arround py_behavior that implements the 'old' Behavior interface */
   shared_ptr<PyBehavior> pyBehavior;
