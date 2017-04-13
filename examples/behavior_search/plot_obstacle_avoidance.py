@@ -33,7 +33,7 @@ env = OptimumTrajectory(x0, g, execution_time, dt, obstacles,
 opt = CMAESOptimizer(variance=100.0 ** 2, random_state=0)
 bs = BlackBoxSearch(beh, opt)
 controller = Controller(environment=env, behavior_search=bs,
-                        n_episodes=n_episodes, record_trajectories=True)
+                        n_episodes=n_episodes, record_inputs=True)
 
 rewards = controller.learn(["x0", "g"], [x0, g])
 controller.episode_with(bs.get_best_behavior(), ["x0", "g"], [x0, g])
@@ -51,7 +51,7 @@ ax = plt.subplot(122, aspect="equal")
 ax.set_title("Learned trajectory ($x_1$, $x_2$)")
 env.plot(ax)
 ax.plot(X[:, 0], X[:, 1], lw=5, label="Final trajectory")
-for it, X in enumerate(X_hist[::n_episodes / 10]):
+for it, X in enumerate(X_hist[::int(n_episodes / 10)]):
     ax.plot(X[:, 0], X[:, 1], c="k", alpha=it / 10.0, lw=3, ls="--")
 plt.legend(loc="best")
 plt.show()
