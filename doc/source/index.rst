@@ -51,6 +51,7 @@ The highlights of BOLeRo are
 .. image:: _static/concept_sketch.svg
    :alt: Behavior Learning
    :align: right
+   :width: 500px
 
 .. raw:: html
 
@@ -111,4 +112,7 @@ Funding
 =======
 
 .. image:: _static/241-logo-bmwi-jpg.jpg
+   :alt: German Federal Ministry for Economic Affairs and Energy
+
+.. image:: _static/logo_125_52.png
    :alt: German Federal Ministry for Economic Affairs and Energy
