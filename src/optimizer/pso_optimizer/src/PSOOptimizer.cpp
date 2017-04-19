@@ -210,7 +210,7 @@ namespace bolero {
         }
         if( sum / dimension < 0.0001) {
           for(int j = 0; j < dimension; ++j) {
-            p->velocity[i] = double(rand()) / RAND_MAX;
+            p->velocity[j] = double(rand()) / RAND_MAX;
           }
         }
       }
