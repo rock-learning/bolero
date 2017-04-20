@@ -19,13 +19,19 @@ include_directories(${CATCH_INCLUDE_DIRS})
 pkg_check_modules(BOLERO REQUIRED bolero)
 include_directories(${BOLERO_INCLUDE_DIRS})
 
+pkg_check_modules(YAML "yaml-cpp")
+include_directories(${YAML_INCLUDE_DIRS})
+link_directories(${YAML_LIBRARY_DIRS})
+
 include_directories(${BL_LOADER_INCLUDE_DIRS})
 link_directories(${BL_LOADER_LIBRARY_DIRS})
 
 include_directories(src)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} bl_loader)
+target_link_libraries(${PROJECT_NAME} bl_loader
+                                      ${YAML_LIBRARIES}
+)
 
 file(COPY python/functions.py DESTINATION .)
 
