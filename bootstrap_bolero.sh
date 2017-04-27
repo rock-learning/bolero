@@ -8,7 +8,7 @@ cd pybob
 
 # create default config for bolero
 echo "autoprojEnv: false" > pybob.yml
-echo "buildconfAddress: git@git.hb.dfki.de:team-learning/bolero_buildconf.git" >> pybob.yml
+echo "buildconfAddress: https://github.com/rock-learning/bolero_buildconf.git" >> pybob.yml
 echo "buildconfBranch: ''" >> pybob.yml
 echo "defBuildType: debug" >> pybob.yml
 echo "devDir: ${DEV_DIR}" >> pybob.yml
