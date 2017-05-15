@@ -213,6 +213,13 @@ namespace bolero {
         environment->setTestMode(false);
       }
 
+      if(evaluationCount % 100 == 0) {
+        string filename = string(blLogPath) + "/learning_progress.txt";
+        FILE *pFile = fopen(filename.c_str(), "w");
+        fprintf(pFile, "number evaluations: %d\n", evaluationCount);
+        fclose(pFile);
+      }
+
       environment->reset();
 
       if(!testMode) {
