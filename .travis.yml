@@ -1,0 +1,20 @@
+language: cpp
+branches:
+  only:
+    - master
+    - /\d+\.\d+\..+/
+compiler:
+  - gcc
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq python-yaml
+script:
+  - wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
+  - chmod +x bootstrap_bolero.sh
+  - ./bootstrap_bolero.sh
+notifications:
+  recipients:
+    - alexander.fabisch@dfki.de
+  email:
+    on_success: change
+    on_failure: always
