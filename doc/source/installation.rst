@@ -26,14 +26,17 @@ following structure:
 
     $BOLEROPATH
       |-bolero-dev/
-      |-install/
-      |--bin/
-      |--configuration/
-      |--include/
-      |--lib/
-      |--share/
-      |-...
-      |-env.sh
+      |--install/
+      |---bin/
+      |---configuration/
+      |---include/
+      |---lib/
+      |---share/
+      |--autoproj/
+      |---manifest
+      |--learning/
+      |---bolero/
+      |--env.sh
 
 The subdirectory `install` includes all the shared libraries, configurations,
 header files, and scripts that you installed. Usually they are not available
@@ -44,6 +47,14 @@ in your environment. However, you can source the script `env.sh` with
     source env.sh
 
 to make them available. You could add it to your `.bashrc` to make it permanent.
+
+Optional Packages
+=================
+
+The subdirectory autoproj contains a file manifest which includes all activates
+packages of BOLeRo. You can activate commented packages by removing "# " in
+front of it and calling bob-bootstrap. The manifest file follows the conventions
+of `autoproj <http://rock-robotics.org/stable/documentation/autoproj/>`_.
 
 Installing Only the Python Library
 ==================================
