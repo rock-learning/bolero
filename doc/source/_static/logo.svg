@@ -13,8 +13,11 @@
    height="280"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="logo.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/dfki.uni-bremen.de/afabisch/Projekte/bolero-dev/learning/bolero/doc/source/_static/logo.svg.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="411.62539"
+     inkscape:cx="292.12539"
      inkscape:cy="221.61133"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="969"
-     inkscape:window-x="-3"
-     inkscape:window-y="-3"
+     inkscape:window-width="1920"
+     inkscape:window-height="1176"
+     inkscape:window-x="1280"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <defs
      id="defs4" />
@@ -43,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -52,13 +55,6 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1" />
-  <rect
-     y="-4.5"
-     x="-155"
-     height="287"
-     width="1087"
-     id="rect3761"
-     style="fill:#0d0f55;fill-opacity:1;stroke:none" />
   <path
      style="fill:#c91b00;fill-opacity:1;stroke:none"
      d="m 33.34861,272.20963 c -8.83882,-2.8677 -15.99723,-9.18897 -18.42906,-16.27386 -2.22931,-6.49487 -1.54484,-18.80988 1.4789,-26.6086 1.44429,-3.72505 2.62598,-7.40303 2.62598,-8.17327 0,-5.20802 -14.396,-13.7858 -27.25139,-16.23761 -15.14133,-2.88777 -45.363538,-0.30874 -79.74268,6.8049 -14.19059,2.93627 -32.19977,7.24849 -35.39883,8.47608 -1.46814,0.56338 -1.6071,-6.52593 -1.6071,-81.99028 0,-45.43385 0.3375,-82.60202 0.75,-82.59594 0.4125,0.006 8.85,1.12192 18.75,2.47966 9.9,1.35773 28.9322,3.24137 42.293773,4.18588 20.349698,1.43848 26.681316,1.53043 38.999997,0.56636 8.08843,-0.633 17.32333,-1.84861 20.522,-2.70135 6.99626,-1.86516 22.68423,-8.5555 22.68423,-9.67399 0,-0.43848 -1.0125,-1.31574 -2.25,-1.94947 C 11.22099,45.67423 8.84531,40.46054 8.91988,31.28049 9.0533,14.85487 21.37621,5.56648 41.27367,6.89383 c 9.87166,0.65853 19.14243,4.73063 23.35931,10.26036 4.05829,5.32177 4.01507,14.1624 -0.11398,23.31325 -2.6269,5.82178 -2.74977,6.58449 -1.43384,8.90011 0.7916,1.39296 3.9161,3.82549 6.94334,5.40562 8.07544,4.21514 19.24765,5.21345 43.27523,3.86691 18.39042,-1.03062 60.57631,-4.36146 71.33302,-5.63219 l 5.11233,-0.60393 0.69075,8.34802 c 0.98754,11.93473 3.33987,23.91877 6.73333,34.30316 3.25122,9.9491 11.26055,27.54497 12.53784,27.54466 0.44739,-1.1e-4 2.16343,-2.80601 3.81343,-6.23534 2.36082,-4.90668 3.89183,-6.72607 7.1858,-8.53931 9.27266,-5.10435 21.23742,-3.56582 29.61462,3.80809 8.63141,7.59767 13.74547,22.89633 11.75076,35.15229 -2.56421,15.75512 -11.48191,21.90112 -29.69239,20.46373 -4.32233,-0.34118 -11.59189,-0.91084 -16.15456,-1.26592 l -8.29577,-0.64561 -4.245,4.43033 c -2.33475,2.43668 -5.10175,6.20819 -6.1489,8.38114 -2.51295,5.21466 -3.06909,14.58446 -1.27321,21.4508 l 1.43851,5.5 -49.58993,0 c -64.72319,0 -77.70818,1.41186 -86.06064,9.35735 -6.486,6.16999 -6.40037,7.59662 1.5691,26.14265 3.9577,9.21012 4.47248,19.17362 1.23692,23.94072 -3.62037,5.33405 -10.78298,8.51307 -19.80803,8.7915 -4.27324,0.13184 -9.33249,-0.35346 -11.7031,-1.12259 l 0,0 z"
@@ -76,14 +72,14 @@
      inkscape:connector-curvature="0" />
   <text
      xml:space="preserve"
-     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="14"
-     y="199"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#dcdcdc;fill-opacity:1;stroke:none"
+     x="12"
+     y="209"
      id="text5676"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan5678"
-       x="14"
-       y="199"
-       style="font-size:250px;font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;fill:#ffffff;font-family:URW Chancery L;-inkscape-font-specification:URW Chancery L Medium Italic">BOLeRo</tspan></text>
+       x="12"
+       y="209"
+       style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:250px;font-family:'URW Chancery L';-inkscape-font-specification:'URW Chancery L Medium Italic';fill:#dcdcdc;fill-opacity:1">BOLeRo</tspan></text>
 </svg>
