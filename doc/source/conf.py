@@ -33,13 +33,13 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
     'matplotlib.sphinxext.plot_directive',
-    'sphinxgallery.gen_rst',
+    'sphinx_gallery.gen_gallery',
     'breathe',
     'numpydoc',
 ]
 
 import sphinx_bootstrap_theme
-import sphinxgallery
+import sphinx_gallery
 import bolero
 
 # Breathe options, see http://michaeljones.github.io/breathe/
@@ -70,12 +70,17 @@ html_theme_options = {
     'navbar_fixed_top': "true",
     'navbar_sidebarrel': False,
 }
-html_static_path = ['_static', sphinxgallery._path_static()]
+
+html_static_path = ["_static"]
 html_last_updated_fmt = '%b %d, %Y'
 html_use_smartypants = True
 html_show_sourcelink = False
 html_show_sphinx = False
 html_show_copyright = True
+sphinx_gallery_conf = {
+    "examples_dirs": "../../examples",
+    "gallery_dirs"  : "auto_examples"
+}
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

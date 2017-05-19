@@ -40,19 +40,7 @@ Objective Function
 Several benchmark functions to compare continuous black-box optimizers are
 provided by the environment :class:`ObjectiveFunction`. The objective
 functions are the same as in the software `COCO
-<http://coco.gforge.inria.fr/doku.php>`_. For example, you can see the surface
-of the sphere function and a comparison of several optimizers on the Rosenbrock
-function in the following plots.
-
-.. figure:: ../auto_examples/environment/images/plot_objective_function_001.png
-   :target: ../auto_examples/environment/plot_objective_function.html
-   :align: center
-   :scale: 50%
-
-.. figure:: ../auto_examples/optimizer/images/plot_optimization_001.png
-   :target: ../auto_examples/optimizer/plot_optimization.html
-   :align: center
-   :scale: 50%
+<http://coco.gforge.inria.fr/doku.php>`_.
 
 
 .. _openaigym:
@@ -72,14 +60,7 @@ Optimum Trajectory
 The environment :class:`OptimumTrajectory` is designed to use behavior learning
 algorithms for simple planning problems. The goal is to avoid obstacles and
 minimize the effort used for the trajectory, e.g. by minimizing the velocities
-or accelerations. An example for a two-dimensional trajectory is displayed in
-the following plot. The obstacles are displayed as red circles on the right
-side.
-
-.. figure:: ../auto_examples/behavior_search/images/plot_obstacle_avoidance_001.png
-   :target: ../auto_examples/behavior_search/plot_obstacle_avoidance.html
-   :align: center
-   :scale: 80%
+or accelerations.
 
 
 Contextual Environment
@@ -121,11 +102,5 @@ Catapult
 
 The catapult environment is a benchmark problem for contextual policy search.
 It is a two-dimensional environment like the one displayed in the figur below.
-
-.. figure:: ../auto_examples/environment/images/plot_catapult_001.png
-   :target: ../auto_examples/environment/plot_catapult.html
-   :align: center
-   :scale: 80%
-
 The goal is to hit the ground at a target specified on the x-axis. The target
 is given by the context vector.

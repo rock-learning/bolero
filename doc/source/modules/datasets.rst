@@ -28,11 +28,4 @@ Minimum Jerk
 ============
 
 :func:`make_minimum_jerk` provides a trajectory that minimizes the jerk, i.e.
-the 3rd derivative of the position with respect to time. An example is
-shown in the following plot. The trajectory goes from 0 to 1 in one dimension
-and the position, velocity and acceleration of the trajectory are displayed.
-
-.. figure:: ../auto_examples/datasets/images/plot_minimum_jerk_001.png
-   :target: ../auto_examples/datasets/plot_minimum_jerk.html
-   :align: center
-   :scale: 50%
+the 3rd derivative of the position with respect to time.

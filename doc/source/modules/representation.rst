@@ -128,11 +128,6 @@ Dynamical Movement Primitive
 Dynamical movement primitives represent trajectories :class:`DMPBehavior`, e.g.
 in joint space. They can generalize over several meta-parameters (goal,
 velocity at the goal, execution time) and can be learned from demonstrations.
-
-.. figure:: ../auto_examples/representation/images/plot_dmp_meta_parameters_001.png
-   :target: ../auto_examples/representation/plot_dmp_meta_parameters.html
-   :align: center
-
 A variant of DMPs that works in Cartesian space is
 :class:`CartesianDMPBehavior`.
 

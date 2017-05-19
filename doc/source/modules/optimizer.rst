@@ -53,25 +53,6 @@ BOLeRo.
        objective functions
 
 
-Here is a comparison of several optimization algorithms for an unimodal
-functions (see :ref:`example_optimizer_plot_optimization.py`
-for more details).
-
-.. figure:: ../auto_examples/optimizer/images/plot_optimization_001.png
-   :target: ../auto_examples/optimizer/plot_optimization.html
-   :align: center
-   :scale: 50%
-
-Some optimizers are designed for unimodal optimization and some are designed
-for multimodal problems (see :ref:`example_optimizer_plot_optimization.py`
-for more details). Here is a comparison for these optimizers.
-
-.. figure:: ../auto_examples/optimizer/images/plot_optimization_002.png
-   :target: ../auto_examples/optimizer/plot_optimization.html
-   :align: center
-   :scale: 50%
-
-
 .. _no_opt:
 
 No Optimizer
@@ -121,11 +102,6 @@ displays one generation of samples. Each generation is sampled from the same
 search distribution. The old search distribution is displayed by an orange
 equiprobable ellipse and the updated search distribution is displayed by a
 green ellipse.
-
-.. figure:: ../auto_examples/optimizer/images/plot_cmaes_002.png
-   :target: ../auto_examples/optimizer/plot_cmaes.html
-   :align: center
-   :scale: 50%
 
 
 .. _ipop_cmaes_opt:
