@@ -1,6 +1,6 @@
 <package>
   <description brief="pybolero">
-    Behavior Optimization and Learning for Robots
+    Pure Python modules of Behavior Optimization and Learning for Robots
   </description>
   <rosdep name="python" />
   <depend package="learning/bolero/bolero/wrapper" />
