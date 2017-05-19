@@ -53,7 +53,7 @@ def setup_package():
         license="BSD 3-clause",
         version=bolero.__version__,
         url="http://robotik.dfki-bremen.de/en/research/softwaretools/bolero.html",
-        #download_url="TODO",
+        download_url="https://github.com/rock-learning/bolero/archive/master.zip",
         cmdclass={'clean': CleanCommand},
         scripts = ["scripts/bolero-run"],
         )
