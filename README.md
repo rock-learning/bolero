@@ -3,8 +3,8 @@
 # BOLeRo
 
 BOLeRo (Behavior Learning and Optimization for Robots) provides tools to learn
-behaviors for robots. That includes behavior representations as well as
-reinforcement learning, black-box optimization, and evolutionary algorithms and
+behaviors for robots. It includes behavior representations as well as
+reinforcement learning, black-box optimization, evolutionary algorithms, and
 imitation learning. It provides a C++ and a Python interface to be efficient
 where this is required and to be flexible and convenient where performance is
 not an issue. Because the library provides a C++ interface, it is easy to
