@@ -6,7 +6,17 @@ branches:
 compiler:
   - gcc
 before_script:
+  # g++4.8.1
+  - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+  # clang 3.4
+  - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
   - sudo apt-get update -qq
+  # g++4.8.1
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
+  # clang 3.4
+  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
+  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
   - sudo apt-get install -qq python-pip python-numpy python-yaml python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config
   - sudo pip install --upgrade scikit-learn scipy joblib pandas bs4 matplotlib nose
   - wget https://github.com/jbeder/yaml-cpp/archive/release-0.5.3.zip; unzip release-0.5.3.zip; cd yaml-cpp-release-0.5.3/; mkdir build; cd build; cmake -DBUILD_SHARED_LIBS:BOOL=ON ..; sudo make install; cd ../..
