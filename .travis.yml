@@ -7,7 +7,7 @@ compiler:
   - gcc
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-pip python-numpy python-yaml python-tk python-colorama python-termcolor python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cmake git vim net-tools inetutils-ping inetutils-traceroute wget curl
+  - sudo apt-get install -qq python-pip python-numpy python-yaml python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev
   - sudo pip install --upgrade scikit-learn scipy joblib pandas bs4 matplotlib nose
 script:
   - ./bootstrap_bolero.sh
