@@ -13,6 +13,16 @@ before_script:
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
+  - cd bolero-dev; source env.sh
+  - bob-show-log tools/configmaps
+  - bob-show-log learning/bolero/src/representation/dmp
+  - bob-show-log learning/bolero/src/environment/cec13_test_functions
+  - bob-show-log learning/bolero/src/controller
+  - bob-show-log learning/bolero/src/optimizer/cmaes_optimizer
+  - bob-show-log learning/bolero/src/environment/mountain_car
+  - bob-show-log learning/bolero/src/optimizer/pso_optimizer
+  - bob-show-log learning/bolero/src/environment/function_approximation
+  - bob-show-log learning/bolero
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
