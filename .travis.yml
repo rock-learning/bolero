@@ -13,6 +13,8 @@ before_script:
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
+  - ls
+  - pwd
   - pybob/pybob.py show-log tools/configmaps
   - pybob/pybob.py show-log learning/bolero/src/representation/dmp
   - pybob/pybob.py show-log learning/bolero/src/environment/cec13_test_functions
