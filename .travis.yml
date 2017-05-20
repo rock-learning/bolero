@@ -15,15 +15,15 @@ script:
   - ./bootstrap_bolero.sh
   - ls
   - pwd
-  - pybob/pybob.py show-log tools/configmaps
-  - pybob/pybob.py show-log learning/bolero/src/representation/dmp
-  - pybob/pybob.py show-log learning/bolero/src/environment/cec13_test_functions
-  - pybob/pybob.py show-log learning/bolero/src/controller
-  - pybob/pybob.py show-log learning/bolero/src/optimizer/cmaes_optimizer
-  - pybob/pybob.py show-log learning/bolero/src/environment/mountain_car
-  - pybob/pybob.py show-log learning/bolero/src/optimizer/pso_optimizer
-  - pybob/pybob.py show-log learning/bolero/src/environment/function_approximation
-  - pybob/pybob.py show-log learning/bolero
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log tools/configmaps
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/representation/dmp
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/cec13_test_functions
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/controller
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/optimizer/cmaes_optimizer
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/mountain_car
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/optimizer/pso_optimizer
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/function_approximation
+  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
