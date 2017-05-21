@@ -24,8 +24,9 @@ script
 
 ## Documentation
 
-The documentation can be built in the directory `doc/` with `make`. It will
-be located in `doc/build/html/index.html`. Building the documentation requires
+The documentation is available [here](https://rock-learning.github.io/bolero).
+It can be built in the directory `doc/` with `make`. It will be located
+in `doc/build/html/index.html`. Building the documentation requires
 [doxygen](http://www.stack.nl/~dimitri/doxygen/) and
 [sphinx](http://sphinx-doc.org/).
 
