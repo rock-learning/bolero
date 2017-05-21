@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.optimizer.ContextualOptimizer &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.optimizer.CMAESOptimizer" href="bolero.optimizer.CMAESOptimizer.html" />
+    <link rel="prev" title="bolero.optimizer.Optimizer" href="bolero.optimizer.Optimizer.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.optimizer</span></code>.ContextualOptimizer</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-optimizer-contextualoptimizer">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.optimizer" title="bolero.optimizer"><code class="xref py py-mod docutils literal"><span class="pre">bolero.optimizer</span></code></a>.ContextualOptimizer<a class="headerlink" href="#bolero-optimizer-contextualoptimizer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.optimizer.ContextualOptimizer">
+<em class="property">class </em><code class="descclassname">bolero.optimizer.</code><code class="descname">ContextualOptimizer</code><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Common interface for (contextual) optimizers.</p>
+<p>This is a simple derivative-free parameter optimizer.</p>
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.best_policy">
+<code class="descname">best_policy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.best_policy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.best_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current best estimate of contextual policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>policy</strong> : UpperLevelPolicy</p>
+<blockquote class="last">
+<div><p>Best estimate of upper-level policy</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.get_desired_context">
+<code class="descname">get_desired_context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.get_desired_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.get_desired_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses desired context for next evaluation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>context</strong> : ndarray-like, default=None</p>
+<blockquote class="last">
+<div><p>The context in which the next rollout shall be performed. If None,
+the environment may select the next context without any preferences.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.get_next_parameters">
+<code class="descname">get_next_parameters</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.get_next_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.get_next_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get next individual/parameter vector for evaluation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array_like, shape (n_params,)</p>
+<blockquote class="last">
+<div><p>Parameter vector, will be modified</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n_params</em>, <em>n_context_dims</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize optimizer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
+<blockquote>
+<div><p>dimension of the parameter vector</p>
+</div></blockquote>
+<p><strong>n_context_dims</strong> : int</p>
+<blockquote class="last">
+<div><p>number of dimensions of the context space</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.is_behavior_learning_done">
+<code class="descname">is_behavior_learning_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.is_behavior_learning_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.is_behavior_learning_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the optimization is finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
+<blockquote class="last">
+<div><p>Is the learning of a behavior finished?</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.set_context">
+<code class="descname">set_context</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.set_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.set_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set context of next evaluation.</p>
+<p>Note that the set context need not necessarily be the same that was
+requested by get_desired_context().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>context</strong> : array-like, shape (n_context_dims,)</p>
+<blockquote class="last">
+<div><p>The context in which the next rollout will be performed</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.ContextualOptimizer.set_evaluation_feedback">
+<code class="descname">set_evaluation_feedback</code><span class="sig-paren">(</span><em>rewards</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/optimizer.html#ContextualOptimizer.set_evaluation_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.set_evaluation_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set feedbacks for the parameter vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rewards</strong> : list of float</p>
+<blockquote class="last">
+<div><p>Feedbacks for each step or for the episode, depends on the problem</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

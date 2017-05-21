@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.DummyBehavior
+=================================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: DummyBehavior
+
+   
+   .. automethod:: __init__
+   

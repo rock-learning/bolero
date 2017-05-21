@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.representation.DMPSequence &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.representation.LinearBehavior" href="bolero.representation.LinearBehavior.html" />
+    <link rel="prev" title="bolero.representation.CartesianDMPBehavior" href="bolero.representation.CartesianDMPBehavior.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.representation</span></code>.DMPSequence</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-representation-dmpsequence">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.representation" title="bolero.representation"><code class="xref py py-mod docutils literal"><span class="pre">bolero.representation</span></code></a>.DMPSequence<a class="headerlink" href="#bolero-representation-dmpsequence" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.representation.DMPSequence">
+<em class="property">class </em><code class="descclassname">bolero.representation.</code><code class="descname">DMPSequence</code><span class="sig-paren">(</span><em>n_dmps=1</em>, <em>execution_times=None</em>, <em>dt=0.01</em>, <em>n_features=None</em>, <em>subgoals=None</em>, <em>learn_goal_velocities=False</em>, <em>initial_weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sequence of DMPs.</p>
+<p>Each DMP is initialized at the last phase of its predecessor to ensure
+smooth transitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_dmps</strong> : int, optional (default: 1)</p>
+<blockquote>
+<div><p>Number of DMPs in this sequence</p>
+</div></blockquote>
+<p><strong>execution_times</strong> : array-like, shape (n_dmps,), optional (default: ones)</p>
+<blockquote>
+<div><p>Execution times of the DMPs</p>
+</div></blockquote>
+<p><strong>n_features</strong> : array-like, shape (n_dmps,), optional (default: 50s)</p>
+<blockquote>
+<div><p>Number of RBF features for each dimension of each DMP.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float, optional (default: 0.01)</p>
+<blockquote>
+<div><p>Time between successive steps in seconds.</p>
+</div></blockquote>
+<p><strong>subgoals</strong> : array-like, shape (n_dmps + 1, n_task_dims)</p>
+<blockquote>
+<div><p>Subgoals of the DMPs including the final goal and the
+initial state.</p>
+</div></blockquote>
+<p><strong>learn_goal_velocities</strong> : bool, optional (default: True)</p>
+<blockquote>
+<div><p>Defines whether the parameter vector will include the velocities
+at the goals of the DMPs.</p>
+</div></blockquote>
+<p><strong>initial_weights</strong> : list</p>
+<blockquote class="last">
+<div><p>List of initial weight vectors for the DMPs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_dmps=1</em>, <em>execution_times=None</em>, <em>dt=0.01</em>, <em>n_features=None</em>, <em>subgoals=None</em>, <em>learn_goal_velocities=False</em>, <em>initial_weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.can_step">
+<code class="descname">can_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.can_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.can_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if step() can be called again, false otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.DMPSequence.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_n_params">
+<code class="descname">get_n_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.get_n_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.get_n_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_outputs">
+<code class="descname">get_outputs</code><span class="sig-paren">(</span><em>outputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.get_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.get_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get desired next system state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputs</strong> : array-like, shape (n_task_dims * 3)</p>
+<blockquote class="last">
+<div><p>Position, velocitie and rotation of each dimension</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function: get currently optimizable parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_subgoal">
+<code class="descname">get_subgoal</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.get_subgoal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.get_subgoal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subgoal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
+<blockquote>
+<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+-1 would be the goal of the sequence</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">subgoal: array-like, shape (n_task_dims,)</p>
+<blockquote class="last">
+<div><p>subgoal at index &#8216;idx&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.get_subgoal_velocity">
+<code class="descname">get_subgoal_velocity</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.get_subgoal_velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.get_subgoal_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subgoal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
+<blockquote>
+<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+-1 would be the goal of the sequence</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">subgoal: array-like, shape (n_task_dims,)</p>
+<blockquote class="last">
+<div><p>velocity at subgoal with index &#8216;idx&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n_inputs</em>, <em>n_outputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
+<blockquote>
+<div><p>number of inputs</p>
+</div></blockquote>
+<p><strong>n_outputs</strong> : int</p>
+<blockquote class="last">
+<div><p>number of outputs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset DMP.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.set_inputs">
+<code class="descname">set_inputs</code><span class="sig-paren">(</span><em>inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.set_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.set_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set current system state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array-like, shape (n_task_dims * 3)</p>
+<blockquote class="last">
+<div><p>Position, velocitie and rotation of each dimension</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.set_meta_parameters">
+<code class="descname">set_meta_parameters</code><span class="sig-paren">(</span><em>keys</em>, <em>meta_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.set_meta_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.set_meta_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set DMP meta parameters.</p>
+<p>Required meta-parameters</p>
+<dl class="docutils">
+<dt>x0</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>initial position</dd>
+<dt>g</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>goal</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>keys</strong> : list of string</p>
+<blockquote>
+<div><p>names of meta-parameters</p>
+</div></blockquote>
+<p><strong>meta_parameters</strong> : list of float</p>
+<blockquote class="last">
+<div><p>values of meta-parameters</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility function: set currently optimizable parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.set_subgoal">
+<code class="descname">set_subgoal</code><span class="sig-paren">(</span><em>idx</em>, <em>subgoal</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.set_subgoal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.set_subgoal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set subgoal manually.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
+<blockquote>
+<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+-1 would be the goal of the sequence</p>
+</div></blockquote>
+<p><strong>subgoal: array-like, shape (n_task_dims,)</strong></p>
+<blockquote class="last">
+<div><p>subgoal at index &#8216;idx&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.set_subgoal_velocity">
+<code class="descname">set_subgoal_velocity</code><span class="sig-paren">(</span><em>idx</em>, <em>subgoal_vel</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.set_subgoal_velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.set_subgoal_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set subgoal velocity manually.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
+<blockquote>
+<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+-1 would be the goal of the sequence</p>
+</div></blockquote>
+<p><strong>subgoal_vel: array-like, shape (n_task_dims,)</strong></p>
+<blockquote class="last">
+<div><p>velocity at subgoal with index &#8216;idx&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute next step.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

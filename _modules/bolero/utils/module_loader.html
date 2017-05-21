@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.utils.module_loader &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.utils.module_loader</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">StringIO</span>
+
+
+<span class="k">def</span> <span class="nf">optimizer_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;learning_config.yml&quot;</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create optimizer object from YAML configuration file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="p">)[</span><span class="s2">&quot;Optimizer&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">behavior_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;learning_config.yml&quot;</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create behavior object from YAML configuration file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="p">)[</span><span class="s2">&quot;Behavior&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">behavior_search_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;learning_config.yml&quot;</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create behavior search object from YAML configuration file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="p">)[</span><span class="s2">&quot;BehaviorSearch&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">environment_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;learning_config.yml&quot;</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create environment object from YAML configuration file.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="p">)[</span><span class="s2">&quot;Environment&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="from_yaml"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.from_yaml.html#bolero.utils.from_yaml">[docs]</a><span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create objects from YAML configuration file.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    See :func:`from_dict`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : string</span>
+<span class="sd">        The name of the YAML file to load.</span>
+
+<span class="sd">    conf_path : string, optional (default: $BL_CONF_PATH)</span>
+<span class="sd">        You can specify a path that is searched for the configuration file.</span>
+<span class="sd">        Otherwise we try to read it from the environment variable</span>
+<span class="sd">        &#39;BL_CONF_PATH&#39;. If that environment variable is not present we search</span>
+<span class="sd">        in the current path.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objects : dict</span>
+<span class="sd">        Objects created from each entry of config with the same keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">__load_config_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">from_dict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">__load_config_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">conf_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load configuration dictionary from YAML file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : string</span>
+<span class="sd">        The name of the YAML file to load.</span>
+
+<span class="sd">    conf_path : string, optional (default: $BL_CONF_PATH)</span>
+<span class="sd">        You can specify a path that is searched for the configuration file.</span>
+<span class="sd">        Otherwise we try to read it from the environment variable</span>
+<span class="sd">        &#39;BL_CONF_PATH&#39;. If that environment variable is not present we search</span>
+<span class="sd">        in the current path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">conf_path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">conf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BL_CONF_PATH&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">conf_path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">conf_filename</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conf_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conf_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">conf_filename</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">conf_filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">config</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; does not exist&quot;</span> <span class="o">%</span> <span class="n">conf_filename</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="from_yaml_string"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.from_yaml_string.html#bolero.utils.from_yaml_string">[docs]</a><span class="k">def</span> <span class="nf">from_yaml_string</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create objects from YAML string.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    yaml_str : string</span>
+<span class="sd">        YAML configuration string</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objects : dict</span>
+<span class="sd">        Objects created from each entry of config with the same keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">from_dict</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">yaml_str</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="from_dict"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.from_dict.html#bolero.utils.from_dict">[docs]</a><span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an object of a class that is fully specified by a config dict.</span>
+
+<span class="sd">    This will recursively go through all lists, tuples and dicts that are</span>
+<span class="sd">    in the configuration. It will start to construct all objects starting</span>
+<span class="sd">    from the leaves. For example</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        config = {&quot;type&quot;: &quot;Class1&quot;, &quot;arg1&quot;: {&quot;type&quot;: &quot;Class2&quot;}}</span>
+<span class="sd">        obj = from_dict(config)</span>
+
+<span class="sd">    is equivalent to</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        tmp = Class2()</span>
+<span class="sd">        obj = Class1(arg1=tmp)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration dictionary of the object. Contains constructor</span>
+<span class="sd">        arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    object : as specified in the config</span>
+<span class="sd">        The object created from the configuration dictionary or &#39;config&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">config</span><span class="p">))]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">config</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">from_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_from_dict</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an object of a class that is fully specified by a config dict.</span>
+
+<span class="sd">    No recursion happens here. This function will directly create objects</span>
+<span class="sd">    from the configuration.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : string</span>
+<span class="sd">        Key of the entry in the configuration dictionary</span>
+
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration dictionary of the object. Contains constructor</span>
+<span class="sd">        arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    object : as specified in the config</span>
+<span class="sd">        The object created from the configuration dictionary or &#39;config&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">package_name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;package&quot;</span><span class="p">)</span>
+        <span class="n">has_explicit_package</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">has_explicit_package</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="n">type_name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_explicit_package</span><span class="p">:</span>
+        <span class="n">type_parts</span> <span class="o">=</span> <span class="n">type_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">package_name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">type_parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">type_name</span> <span class="o">=</span> <span class="n">type_parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">package_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">cpp_lib</span> <span class="o">=</span> <span class="n">_load_cpp_library</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">type_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cpp_lib</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Empty module name. Either you tried to load a C++ library &quot;</span>
+                <span class="s2">&quot;that cannot be found or you forgot to specify the Python &quot;</span>
+                <span class="s2">&quot;package where the class &#39;</span><span class="si">%s</span><span class="s2">&#39; is located.&quot;</span> <span class="o">%</span> <span class="n">type_name</span><span class="p">)</span>
+        <span class="n">config_string</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">config_string</span><span class="p">)</span>
+        <span class="n">cpp_lib</span><span class="o">.</span><span class="n">initialize_yaml</span><span class="p">(</span><span class="n">config_string</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+        <span class="n">config_string</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cpp_lib</span>
+
+    <span class="n">package</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">package_name</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{},</span> <span class="n">fromlist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dummy&quot;</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">class_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">package</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">type_name</span> <span class="ow">in</span> <span class="n">class_dict</span><span class="p">:</span>
+        <span class="n">clazz</span> <span class="o">=</span> <span class="n">class_dict</span><span class="p">[</span><span class="n">type_name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Class name &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exist in module &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">type_name</span><span class="p">,</span> <span class="n">package_name</span><span class="p">))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">clazz</span><span class="p">(</span><span class="o">**</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Parameters for type &#39;</span><span class="si">%s</span><span class="s2">&#39; do not match: </span><span class="si">%r</span><span class="s2">. Reason: &quot;</span>
+                        <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">type_name</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+
+<span class="n">PERMITTED_BASECLASSES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;behavior&quot;</span><span class="p">,</span> <span class="s2">&quot;behavior_search&quot;</span><span class="p">,</span> <span class="s2">&quot;contextual_environment&quot;</span><span class="p">,</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;optimizer&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_load_cpp_library</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">bolero</span> <span class="kn">import</span> <span class="n">wrapper</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">__available__</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="n">baseclass</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">baseclass</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PERMITTED_BASECLASSES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Loading C++ library &#39;</span><span class="si">%s</span><span class="s2">&#39; failed. &#39;</span><span class="si">%s</span><span class="s2">&#39; is not a valid &quot;</span>
+                         <span class="s2">&quot;base class name!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">type_name</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">CppBLLoader</span><span class="p">()</span>
+    <span class="n">loader</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span><span class="n">type_name</span><span class="p">)</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s2">&quot;acquire_&quot;</span> <span class="o">+</span> <span class="n">baseclass</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">factory</span><span class="p">(</span><span class="n">type_name</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

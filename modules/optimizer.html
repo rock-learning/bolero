@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Optimization &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Behavior Search" href="behavior_search.html" />
+    <link rel="prev" title="Representation" href="representation.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representation.html">Representation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Optimization</a><ul>
+<li><a class="reference internal" href="#optimizers">Optimizers</a><ul>
+<li><a class="reference internal" href="#no-optimizer">No Optimizer</a></li>
+<li><a class="reference internal" href="#random-optimizer">Random Optimizer</a></li>
+<li><a class="reference internal" href="#cma-es">CMA-ES</a></li>
+<li><a class="reference internal" href="#ipop-cma-es">IPOP-CMA-ES</a></li>
+<li><a class="reference internal" href="#bipop-cma-es">BIPOP-CMA-ES</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contextual-optimizers">Contextual Optimizers</a><ul>
+<li><a class="reference internal" href="#c-reps-optimizer">C-REPS Optimizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="optimization">
+<span id="optimizer"></span><h1>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
+<p>Optimization algorithms can be used for policy search directly or they can
+be used within a behavior search algorithm to optimize parameters internally.
+That is the reason why they play an important role in BOLeRo.</p>
+<p>Optimizers seek to find some optimum (minimum or maximum) value, e.g. so that</p>
+<div class="math">
+\[\arg \max_{x \in A} f(x),\]</div>
+<p>where <span class="math">\(f\)</span> is called objective function. In behavior learning, <span class="math">\(f\)</span>
+is usually a fitness function or a reward function that has to be maximized.
+The library provides some black-box optimization algorithms. Black-box in this
+case means that no knowledge about the objective is required (e.g. gradients).</p>
+<div class="section" id="optimizers">
+<h2>Optimizers<a class="headerlink" href="#optimizers" title="Permalink to this headline">¶</a></h2>
+<p>The following table gives an overview of the optimizers that are provided by
+BOLeRo.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Optimizer name</th>
+<th class="head">Usecase</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#no-opt"><span class="std std-ref">NoOptimizer</span></a></td>
+<td>anything</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#random-opt"><span class="std std-ref">RandomOptimizer</span></a></td>
+<td>anything</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#cmaes-opt"><span class="std std-ref">CMAESOptimizer</span></a></td>
+<td>5 - 2000 parameters, ill-conditioned, non-separable, unimodal objective
+functions</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#ipop-cmaes-opt"><span class="std std-ref">IPOPCMAESOptimizer</span></a></td>
+<td>5 - 2000 parameters, ill-conditioned, non-separable, multimodal
+objective functions</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#bipop-cmaes-opt"><span class="std std-ref">BIPOPCMAESOptimizer</span></a></td>
+<td>5 - 2000 parameters, ill-conditioned, non-separable, multimodal
+objective functions</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="no-optimizer">
+<span id="no-opt"></span><h3>No Optimizer<a class="headerlink" href="#no-optimizer" title="Permalink to this headline">¶</a></h3>
+<p>A <a class="reference internal" href="generated/bolero.optimizer.NoOptimizer.html#bolero.optimizer.NoOptimizer" title="bolero.optimizer.NoOptimizer"><code class="xref py py-class docutils literal"><span class="pre">NoOptimizer</span></code></a> does not optimize at all. It can be used as a baseline
+for optimizers.</p>
+</div>
+<div class="section" id="random-optimizer">
+<span id="random-opt"></span><h3>Random Optimizer<a class="headerlink" href="#random-optimizer" title="Permalink to this headline">¶</a></h3>
+<p>A <a class="reference internal" href="generated/bolero.optimizer.RandomOptimizer.html#bolero.optimizer.RandomOptimizer" title="bolero.optimizer.RandomOptimizer"><code class="xref py py-class docutils literal"><span class="pre">RandomOptimizer</span></code></a> explores the parameter space randomly. It can be
+used as a baseline for optimizers.</p>
+</div>
+<div class="section" id="cma-es">
+<span id="cmaes-opt"></span><h3>CMA-ES<a class="headerlink" href="#cma-es" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer" title="bolero.optimizer.CMAESOptimizer"><code class="xref py py-class docutils literal"><span class="pre">CMAESOptimizer</span></code></a> implements the popular black-box optimizer
+<a class="reference external" href="https://en.wikipedia.org/wiki/CMA-ES">Covariance Matrix Adaption Evolution Strategy</a>. It is a local optimizer although
+it can be used to search for global optima with a large population size.
+However, CMA-ES with a restart strategy like <a class="reference internal" href="#ipop-cmaes-opt"><span class="std std-ref">IPOPCMAESOptimizer</span></a> or <a class="reference internal" href="#bipop-cmaes-opt"><span class="std std-ref">BIPOPCMAESOptimizer</span></a> might work
+better in this case.</p>
+<p>The complexity of CMA-ES depends on the number of parameters <span class="math">\(N\)</span> and is
+cubic <span class="math">\(O(N^3)\)</span> because we approximate the covariance matrix of the
+parameter vector and compute its singular value decomposition. Hence, it
+should not be used with too many parameters.</p>
+<p>CMA-ES represents its current solution by a Gaussian search distribution with
+mean <span class="math">\(\mu\)</span> and covariance <span class="math">\(\sigma \boldsymbol{C}\)</span> internally. During
+one iteration of the algorithm we will draw several samples from the
+distribution and compute their fitness. CMA-ES will order the samples and
+compute their weights for the next update based on their rank. That is the
+reason why CMA-ES is robust to rank-preserving transformations of the objective
+function.</p>
+<p>The optimization procedure is displayed in the following figure. Each image
+displays one generation of samples. Each generation is sampled from the same
+search distribution. The old search distribution is displayed by an orange
+equiprobable ellipse and the updated search distribution is displayed by a
+green ellipse.</p>
+</div>
+<div class="section" id="ipop-cma-es">
+<span id="ipop-cmaes-opt"></span><h3>IPOP-CMA-ES<a class="headerlink" href="#ipop-cma-es" title="Permalink to this headline">¶</a></h3>
+<p>CMA-ES is a local optimizer. It cannot escape local minima. Hence, to turn it
+into a global optimizer, we have to restart the optimization process when it
+gets stuck until we find a global optimum. One restart strategy is implemented
+by <a class="reference internal" href="generated/bolero.optimizer.IPOPCMAESOptimizer.html#bolero.optimizer.IPOPCMAESOptimizer" title="bolero.optimizer.IPOPCMAESOptimizer"><code class="xref py py-class docutils literal"><span class="pre">IPOPCMAESOptimizer</span></code></a>. IPOP-CMA-ES doubles the population size after
+each restart.</p>
+</div>
+<div class="section" id="bipop-cma-es">
+<span id="bipop-cmaes-opt"></span><h3>BIPOP-CMA-ES<a class="headerlink" href="#bipop-cma-es" title="Permalink to this headline">¶</a></h3>
+<p>Another restart strategy is implemented by <a class="reference internal" href="generated/bolero.optimizer.BIPOPCMAESOptimizer.html#bolero.optimizer.BIPOPCMAESOptimizer" title="bolero.optimizer.BIPOPCMAESOptimizer"><code class="xref py py-class docutils literal"><span class="pre">BIPOPCMAESOptimizer</span></code></a>.
+BIPOP-CMA-ES can decide whether it makes more sense to decrease or increase
+the population size.</p>
+</div>
+</div>
+<div class="section" id="contextual-optimizers">
+<h2>Contextual Optimizers<a class="headerlink" href="#contextual-optimizers" title="Permalink to this headline">¶</a></h2>
+<p>The following table gives an overview of the contextual optimizers that are
+provided by BOLeRo.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Optimizer name</th>
+<th class="head">Usecase</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#creps-opt"><span class="std std-ref">CREPSOptimizer</span></a></td>
+<td>5 - 500 parameters and 1 - 5 context dimensions</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="c-reps-optimizer">
+<span id="creps-opt"></span><h3>C-REPS Optimizer<a class="headerlink" href="#c-reps-optimizer" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="generated/bolero.optimizer.CREPSOptimizer.html#bolero.optimizer.CREPSOptimizer" title="bolero.optimizer.CREPSOptimizer"><code class="xref py py-class docutils literal"><span class="pre">CREPSOptimizer</span></code></a> implements the algorithm Contextual Relative
+Entropy Policy Search which is a state of the art approach for contextual
+optimization. It represents the upper-level policy by a linear model with
+nonlinear features from the context. It guarantees that the Kullback-Leibler
+divergence between successive policy distributions is bounded so that
+potentially dangerous exploration can be controlled.</p>
+<p>The first publication that describes C-REPS is</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Kupcsik, Deisenroth, Peters, Neumann:
+Data-Efficient Generalization of Robot Skills with Contextual Policy Search.
+<a class="reference external" href="http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf">http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf</a></p>
+</div>
+<p>A more detailed description of C-REPS and this implementation can be found in
+the appendix of</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Fabisch, Metzen: Active Contextual Policy Search.
+<a class="reference external" href="http://jmlr.org/papers/v15/fabisch14a.html">http://jmlr.org/papers/v15/fabisch14a.html</a></p>
+</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

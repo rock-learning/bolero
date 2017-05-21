@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MARS Environment &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="C++ API" href="api_cpp.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">MARS Environment</a><ul>
+<li><a class="reference internal" href="#folder-and-file-structure-of-an-environment">Folder and File Structure of an Environment</a></li>
+<li><a class="reference internal" href="#building-an-environment">Building an Environment</a></li>
+<li><a class="reference internal" href="#creating-your-own-environment">Creating Your Own Environment</a><ul>
+<li><a class="reference internal" href="#changes-in-the-folder-names-and-filenames">Changes in the folder names and filenames</a></li>
+<li><a class="reference internal" href="#changes-in-the-source">Changes in the source</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="mars-environment">
+<span id="id1"></span><h1>MARS Environment<a class="headerlink" href="#mars-environment" title="Permalink to this headline">¶</a></h1>
+<p>This guide will explain how to set up a MARS-based environment for BOLeRo.</p>
+<div class="section" id="folder-and-file-structure-of-an-environment">
+<h2>Folder and File Structure of an Environment<a class="headerlink" href="#folder-and-file-structure-of-an-environment" title="Permalink to this headline">¶</a></h2>
+<p>The structure of a project that provides a MARS-based environment always looks
+very similar to this one. You can download files from an example project by
+clicking on the links.</p>
+<p><strong>example_environment/</strong></p>
+<ul class="simple">
+<li><a class="reference download internal" href="_downloads/README.md" download=""><code class="xref download docutils literal"><span class="pre">README.md</span></code></a> - provides
+information for the user</li>
+<li><a class="reference download internal" href="_downloads/CMakeLists.txt" download=""><code class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></code></a>
+- defines how we can build this project with <a class="reference external" href="http://www.cmake.org/">CMake</a></li>
+<li><a class="reference download internal" href="_downloads/manifest.xml" download=""><code class="xref download docutils literal"><span class="pre">manifest.xml</span></code></a> -
+defines dependencies for <a class="reference external" href="http://rock-robotics.org">Rock</a> or <a class="reference external" href="http://www.ros.org/">ROS</a></li>
+<li><a class="reference download internal" href="_downloads/example_environment.pc.in" download=""><code class="xref download docutils literal"><span class="pre">example_environment.pc.in</span></code></a> - defines package
+information like the location of the library, compiler flags etc.</li>
+<li><strong>configuration/</strong> - contains MARS scenes and config files which are used by
+the environemnt<ul>
+<li><a class="reference download internal" href="_downloads/example.scn" download=""><code class="xref download docutils literal"><span class="pre">example.scn</span></code></a></li>
+<li><a class="reference download internal" href="_downloads/example_vc.scn" download=""><code class="xref download docutils literal"><span class="pre">example_vc.scn</span></code></a></li>
+</ul>
+</li>
+<li><strong>src/</strong> - contains source files for the environment implementation<ul>
+<li><a class="reference download internal" href="_downloads/ExampleEnvironment.h" download=""><code class="xref download docutils literal"><span class="pre">ExampleEnvironment.h</span></code></a></li>
+<li><a class="reference download internal" href="_downloads/ExampleEnvironment.cpp" download=""><code class="xref download docutils literal"><span class="pre">ExampleEnvironment.cpp</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="building-an-environment">
+<h2>Building an Environment<a class="headerlink" href="#building-an-environment" title="Permalink to this headline">¶</a></h2>
+<p>Building a MARS-based environment is straightforward and not much different
+to the standard CMake-based build process:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build
+<span class="nb">cd</span> build
+cmake_debug
+make install
+</pre></div>
+</div>
+<p>We do not use <cite>cmake ..</cite> because we want to install the environment to our
+BOLeRo installation. <cite>cmake_debug</cite> and <cite>cmake_release</cite> do automatically
+set the correct <cite>CMAKE_INSTALL_PREFIX</cite>.</p>
+</div>
+<div class="section" id="creating-your-own-environment">
+<h2>Creating Your Own Environment<a class="headerlink" href="#creating-your-own-environment" title="Permalink to this headline">¶</a></h2>
+<p>Starting from the example environment, to create a new simple environment you
+have to do the following steps.</p>
+<div class="section" id="changes-in-the-folder-names-and-filenames">
+<h3>Changes in the folder names and filenames<a class="headerlink" href="#changes-in-the-folder-names-and-filenames" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>copy the example folder and rename it</li>
+<li>delete all scene files in the configuration folder and put the new ones in
+it (the names of the new scene don&#8217;t have to be like the environment name
+but it would make things easier)</li>
+<li>rename the <a class="reference download internal" href="_downloads/example_environment.pc.in" download=""><code class="xref download docutils literal"><span class="pre">example_environment.pc.in</span></code></a> and put your
+environment name in front</li>
+<li>go in the <strong>src/</strong> folder and rename the source files</li>
+<li>go back to the main folder and edit the <a class="reference download internal" href="_downloads/CMakeLists.txt" download=""><code class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></code></a><ul>
+<li>change the project name to your environment name</li>
+<li>go to the section where the source files are set and correct the names to
+the right ones</li>
+<li>go to the end of the file where the scene files are installed and change
+the name of the files to your scene files</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="changes-in-the-source">
+<h3>Changes in the source<a class="headerlink" href="#changes-in-the-source" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference download internal" href="_downloads/ExampleEnvironment.h" download=""><code class="xref download docutils literal"><span class="pre">src/ExampleEnvironment.h</span></code></a>:
+In the header file you search for every spot with the word <em>example</em> and
+exchange it with the name of your environment.</li>
+<li><a class="reference download internal" href="_downloads/ExampleEnvironment.cpp" download=""><code class="xref download docutils literal"><span class="pre">src/ExampleEnvironment.cpp</span></code></a>:
+First do the same as in the header file (exchange alle <em>example</em> with
+your environment name).</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<p>In the following we give a brief description of the methods and what changes
+have to be done.</p>
+<p><strong>constructor</strong>:</p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Constructor method of your environment class</li>
+<li>calls the parent constructor (Environment and MARSEnvironment)</li>
+<li>initialize constants:<ul>
+<li>MAX_TIME     : maximum time after which the evaluation is considerd as done</li>
+<li>numJoints    : the number of joints which are used by the environment</li>
+<li>numAllJoints : the total number of joint of the scene</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>change <em>numJoints</em> and <em>numAllJoints</em> to the right values</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>initMARSEnvironment()</strong>:</p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Initialise you environment:</li>
+<li>looks in the <em>learning_config.yml</em> wether the velocity or position controlled scene should be loaded</li>
+<li>loads the scene in MARS</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>change the name of the normal scene and the velocity controlled scene to your scene file name.</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>resetMARSEnvironment()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>resets the environment to the start state</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>: None</p>
+</div></blockquote>
+<p><strong>handleMARSError()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the evaluation_done variable to <em>True</em> and the fitness to &#8220;DBL_MAX&#8221;</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>: None</p>
+</div></blockquote>
+<p><strong>getSensorIDs()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>This Method should search for the id&#8217;s of the motors you want to use in the environment.</li>
+<li>The id&#8217;s are saved in a vector called <em>sensorIDs</em>.</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In this example the method seaches for the id&#8217;s of the sensors with the names: &#8220;Motor_Angles&#8221;, &#8220;Endeffector_position&#8221;, &#8220;Endeffector_rotation&#8221;, &#8220;Endeffector_velocity&#8221;.</li>
+<li>You have to change these names with the names of the sensors in your scene.</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>getMotorIDs()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>This Method should search for the id&#8217;s of the motors you want to use in the environment.</li>
+<li>The id&#8217;s are saved in a vector called <em>motorIDs</em>.</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In this example we go through all motors and save their id&#8217;s in the vector.</li>
+<li>If you dont want all of your motors to be changed by the environment you have to change this here.</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>getNumInputs()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>This Method returns the number of inputs this environment can handle</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Change the return value to the number of motors you want to control with your environment</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>getNumOutputs()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>This Method returns the number of outputs your environment creates</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Change the return to the number of outputs you want to give</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>createOutputValues()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In this method we create the output values and fill them into the array <em>outputs</em>.</li>
+<li>The <em>outputs</em> array is part of the mars_environment class. The length of this array depends on the number your <em>getNumOutputs()</em> function returns.</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<ul class="simple">
+<li>You have to go through your sensorID&#8217;s you got from <em>getSensorIDs()</em>, read the sensor data from each sensor and write them into the <em>outputs</em> array</li>
+</ul>
+</div></blockquote>
+<p><strong>handleInputValues()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>This method is called with every step and should handle the new inputs.</li>
+<li>The input data is in the <em>inputs</em> array which is also part of the mars_environment class.</li>
+<li>The length of this array depends on the number your <em>getNumInputs()</em> function returns.</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>In this method we simply go through the <em>inputs</em> array and pass the values to the motors of the loaded scene.</li>
+<li>If you want to do something different with the inputs you ahve to do this here.</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>isEvaluationDone()</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>True</em> if the MAX_TIME is reached or an event sets the evaluation_done to <em>True</em></li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>: None</p>
+</div></blockquote>
+<p><strong>getFeedback(double *feedback)</strong></p>
+<blockquote>
+<div><p><em>description</em>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>returns the feedback generated by the evaluation</li>
+</ul>
+</div></blockquote>
+<p><em>changes</em>: None</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

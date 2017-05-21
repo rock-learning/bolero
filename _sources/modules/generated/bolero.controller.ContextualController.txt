@@ -1,0 +1,10 @@
+:mod:`bolero.controller`.ContextualController
+====================================================
+
+.. currentmodule:: bolero.controller
+
+.. autoclass:: ContextualController
+
+   
+   .. automethod:: __init__
+   

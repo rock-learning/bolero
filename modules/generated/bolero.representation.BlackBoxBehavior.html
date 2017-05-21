@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.representation.BlackBoxBehavior &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.representation.ConstantBehavior" href="bolero.representation.ConstantBehavior.html" />
+    <link rel="prev" title="bolero.representation.Behavior" href="bolero.representation.Behavior.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.representation</span></code>.BlackBoxBehavior</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-representation-blackboxbehavior">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.representation" title="bolero.representation"><code class="xref py py-mod docutils literal"><span class="pre">bolero.representation</span></code></a>.BlackBoxBehavior<a class="headerlink" href="#bolero-representation-blackboxbehavior" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.representation.BlackBoxBehavior">
+<em class="property">class </em><code class="descclassname">bolero.representation.</code><code class="descname">BlackBoxBehavior</code><a class="reference internal" href="../../_modules/bolero/representation/behavior.html#BlackBoxBehavior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.BlackBoxBehavior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can be optimized with black box optimizer.</p>
+<p>A behavior that can be optimized with a black box optimizer must be
+<strong>exactly</strong> defined by a <strong>fixed</strong> number of parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
+<blockquote>
+<div><p>Number of input components.</p>
+</div></blockquote>
+<p><strong>n_outputs</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of output components.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.can_step">
+<code class="descname">can_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.can_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if step() can be called again.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>can_step</strong> : bool</p>
+<blockquote class="last">
+<div><p>Can we call step() again?</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.get_n_params">
+<code class="descname">get_n_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/behavior.html#BlackBoxBehavior.get_n_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.get_n_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of parameters that will be optimized.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.get_outputs">
+<code class="descname">get_outputs</code><span class="sig-paren">(</span><em>outputs</em><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.get_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get outputs of the last step.</p>
+<p>If the output vector consists of positions and derivatives of these,
+by convention all positions and all derivatives should be stored
+contiguously.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputs</strong> : array-like, shape = (n_outputs,)</p>
+<blockquote class="last">
+<div><p>outputs, e.g. next action, will be updated</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/behavior.html#BlackBoxBehavior.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
+<blockquote class="last">
+<div><p>Current parameters.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n_inputs</em>, <em>n_outputs</em><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
+<blockquote>
+<div><p>number of inputs</p>
+</div></blockquote>
+<p><strong>n_outputs</strong> : int</p>
+<blockquote class="last">
+<div><p>number of outputs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/behavior.html#BlackBoxBehavior.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset behavior.</p>
+<p>This method is usually called after setting the parameters to reuse
+the current behavior and clear its internal state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.set_inputs">
+<code class="descname">set_inputs</code><span class="sig-paren">(</span><em>inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.set_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set input for the next step.</p>
+<p>If the input vector consists of positions and derivatives of these,
+by convention all positions and all derivatives should be stored
+contiguously.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array-like, shape = (n_inputs,)</p>
+<blockquote class="last">
+<div><p>inputs, e.g. current state of the system</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.set_meta_parameters">
+<code class="descname">set_meta_parameters</code><span class="sig-paren">(</span><em>keys</em>, <em>meta_parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.set_meta_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set meta-parameters.</p>
+<p>Meta-parameters could be the goal, obstacles, ...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>keys</strong> : list of string</p>
+<blockquote>
+<div><p>names of meta-parameters</p>
+</div></blockquote>
+<p><strong>meta_parameters</strong> : list of lists of float values</p>
+<blockquote class="last">
+<div><p>One list of floats for each parameter</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/behavior.html#BlackBoxBehavior.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new parameter values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
+<blockquote class="last">
+<div><p>New parameters.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.BlackBoxBehavior.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.BlackBoxBehavior.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute output for the received input.</p>
+<p>Uses the inputs and meta-parameters to compute the outputs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

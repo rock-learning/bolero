@@ -1,0 +1,10 @@
+:mod:`bolero.utils.log`.HideExtern
+=========================================
+
+.. currentmodule:: bolero.utils.log
+
+.. autoclass:: HideExtern
+
+   
+   .. automethod:: __init__
+   

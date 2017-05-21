@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Quick Start with the Controller" href="quickstart-controller.html" />
+    <link rel="prev" title="Behavior Optimization and Learning for Robots" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#environment">Environment</a></li>
+<li><a class="reference internal" href="#optional-packages">Optional Packages</a></li>
+<li><a class="reference internal" href="#installing-only-the-python-library">Installing Only the Python Library</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#building-the-documentation">Building the Documentation</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The installation process for BOLeRo is a little bit unusual because we depend
+on the latest versions of many libraries and support Linux, MaxOS and Windows
+so that we usually have to download and build them. You can download the
+installation script and run it with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
+chmod +x bootstrap_bolero.sh
+./bootstrap_bolero.sh
+</pre></div>
+</div>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<p>The installation script downloads all required packages and installs them in
+a target directory that you defined. We call it <cite>$BOLEROPATH</cite>. It has the
+following structure:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>$BOLEROPATH
+  |-bolero-dev/
+  |--install/
+  |---bin/
+  |---configuration/
+  |---include/
+  |---lib/
+  |---share/
+  |--autoproj/
+  |---manifest
+  |--learning/
+  |---bolero/
+  |--env.sh
+</pre></div>
+</div>
+<p>The subdirectory <cite>install</cite> includes all the shared libraries, configurations,
+header files, and scripts that you installed. Usually they are not available
+in your environment. However, you can source the script <cite>env.sh</cite> with</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>source env.sh
+</pre></div>
+</div>
+<p>to make them available. You could add it to your <cite>.bashrc</cite> to make it permanent.</p>
+</div>
+<div class="section" id="optional-packages">
+<h2>Optional Packages<a class="headerlink" href="#optional-packages" title="Permalink to this headline">¶</a></h2>
+<p>The subdirectory autoproj contains a file manifest which includes all activates
+packages of BOLeRo. You can activate commented packages by removing &#8220;# &#8221; in
+front of it and calling bob-bootstrap. The manifest file follows the conventions
+of <a class="reference external" href="http://rock-robotics.org/stable/documentation/autoproj/">autoproj</a>.</p>
+</div>
+<div class="section" id="installing-only-the-python-library">
+<h2>Installing Only the Python Library<a class="headerlink" href="#installing-only-the-python-library" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to install only the Python library BOLeRo without any C++
+module via</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python setup.py install
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>To run the Python unit tests, we need nosetests. You can install it with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo pip install nose
+</pre></div>
+</div>
+<p>and run it with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nosetests
+</pre></div>
+</div>
+<p>in the bolero main directory.</p>
+</div>
+<div class="section" id="building-the-documentation">
+<h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Install dependencies:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install doxygen
+sudo pip install joblib pillow
+</pre></div>
+</div>
+<p>Go to the folder &#8216;doc&#8217; and run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make html
+</pre></div>
+</div>
+<p>The result will be located in doc/build/html/index.html.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

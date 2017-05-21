@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.RestartCMAESOptimizer
+====================================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: RestartCMAESOptimizer
+
+   
+   .. automethod:: __init__
+   

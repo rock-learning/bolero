@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.ContextualEnvironment
+======================================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: ContextualEnvironment
+
+   
+   .. automethod:: __init__
+   

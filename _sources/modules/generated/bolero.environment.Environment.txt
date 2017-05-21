@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.Environment
+============================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: Environment
+
+   
+   .. automethod:: __init__
+   

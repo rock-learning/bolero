@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.HierarchicalBehaviorTemplate
+================================================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: HierarchicalBehaviorTemplate
+
+   
+   .. automethod:: __init__
+   

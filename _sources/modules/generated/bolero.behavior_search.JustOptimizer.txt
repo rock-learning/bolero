@@ -1,0 +1,10 @@
+:mod:`bolero.behavior_search`.JustOptimizer
+==================================================
+
+.. currentmodule:: bolero.behavior_search
+
+.. autoclass:: JustOptimizer
+
+   
+   .. automethod:: __init__
+   

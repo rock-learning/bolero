@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.BlackBoxBehavior
+====================================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: BlackBoxBehavior
+
+   
+   .. automethod:: __init__
+   

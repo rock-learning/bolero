@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.Catapult
+=========================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: Catapult
+
+   
+   .. automethod:: __init__
+   

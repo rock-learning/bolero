@@ -1,0 +1,6 @@
+:mod:`bolero.utils`.from_yaml
+==========================================
+
+.. currentmodule:: bolero.utils
+
+.. autofunction:: from_yaml

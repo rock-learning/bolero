@@ -1,0 +1,10 @@
+:mod:`bolero.behavior_search`.ContextualBlackBoxSearch
+=============================================================
+
+.. currentmodule:: bolero.behavior_search
+
+.. autoclass:: ContextualBlackBoxSearch
+
+   
+   .. automethod:: __init__
+   

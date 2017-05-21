@@ -1,0 +1,6 @@
+:mod:`bolero.datasets`.make_minimum_jerk
+=====================================================
+
+.. currentmodule:: bolero.datasets
+
+.. autofunction:: make_minimum_jerk

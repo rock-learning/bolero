@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.datasets.minimum_jerk &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.datasets.minimum_jerk</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="make_minimum_jerk"><a class="viewcode-back" href="../../../modules/generated/bolero.datasets.make_minimum_jerk.html#bolero.datasets.make_minimum_jerk">[docs]</a><span class="k">def</span> <span class="nf">make_minimum_jerk</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">,</span> <span class="n">execution_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a minimum jerk trajectory.</span>
+
+<span class="sd">    A minimum jerk trajectory from :math:`x_0` to :math:`g` minimizes</span>
+<span class="sd">    the third time derivative of the positions:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \\arg \min_{x_0, \ldots, x_T} \int_{t=0}^T \dddot{x}(t)^2 dt</span>
+
+<span class="sd">    The trajectory will have</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        n_steps = 1 + execution_time / dt</span>
+
+<span class="sd">    steps because we start at 0 seconds and end at execution_time seconds.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : array-like, shape (n_task_dims,)</span>
+<span class="sd">        Initial state</span>
+
+<span class="sd">    goal : array-like, shape (n_task_dims,)</span>
+<span class="sd">        Goal</span>
+
+<span class="sd">    execution_time : float, optional (default: 1)</span>
+<span class="sd">        Execution time in seconds</span>
+
+<span class="sd">    dt : float, optional (default: 0.01)</span>
+<span class="sd">        Time between successive steps in seconds</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : array, shape (n_task_dims, n_steps, 1)</span>
+<span class="sd">        The positions of the trajectory</span>
+
+<span class="sd">    Xd : array, shape (n_task_dims, n_steps, 1)</span>
+<span class="sd">        The velocities of the trajectory</span>
+
+<span class="sd">    Xdd : array, shape (n_task_dims, n_steps, 1)</span>
+<span class="sd">        The accelerations of the trajectory</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See :ref:`example_datasets_plot_minimum_jerk.py`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">goal</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x0</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Shape of initial state </span><span class="si">%s</span><span class="s2"> and goal </span><span class="si">%s</span><span class="s2"> must be equal&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="n">n_task_dims</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">execution_time</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_task_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">Xd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_task_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">Xdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_task_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">xd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_task_dims</span><span class="p">)</span>
+    <span class="n">xdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_task_dims</span><span class="p">)</span>
+
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">execution_time</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">execution_time</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="k">if</span> <span class="n">tau</span> <span class="o">&gt;=</span> <span class="n">dt</span><span class="p">:</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">g</span> <span class="o">-</span> <span class="n">x</span>
+
+            <span class="n">a1</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">a0</span> <span class="o">=</span> <span class="n">xdd</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">v0</span> <span class="o">=</span> <span class="n">xd</span> <span class="o">*</span> <span class="n">tau</span>
+
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">dt</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">t3</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">3</span>
+            <span class="n">t4</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">4</span>
+            <span class="n">t5</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">5</span>
+
+            <span class="n">c1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.</span> <span class="o">*</span> <span class="n">dist</span> <span class="o">+</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-</span> <span class="n">a0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">-</span> <span class="mf">3.</span> <span class="o">*</span> <span class="p">(</span><span class="n">v0</span> <span class="o">+</span> <span class="n">v1</span><span class="p">))</span> <span class="o">/</span> <span class="n">tau</span> <span class="o">**</span> <span class="mi">5</span>
+            <span class="n">c2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">15.</span> <span class="o">*</span> <span class="n">dist</span> <span class="o">+</span> <span class="p">(</span><span class="mf">3.</span> <span class="o">*</span> <span class="n">a0</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">a1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="mf">8.</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">+</span>
+                  <span class="mf">7.</span> <span class="o">*</span> <span class="n">v1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span> <span class="o">**</span> <span class="mi">4</span>
+            <span class="n">c3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.</span> <span class="o">*</span> <span class="n">dist</span> <span class="o">+</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-</span> <span class="mf">3.</span> <span class="o">*</span> <span class="n">a0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">-</span> <span class="mf">6.</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">-</span>
+                  <span class="mf">4.</span> <span class="o">*</span> <span class="n">v1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span> <span class="o">**</span> <span class="mi">3</span>
+            <span class="n">c4</span> <span class="o">=</span> <span class="n">xdd</span> <span class="o">/</span> <span class="mf">2.</span>
+            <span class="n">c5</span> <span class="o">=</span> <span class="n">xd</span>
+            <span class="n">c6</span> <span class="o">=</span> <span class="n">x</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">t5</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">t4</span> <span class="o">+</span> <span class="n">c3</span> <span class="o">*</span> <span class="n">t3</span> <span class="o">+</span> <span class="n">c4</span> <span class="o">*</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">c5</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">c6</span>
+            <span class="n">xd</span> <span class="o">=</span> <span class="p">(</span><span class="mf">5.</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">t4</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">t3</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">c3</span> <span class="o">*</span> <span class="n">t2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c4</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">c5</span><span class="p">)</span>
+            <span class="n">xdd</span> <span class="o">=</span> <span class="p">(</span><span class="mf">20.</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">t3</span> <span class="o">+</span> <span class="mf">12.</span> <span class="o">*</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">t2</span> <span class="o">+</span> <span class="mf">6.</span> <span class="o">*</span> <span class="n">c3</span> <span class="o">*</span> <span class="n">t1</span> <span class="o">+</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">c4</span><span class="p">)</span>
+
+        <span class="n">X</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">Xd</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">xd</span>
+        <span class="n">Xdd</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">xdd</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Xd</span><span class="p">,</span> <span class="n">Xdd</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.RandomOptimizer
+==============================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: RandomOptimizer
+
+   
+   .. automethod:: __init__
+   

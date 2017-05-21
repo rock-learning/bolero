@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.representation.csdmp_behavior &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.representation.csdmp_behavior</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Authors: Jan Hendrik Metzen &lt;jhm@informatik.uni-bremen.de&gt;</span>
+<span class="c1">#          Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">StringIO</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.behavior</span> <span class="kn">import</span> <span class="n">BlackBoxBehavior</span>
+<span class="kn">from</span> <span class="nn">.dmp_behavior</span> <span class="kn">import</span> <span class="n">load_dmp_model</span><span class="p">,</span> <span class="n">save_dmp_model</span>
+<span class="kn">import</span> <span class="nn">dmp</span>
+
+
+<span class="n">PERMITTED_CSDMP_METAPARAMETERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;gd&quot;</span><span class="p">,</span> <span class="s2">&quot;q0&quot;</span><span class="p">,</span> <span class="s2">&quot;qg&quot;</span><span class="p">,</span> <span class="s2">&quot;execution_time&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="CartesianDMPBehavior"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior">[docs]</a><span class="k">class</span> <span class="nc">CartesianDMPBehavior</span><span class="p">(</span><span class="n">BlackBoxBehavior</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cartesian Space Dynamical Movement Primitive.</span>
+
+<span class="sd">    Can be used to optimize the weights of a Cartesian Space DMP with a black</span>
+<span class="sd">    box optimizer. This is a wrapper for the optional DMP module of bolero.</span>
+<span class="sd">    Only the weights of the Cartesian Space DMP will be optimized. To optimize</span>
+<span class="sd">    meta-parameters like the goal or the goal velocity, you have to implement</span>
+<span class="sd">    your own wrapper. This can be a subclass of this wrapper that only</span>
+<span class="sd">    overrides the methods that provide access to the parameters.</span>
+
+<span class="sd">    An object can be created either by passing a configuration file or the</span>
+<span class="sd">    specification of a Cartesian Space DMP. A Cartesian Space DMP configuration</span>
+<span class="sd">    file describes all parameters of the DMP model and it is not recommended to</span>
+<span class="sd">    generate it manually.</span>
+
+<span class="sd">    Note that it is possible to change the trajectory significantly by setting</span>
+<span class="sd">    the start and goal. However, do not expect to be able to convert the DMP</span>
+<span class="sd">    between coordinate frames by setting only the start and goal. Because</span>
+<span class="sd">    the position and the orientation parts are handled separately, this will</span>
+<span class="sd">    result in completely different trajectories.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    execution_time : float, optional (default: 1)</span>
+<span class="sd">        Execution time of the DMP in seconds.</span>
+
+<span class="sd">    dt : float, optional (default: 0.01)</span>
+<span class="sd">        Time between successive steps in seconds.</span>
+
+<span class="sd">    n_features : int, optional (default: 50)</span>
+<span class="sd">        Number of RBF features for each dimension of the DMP.</span>
+
+<span class="sd">    configuration_file : string, optional (default: None)</span>
+<span class="sd">        Name of a configuration file that should be used to initialize the DMP.</span>
+<span class="sd">        If it is set all other arguments will be ignored.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CartesianDMPBehavior.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">execution_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">configuration_file</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">configuration_file</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">=</span> <span class="n">execution_time</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="n">n_features</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configuration_file</span> <span class="o">=</span> <span class="n">configuration_file</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.init"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the behavior.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_inputs : int</span>
+<span class="sd">            number of inputs</span>
+
+<span class="sd">        n_outputs : int</span>
+<span class="sd">            number of outputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_inputs</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of inputs must be 7&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_outputs</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of outputs must be 7&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span> <span class="o">=</span> <span class="mi">6</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;configuration_file&quot;</span><span class="p">):</span>
+            <span class="n">load_dmp_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Python CSDMP&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span> <span class="o">=</span> <span class="n">dmp</span><span class="o">.</span><span class="n">calculate_alpha</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">)</span>
+            <span class="n">dmp</span><span class="o">.</span><span class="n">initialize_rbf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span>
+                               <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span> <span class="o">=</span> <span class="mf">25.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span> <span class="o">/</span> <span class="mf">4.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;x0&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;x0d&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;x0dd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;gd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;gdd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;q0&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;q0d&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q0d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;q0dd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q0dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;qg&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;qgd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qgd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;qgdd&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qgdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">get_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">set_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;position_weights&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;orientation_weights&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="n">weights</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_weights</span><span class="p">,</span> <span class="n">set_weights</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.set_meta_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.set_meta_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_meta_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set DMP meta parameters.</span>
+
+<span class="sd">        Permitted meta-parameters:</span>
+
+<span class="sd">        x0 : array</span>
+<span class="sd">            Initial position</span>
+
+<span class="sd">        g : array</span>
+<span class="sd">            Goal</span>
+
+<span class="sd">        gd : array</span>
+<span class="sd">            Velocity at the goal</span>
+
+<span class="sd">        q0 : array</span>
+<span class="sd">            Initial rotation</span>
+
+<span class="sd">        qg : array</span>
+<span class="sd">            Final rotation</span>
+
+<span class="sd">        execution_time : float</span>
+<span class="sd">            New execution time</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        keys : list of string</span>
+<span class="sd">            names of meta-parameters</span>
+
+<span class="sd">        meta_parameters : list of float</span>
+<span class="sd">            values of meta-parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">meta_parameter</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PERMITTED_CSDMP_METAPARAMETERS</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Meta parameter &#39;</span><span class="si">%s</span><span class="s2">&#39; is not allowed, use one of </span><span class="si">%r</span><span class="s2">&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">PERMITTED_CSDMP_METAPARAMETERS</span><span class="p">))</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">meta_parameter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.set_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.set_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set input for the next step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : array-like, shape = (7,)</span>
+<span class="sd">            Contains positions and rotations represented by quaternions,</span>
+<span class="sd">            order (order: x, y, z, w, rx, ry, rz)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_y</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_r</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_yd</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_rd</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_ydd</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ydd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_rdd</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rdd</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.get_outputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.get_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get outputs of the last step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        outputs : array-like, shape = (7,)</span>
+<span class="sd">            Contains positions and rotations represented by quaternions,</span>
+<span class="sd">            order (order: x, y, z, w, rx, ry, rz)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">outputs</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.step"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute desired position, velocity and acceleration.&quot;&quot;&quot;</span>
+        <span class="n">dmp</span><span class="o">.</span><span class="n">dmp_step</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_yd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_ydd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ydd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gdd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+            <span class="mf">0.001</span>
+        <span class="p">)</span>
+
+        <span class="n">dmp</span><span class="o">.</span><span class="n">quaternion_dmp_step</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_rd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_rdd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rdd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qgd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qgdd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0dd</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+            <span class="mf">0.001</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.can_step"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.can_step">[docs]</a>    <span class="k">def</span> <span class="nf">can_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns if step() can be called again.</span>
+
+<span class="sd">        Note that calling step() after this function returns False will not</span>
+<span class="sd">        result in an error. The velocity and acceleration will be set to 0</span>
+<span class="sd">        and we hold the last position instead.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        can_step : bool</span>
+<span class="sd">            Can we call step() again?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.get_n_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.get_n_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_n_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get number of weights.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        n_params : int</span>
+<span class="sd">            Number of DMP weights</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">size</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.get_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get current weights.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        params : array-like, shape = (n_params,)</span>
+<span class="sd">            Current weights</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.set_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set new weights.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : array-like, shape = (n_params,)</span>
+<span class="sd">            New weights</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.reset"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset DMP.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_rdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0dd</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_t</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.imitate"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.imitate">[docs]</a>    <span class="k">def</span> <span class="nf">imitate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">allow_final_velocity</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Learn weights of the DMP from demonstrations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array, shape (7, n_steps)</span>
+<span class="sd">            The demonstrated trajectory (order: x, y, z, w, rx, ry, rz) to be</span>
+<span class="sd">            imitated.</span>
+
+<span class="sd">        alpha : float &gt;= 0, optional (default: 0)</span>
+<span class="sd">            The ridge parameter of linear regression. Small positive values of</span>
+<span class="sd">            alpha improve the conditioning of the problem and reduce the</span>
+<span class="sd">            variance of the estimates.</span>
+
+<span class="sd">        allow_final_velocity : bool, optional (default: True)</span>
+<span class="sd">            Allow the final velocity to be greater than 0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_pos</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">X_rot</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">dmp</span><span class="o">.</span><span class="n">imitate</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">),</span>
+            <span class="n">X_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+            <span class="n">allow_final_velocity</span><span class="p">)</span>
+        <span class="n">dmp</span><span class="o">.</span><span class="n">quaternion_imitate</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">),</span>
+            <span class="n">X_rot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+            <span class="n">allow_final_velocity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.trajectory"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate trajectory represented by the DMP in open loop.</span>
+
+<span class="sd">        The function can be used for debugging purposes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : array, shape (n_steps, 7)</span>
+<span class="sd">            Positions and rotations (order: x, y, z, w, rx, ry, rz)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">last_t</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">last_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span>
+        <span class="n">last_yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0d</span><span class="p">)</span>
+        <span class="n">last_ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">last_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0</span><span class="p">)</span>
+        <span class="n">last_rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0d</span><span class="p">)</span>
+        <span class="n">last_rdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q0dd</span><span class="p">)</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">rd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">rdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">Y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">):</span>
+            <span class="n">dmp</span><span class="o">.</span><span class="n">dmp_step</span><span class="p">(</span>
+                <span class="n">last_t</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span>
+                <span class="n">last_y</span><span class="p">,</span> <span class="n">last_yd</span><span class="p">,</span> <span class="n">last_ydd</span><span class="p">,</span>
+                <span class="n">y</span><span class="p">,</span> <span class="n">yd</span><span class="p">,</span> <span class="n">ydd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gdd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">position_weights</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+                <span class="mf">0.001</span>
+            <span class="p">)</span>
+
+            <span class="n">dmp</span><span class="o">.</span><span class="n">quaternion_dmp_step</span><span class="p">(</span>
+                <span class="n">last_t</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span>
+                <span class="n">last_r</span><span class="p">,</span> <span class="n">last_rd</span><span class="p">,</span> <span class="n">last_rdd</span><span class="p">,</span>
+                <span class="n">r</span><span class="p">,</span> <span class="n">rd</span><span class="p">,</span> <span class="n">rdd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">qg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qgd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qgdd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">q0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0dd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">orientation_weights</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">,</span>
+                <span class="mf">0.001</span>
+            <span class="p">)</span>
+
+            <span class="n">last_t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">last_y</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">last_yd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">yd</span>
+            <span class="n">last_ydd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">ydd</span>
+            <span class="n">last_r</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="n">last_rd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">rd</span>
+            <span class="n">last_rdd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">rdd</span>
+            <span class="n">Y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Y</span><span class="p">,</span> <span class="n">R</span><span class="p">))</span></div>
+
+    <span class="n">save</span> <span class="o">=</span> <span class="n">save_dmp_model</span>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.save_config"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.save_config">[docs]</a>    <span class="k">def</span> <span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save DMP configuration.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string</span>
+<span class="sd">            Name of YAML file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;executionTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;startPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;startVelocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0d</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;startAcceleration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;startRotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;startAngularVelocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0d</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;endPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;endVelocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gd</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;endAcceleration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gdd</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;endRotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qg</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">config_content</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">config_content</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config_content</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">config_content</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CartesianDMPBehavior.load_config"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior.load_config">[docs]</a>    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load DMP configuration.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string</span>
+<span class="sd">            Name of YAML file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;executionTime&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;startPosition&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;startVelocity&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;startAcceleration&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;startRotation&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q0d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;startAngularVelocity&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;endPosition&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;endVelocity&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;endAcceleration&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;endRotation&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

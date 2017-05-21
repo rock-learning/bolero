@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.RandomBehavior
+==================================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: RandomBehavior
+
+   
+   .. automethod:: __init__
+   

@@ -1,0 +1,10 @@
+:mod:`bolero.behavior_search`.BehaviorSearch
+===================================================
+
+.. currentmodule:: bolero.behavior_search
+
+.. autoclass:: BehaviorSearch
+
+   
+   .. automethod:: __init__
+   

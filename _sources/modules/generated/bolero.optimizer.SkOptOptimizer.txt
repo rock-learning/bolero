@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.SkOptOptimizer
+=============================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: SkOptOptimizer
+
+   
+   .. automethod:: __init__
+   

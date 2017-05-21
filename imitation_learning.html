@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Imitation Learning &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="General examples" href="auto_examples/index.html" />
+    <link rel="prev" title="Wrapper" href="modules/wrapper.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Imitation Learning</a><ul>
+<li><a class="reference internal" href="#imitation-with-dynamical-movement-primitives">Imitation with Dynamical Movement Primitives</a></li>
+<li><a class="reference internal" href="#literature">Literature</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="imitation-learning">
+<span id="imiatation-learning"></span><h1>Imitation Learning<a class="headerlink" href="#imitation-learning" title="Permalink to this headline">¶</a></h1>
+<p>Imitation Learning (IL) is often called Programming by Demonstration (PbD),
+Learning from Demonstrations (LfD) or Apprenticeship Learning depending on
+the research group. We can distinguish at least two different types of
+imitation learning:</p>
+<ul class="simple">
+<li>kinesthetic teaching: a person moves the joints of a robot and the motion
+will be recorded from the robot directly</li>
+<li>learning from recorded movements: a person moves and the motion is recorded
+via some kind of motion capturing system</li>
+</ul>
+<p>The latter is usually much more difficult since it is not always possible to
+reproduce the behavior with another agent because of different kinematic
+structures.</p>
+<p>A basic overview of the field can be found in <a class="reference internal" href="#billard2013" id="id1">[Billard2013]</a>.</p>
+<div class="section" id="imitation-with-dynamical-movement-primitives">
+<h2>Imitation with Dynamical Movement Primitives<a class="headerlink" href="#imitation-with-dynamical-movement-primitives" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="modules/generated/bolero.representation.DMPBehavior.html#bolero.representation.DMPBehavior" title="bolero.representation.DMPBehavior"><code class="xref py py-class docutils literal"><span class="pre">DMPBehavior</span></code></a> s are arbitrarily parametrizable trajectories that adapt
+well to changing meta parameters like goal, or temporal scaling. With a
+given demonstration that consists of <span class="math">\(T\)</span> positions, velocities, and
+accelerations</p>
+<div class="math">
+\[(\boldsymbol{x}_1, \dot{\boldsymbol{x}}_1, \ddot{\boldsymbol{x}}_1, \boldsymbol{x}_2, \dot{\boldsymbol{x}}_2, \ddot{\boldsymbol{x}}_2, \ldots)\]</div>
+<p>we can determine the weights of the DMP so that we reproduce the shape of the
+demonstration.</p>
+<p>The movement dynamics of a DMP is determined by the transformation system.
+It generates a goal directed movement based on the current position, velocity
+and acceleration and incorporates a learnable, time-dependent term called
+forcing term. The parameters of the forcing term can be changed to mimic a
+demonstrated movement (imitation learning) or to maximize a given feedback or
+reward function (reinforcement learning). However, the influence of the forcing
+term decays as the time approaches the maximum execution time of the trajectory.
+Hence, the generated movement is guaranteed to reach the goal
+<span class="math">\(\boldsymbol{g}\)</span>.</p>
+<p>Let us take a closer look at imitation learning with DMPs: the generated
+acceleration <span class="math">\(\ddot{\boldsymbol{x}}\)</span> at time step <span class="math">\(t\)</span> in this
+system is similar to</p>
+<div class="math">
+\[\ddot{x}_t = \frac{K (g - x_{t-1})- D \tau \dot{x}_{t-1} - K (g - x_0) s + K f(s)}{\tau^2},\]</div>
+<p>where <span class="math">\(g\)</span> is the desired goal, <span class="math">\(\boldsymbol{x}\)</span> is the position,
+<span class="math">\(\boldsymbol{x}\)</span> is the velocity, <span class="math">\(s\)</span> is the phase variable
+<span class="math">\(\boldsymbol{x}_0\)</span> is the start, <span class="math">\(f(s)\)</span> is the forcing term and
+<span class="math">\(\tau\)</span> is the duration of the trajectory. <span class="math">\(K\)</span> and <span class="math">\(D\)</span> are
+constants. In order to follow a demonstrated trajectory we compute the required
+forcing terms by solving for <span class="math">\(f(s)\)</span>:</p>
+<div class="math">
+\[\frac{\tau^2 \ddot{\boldsymbol{x}}_t - K (\boldsymbol{g} - \boldsymbol{x}_{t-1}) - D \tau \dot{\boldsymbol{x}}_{t-1} - K (\boldsymbol{g} - \boldsymbol{x}_0) s}{K} = f_\text{target}(s).\]</div>
+<p>These are targets for the function approximator that generates <span class="math">\(f\)</span>.
+Now, we just need to apply any supervised learning algorithm that minimizes the
+error <span class="math">\(E\)</span> of the actual targets <span class="math">\(f(s)\)</span> with respect to the desired
+targets <span class="math">\(f_\text{target}(s)\)</span></p>
+<div class="math">
+\[E = \sum_s (f_\text{target}(s) - f(s))^2.\]</div>
+<p>Suppose we have <span class="math">\(N\)</span> demonstrations stored in an array X. We can use the
+imitation learning algorithm with only a few lines of code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bolero.datasets</span> <span class="k">import</span> <span class="n">make_minimum_jerk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bolero.representation</span> <span class="k">import</span> <span class="n">DMPBehavior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dmp</span> <span class="o">=</span> <span class="n">DMPBehavior</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dmp</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dmp</span><span class="o">.</span><span class="n">imitate</span><span class="p">(</span><span class="o">*</span><span class="n">make_minimum_jerk</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dmp</span>
+<span class="go">DMPBehavior(...)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="literature">
+<h2>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="billard2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Billard2013]</a></td><td>Billard, Aude; Grollman; Daniel;
+<a class="reference external" href="http://www.scholarpedia.org/article/Robot_learning_by_demonstration">Robot learning by demonstration</a>,
+2013, Scholarpedia 8(12):3824.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

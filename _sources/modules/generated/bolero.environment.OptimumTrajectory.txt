@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.OptimumTrajectory
+==================================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: OptimumTrajectory
+
+   
+   .. automethod:: __init__
+   

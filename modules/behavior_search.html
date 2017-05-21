@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Behavior Search &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Environment" href="environment.html" />
+    <link rel="prev" title="Optimization" href="optimizer.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimizer.html">Optimization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Behavior Search</a><ul>
+<li><a class="reference internal" href="#id2">Behavior Search</a><ul>
+<li><a class="reference internal" href="#black-box-search">Black-box Search</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contextual-behavior-search">Contextual Behavior Search</a><ul>
+<li><a class="reference internal" href="#contextual-black-box-search">Contextual Black-box Search</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="behavior-search">
+<span id="id1"></span><h1>Behavior Search<a class="headerlink" href="#behavior-search" title="Permalink to this headline">¶</a></h1>
+<p>Behavior search algorithms provide new behaviors that can be tested in the
+environments and learn from the feedback.</p>
+<div class="section" id="id2">
+<h2>Behavior Search<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>The following table gives an overview of the behavior search methods that are
+provided by BOLeRo.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Behavior search name</th>
+<th class="head">Usecase</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#black-box-search"><span class="std std-ref">Black-box Search</span></a></td>
+<td>Policy search, behavior is considered to be a black box</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="black-box-search">
+<span id="id3"></span><h3>Black-box Search<a class="headerlink" href="#black-box-search" title="Permalink to this headline">¶</a></h3>
+<p>A <a class="reference internal" href="generated/bolero.behavior_search.BlackBoxSearch.html#bolero.behavior_search.BlackBoxSearch" title="bolero.behavior_search.BlackBoxSearch"><code class="xref py py-class docutils literal"><span class="pre">BlackBoxSearch</span></code></a> combines an <a class="reference internal" href="generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer" title="bolero.optimizer.Optimizer"><code class="xref py py-class docutils literal"><span class="pre">Optimizer</span></code></a> and a
+<a class="reference internal" href="generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior" title="bolero.representation.BlackBoxBehavior"><code class="xref py py-class docutils literal"><span class="pre">BlackBoxBehavior</span></code></a> for <a class="reference external" href="https://en.wikipedia.org/wiki/Reinforcement_learning#Direct_policy_search">direct policy search</a>.
+The optimizer does not need to know anything about the behavior except its
+number of parameters and the performance in the environment to do direct policy
+search.</p>
+</div>
+</div>
+<div class="section" id="contextual-behavior-search">
+<h2>Contextual Behavior Search<a class="headerlink" href="#contextual-behavior-search" title="Permalink to this headline">¶</a></h2>
+<p>The following table gives an overview of the contextual behavior search methods
+that are provided by BOLeRo.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Behavior search name</th>
+<th class="head">Usecase</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#contextual-black-box-search"><span class="std std-ref">ContextualBlackBoxSearch</span></a></td>
+<td>Contextual policy search, behavior is considered to be a black box</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="contextual-black-box-search">
+<span id="id4"></span><h3>Contextual Black-box Search<a class="headerlink" href="#contextual-black-box-search" title="Permalink to this headline">¶</a></h3>
+<p>A <a class="reference internal" href="generated/bolero.behavior_search.ContextualBlackBoxSearch.html#bolero.behavior_search.ContextualBlackBoxSearch" title="bolero.behavior_search.ContextualBlackBoxSearch"><code class="xref py py-class docutils literal"><span class="pre">ContextualBlackBoxSearch</span></code></a> combines a
+<a class="reference internal" href="generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer" title="bolero.optimizer.ContextualOptimizer"><code class="xref py py-class docutils literal"><span class="pre">ContextualOptimizer</span></code></a> and a
+<a class="reference internal" href="generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior" title="bolero.representation.BlackBoxBehavior"><code class="xref py py-class docutils literal"><span class="pre">BlackBoxBehavior</span></code></a> for contextual policy search.
+The contextual optimizer does not need to know anything about the behavior
+except its number of parameters and the performance in the environment to do
+contextual policy search.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.representation.CartesianDMPBehavior &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.representation.DMPSequence" href="bolero.representation.DMPSequence.html" />
+    <link rel="prev" title="bolero.representation.DMPBehavior" href="bolero.representation.DMPBehavior.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.representation</span></code>.CartesianDMPBehavior</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-representation-cartesiandmpbehavior">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.representation" title="bolero.representation"><code class="xref py py-mod docutils literal"><span class="pre">bolero.representation</span></code></a>.CartesianDMPBehavior<a class="headerlink" href="#bolero-representation-cartesiandmpbehavior" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.representation.CartesianDMPBehavior">
+<em class="property">class </em><code class="descclassname">bolero.representation.</code><code class="descname">CartesianDMPBehavior</code><span class="sig-paren">(</span><em>execution_time=1.0</em>, <em>dt=0.01</em>, <em>n_features=50</em>, <em>configuration_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cartesian Space Dynamical Movement Primitive.</p>
+<p>Can be used to optimize the weights of a Cartesian Space DMP with a black
+box optimizer. This is a wrapper for the optional DMP module of bolero.
+Only the weights of the Cartesian Space DMP will be optimized. To optimize
+meta-parameters like the goal or the goal velocity, you have to implement
+your own wrapper. This can be a subclass of this wrapper that only
+overrides the methods that provide access to the parameters.</p>
+<p>An object can be created either by passing a configuration file or the
+specification of a Cartesian Space DMP. A Cartesian Space DMP configuration
+file describes all parameters of the DMP model and it is not recommended to
+generate it manually.</p>
+<p>Note that it is possible to change the trajectory significantly by setting
+the start and goal. However, do not expect to be able to convert the DMP
+between coordinate frames by setting only the start and goal. Because
+the position and the orientation parts are handled separately, this will
+result in completely different trajectories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>execution_time</strong> : float, optional (default: 1)</p>
+<blockquote>
+<div><p>Execution time of the DMP in seconds.</p>
+</div></blockquote>
+<p><strong>dt</strong> : float, optional (default: 0.01)</p>
+<blockquote>
+<div><p>Time between successive steps in seconds.</p>
+</div></blockquote>
+<p><strong>n_features</strong> : int, optional (default: 50)</p>
+<blockquote>
+<div><p>Number of RBF features for each dimension of the DMP.</p>
+</div></blockquote>
+<p><strong>configuration_file</strong> : string, optional (default: None)</p>
+<blockquote class="last">
+<div><p>Name of a configuration file that should be used to initialize the DMP.
+If it is set all other arguments will be ignored.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>execution_time=1.0</em>, <em>dt=0.01</em>, <em>n_features=50</em>, <em>configuration_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.can_step">
+<code class="descname">can_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.can_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.can_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if step() can be called again.</p>
+<p>Note that calling step() after this function returns False will not
+result in an error. The velocity and acceleration will be set to 0
+and we hold the last position instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>can_step</strong> : bool</p>
+<blockquote class="last">
+<div><p>Can we call step() again?</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.get_n_params">
+<code class="descname">get_n_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.get_n_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.get_n_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of weights.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of DMP weights</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.get_outputs">
+<code class="descname">get_outputs</code><span class="sig-paren">(</span><em>outputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.get_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.get_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get outputs of the last step.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputs</strong> : array-like, shape = (7,)</p>
+<blockquote class="last">
+<div><p>Contains positions and rotations represented by quaternions,
+order (order: x, y, z, w, rx, ry, rz)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current weights.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
+<blockquote class="last">
+<div><p>Current weights</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.imitate">
+<code class="descname">imitate</code><span class="sig-paren">(</span><em>X</em>, <em>alpha=0.0</em>, <em>allow_final_velocity=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.imitate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.imitate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Learn weights of the DMP from demonstrations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape (7, n_steps)</p>
+<blockquote>
+<div><p>The demonstrated trajectory (order: x, y, z, w, rx, ry, rz) to be
+imitated.</p>
+</div></blockquote>
+<p><strong>alpha</strong> : float &gt;= 0, optional (default: 0)</p>
+<blockquote>
+<div><p>The ridge parameter of linear regression. Small positive values of
+alpha improve the conditioning of the problem and reduce the
+variance of the estimates.</p>
+</div></blockquote>
+<p><strong>allow_final_velocity</strong> : bool, optional (default: True)</p>
+<blockquote class="last">
+<div><p>Allow the final velocity to be greater than 0</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n_inputs</em>, <em>n_outputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
+<blockquote>
+<div><p>number of inputs</p>
+</div></blockquote>
+<p><strong>n_outputs</strong> : int</p>
+<blockquote class="last">
+<div><p>number of outputs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.load_config">
+<code class="descname">load_config</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.load_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.load_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load DMP configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
+<blockquote class="last">
+<div><p>Name of YAML file</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset DMP.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>dmp</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save DMP model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dmp</strong> : object</p>
+<blockquote>
+<div><p>DMP</p>
+</div></blockquote>
+<p><strong>filename</strong> : string</p>
+<blockquote class="last">
+<div><p>Name of YAML file</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.save_config">
+<code class="descname">save_config</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.save_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.save_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save DMP configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
+<blockquote class="last">
+<div><p>Name of YAML file</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.set_inputs">
+<code class="descname">set_inputs</code><span class="sig-paren">(</span><em>inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.set_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.set_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set input for the next step.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array-like, shape = (7,)</p>
+<blockquote class="last">
+<div><p>Contains positions and rotations represented by quaternions,
+order (order: x, y, z, w, rx, ry, rz)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.set_meta_parameters">
+<code class="descname">set_meta_parameters</code><span class="sig-paren">(</span><em>keys</em>, <em>meta_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.set_meta_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.set_meta_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set DMP meta parameters.</p>
+<p>Permitted meta-parameters:</p>
+<dl class="docutils">
+<dt>x0</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Initial position</dd>
+<dt>g</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Goal</dd>
+<dt>gd</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Velocity at the goal</dd>
+<dt>q0</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Initial rotation</dd>
+<dt>qg</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Final rotation</dd>
+<dt>execution_time</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float</span><dd>New execution time</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>keys</strong> : list of string</p>
+<blockquote>
+<div><p>names of meta-parameters</p>
+</div></blockquote>
+<p><strong>meta_parameters</strong> : list of float</p>
+<blockquote class="last">
+<div><p>values of meta-parameters</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new weights.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
+<blockquote class="last">
+<div><p>New weights</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute desired position, velocity and acceleration.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.CartesianDMPBehavior.trajectory">
+<code class="descname">trajectory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/csdmp_behavior.html#CartesianDMPBehavior.trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.CartesianDMPBehavior.trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate trajectory represented by the DMP in open loop.</p>
+<p>The function can be used for debugging purposes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape (n_steps, 7)</p>
+<blockquote class="last">
+<div><p>Positions and rotations (order: x, y, z, w, rx, ry, rz)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

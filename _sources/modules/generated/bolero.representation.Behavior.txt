@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.Behavior
+============================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: Behavior
+
+   
+   .. automethod:: __init__
+   

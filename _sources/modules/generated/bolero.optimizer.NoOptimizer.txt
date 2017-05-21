@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.NoOptimizer
+==========================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: NoOptimizer
+
+   
+   .. automethod:: __init__
+   

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.environment.Catapult &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.environment.OpenAiGym" href="bolero.environment.OpenAiGym.html" />
+    <link rel="prev" title="bolero.environment.OptimumTrajectory" href="bolero.environment.OptimumTrajectory.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.environment</span></code>.Catapult</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-environment-catapult">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.environment" title="bolero.environment"><code class="xref py py-mod docutils literal"><span class="pre">bolero.environment</span></code></a>.Catapult<a class="headerlink" href="#bolero-environment-catapult" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.environment.Catapult">
+<em class="property">class </em><code class="descclassname">bolero.environment.</code><code class="descname">Catapult</code><span class="sig-paren">(</span><em>segments=10</em>, <em>catapult_pos=array([ 0.</em>, <em>0.])</em>, <em>velocity_penalty=0.1</em>, <em>context_distribution=None</em>, <em>context_interval=(2</em>, <em>10)</em>, <em>random_state=None</em>, <em>verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Catapult environment, a benchmark for contextual policy search.</p>
+<p>In this benchmark problem, the agent controls a catapult which shoots onto
+specific target positions (the contexts) on a one-dimensional surface. The
+agent sets the parameters of the shot (velocity and angle of the
+catapult), and this environment simulates the shoot. The actual position
+where the object hits the ground is not communicated to the agent. Instead
+the agent is told only the cost of this specific trial, where cost is
+defined as
+cost = -abs(hit_position - target_position) - velocity_penalty * v,
+where target_position is the respective context, v ist the velocity of the
+shoot and velocity_penalty is configurable. Thus, this environment defines
+a contextual policy search problem.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Bruno Castro da Silva, George Konidaris, Andrew Barto, &#8220;Active Learning
+of Parameterized Skills&#8221;, ICML 2014</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>segments</strong> : sequence of tuples or int, optional (default: 10)</p>
+<blockquote>
+<div><p>Definition of the surface onto which the catapult throws. If an
+integer is passed, a surface consisting of the given number of segments
+is created randomly. Alternatively, the segments can be explicitly
+provided as a sequence of pairs, e.g.
+[(0.0, 0.0), (2.0, 1.0), (10.0, 1.0)].
+Each element of the sequence defines one point of the surface.
+It is assumed that the elements of the sequence are ordered
+according to their first component. The surface is created by
+linearly connecting all points of the segments sequence.</p>
+</div></blockquote>
+<p><strong>catapult_pos</strong> : array-like, shape (2,), optional (default: (0, 0))</p>
+<blockquote>
+<div><p>The x and y positions at which the catapult is placed.</p>
+</div></blockquote>
+<p><strong>velocity_penality</strong> : float&gt;=0, optional (default: 0.1)</p>
+<blockquote>
+<div><p>A factor which controls how strongly large velocities are penalized in
+the cost function. Larger values correspond to stronger penalties.</p>
+</div></blockquote>
+<p><strong>context_distribution</strong> : distribution from scipy.stats, optional (default: None)</p>
+<blockquote>
+<div><p>The distribution from which the contexts (goal positions for the
+catapult) are drawn. If None is given, a uniform distribution on the
+interval [2, 10] based on the random_state is used.</p>
+</div></blockquote>
+<p><strong>context_interval</strong> : tuple, optional (default: (2, 10))</p>
+<blockquote>
+<div><p>Interval of the target position</p>
+</div></blockquote>
+<p><strong>random_state</strong> : RandomState or int, optional (default: None)</p>
+<blockquote>
+<div><p>Random number generator or seed</p>
+</div></blockquote>
+<p><strong>verbose</strong> : int, optional (default: 0)</p>
+<blockquote class="last">
+<div><p>Verbosity level</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.environment.Catapult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>segments=10</em>, <em>catapult_pos=array([ 0.</em>, <em>0.])</em>, <em>velocity_penalty=0.1</em>, <em>context_distribution=None</em>, <em>context_interval=(2</em>, <em>10)</em>, <em>random_state=None</em>, <em>verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.environment.Catapult.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_feedback">
+<code class="descname">get_feedback</code><span class="sig-paren">(</span><em>noisy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reward of the last roll-out.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_maximum_feedback">
+<code class="descname">get_maximum_feedback</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_maximum_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_maximum_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximal feedback obtainable in given context.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_num_context_dims">
+<code class="descname">get_num_context_dims</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_num_context_dims"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_num_context_dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of context dimensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_num_inputs">
+<code class="descname">get_num_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_num_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_num_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of inputs (desired state).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_num_outputs">
+<code class="descname">get_num_outputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_num_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_num_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of outputs (actual state).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.get_outputs">
+<code class="descname">get_outputs</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.get_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.get_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current outputs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.is_evaluation_done">
+<code class="descname">is_evaluation_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.is_evaluation_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.is_evaluation_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if time is over.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.request_context">
+<code class="descname">request_context</code><span class="sig-paren">(</span><em>context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.request_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.request_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request that a specific context is used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>context</strong> : ndarray, default=None</p>
+<blockquote>
+<div><p>The requested context that shall be used in the next rollout.
+Defaults to None. In that case, the environment selects the next
+context</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">context: ndarray</p>
+<blockquote class="last">
+<div><p>The actual context used in the next rollout. This environment
+accepts all external requests.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the catapult environment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.set_inputs">
+<code class="descname">set_inputs</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.set_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.set_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set desired velocity and angle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.Catapult.step_action">
+<code class="descname">step_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/catapult.html#Catapult.step_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.Catapult.step_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute step perfectly.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

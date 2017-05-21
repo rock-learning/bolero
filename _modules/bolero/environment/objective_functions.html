@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.environment.objective_functions &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.environment.objective_functions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Function optimization benchmarks.</span>
+
+<span class="sd">Function optimization benchmarks</span>
+<span class="sd">================================</span>
+
+<span class="sd">These functions are similar to the ones found at BBOB (Real-Parameter</span>
+<span class="sd">Black-Box Optimization Benchmarking). Code and documentation are based on the</span>
+<span class="sd">software. See the following links for more details:</span>
+
+<span class="sd">* http://coco.gforge.inria.fr/doku.php</span>
+<span class="sd">* http://coco.gforge.inria.fr/doku.php?id=downloads</span>
+<span class="sd">* http://coco.lri.fr/downloads/download13.09/bbobdocfunctions.pdf</span>
+
+<span class="sd">Test Functions</span>
+<span class="sd">==============</span>
+
+<span class="sd">Search Domain</span>
+<span class="sd">-------------</span>
+
+<span class="sd">All functions are defined and can be evaluated over :math:`R^D`, while the</span>
+<span class="sd">actual search domain is given as :math:`[-5,5]^D`. On some functions a</span>
+<span class="sd">penalty boundary handling is applied (see :func:`f_pen`).</span>
+
+<span class="sd">Location of the optimum</span>
+<span class="sd">-----------------------</span>
+
+<span class="sd">The optimum is denoted as :math:`x_{opt}` and :math:`f_{opt} = f(x_{opt})`.</span>
+<span class="sd">All functions have their global optimum in :math:`[-5,5]^D`. The majority of</span>
+<span class="sd">functions has the global optimum in :math:`[-4,4]^D` and for many of them</span>
+<span class="sd">x_opt is drawn uniformly from this compact. The value is rounded after two</span>
+<span class="sd">decimal places and clipped to :math:`[-1000, 1000]`. In the function</span>
+<span class="sd">definitions a transformed variable vector z is often used instead of the</span>
+<span class="sd">argument x. The vector z has its optimum in :math:`z_{opt} = 0`, if not</span>
+<span class="sd">stated otherwise.</span>
+
+<span class="sd">Linear Transformations</span>
+<span class="sd">----------------------</span>
+
+<span class="sd">Linear transformations of the search space are applied to derive</span>
+<span class="sd">non-separable functions from separable ones and to control the</span>
+<span class="sd">conditioning of the function. We use multiplication with orthogonal</span>
+<span class="sd">(rotation) matrices :math:`Q, R`. Orthogonal matrices are generated</span>
+<span class="sd">from standard normally distributed entries by Gram-Schmidt</span>
+<span class="sd">orthonormalization. Columns and rows of an orthogonal matrix form an</span>
+<span class="sd">orthonormal basis.</span>
+
+<span class="sd">Non-Linear Transformations and Symmetry Breaking</span>
+<span class="sd">------------------------------------------------</span>
+
+<span class="sd">In order to make relatively simple, but well understood functions less</span>
+<span class="sd">regular, on some functions non-linear transformations are applied in x-</span>
+<span class="sd">or f-space. Both transformations :math:`T_{osc}: R^n \\rightarrow R^n, n</span>
+<span class="sd">\in \{1, D\}`, and :math:`T_{asy}: R^D \\rightarrow R^D` are defined</span>
+<span class="sd">coordinate-wise (see :func:`T_asy` and :func:`T_osc`). They are smooth</span>
+<span class="sd">and have, coordinate-wise, a strictly positive derivative. :math:`T_{osc}`</span>
+<span class="sd">is oscillating about the identity, where the oscillation is scale invariant</span>
+<span class="sd">w.r.t. the origin. :math:`T_{asy}` is the identity for negative values. When</span>
+<span class="sd">:math:`T_{asy}` is applied, a portion of :math:`1 / 2^D` of the search space</span>
+<span class="sd">remains untransformed.</span>
+
+<span class="sd">Function Properties</span>
+<span class="sd">===================</span>
+
+<span class="sd">Ill-Conditioning</span>
+<span class="sd">----------------</span>
+
+<span class="sd">Ill-conditioning is a typical challenge in real-parameter optimization and,</span>
+<span class="sd">besides multimodality, probably the most common one. Conditioning of a</span>
+<span class="sd">function can be rigorously formalized in the case of convex quadratic</span>
+<span class="sd">functions, :math:`\\frac{1}{2} x^THx` where H is a symmetric positive</span>
+<span class="sd">definit matrix, as the condition number of the Hessian matrix H. Since</span>
+<span class="sd">contour lines associated to a convex quadratic function are ellipsoids,</span>
+<span class="sd">the condition number corresponds to the square root of the ratio between</span>
+<span class="sd">the largest axis of the ellipsoid and the shortest  axis. For more general</span>
+<span class="sd">functions, conditioning loosely refers to the square of the ratio between</span>
+<span class="sd">the largest direction and smallest of a contour line. The testbed contains</span>
+<span class="sd">ill-conditioned functions with a typical condtioning of :math:`10^6`. We</span>
+<span class="sd">believe this is a realistic requirement, while we have seen practical</span>
+<span class="sd">problems with condtioning as large as :math:`10^{10}`.</span>
+
+<span class="sd">Regularity</span>
+<span class="sd">----------</span>
+
+<span class="sd">Functions from simple formulas are often highly regular. We have used a</span>
+<span class="sd">non-linear transformation, :math:`T_{osc}`, in order to introduce small,</span>
+<span class="sd">smooth but clearly visible irregularities. Furthermore, the testbed contains</span>
+<span class="sd">a few highly irregular functions.</span>
+
+<span class="sd">Separability</span>
+<span class="sd">------------</span>
+
+<span class="sd">In general, separable functions pose an essentially different search</span>
+<span class="sd">problem to solve, because the search process can be reduced to D</span>
+<span class="sd">one-dimensional search procedures. Consequently, non-separable problems</span>
+<span class="sd">must be considered much more difficult and most benchmark functions are</span>
+<span class="sd">designed being non-separable. The typical well-established technique to</span>
+<span class="sd">generate non-separable functions from separable ones is the application</span>
+<span class="sd">of a rotation matrix R.</span>
+
+<span class="sd">Symmetry</span>
+<span class="sd">--------</span>
+
+<span class="sd">Stochastic search procedures often rely on Gaussian distributions to</span>
+<span class="sd">generate new solutions and it has been argued that symmetric benchmark</span>
+<span class="sd">functions could be in favor of these operators. To avoid a bias in favor</span>
+<span class="sd">of highly symmetric operators we have used a symmetry breaking</span>
+<span class="sd">transformation, :math:`T_{asy}`. We have also included some highly asymmetric</span>
+<span class="sd">functions.</span>
+
+<span class="sd">Target function value to reach</span>
+<span class="sd">------------------------------</span>
+
+<span class="sd">The typical target function value for all functions is :math:`f_{opt} -</span>
+<span class="sd">10^{-8}`. On many functions a value of :math:`f_{opt} - 1` is not very</span>
+<span class="sd">difficult to reach, but the difficulty versus function value is not uniform</span>
+<span class="sd">for all functions. These properties are not intrinsic, that is</span>
+<span class="sd">:math:`f_{opt} - 10^{-8}` is not intrinsically &quot;very good&quot;. The value mainly</span>
+<span class="sd">reflects a scalar multiplier in the function definition.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Based on BBOB code (copyright 2011 The BBOB Team members)</span>
+<span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
+
+
+<span class="k">def</span> <span class="nf">generate_x_opt</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random optimum parameters.</span>
+
+<span class="sd">    For many functions, :math:`x_opt` is drawn randomly from [-4, 4]. Each</span>
+<span class="sd">    component of :math:`x_opt` is guaranteed to be less or greater than 0</span>
+<span class="sd">    and they rounded to 4 decimal digits.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : RandomState</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_opt : array-like, shape (n_dims,)</span>
+<span class="sd">        Optimum parameter vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x_opt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="p">(</span><span class="n">n_dims</span><span class="p">,)),</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">x_opt</span><span class="p">[</span><span class="n">x_opt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e-5</span>
+    <span class="k">return</span> <span class="n">x_opt</span>
+
+
+<span class="k">def</span> <span class="nf">generate_f_opt</span><span class="p">(</span><span class="n">random_state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random optimal function value.</span>
+
+<span class="sd">    The value for :math:`f_{opt}` is drawn from a Cauchy distributed random</span>
+<span class="sd">    variable, with zero median and with roughly 50% of the values between</span>
+<span class="sd">    -100 and 100. The value is rounded after two decimal places and clipped</span>
+<span class="sd">    to :math:`[-1000, 1000]`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : RandomState</span>
+<span class="sd">        Random number generator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">T_osc</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Introduce small, smooth, but clearly visible irregularities.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        T_{osc}(x) = \\text{sign}(x)\\exp(\\hat{x} + 0.049(\\sin(c_1\\hat{x}) +</span>
+<span class="sd">                                          \\sin(c_2\\hat{x})))\\\\</span>
+<span class="sd">        \\hat{x} = \\begin{cases}</span>
+<span class="sd">                       \\log{|x|} &amp; \\text{if } x \\neq 0\\\\</span>
+<span class="sd">                       0 &amp; \\text{otherwise}</span>
+<span class="sd">                   \\end{cases},</span>
+<span class="sd">        c_1 = \\begin{cases}</span>
+<span class="sd">                  10 &amp; \\text{if } x &gt; 0\\\\</span>
+<span class="sd">                  5.5 &amp; \\text{otherwise}</span>
+<span class="sd">              \\end{cases},</span>
+<span class="sd">        c_2 = \\begin{cases}</span>
+<span class="sd">                  7.9 &amp; \\text{if } x &gt; 0\\\\</span>
+<span class="sd">                  3.1 &amp; \\text{otherwise}</span>
+<span class="sd">              \\end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : array-like, shape (n_dims,) or float</span>
+<span class="sd">        Input</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    g : array-like, shape (n_dims,) or float</span>
+<span class="sd">        Output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_scalar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">f</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">/</span> <span class="mf">0.1</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.49</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">+</span>
+                                     <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.79</span> <span class="o">*</span> <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">])))</span> <span class="o">**</span> <span class="mf">0.1</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">f</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">/</span> <span class="mf">0.1</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.49</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.55</span> <span class="o">*</span> <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">+</span>
+                                      <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.31</span> <span class="o">*</span> <span class="n">g</span><span class="p">[</span><span class="n">idx</span><span class="p">])))</span> <span class="o">**</span> <span class="mf">0.1</span>
+
+    <span class="k">if</span> <span class="n">is_scalar</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+
+<span class="k">def</span> <span class="nf">T_asy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Symmetry breaking transformation.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        T_{asy}^{\\beta} (x_i) =</span>
+<span class="sd">            \\begin{cases}x_i^{</span>
+<span class="sd">                1 + \\beta \\frac{i-1}{D-1}\sqrt{x_i}} &amp; \\text{if } x_i &gt; 0\\\\</span>
+<span class="sd">                x_i &amp; \\text{otherwise}</span>
+<span class="sd">            \\end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (n_dims,)</span>
+<span class="sd">        Input</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    z : array-like, shape (n_dims,)</span>
+<span class="sd">        Output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exponent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">z</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">**=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">exponent</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">z</span>
+
+
+<span class="k">def</span> <span class="nf">Lambda</span><span class="p">(</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Diagonal matrix with exponentially increasing values.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \\lambda_{ii} = \\alpha^{0.5 \\frac{i-1}{D-1}}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Lambda : array-like, shape (n_dims,)</span>
+<span class="sd">        Diagonal part of the matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">alpha</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">generate_rotation</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns an orthogonal basis.</span>
+
+<span class="sd">    The rotation is used in several ways and in combination with</span>
+<span class="sd">    non-linear transformations. Search space rotation invariant</span>
+<span class="sd">    algorithms are not expected to be invariant under this rotation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : RandomState</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    B : array-like, shape (n_dims,)</span>
+<span class="sd">        Orthogonal basis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_dims</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">B</span>
+
+
+<span class="k">def</span> <span class="nf">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Penalty outside of the boundaries.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f_{pen} = \\sum_{i=1}^D \\max (0, |x_i| - 5)^2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (n_dims,)</span>
+<span class="sd">        Input</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    f_pen : float</span>
+<span class="sd">        Penalty</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mf">5.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">linear_transformation</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">return_rotations</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a linear transformation.</span>
+
+<span class="sd">    The linear transformation has the form</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Q \Lambda^\\alpha</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : RandomState</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    alpha : float</span>
+<span class="sd">        See :func:`Lambda`</span>
+
+<span class="sd">    return_rotations : bool, optional (default: False)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+    <span class="n">lin_trans</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_rotations</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lin_trans</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lin_trans</span>
+
+
+<span class="k">def</span> <span class="nf">rastrigin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">penalize_norm</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Original Rastrigin function.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x) = 10 \\left(D - \\sum_{i=1}^D \\cos ( 2 \\pi x_i) \\right) + ||x||^2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (n_dims,)</span>
+<span class="sd">        Input</span>
+
+<span class="sd">    penalize_norm : bool (default: True)</span>
+<span class="sd">        Add squared norm term to result</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    f : float</span>
+<span class="sd">        Function value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">penalize_norm</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">+=</span> <span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="k">def</span> <span class="nf">rosenbrock</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Original Rosenbrock function.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x) = \sum_{i=1}^{D-1} 100 (x_i^2 - x_{i+1})^2 + (x_i - 1)^2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (n_dims,)</span>
+<span class="sd">        Input</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    f : float</span>
+<span class="sd">        Function value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ObjectiveFunctionBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base of objective functions for black-box optimization.</span>
+
+<span class="sd">    The default constructor of a objective function will initialize the optimal</span>
+<span class="sd">    function value :math:`f_{opt}` according to :func:`generate_f_opt` and</span>
+<span class="sd">    the optimal parameter vector :math:`x_{opt}` according to</span>
+<span class="sd">    :func:`generate_x_opt`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : RandomState or int</span>
+<span class="sd">        Random number generator or seed</span>
+
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `x_opt` : array-like, shape (n_dims,)</span>
+<span class="sd">        Optimum parameter vector</span>
+
+<span class="sd">    `f_opt` : float</span>
+<span class="sd">        Maximum function value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">=</span> <span class="n">n_dims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="n">generate_x_opt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span> <span class="o">=</span> <span class="n">generate_f_opt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluate function at a given point.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array-like, shape (n_dims,)</span>
+<span class="sd">            Parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        f : float</span>
+<span class="sd">            Function value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sphere function.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    * unimodal</span>
+<span class="sd">    * highly symmetric, in particular rotationally invariant, scal invariant</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * What is the optimal convergence rate of an algorithm?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Sphere&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Sphere</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_opt_offset</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">x_opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span>
+        <span class="k">if</span> <span class="n">x_opt_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">x_opt</span> <span class="o">=</span> <span class="n">x_opt</span> <span class="o">+</span> <span class="n">x_opt_offset</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_opt</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Ellipsoidal</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Separable ellipsoid with monotone transformation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    * unimodal</span>
+<span class="sd">    * conditioning is about :math:`10^6`</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Sphere: Is symmetry exploited?</span>
+<span class="sd">    * In comparison to EllipsoidalRotated: Is separability exploited?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Ellipsoidal&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">1e6</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Ellipsoidal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T_osc</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span> <span class="n">z</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Rastrigin</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rastrigin with monotone transformation separable condition 10.</span>
+
+<span class="sd">    The implementation is based on :func:`rastrigin`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Highly multimodal function with a comparatively regular structure for the</span>
+<span class="sd">    placement of the optima. The transformations T_asy and T_osc alleviate the</span>
+<span class="sd">    symmetry and regularity of the original Rastrigin function</span>
+
+<span class="sd">    * roughly :math:`10^6` local optima</span>
+<span class="sd">    * conditioning is about 10</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Ellipsoidal: What is the effect of multimodality?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Rastrigin&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Rastrigin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_opt_offset</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">x_opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span>
+        <span class="k">if</span> <span class="n">x_opt_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">x_opt</span> <span class="o">=</span> <span class="n">x_opt</span> <span class="o">+</span> <span class="n">x_opt_offset</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">T_asy</span><span class="p">(</span><span class="n">T_osc</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_opt</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">rastrigin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">BuecheRastrigin</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Skew Rastrigin-Bueche, condition 10, skew-&quot;condition&quot; 100.</span>
+
+<span class="sd">    The implementation is based on :func:`rastrigin`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Highly multimodal function with a structured but highly asymmetric</span>
+<span class="sd">    placement of the optima. Constructed as a deceptive function for</span>
+<span class="sd">    symmetrically distributed search operators.</span>
+
+<span class="sd">    * roughly :math:`10^D` local optima, conditioning is about 10, skew factor</span>
+<span class="sd">      is about 10 in x-space and 100 in f-space</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Rastrigin: What is the effect of asymmetry?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;BuecheRastrigin&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BuecheRastrigin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T_osc</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="n">tmp_z</span> <span class="o">=</span> <span class="n">z</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">tmp_z</span><span class="p">[</span><span class="n">tmp_z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">10.0</span>
+        <span class="n">z</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">rastrigin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">LinearSlope</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Linear slope.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Purely linear function testing whether the search can go outside the</span>
+<span class="sd">    initial convex hull of solutions right into the domain boundary.</span>
+
+<span class="sd">    * x_opt is on the domain boundary</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Can the search go outside the initial convex hull of solutions into the</span>
+<span class="sd">      domain boundary? Can the step size be increased accordingly?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;LinearSlope&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearSlope</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span> <span class="o">*</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">*</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">25</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">AttractiveSector</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Attractive sector function.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Only a &quot;hypercone&quot; (with angular base area) with a volume of roughly</span>
+<span class="sd">    :math:`0.5^D` yields low function values. The optimum is located at the</span>
+<span class="sd">    tip of this cone. This function can be deceptive for cumulative step size</span>
+<span class="sd">    adaptation.</span>
+
+<span class="sd">    * highly asymmetric</span>
+<span class="sd">    * unimodal</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Sphere: What is the effect of a highly asymmetric</span>
+<span class="sd">      landscape?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;AttractiveSector&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">100.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AttractiveSector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span> <span class="o">=</span> <span class="n">linear_transformation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">z</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">T_osc</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.9</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">StepEllipsoidal</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Step ellipsoidal function.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    The function consists of many plateaus of different sizes. Apart from a</span>
+<span class="sd">    small area close to the global optimum, the gradient is zero almost</span>
+<span class="sd">    everywhere.</span>
+
+<span class="sd">    * unimodal, non-separable, conditioning is about 100</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Does the search get stuck on plateaus?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;StepEllipsoidal&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StepEllipsoidal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">R</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="n">z_sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">z_hat</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+        <span class="n">z_sim</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">z_hat</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">negative</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">z_sim</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">z_hat</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z_sim</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">1e-4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                  <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span> <span class="n">z</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span>
+                 <span class="mf">100.0</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Rosenbrock</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rosenbrock function.</span>
+
+<span class="sd">    The implementation is based on :func:`rosenbrock`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    So-called banana function due to its 2D contour lines as a bent ridge (or</span>
+<span class="sd">    valley). In the beginning, the prominent first term of the function</span>
+<span class="sd">    definition attracts to the point z=0. Then, a long bending valley needs to</span>
+<span class="sd">    be followed to reach the global optimum. The ridge changes its orientation</span>
+<span class="sd">    D-1 times.</span>
+
+<span class="sd">    * partial separable (tri-band structure)</span>
+<span class="sd">    * in larger dimensions the function has a local optimum with an attraction</span>
+<span class="sd">      volume of about 25%</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Can the search follow a long path with D-1 changes in the direction?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Rosenbrock&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Rosenbrock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_opt_offset</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">x_opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span>
+        <span class="k">if</span> <span class="n">x_opt_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">x_opt</span> <span class="o">=</span> <span class="n">x_opt</span> <span class="o">+</span> <span class="n">x_opt_offset</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">rosenbrock</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">RosenbrockRotated</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rotated Rosenbrock function.</span>
+
+<span class="sd">    The implementation is based on :func:`rosenbrock`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Rotated version of the Rosenbrock function</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Rosenbrock: Can the search follow a long path with D-1</span>
+<span class="sd">      changes in the direction without exploiting partial separability?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;RosenbrockRotated&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RosenbrockRotated</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">rosenbrock</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">EllipsoidalRotated</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rotated ellipsoid with monotone transformation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Globally quadratic ill-conditioned function with smooth local</span>
+<span class="sd">    irregularities, non-separable counterpart to Ellipsoidal</span>
+
+<span class="sd">    * unimodal</span>
+<span class="sd">    * conditioning is about :math:`10^6`</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Ellipsoidal: What is the effect of rotation</span>
+<span class="sd">      (non-separability)?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;EllipsoidalRotated&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">1e6</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EllipsoidalRotated</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T_osc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">))</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span> <span class="n">z</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">f</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Discus</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discus (tablet) with monotone transformation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Globally quadratic function with irregularities. A single direction</span>
+<span class="sd">    in search space is a thousand times more sensitive than all others.</span>
+
+<span class="sd">    * conditioning is about :math:`10^6`</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to EllipsoidalRotated: What is the effect of constraints?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Discus&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">1e6</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Discus</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T_osc</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">BentCigar</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bent cigar with asymmetric space distortion.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    A ridge defined as :math:`\\sum_{i=2}^D z_i^2 = 0` needs to be followed.</span>
+<span class="sd">    The ridge is smooth but very narrow. Due to :math:`T_{asy}^{0.5}` the overall</span>
+<span class="sd">    shape deviates remarkably from being quadratic.</span>
+
+<span class="sd">    * conditioning is about :math:`10^6`</span>
+<span class="sd">    * rotated</span>
+<span class="sd">    * unimodal</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Can the search continuously change its search direction?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;BentCigar&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">1e6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BentCigar</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T_asy</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">*</span> <span class="n">z</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span>
+                 <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">SharpRidge</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sharp ridge.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    As for the previous function, a ridge defined as :math:`\\sum_{i=2}^D</span>
+<span class="sd">    z_i^2 = 0` needs to be followed. The ridge is shape (non-differential)</span>
+<span class="sd">    and the gradient remains constant, when the ridge is approached from a</span>
+<span class="sd">    given point. Approaching the ridge is initially effective, but becomes</span>
+<span class="sd">    ineffective close to the ridge where the ridge needs to be followed</span>
+<span class="sd">    in :math:`z_1`-direction to its optimum. The necessary change in &quot;search</span>
+<span class="sd">    behavior&quot; close to the ridge is difficult to diagnose, because the</span>
+<span class="sd">    gradient towards the ridge does not flatten out.</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to BentCigar: What is the effect of non-smooth,</span>
+<span class="sd">      non-differentiable ridge?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;SharpRidge&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SharpRidge</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span> <span class="o">=</span> <span class="n">linear_transformation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span>
+                                               <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">DifferentPowers</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract Sum of different powers.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Due to the different exponents the sensitivies of the :math:`z_i`-variables</span>
+<span class="sd">    become more and more different when approching the optimum.</span>
+
+<span class="sd">    * unimodal</span>
+<span class="sd">    * small solution volume</span>
+<span class="sd">    * rotated</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to EllipsoidalRotated: What is the effect of missing</span>
+<span class="sd">      self-similarity?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;DifferentPowers&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DifferentPowers</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">RastriginRotated</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rastrigin with asymmetric non-linear distortion.</span>
+
+<span class="sd">    The implementation is based on :func:`rastrigin`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Prototypical highly multimodal function which has originally a very</span>
+<span class="sd">    regular and symmetric structure for the placement of the optima. The</span>
+<span class="sd">    transformations T_asy and T_osc alleviate the symmetry and regularity</span>
+<span class="sd">    of the original Rastrigin function.</span>
+
+<span class="sd">    * non-separable less regular counterpart of Rastrigin</span>
+<span class="sd">    * roughly 10^D local optima</span>
+<span class="sd">    * conditioning is about 10</span>
+<span class="sd">    * global amplitude large compared to local amplitudes</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to Rastrigin: What is the effect of non-separability</span>
+<span class="sd">      for a highly multimodal function?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;RastriginRotated&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RastriginRotated</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">linear_transformation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">return_rotations</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">T_asy</span><span class="p">(</span><span class="n">T_osc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)),</span>
+                                         <span class="mf">0.2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">rastrigin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Weierstrass</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Weierstrass.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Highly rugged and moderately repetitive landscape, where the global</span>
+<span class="sd">    optimum is not unique.</span>
+
+<span class="sd">    * the term :math:`\sum_k 0.5^k cos(2 \\pi 3^k...)` introduces the</span>
+<span class="sd">      ruggedness, where lower frequencies have a larger weight :math:`0.5^k`</span>
+<span class="sd">    * rotated</span>
+<span class="sd">    * locally irregular</span>
+<span class="sd">    * non-unique global optimum</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to SchaffersF7: Does ruggedness or a repetitive landscape</span>
+<span class="sd">      deter the search behavior.</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Weierstrass&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Weierstrass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linear_transformation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">return_rotations</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_range</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_range</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="p">,</span> <span class="n">T_osc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="mf">0.5</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_range</span> <span class="o">*</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_range</span> <span class="o">*</span>
+                                        <span class="p">(</span><span class="n">zi</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span>
+                                 <span class="k">for</span> <span class="n">zi</span> <span class="ow">in</span> <span class="n">z</span><span class="p">])</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">f0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span>
+                 <span class="mf">10.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">SchaffersF7</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Schaffers F7 with asymmetric non-linear transformation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    A highly multimodal function where frequency and amplitude of the</span>
+<span class="sd">    modulation vary.</span>
+
+<span class="sd">    * asymmetric</span>
+<span class="sd">    * rotated</span>
+<span class="sd">    * conditioning is low</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to RastriginRotated: What is the effect of multimodality</span>
+<span class="sd">      on a less regular function?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;SchaffersF7&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SchaffersF7</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">T_asy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">))</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">z</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="n">s</span> <span class="o">**</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">SchaffersF7Ill</span><span class="p">(</span><span class="n">SchaffersF7</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Schaffers F7 with asymmetric non-linear transformation, ill-conditioned.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Moderately ill-conditioned counterpart to SchaffersF7.</span>
+
+<span class="sd">    * conditioning is about 1000</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to SchaffersF7: What is the effect of ill-conditioning?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;SchaffersF7Ill&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SchaffersF7Ill</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CompositeGriewankRosenbrockF8F2</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;F8F2 sum of Griewank-Rosenbrock 2-D blocks.</span>
+
+<span class="sd">    The implementation is based on :func:`rosenbrock`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Resembling the Rosenbrock function in a highly multimodal way.</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to RosenbrockRotated: What is the effect of high</span>
+<span class="sd">      signal-to-noise ratio?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;CompositeGriewankRosenbrockF8F2&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CompositeGriewankRosenbrockF8F2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span> <span class="o">/</span> <span class="mf">8.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">rosenbrock</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">+</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span> <span class="o">/</span> <span class="mf">4000.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">f</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">Schwefel</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Schwefel with tridiagonal variable transformation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    The most prominent 2^D minima are located comparatively close to the</span>
+<span class="sd">    corners of the unpenalized search area.</span>
+
+<span class="sd">    * the penalization is essential, as otherwise more and better optima</span>
+<span class="sd">      occur further away from the search space origin</span>
+<span class="sd">    * diagonal structure</span>
+<span class="sd">    * partial separable</span>
+<span class="sd">    * combinatorial problem</span>
+<span class="sd">    * two search regimes</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to e.g. SchaffersF7: What is the effect of a weak</span>
+<span class="sd">      global structure?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Schwefel&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Schwefel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_signs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="mf">4.2096874633</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_signs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z_hat</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_signs</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">z_hat</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_hat</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_hat</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="n">fpen</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">z</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mf">4.189828872724339</span> <span class="o">-</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="n">fpen</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">GallaghersGaussian101mePeaks</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gallagher with 101 Gaussian peaks, condition 30, one global rotation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    * 101 optima with position and height being unrelated and rnadomly chosen</span>
+<span class="sd">      (different for each instantiation of the function).</span>
+<span class="sd">    * the conditioning around the global optimum is about 30</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Is the search effective without any global structure?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;GallaghersGaussian101mePeaks&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">conditioning</span><span class="o">=</span><span class="mf">1000.0</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">n_peaks</span><span class="o">=</span><span class="mi">101</span><span class="p">):</span>
+        <span class="c1"># TODO how did they generate different rotations for different peaks?</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GallaghersGaussian101mePeaks</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_base</span> <span class="o">=</span> <span class="n">conditioning</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span> <span class="o">=</span> <span class="n">n_peaks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">1.1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1000.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_base</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">*</span>
+                   <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_peaks</span><span class="p">)]))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">T_osc</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="n">p</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">GallaghersGaussian21hiPeaks</span><span class="p">(</span><span class="n">GallaghersGaussian101mePeaks</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gallagher with 21 Gaussian peaks, condition 1000, one global rotation.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    * 21 optima with position and height being unrelated and randomly chosen</span>
+<span class="sd">      (different for each instantiation of the function).</span>
+<span class="sd">    * the conditioning around the global optimum is about 1000</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * In comparison to GallaghersGaussian101mePeaks: What is the effect of</span>
+<span class="sd">      higher condition?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;GallaghersGaussian21hiPeaks&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GallaghersGaussian21hiPeaks</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+              <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Katsuura</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Katsuura function.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    Focus on global search behavior.</span>
+
+<span class="sd">    * highly rugged</span>
+<span class="sd">    * highly repetitive</span>
+<span class="sd">    * more than 10^D global optima</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * What is the effect of regular local structure on the global search?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;Katsuura&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Katsuura</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mi">100</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">j</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">j</span> <span class="o">*</span> <span class="n">z</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">j</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">)]))</span> <span class="o">**</span> <span class="p">(</span><span class="mf">10.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">**</span> <span class="mf">1.2</span><span class="p">)</span> <span class="o">-</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">+</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="k">class</span> <span class="nc">LunacekBiRastrigin</span><span class="p">(</span><span class="n">ObjectiveFunctionBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lunacek bi-Rastrigin.</span>
+
+<span class="sd">    The implementation is based on :func:`rastrigin`.</span>
+
+<span class="sd">    Properties</span>
+
+<span class="sd">    * highly multimodal function</span>
+<span class="sd">    * two funnels around mu_0 1+- and -mu_1 1+- being superimposed by the</span>
+<span class="sd">      cosine.</span>
+<span class="sd">    * the funnel of the local optimum at -mu_1 has roughly 70% of the search</span>
+<span class="sd">      space volume within [-5, 5]^D</span>
+
+<span class="sd">    Presumably different approaches need to be used for &quot;selecting the funnel&quot;</span>
+<span class="sd">    and for search the highly multimodal function &quot;within&quot; the funnel. The</span>
+<span class="sd">    function was constructed to be deceptive for some evolutionary algorithms</span>
+<span class="sd">    with large population size.</span>
+
+<span class="sd">    Information gained from this function</span>
+
+<span class="sd">    * Can the search behavior be local on the global scale but global on the</span>
+<span class="sd">      local scale?</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from contextual_optimization.objective_functions import plot_function</span>
+<span class="sd">        plot_function(&quot;LunacekBiRastrigin&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LunacekBiRastrigin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">generate_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span><span class="p">,</span> <span class="mi">100</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_0</span> <span class="o">=</span> <span class="mf">2.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-</span> <span class="mf">8.2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_1</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_0</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_0</span>
+
+    <span class="k">def</span> <span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x_hat</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_opt</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_trans</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_hat</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_0</span><span class="p">)</span>
+        <span class="n">d_mu_0</span> <span class="o">=</span> <span class="n">x_hat</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_0</span>
+        <span class="n">d_mu_1</span> <span class="o">=</span> <span class="n">x_hat</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_1</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">d_mu_0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d_mu_0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dims</span> <span class="o">+</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">d_mu_1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d_mu_1</span><span class="p">))</span> <span class="o">+</span>
+                 <span class="n">rastrigin</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">penalize_norm</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e4</span> <span class="o">*</span> <span class="n">f_pen</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_opt</span>
+
+
+<span class="n">SEPARABLE_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Sphere&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ellipsoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Rastrigin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BuecheRastrigin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LinearSlope&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">MODERATE_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;AttractiveSector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StepEllipsoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Rosenbrock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RosenbrockRotated&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">ILL_CONDITIONED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;EllipsoidalRotated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Discus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BentCigar&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SharpRidge&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DifferentPowers&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">MULTIMODAL_STRUCTURED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;RastriginRotated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Weierstrass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SchaffersF7&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SchaffersF7Ill&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CompositeGriewankRosenbrockF8F2&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">MULTIMODAL_WEAKLY_STRUCTURED_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Schwefel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GallaghersGaussian101mePeaks&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GallaghersGaussian21hiPeaks&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Katsuura&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LunacekBiRastrigin&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">NON_SMOOTH_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;StepEllipsoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Weierstrass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Katsuura&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">UNIMODAL_FUNCTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Sphere&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ellipsoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LinearSlope&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AttractiveSector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;StepEllipsoidal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Rosenbrock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RosenbrockRotated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EllipsoidalRotated&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Discus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BentCigar&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SharpRidge&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DifferentPowers&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+
+<span class="n">FUNCTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Sphere&quot;</span><span class="p">:</span> <span class="n">Sphere</span><span class="p">,</span>
+    <span class="s2">&quot;Ellipsoidal&quot;</span><span class="p">:</span> <span class="n">Ellipsoidal</span><span class="p">,</span>
+    <span class="s2">&quot;Rastrigin&quot;</span><span class="p">:</span> <span class="n">Rastrigin</span><span class="p">,</span>
+    <span class="s2">&quot;BuecheRastrigin&quot;</span><span class="p">:</span> <span class="n">BuecheRastrigin</span><span class="p">,</span>
+    <span class="s2">&quot;LinearSlope&quot;</span><span class="p">:</span> <span class="n">LinearSlope</span><span class="p">,</span>
+    <span class="s2">&quot;AttractiveSector&quot;</span><span class="p">:</span> <span class="n">AttractiveSector</span><span class="p">,</span>
+    <span class="s2">&quot;StepEllipsoidal&quot;</span><span class="p">:</span> <span class="n">StepEllipsoidal</span><span class="p">,</span>
+    <span class="s2">&quot;Rosenbrock&quot;</span><span class="p">:</span> <span class="n">Rosenbrock</span><span class="p">,</span>
+    <span class="s2">&quot;RosenbrockRotated&quot;</span><span class="p">:</span> <span class="n">RosenbrockRotated</span><span class="p">,</span>
+    <span class="s2">&quot;EllipsoidalRotated&quot;</span><span class="p">:</span> <span class="n">EllipsoidalRotated</span><span class="p">,</span>
+    <span class="s2">&quot;Discus&quot;</span><span class="p">:</span> <span class="n">Discus</span><span class="p">,</span>
+    <span class="s2">&quot;BentCigar&quot;</span><span class="p">:</span> <span class="n">BentCigar</span><span class="p">,</span>
+    <span class="s2">&quot;SharpRidge&quot;</span><span class="p">:</span> <span class="n">SharpRidge</span><span class="p">,</span>
+    <span class="s2">&quot;DifferentPowers&quot;</span><span class="p">:</span> <span class="n">DifferentPowers</span><span class="p">,</span>
+    <span class="s2">&quot;RastriginRotated&quot;</span><span class="p">:</span> <span class="n">RastriginRotated</span><span class="p">,</span>
+    <span class="s2">&quot;Weierstrass&quot;</span><span class="p">:</span> <span class="n">Weierstrass</span><span class="p">,</span>
+    <span class="s2">&quot;SchaffersF7&quot;</span><span class="p">:</span> <span class="n">SchaffersF7</span><span class="p">,</span>
+    <span class="s2">&quot;SchaffersF7Ill&quot;</span><span class="p">:</span> <span class="n">SchaffersF7Ill</span><span class="p">,</span>
+    <span class="s2">&quot;CompositeGriewankRosenbrockF8F2&quot;</span><span class="p">:</span> <span class="n">CompositeGriewankRosenbrockF8F2</span><span class="p">,</span>
+    <span class="s2">&quot;Schwefel&quot;</span><span class="p">:</span> <span class="n">Schwefel</span><span class="p">,</span>
+    <span class="s2">&quot;GallaghersGaussian101mePeaks&quot;</span><span class="p">:</span> <span class="n">GallaghersGaussian101mePeaks</span><span class="p">,</span>
+    <span class="s2">&quot;GallaghersGaussian21hiPeaks&quot;</span><span class="p">:</span> <span class="n">GallaghersGaussian21hiPeaks</span><span class="p">,</span>
+    <span class="s2">&quot;Katsuura&quot;</span><span class="p">:</span> <span class="n">Katsuura</span><span class="p">,</span>
+    <span class="s2">&quot;LunacekBiRastrigin&quot;</span><span class="p">:</span> <span class="n">LunacekBiRastrigin</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">plot_function</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">contour</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot function values of area [-5, 5] x [-5, 5].</span>
+
+<span class="sd">    This will show two plots, one with linear scale and one with logarithmic</span>
+<span class="sd">    scale.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : string</span>
+<span class="sd">        Function name</span>
+
+<span class="sd">    random_state : RandomState or int</span>
+<span class="sd">        Random number generator or seed</span>
+
+<span class="sd">    fig : Figure, optional (default: None)</span>
+<span class="sd">        Matplotlib figure</span>
+
+<span class="sd">    contour : bool, optional (default: False)</span>
+<span class="sd">        Plot function as contour plot (in 3D otherwise)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax_lin : Axis</span>
+<span class="sd">        Subplot with linear scale</span>
+
+<span class="sd">    ax_log : Axis</span>
+<span class="sd">        Subplot with logarithmic scale</span>
+
+<span class="sd">    f : ObjectiveFunction</span>
+<span class="sd">        Objective function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FUNCTIONS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not find function </span><span class="si">%r</span><span class="s2">, available functions are &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">FUNCTIONS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">FUNCTIONS</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="n">random_state</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">feedback</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]))</span>
+
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">contour</span><span class="p">:</span>
+        <span class="n">ax_lin</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+        <span class="n">ax_lin</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">_plot_function_lin_contour</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_lin</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+
+        <span class="n">ax_log</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+        <span class="n">_plot_function_log_contour</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_log</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax_lin</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+        <span class="n">ax_lin</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">_plot_function_lin_3d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_lin</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+
+        <span class="n">ax_log</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+        <span class="n">_plot_function_log_3d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax_log</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax_lin</span><span class="p">,</span> <span class="n">ax_log</span><span class="p">,</span> <span class="n">f</span>
+
+
+<span class="k">def</span> <span class="nf">_plot_function_lin_contour</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_plot_function_log_contour</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">F</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">f_opt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_plot_function_lin_3d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$f(x)$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_plot_function_log_3d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">F</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">f_opt</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$-\log(-(f - f_{opt}) + 0.1)$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ObjectiveFunction"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.ObjectiveFunction.html#bolero.environment.ObjectiveFunction">[docs]</a><span class="k">class</span> <span class="nc">ObjectiveFunction</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Artificial benchmark function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : string, optional (default: &#39;Sphere&#39;)</span>
+<span class="sd">        Name of the objective function</span>
+
+<span class="sd">    n_params : int, optional (default: 2)</span>
+<span class="sd">        Number of dimensions</span>
+
+<span class="sd">    random_state : RandomState or int, optional (default: None)</span>
+<span class="sd">        Random number generator or seed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ObjectiveFunction.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.ObjectiveFunction.html#bolero.environment.ObjectiveFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Sphere&quot;</span><span class="p">,</span> <span class="n">n_params</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">=</span> <span class="n">n_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of parameters (</span><span class="si">%d</span><span class="s2">) must be &gt; 0&quot;</span>
+                             <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">FUNCTIONS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown function &#39;</span><span class="si">%s</span><span class="s2">&#39; requested, select one of &quot;</span>
+                             <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> instead&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">FUNCTIONS</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">FUNCTIONS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">get_num_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span>
+
+    <span class="k">def</span> <span class="nf">get_num_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">step_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">feedback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_evaluation_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span>
+
+    <span class="k">def</span> <span class="nf">get_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">get_maximum_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="o">.</span><span class="n">f_opt</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+        <span class="n">plot_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.environment.optimum_trajectory &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.environment.optimum_trajectory</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Authors: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">bolero.utils.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+
+<div class="viewcode-block" id="OptimumTrajectory"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory">[docs]</a><span class="k">class</span> <span class="nc">OptimumTrajectory</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Optimize a trajectory according to some criteria.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x0 : array-like, shape = (n_task_dims,), optional (default: [0, 0])</span>
+<span class="sd">        Initial position.</span>
+
+<span class="sd">    g : array-like, shape = (n_task_dims,), optional (default: [1, 1])</span>
+<span class="sd">        Goal position.</span>
+
+<span class="sd">    execution_time : float, optional (default: 1.0)</span>
+<span class="sd">        Execution time in seconds</span>
+
+<span class="sd">    dt : float, optional (default: 0.01)</span>
+<span class="sd">        Time between successive steps in seconds.</span>
+
+<span class="sd">    obstacles : array-like, shape (n_obstacles, n_task_dims) (default: None)</span>
+<span class="sd">        List of obstacles.</span>
+
+<span class="sd">    obstacle_dist : float, optional (default: 0.1)</span>
+<span class="sd">        Distance that should be kept to the obstacles (penalty is zero outside</span>
+<span class="sd">        of this area)</span>
+
+<span class="sd">    penalty_start_dist : float, optional (default: 0)</span>
+<span class="sd">        Penalty weight for distance to start at the beginning</span>
+
+<span class="sd">    penalty_goal_dist : float, optional (default: 0)</span>
+<span class="sd">        Penalty weight for distance to goal at the end</span>
+
+<span class="sd">    penalty_vel : float, optional (default: 0)</span>
+<span class="sd">        Penalty weight for velocities</span>
+
+<span class="sd">    penalty_acc : float, optional (default: 0)</span>
+<span class="sd">        Penalty weight for accelerations</span>
+
+<span class="sd">    penalty_obstacle : float, optional (default: 0)</span>
+<span class="sd">        Penalty weight for obstacle avoidance</span>
+
+<span class="sd">    log_to_file: optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OptimumTrajectory.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">g</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">execution_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">obstacles</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">obstacle_dist</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">penalty_start_dist</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">penalty_goal_dist</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">penalty_vel</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">penalty_acc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">penalty_obstacle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">=</span> <span class="n">execution_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="o">=</span> <span class="n">obstacles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_dist</span> <span class="o">=</span> <span class="n">obstacle_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_start_dist</span> <span class="o">=</span> <span class="n">penalty_start_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_goal_dist</span> <span class="o">=</span> <span class="n">penalty_goal_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_vel</span> <span class="o">=</span> <span class="n">penalty_vel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_acc</span> <span class="o">=</span> <span class="n">penalty_acc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">penalty_obstacle</span> <span class="o">=</span> <span class="n">penalty_obstacle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span> <span class="o">=</span> <span class="n">log_to_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="o">=</span> <span class="n">log_to_stdout</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.init"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize environment.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span>
+
+        <span class="n">n_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.reset"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset state of the environment.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_num_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_num_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get number of environment inputs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            number of environment inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_num_outputs"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_num_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get number of environment outputs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            number of environment outputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_outputs"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get environment outputs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        values : array</span>
+<span class="sd">            Outputs of the environment: positions, velocities and accelerations</span>
+<span class="sd">            in that order, e.g. for n_task_dims=2 the order would be xxvvaa</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xdd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.set_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.set_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set environment inputs, e.g. next action.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        values : array,</span>
+<span class="sd">            Inputs for the environment: positions, velocities and accelerations</span>
+<span class="sd">            in that order, e.g. for n_task_dims=2 the order would be xxvvaa</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xdd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">:]</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.step_action"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.step_action">[docs]</a>    <span class="k">def</span> <span class="nf">step_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute step perfectly.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.is_evaluation_done"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.is_evaluation_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_evaluation_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the time is over.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the episode finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_time</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_start_dist"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_start_dist">[docs]</a>    <span class="k">def</span> <span class="nf">get_start_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get distance of trajectory start and desired start location.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        start_dist : float</span>
+<span class="sd">            start distance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Distance to start: </span><span class="si">%.3f</span><span class="s2"> (* </span><span class="si">%.2f</span><span class="s2">)&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">start_dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_start_dist</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">start_dist</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_goal_dist"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_goal_dist">[docs]</a>    <span class="k">def</span> <span class="nf">get_goal_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get distance of trajectory end and desired goal location.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        goal_dist : float</span>
+<span class="sd">            goal distance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">goal_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Distance to goal: </span><span class="si">%.3f</span><span class="s2"> (* </span><span class="si">%.2f</span><span class="s2">)&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">goal_dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_goal_dist</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Goal: </span><span class="si">%s</span><span class="s2">, last position: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">goal_dist</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_speed"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_speed">[docs]</a>    <span class="k">def</span> <span class="nf">get_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get speed values during the performed movement.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        speed : array-like, shape (n_steps,)</span>
+<span class="sd">            the speed (scalar) at all previous timestamps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xd</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Speed: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">speed</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">speed</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_acceleration"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_acceleration">[docs]</a>    <span class="k">def</span> <span class="nf">get_acceleration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get acceleration values during the performed movement.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        acceleration : array-like, shape (n_steps,)</span>
+<span class="sd">            the total acceleration (scalar) at all previous timestamps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">acceleration</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Xdd</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Accelerations: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">acceleration</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">acceleration</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_collision"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_collision">[docs]</a>    <span class="k">def</span> <span class="nf">get_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obstacle_filter</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get list of collisions with obstacles during the performed movement.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obstacle_filter : array-like, shape (n_desired_obstacles, 1)</span>
+<span class="sd">            specify which obstacles cause collisions, e.g. set (0, 2) to exclude</span>
+<span class="sd">            the second of three obstacles</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        collisions : array-like, shape (n_steps,)</span>
+<span class="sd">            vector of values in range [0, 1] where distances above self.obstacle_dist</span>
+<span class="sd">            result in 0 (no collision), and distance below are scaled linearly, so that</span>
+<span class="sd">            1 corresponds to an intersection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obstacle_filter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">obstacles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obstacles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="p">)[</span><span class="n">obstacle_filter</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">obstacles</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Distances to obstacles: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">distances</span><span class="p">)</span>
+        <span class="n">collision_penalties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">distances</span> <span class="o">/</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_dist</span><span class="p">)</span>
+        <span class="n">collisions</span> <span class="o">=</span> <span class="n">collision_penalties</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">collisions</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_num_obstacles"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_num_obstacles">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_obstacles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get number of obstacles in environment.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            number of obstacles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">get_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get reward per timestamp based on weighted criteria (penalties)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rewards : array-like, shape (n_steps,)</span>
+<span class="sd">            reward for every timestamp; non-positive values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_start_dist</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">rewards</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_start_dist</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_start_dist</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_goal_dist</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">rewards</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_goal_dist</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_goal_dist</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_vel</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">rewards</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_speed</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_vel</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_acc</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">rewards</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_acceleration</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_acc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_obstacle</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">rewards</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_obstacle</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_collision</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rewards</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the behavior learning is finished.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Always false</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.get_maximum_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.get_maximum_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">get_maximum_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the maximum sum of feedbacks obtainable.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">0.0</span></div>
+
+<div class="viewcode-block" id="OptimumTrajectory.plot"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot a two-dimensional environment.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : Axis</span>
+<span class="sd">            Matplotlib axis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can only plot 2 dimensional environments&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Circle</span>
+            <span class="k">for</span> <span class="n">obstacle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacles</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">(</span><span class="n">obstacle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_dist</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">))</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.OpenAiGym
+==========================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: OpenAiGym
+
+   
+   .. automethod:: __init__
+   

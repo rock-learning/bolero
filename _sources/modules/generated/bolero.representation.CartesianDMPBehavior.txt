@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.CartesianDMPBehavior
+========================================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: CartesianDMPBehavior
+
+   
+   .. automethod:: __init__
+   

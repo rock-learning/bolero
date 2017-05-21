@@ -1,0 +1,10 @@
+:mod:`bolero.behavior_search`.JustContextualOptimizer
+============================================================
+
+.. currentmodule:: bolero.behavior_search
+
+.. autoclass:: JustContextualOptimizer
+
+   
+   .. automethod:: __init__
+   

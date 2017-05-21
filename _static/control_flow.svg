@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="43cm" height="22cm" viewBox="188 -15 844 422" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #c6c6c6" x="210" y="-13.875" width="801" height="419.675"/>
+    <path style="fill: #c6c6c6" d="M 210,-13.875 A 20,20 0 0 0 190,6.125 L 210,6.125 z"/>
+    <path style="fill: #c6c6c6" d="M 1031,6.125 A 20,20 0 0 0 1011,-13.875 L 1011,6.125 z"/>
+    <rect style="fill: #c6c6c6" x="190" y="6.125" width="841" height="379.675"/>
+    <path style="fill: #c6c6c6" d="M 190,385.8 A 20,20 0 0 0 210,405.8 L 210,385.8 z"/>
+    <path style="fill: #c6c6c6" d="M 1011,405.8 A 20,20 0 0 0 1031,385.8 L 1011,385.8 z"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="210" y1="-13.875" x2="1011" y2="-13.875"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="210" y1="405.8" x2="1011" y2="405.8"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 210,-13.875 A 20,20 0 0 0 190,6.125"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 1031,6.125 A 20,20 0 0 0 1011,-13.875"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="190" y1="6.125" x2="190" y2="385.8"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1031" y1="6.125" x2="1031" y2="385.8"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 190,385.8 A 20,20 0 0 0 210,405.8"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 1011,405.8 A 20,20 0 0 0 1031,385.8"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="610.5" y="199.862">
+      <tspan x="610.5" y="199.862"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #aaaaaa" x="240.5" y="13.75" width="417.5" height="364"/>
+    <path style="fill: #aaaaaa" d="M 240.5,13.75 A 20,20 0 0 0 220.5,33.75 L 240.5,33.75 z"/>
+    <path style="fill: #aaaaaa" d="M 678,33.75 A 20,20 0 0 0 658,13.75 L 658,33.75 z"/>
+    <rect style="fill: #aaaaaa" x="220.5" y="33.75" width="457.5" height="324"/>
+    <path style="fill: #aaaaaa" d="M 220.5,357.75 A 20,20 0 0 0 240.5,377.75 L 240.5,357.75 z"/>
+    <path style="fill: #aaaaaa" d="M 658,377.75 A 20,20 0 0 0 678,357.75 L 658,357.75 z"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="240.5" y1="13.75" x2="658" y2="13.75"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="240.5" y1="377.75" x2="658" y2="377.75"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 240.5,13.75 A 20,20 0 0 0 220.5,33.75"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 678,33.75 A 20,20 0 0 0 658,13.75"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="220.5" y1="33.75" x2="220.5" y2="357.75"/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="678" y1="33.75" x2="678" y2="357.75"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 220.5,357.75 A 20,20 0 0 0 240.5,377.75"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 658,377.75 A 20,20 0 0 0 678,357.75"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="449.25" y="199.65">
+      <tspan x="449.25" y="199.65"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" d="M 344.821,145.736 A 86.1589,86.1589 0 0 0 358.91,304.19"/>
+    <polygon style="fill: #000000" points="345.748,149.348 353.74,141.529 342.69,139.828 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" points="345.748,149.348 353.74,141.529 342.69,139.828 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" d="M 477.535,298.101 A 86.1689,86.1689 0 0 0 463.501,139.013"/>
+    <polygon style="fill: #000000" points="476.644,294.479 468.575,302.218 479.608,304.03 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" points="476.644,294.479 468.575,302.218 479.608,304.03 "/>
+  </g>
+  <text font-size="8.46667" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="534" y="186">
+    <tspan x="534" y="186">Environment output, e.g.</tspan>
+    <tspan x="534" y="196.583">current state of the environment</tspan>
+  </text>
+  <text font-size="8.46667" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="245" y="302">
+    <tspan x="245" y="302">Behavior output, e.g.</tspan>
+    <tspan x="245" y="312.583">- desired next state</tspan>
+    <tspan x="245" y="323.167">- control command</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="253.5" y="34.75">
+    <tspan x="253.5" y="34.75"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="283" y="23.75">
+    <tspan x="283" y="23.75"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="269" y="-31.25">
+    <tspan x="269" y="-31.25"></tspan>
+  </text>
+  <text font-size="28.2222" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="383" y="46.25">
+    <tspan x="383" y="46.25">Inner control loop</tspan>
+    <tspan x="383" y="81.5278">(rollout or episode)</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="255" y="29.75">
+    <tspan x="255" y="29.75"></tspan>
+  </text>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" d="M 745.901,169.863 A 245.396,245.396 0 0 0 475,114.425"/>
+    <polygon style="fill: #000000" points="742.436,172.8 752.743,177.131 750.023,166.287 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" points="742.436,172.8 752.743,177.131 750.023,166.287 "/>
+  </g>
+  <text font-size="8.46667" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="716" y="96.25">
+    <tspan x="716" y="96.25">Feedback, e.g.</tspan>
+    <tspan x="716" y="106.833">- reward</tspan>
+    <tspan x="716" y="117.417">- fitness</tspan>
+    <tspan x="716" y="128">- cost</tspan>
+  </text>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" d="M 497.175,329.465 A 312.876,312.876 0 0 0 758.4,257.95"/>
+    <polygon style="fill: #000000" points="498.242,324.949 487.37,327.556 495.979,334.689 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 10; stroke: #000000" points="498.242,324.949 487.37,327.556 495.979,334.689 "/>
+  </g>
+  <text font-size="8.46667" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="709" y="315.75">
+    <tspan x="709" y="315.75">Generate new behavior, e.g.</tspan>
+    <tspan x="709" y="326.333">- DMP</tspan>
+    <tspan x="709" y="336.917">- CPG</tspan>
+  </text>
+  <text font-size="28.2222" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:700" x="698.5" y="53.75">
+    <tspan x="698.5" y="53.75">Outer learning loop</tspan>
+  </text>
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 4; stroke-linejoin: round; stroke: #000000" x="358.5" y="120.5" width="103" height="39" rx="6" ry="6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="369.5" y="144">
+      <tspan x="369.5" y="144">Environment</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 4; stroke-linejoin: round; stroke: #000000" x="360.8" y="284.2" width="103" height="39" rx="6" ry="6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="383.5" y="308.5">
+      <tspan x="383.5" y="308.5">Behavior</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 4; stroke-linejoin: round; stroke: #000000" x="709.8" y="198.95" width="115.2" height="39" rx="6" ry="6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="716.3" y="222.95">
+      <tspan x="716.3" y="222.95">BehaviorSearch</tspan>
+    </text>
+  </g>
+</svg>

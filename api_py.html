@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python API &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="bolero.controller.Controller" href="modules/generated/bolero.controller.Controller.html" />
+    <link rel="prev" title="Notebooks" href="notebooks/index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Python API</a><ul>
+<li><a class="reference internal" href="#module-bolero.controller"><code class="docutils literal"><span class="pre">bolero.controller</span></code>: Controller</a><ul>
+<li><a class="reference internal" href="#controller-classes">Controller classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.environment"><code class="docutils literal"><span class="pre">bolero.environment</span></code>: Environment</a><ul>
+<li><a class="reference internal" href="#environment-search-classes">Environment search classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.behavior_search"><code class="docutils literal"><span class="pre">bolero.behavior_search</span></code>: Behavior Search</a><ul>
+<li><a class="reference internal" href="#behavior-search-classes">Behavior search classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.optimizer"><code class="docutils literal"><span class="pre">bolero.optimizer</span></code>: Optimizer</a><ul>
+<li><a class="reference internal" href="#optimizer-classes">Optimizer classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.representation"><code class="docutils literal"><span class="pre">bolero.representation</span></code>: Representation</a><ul>
+<li><a class="reference internal" href="#behavior-classes">Behavior classes</a></li>
+<li><a class="reference internal" href="#policy-classes">Policy classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.datasets"><code class="docutils literal"><span class="pre">bolero.datasets</span></code>: Datasets</a><ul>
+<li><a class="reference internal" href="#dataset-functions">Dataset functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.wrapper"><code class="docutils literal"><span class="pre">bolero.wrapper</span></code>: Wrapper</a><ul>
+<li><a class="reference internal" href="#wrapper-classes">Wrapper classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bolero.utils"><code class="docutils literal"><span class="pre">bolero.utils</span></code>: Utilities</a><ul>
+<li><a class="reference internal" href="#utility-functions">Utility functions</a></li>
+<li><a class="reference internal" href="#utility-classes">Utility classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="python-api">
+<span id="api-py"></span><h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h1>
+<p>This is the class and function reference of the Python API.</p>
+<p>You can search for specific modules, classes or functions in the
+<a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a>.</p>
+<div class="section" id="module-bolero.controller">
+<span id="bolero-controller-controller"></span><h2><a class="reference internal" href="#module-bolero.controller" title="bolero.controller"><code class="xref py py-mod docutils literal"><span class="pre">bolero.controller</span></code></a>: Controller<a class="headerlink" href="#module-bolero.controller" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="controller-classes">
+<h3>Controller classes<a class="headerlink" href="#controller-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.controller.Controller.html#bolero.controller.Controller" title="bolero.controller.Controller"><code class="xref py py-obj docutils literal"><span class="pre">Controller</span></code></a>([config,&nbsp;environment,&nbsp;...])</td>
+<td>A controller implements the communication between learning components.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.controller.ContextualController.html#bolero.controller.ContextualController" title="bolero.controller.ContextualController"><code class="xref py py-obj docutils literal"><span class="pre">ContextualController</span></code></a>([config,&nbsp;environment,&nbsp;...])</td>
+<td>Controller for contextual problems.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.environment">
+<span id="bolero-environment-environment"></span><h2><a class="reference internal" href="#module-bolero.environment" title="bolero.environment"><code class="xref py py-mod docutils literal"><span class="pre">bolero.environment</span></code></a>: Environment<a class="headerlink" href="#module-bolero.environment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="environment-search-classes">
+<h3>Environment search classes<a class="headerlink" href="#environment-search-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.environment.Environment.html#bolero.environment.Environment" title="bolero.environment.Environment"><code class="xref py py-obj docutils literal"><span class="pre">Environment</span></code></a></td>
+<td>Common interface for environments.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.environment.ContextualEnvironment.html#bolero.environment.ContextualEnvironment" title="bolero.environment.ContextualEnvironment"><code class="xref py py-obj docutils literal"><span class="pre">ContextualEnvironment</span></code></a></td>
+<td>Common interface for (contextual) environments.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.environment.SetContext.html#bolero.environment.SetContext" title="bolero.environment.SetContext"><code class="xref py py-obj docutils literal"><span class="pre">SetContext</span></code></a>(contextual_environment,&nbsp;context)</td>
+<td>A contextual environment with a fixed context.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.environment.ObjectiveFunction.html#bolero.environment.ObjectiveFunction" title="bolero.environment.ObjectiveFunction"><code class="xref py py-obj docutils literal"><span class="pre">ObjectiveFunction</span></code></a>([name,&nbsp;n_params,&nbsp;random_state])</td>
+<td>Artificial benchmark function.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.environment.ContextualObjectiveFunction.html#bolero.environment.ContextualObjectiveFunction" title="bolero.environment.ContextualObjectiveFunction"><code class="xref py py-obj docutils literal"><span class="pre">ContextualObjectiveFunction</span></code></a>([name,&nbsp;...])</td>
+<td>Artificial contextual benchmark function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.environment.OptimumTrajectory.html#bolero.environment.OptimumTrajectory" title="bolero.environment.OptimumTrajectory"><code class="xref py py-obj docutils literal"><span class="pre">OptimumTrajectory</span></code></a>([x0,&nbsp;g,&nbsp;execution_time,&nbsp;...])</td>
+<td>Optimize a trajectory according to some criteria.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.environment.Catapult.html#bolero.environment.Catapult" title="bolero.environment.Catapult"><code class="xref py py-obj docutils literal"><span class="pre">Catapult</span></code></a>([segments,&nbsp;catapult_pos,&nbsp;...])</td>
+<td>Catapult environment, a benchmark for contextual policy search.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym" title="bolero.environment.OpenAiGym"><code class="xref py py-obj docutils literal"><span class="pre">OpenAiGym</span></code></a>([env_name,&nbsp;render,&nbsp;log_to_file,&nbsp;...])</td>
+<td>Wrapper for OpenAI Gym environments.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.behavior_search">
+<span id="bolero-behavior-search-behavior-search"></span><h2><a class="reference internal" href="#module-bolero.behavior_search" title="bolero.behavior_search"><code class="xref py py-mod docutils literal"><span class="pre">bolero.behavior_search</span></code></a>: Behavior Search<a class="headerlink" href="#module-bolero.behavior_search" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="behavior-search-classes">
+<h3>Behavior search classes<a class="headerlink" href="#behavior-search-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch" title="bolero.behavior_search.BehaviorSearch"><code class="xref py py-obj docutils literal"><span class="pre">BehaviorSearch</span></code></a></td>
+<td>BehaviorSearch (learning algorithm) interface.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch" title="bolero.behavior_search.ContextualBehaviorSearch"><code class="xref py py-obj docutils literal"><span class="pre">ContextualBehaviorSearch</span></code></a></td>
+<td>Common interface for (contextual) behavior search.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.BlackBoxSearch.html#bolero.behavior_search.BlackBoxSearch" title="bolero.behavior_search.BlackBoxSearch"><code class="xref py py-obj docutils literal"><span class="pre">BlackBoxSearch</span></code></a>(behavior,&nbsp;optimizer[,&nbsp;...])</td>
+<td>Combine a black box optimizer with a black box behavior.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.ContextualBlackBoxSearch.html#bolero.behavior_search.ContextualBlackBoxSearch" title="bolero.behavior_search.ContextualBlackBoxSearch"><code class="xref py py-obj docutils literal"><span class="pre">ContextualBlackBoxSearch</span></code></a>(behavior,&nbsp;optimizer)</td>
+<td>Combine a contextual black box optimizer with a black box behavior.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.JustOptimizer.html#bolero.behavior_search.JustOptimizer" title="bolero.behavior_search.JustOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">JustOptimizer</span></code></a>(optimizer)</td>
+<td>Wrap only the optimizer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.behavior_search.JustContextualOptimizer.html#bolero.behavior_search.JustContextualOptimizer" title="bolero.behavior_search.JustContextualOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">JustContextualOptimizer</span></code></a>(optimizer)</td>
+<td>Wrap only the contextual optimizer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.optimizer">
+<span id="bolero-optimizer-optimizer"></span><h2><a class="reference internal" href="#module-bolero.optimizer" title="bolero.optimizer"><code class="xref py py-mod docutils literal"><span class="pre">bolero.optimizer</span></code></a>: Optimizer<a class="headerlink" href="#module-bolero.optimizer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="optimizer-classes">
+<h3>Optimizer classes<a class="headerlink" href="#optimizer-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer" title="bolero.optimizer.Optimizer"><code class="xref py py-obj docutils literal"><span class="pre">Optimizer</span></code></a></td>
+<td>Common interface for (non-contextual) optimizers.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer" title="bolero.optimizer.ContextualOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">ContextualOptimizer</span></code></a></td>
+<td>Common interface for (contextual) optimizers.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer" title="bolero.optimizer.CMAESOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">CMAESOptimizer</span></code></a>([initial_params,&nbsp;variance,&nbsp;...])</td>
+<td>Covariance Matrix Adaptation Evolution Strategy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.optimizer.RestartCMAESOptimizer.html#bolero.optimizer.RestartCMAESOptimizer" title="bolero.optimizer.RestartCMAESOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">RestartCMAESOptimizer</span></code></a>([initial_params,&nbsp;...])</td>
+<td>CMA-ES with restarts.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.optimizer.IPOPCMAESOptimizer.html#bolero.optimizer.IPOPCMAESOptimizer" title="bolero.optimizer.IPOPCMAESOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">IPOPCMAESOptimizer</span></code></a>([initial_params,&nbsp;...])</td>
+<td>Increasing population size CMA-ES.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.optimizer.BIPOPCMAESOptimizer.html#bolero.optimizer.BIPOPCMAESOptimizer" title="bolero.optimizer.BIPOPCMAESOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">BIPOPCMAESOptimizer</span></code></a>([initial_params,&nbsp;...])</td>
+<td>BI-population CMA-ES.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.optimizer.NoOptimizer.html#bolero.optimizer.NoOptimizer" title="bolero.optimizer.NoOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">NoOptimizer</span></code></a>([initial_params])</td>
+<td>No optimizer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.optimizer.RandomOptimizer.html#bolero.optimizer.RandomOptimizer" title="bolero.optimizer.RandomOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">RandomOptimizer</span></code></a>([initial_params,&nbsp;...])</td>
+<td>Random optimizer.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.optimizer.CREPSOptimizer.html#bolero.optimizer.CREPSOptimizer" title="bolero.optimizer.CREPSOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">CREPSOptimizer</span></code></a>([initial_params,&nbsp;variance,&nbsp;...])</td>
+<td>Contextual Relative Entropy Policy Search.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.optimizer.SkOptOptimizer.html#bolero.optimizer.SkOptOptimizer" title="bolero.optimizer.SkOptOptimizer"><code class="xref py py-obj docutils literal"><span class="pre">SkOptOptimizer</span></code></a>(dimensions[,&nbsp;base_estimator,&nbsp;...])</td>
+<td>Bayesian Optimization from scikit-optimize.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.representation">
+<span id="bolero-representation-representation"></span><h2><a class="reference internal" href="#module-bolero.representation" title="bolero.representation"><code class="xref py py-mod docutils literal"><span class="pre">bolero.representation</span></code></a>: Representation<a class="headerlink" href="#module-bolero.representation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="behavior-classes">
+<h3>Behavior classes<a class="headerlink" href="#behavior-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior" title="bolero.representation.Behavior"><code class="xref py py-obj docutils literal"><span class="pre">Behavior</span></code></a></td>
+<td>Behavior interface.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior" title="bolero.representation.BlackBoxBehavior"><code class="xref py py-obj docutils literal"><span class="pre">BlackBoxBehavior</span></code></a></td>
+<td>Can be optimized with black box optimizer.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.ConstantBehavior.html#bolero.representation.ConstantBehavior" title="bolero.representation.ConstantBehavior"><code class="xref py py-obj docutils literal"><span class="pre">ConstantBehavior</span></code></a>([outputs])</td>
+<td>Generates constant outputs.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.representation.DummyBehavior.html#bolero.representation.DummyBehavior" title="bolero.representation.DummyBehavior"><code class="xref py py-obj docutils literal"><span class="pre">DummyBehavior</span></code></a>(**kwargs)</td>
+<td>Dummy behavior allows using environments which do not require behaviors.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.RandomBehavior.html#bolero.representation.RandomBehavior" title="bolero.representation.RandomBehavior"><code class="xref py py-obj docutils literal"><span class="pre">RandomBehavior</span></code></a>([random_state])</td>
+<td>Generates random outputs.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.representation.DMPBehavior.html#bolero.representation.DMPBehavior" title="bolero.representation.DMPBehavior"><code class="xref py py-obj docutils literal"><span class="pre">DMPBehavior</span></code></a>([execution_time,&nbsp;dt,&nbsp;...])</td>
+<td>Dynamical Movement Primitive.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.CartesianDMPBehavior.html#bolero.representation.CartesianDMPBehavior" title="bolero.representation.CartesianDMPBehavior"><code class="xref py py-obj docutils literal"><span class="pre">CartesianDMPBehavior</span></code></a>([execution_time,&nbsp;dt,&nbsp;...])</td>
+<td>Cartesian Space Dynamical Movement Primitive.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence" title="bolero.representation.DMPSequence"><code class="xref py py-obj docutils literal"><span class="pre">DMPSequence</span></code></a>([n_dmps,&nbsp;execution_times,&nbsp;dt,&nbsp;...])</td>
+<td>Sequence of DMPs.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.LinearBehavior.html#bolero.representation.LinearBehavior" title="bolero.representation.LinearBehavior"><code class="xref py py-obj docutils literal"><span class="pre">LinearBehavior</span></code></a></td>
+<td>Linear mapping from inputs to outputs.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="policy-classes">
+<h3>Policy classes<a class="headerlink" href="#policy-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.representation.BehaviorTemplate.html#bolero.representation.BehaviorTemplate" title="bolero.representation.BehaviorTemplate"><code class="xref py py-obj docutils literal"><span class="pre">BehaviorTemplate</span></code></a></td>
+<td>Behavior template interface.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.representation.HierarchicalBehaviorTemplate.html#bolero.representation.HierarchicalBehaviorTemplate" title="bolero.representation.HierarchicalBehaviorTemplate"><code class="xref py py-obj docutils literal"><span class="pre">HierarchicalBehaviorTemplate</span></code></a>(...[,&nbsp;explore])</td>
+<td>Behavior template that consists of an upper-level policy and a behavior.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.datasets">
+<span id="bolero-datasets-datasets"></span><h2><a class="reference internal" href="#module-bolero.datasets" title="bolero.datasets"><code class="xref py py-mod docutils literal"><span class="pre">bolero.datasets</span></code></a>: Datasets<a class="headerlink" href="#module-bolero.datasets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dataset-functions">
+<h3>Dataset functions<a class="headerlink" href="#dataset-functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.datasets.make_minimum_jerk.html#bolero.datasets.make_minimum_jerk" title="bolero.datasets.make_minimum_jerk"><code class="xref py py-obj docutils literal"><span class="pre">make_minimum_jerk</span></code></a>(start,&nbsp;goal[,&nbsp;...])</td>
+<td>Create a minimum jerk trajectory.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.wrapper">
+<span id="bolero-wrapper-wrapper"></span><h2><a class="reference internal" href="#module-bolero.wrapper" title="bolero.wrapper"><code class="xref py py-mod docutils literal"><span class="pre">bolero.wrapper</span></code></a>: Wrapper<a class="headerlink" href="#module-bolero.wrapper" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wrapper-classes">
+<h3>Wrapper classes<a class="headerlink" href="#wrapper-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.wrapper.CppBLLoader.html#bolero.wrapper.CppBLLoader" title="bolero.wrapper.CppBLLoader"><code class="xref py py-obj docutils literal"><span class="pre">CppBLLoader</span></code></a></td>
+<td>Behavior learning loader.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-bolero.utils">
+<span id="bolero-utils-utilities"></span><h2><a class="reference internal" href="#module-bolero.utils" title="bolero.utils"><code class="xref py py-mod docutils literal"><span class="pre">bolero.utils</span></code></a>: Utilities<a class="headerlink" href="#module-bolero.utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="utility-functions">
+<h3>Utility functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.utils.from_yaml.html#bolero.utils.from_yaml" title="bolero.utils.from_yaml"><code class="xref py py-obj docutils literal"><span class="pre">from_yaml</span></code></a>(filename[,&nbsp;conf_path])</td>
+<td>Create objects from YAML configuration file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.utils.from_yaml_string.html#bolero.utils.from_yaml_string" title="bolero.utils.from_yaml_string"><code class="xref py py-obj docutils literal"><span class="pre">from_yaml_string</span></code></a>(yaml_str)</td>
+<td>Create objects from YAML string.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.utils.from_dict.html#bolero.utils.from_dict" title="bolero.utils.from_dict"><code class="xref py py-obj docutils literal"><span class="pre">from_dict</span></code></a>(config[,&nbsp;name])</td>
+<td>Create an object of a class that is fully specified by a config dict.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="modules/generated/bolero.utils.log.get_logger.html#bolero.utils.log.get_logger" title="bolero.utils.log.get_logger"><code class="xref py py-obj docutils literal"><span class="pre">log.get_logger</span></code></a>(obj,&nbsp;log_to_file,&nbsp;log_to_stdout)</td>
+<td>Get logger for given object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.utils.dependency.compatible_version.html#bolero.utils.dependency.compatible_version" title="bolero.utils.dependency.compatible_version"><code class="xref py py-obj docutils literal"><span class="pre">dependency.compatible_version</span></code></a>(...)</td>
+<td>Compares version strings.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="utility-classes">
+<h3>Utility classes<a class="headerlink" href="#utility-classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="modules/generated/bolero.utils.log.HideExtern.html#bolero.utils.log.HideExtern" title="bolero.utils.log.HideExtern"><code class="xref py py-obj docutils literal"><span class="pre">log.HideExtern</span></code></a>([stream])</td>
+<td>Hide one of the standard streams for external components.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

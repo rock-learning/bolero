@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.BIPOPCMAESOptimizer
+==================================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: BIPOPCMAESOptimizer
+
+   
+   .. automethod:: __init__
+   

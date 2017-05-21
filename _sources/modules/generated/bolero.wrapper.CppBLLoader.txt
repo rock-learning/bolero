@@ -1,0 +1,10 @@
+:mod:`bolero.wrapper`.CppBLLoader
+========================================
+
+.. currentmodule:: bolero.wrapper
+
+.. autoclass:: CppBLLoader
+
+   
+   .. automethod:: __init__
+   

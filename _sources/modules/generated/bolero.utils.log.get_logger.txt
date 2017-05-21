@@ -1,0 +1,6 @@
+:mod:`bolero.utils.log`.get_logger
+===============================================
+
+.. currentmodule:: bolero.utils.log
+
+.. autofunction:: get_logger

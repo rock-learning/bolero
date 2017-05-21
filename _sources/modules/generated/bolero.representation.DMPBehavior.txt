@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.DMPBehavior
+===============================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: DMPBehavior
+
+   
+   .. automethod:: __init__
+   

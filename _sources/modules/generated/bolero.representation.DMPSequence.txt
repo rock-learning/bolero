@@ -1,0 +1,10 @@
+:mod:`bolero.representation`.DMPSequence
+===============================================
+
+.. currentmodule:: bolero.representation
+
+.. autoclass:: DMPSequence
+
+   
+   .. automethod:: __init__
+   

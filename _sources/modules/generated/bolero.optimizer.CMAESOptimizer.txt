@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.CMAESOptimizer
+=============================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: CMAESOptimizer
+
+   
+   .. automethod:: __init__
+   

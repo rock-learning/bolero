@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.environment.OptimumTrajectory &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="next" title="bolero.environment.Catapult" href="bolero.environment.Catapult.html" />
+    <link rel="prev" title="bolero.environment.ContextualObjectiveFunction" href="bolero.environment.ContextualObjectiveFunction.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.environment</span></code>.OptimumTrajectory</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-environment-optimumtrajectory">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.environment" title="bolero.environment"><code class="xref py py-mod docutils literal"><span class="pre">bolero.environment</span></code></a>.OptimumTrajectory<a class="headerlink" href="#bolero-environment-optimumtrajectory" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.environment.OptimumTrajectory">
+<em class="property">class </em><code class="descclassname">bolero.environment.</code><code class="descname">OptimumTrajectory</code><span class="sig-paren">(</span><em>x0=array([ 0.</em>, <em>0.])</em>, <em>g=array([ 1.</em>, <em>1.])</em>, <em>execution_time=1.0</em>, <em>dt=0.01</em>, <em>obstacles=None</em>, <em>obstacle_dist=0.1</em>, <em>penalty_start_dist=0.0</em>, <em>penalty_goal_dist=0.0</em>, <em>penalty_vel=0.0</em>, <em>penalty_acc=0.0</em>, <em>penalty_obstacle=0.0</em>, <em>log_to_file=False</em>, <em>log_to_stdout=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimize a trajectory according to some criteria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x0</strong> : array-like, shape = (n_task_dims,), optional (default: [0, 0])</p>
+<blockquote>
+<div><p>Initial position.</p>
+</div></blockquote>
+<p><strong>g</strong> : array-like, shape = (n_task_dims,), optional (default: [1, 1])</p>
+<blockquote>
+<div><p>Goal position.</p>
+</div></blockquote>
+<p><strong>execution_time</strong> : float, optional (default: 1.0)</p>
+<blockquote>
+<div><p>Execution time in seconds</p>
+</div></blockquote>
+<p><strong>dt</strong> : float, optional (default: 0.01)</p>
+<blockquote>
+<div><p>Time between successive steps in seconds.</p>
+</div></blockquote>
+<p><strong>obstacles</strong> : array-like, shape (n_obstacles, n_task_dims) (default: None)</p>
+<blockquote>
+<div><p>List of obstacles.</p>
+</div></blockquote>
+<p><strong>obstacle_dist</strong> : float, optional (default: 0.1)</p>
+<blockquote>
+<div><p>Distance that should be kept to the obstacles (penalty is zero outside
+of this area)</p>
+</div></blockquote>
+<p><strong>penalty_start_dist</strong> : float, optional (default: 0)</p>
+<blockquote>
+<div><p>Penalty weight for distance to start at the beginning</p>
+</div></blockquote>
+<p><strong>penalty_goal_dist</strong> : float, optional (default: 0)</p>
+<blockquote>
+<div><p>Penalty weight for distance to goal at the end</p>
+</div></blockquote>
+<p><strong>penalty_vel</strong> : float, optional (default: 0)</p>
+<blockquote>
+<div><p>Penalty weight for velocities</p>
+</div></blockquote>
+<p><strong>penalty_acc</strong> : float, optional (default: 0)</p>
+<blockquote>
+<div><p>Penalty weight for accelerations</p>
+</div></blockquote>
+<p><strong>penalty_obstacle</strong> : float, optional (default: 0)</p>
+<blockquote>
+<div><p>Penalty weight for obstacle avoidance</p>
+</div></blockquote>
+<p><strong>log_to_file: optional, boolean or string (default: False)</strong></p>
+<blockquote>
+<div><p>Log results to given file, it will be located in the $BL_LOG_PATH</p>
+</div></blockquote>
+<p><strong>log_to_stdout: optional, boolean (default: False)</strong></p>
+<blockquote class="last">
+<div><p>Log to standard output</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>x0=array([ 0.</em>, <em>0.])</em>, <em>g=array([ 1.</em>, <em>1.])</em>, <em>execution_time=1.0</em>, <em>dt=0.01</em>, <em>obstacles=None</em>, <em>obstacle_dist=0.1</em>, <em>penalty_start_dist=0.0</em>, <em>penalty_goal_dist=0.0</em>, <em>penalty_vel=0.0</em>, <em>penalty_acc=0.0</em>, <em>penalty_obstacle=0.0</em>, <em>log_to_file=False</em>, <em>log_to_stdout=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_acceleration">
+<code class="descname">get_acceleration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_acceleration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_acceleration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get acceleration values during the performed movement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>acceleration</strong> : array-like, shape (n_steps,)</p>
+<blockquote class="last">
+<div><p>the total acceleration (scalar) at all previous timestamps</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_collision">
+<code class="descname">get_collision</code><span class="sig-paren">(</span><em>obstacle_filter=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_collision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_collision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of collisions with obstacles during the performed movement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obstacle_filter</strong> : array-like, shape (n_desired_obstacles, 1)</p>
+<blockquote>
+<div><p>specify which obstacles cause collisions, e.g. set (0, 2) to exclude
+the second of three obstacles</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p><strong>&#8212;&#8212;-</strong></p>
+<p><strong>collisions</strong> : array-like, shape (n_steps,)</p>
+<blockquote class="last">
+<div><p>vector of values in range [0, 1] where distances above self.obstacle_dist
+result in 0 (no collision), and distance below are scaled linearly, so that
+1 corresponds to an intersection.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_feedback">
+<code class="descname">get_feedback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get reward per timestamp based on weighted criteria (penalties)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rewards</strong> : array-like, shape (n_steps,)</p>
+<blockquote class="last">
+<div><p>reward for every timestamp; non-positive values</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_goal_dist">
+<code class="descname">get_goal_dist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_goal_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_goal_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get distance of trajectory end and desired goal location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>goal_dist</strong> : float</p>
+<blockquote class="last">
+<div><p>goal distance</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_maximum_feedback">
+<code class="descname">get_maximum_feedback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_maximum_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_maximum_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum sum of feedbacks obtainable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_num_inputs">
+<code class="descname">get_num_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_num_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_num_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of environment inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
+<blockquote class="last">
+<div><p>number of environment inputs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_num_obstacles">
+<code class="descname">get_num_obstacles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_num_obstacles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_num_obstacles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of obstacles in environment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
+<blockquote class="last">
+<div><p>number of obstacles</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_num_outputs">
+<code class="descname">get_num_outputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_num_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_num_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of environment outputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
+<blockquote class="last">
+<div><p>number of environment outputs</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_outputs">
+<code class="descname">get_outputs</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_outputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get environment outputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : array</p>
+<blockquote class="last">
+<div><p>Outputs of the environment: positions, velocities and accelerations
+in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_speed">
+<code class="descname">get_speed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get speed values during the performed movement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>speed</strong> : array-like, shape (n_steps,)</p>
+<blockquote class="last">
+<div><p>the speed (scalar) at all previous timestamps</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.get_start_dist">
+<code class="descname">get_start_dist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.get_start_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.get_start_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get distance of trajectory start and desired start location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>start_dist</strong> : float</p>
+<blockquote class="last">
+<div><p>start distance</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.init">
+<code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize environment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.is_behavior_learning_done">
+<code class="descname">is_behavior_learning_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.is_behavior_learning_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.is_behavior_learning_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the behavior learning is finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
+<blockquote class="last">
+<div><p>Always false</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.is_evaluation_done">
+<code class="descname">is_evaluation_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.is_evaluation_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.is_evaluation_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the time is over.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
+<blockquote class="last">
+<div><p>Is the episode finished?</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>ax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a two-dimensional environment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ax</strong> : Axis</p>
+<blockquote class="last">
+<div><p>Matplotlib axis</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset state of the environment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.set_inputs">
+<code class="descname">set_inputs</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.set_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.set_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set environment inputs, e.g. next action.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : array,</p>
+<blockquote class="last">
+<div><p>Inputs for the environment: positions, velocities and accelerations
+in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.environment.OptimumTrajectory.step_action">
+<code class="descname">step_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/environment/optimum_trajectory.html#OptimumTrajectory.step_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.environment.OptimumTrajectory.step_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute step perfectly.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

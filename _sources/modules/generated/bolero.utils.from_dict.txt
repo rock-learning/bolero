@@ -1,0 +1,6 @@
+:mod:`bolero.utils`.from_dict
+==========================================
+
+.. currentmodule:: bolero.utils
+
+.. autofunction:: from_dict

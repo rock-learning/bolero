@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.CREPSOptimizer
+=============================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: CREPSOptimizer
+
+   
+   .. automethod:: __init__
+   

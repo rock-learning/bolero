@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.ContextualOptimizer
+==================================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: ContextualOptimizer
+
+   
+   .. automethod:: __init__
+   

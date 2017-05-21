@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.SetContext
+===========================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: SetContext
+
+   
+   .. automethod:: __init__
+   

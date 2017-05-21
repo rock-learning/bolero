@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.ContextualObjectiveFunction
+============================================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: ContextualObjectiveFunction
+
+   
+   .. automethod:: __init__
+   

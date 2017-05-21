@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bolero.optimizer.cmaes &mdash; bolero 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.optimizer.cmaes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
+<span class="kn">from</span> <span class="nn">.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span> <span class="nn">..utils.validation</span> <span class="kn">import</span> <span class="n">check_random_state</span><span class="p">,</span> <span class="n">check_feedback</span>
+<span class="kn">from</span> <span class="nn">..utils.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+
+
+<span class="k">def</span> <span class="nf">_bound</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply boundaries to samples.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bounds : array-like, shape (n_params, 2)</span>
+<span class="sd">        Boundaries, bounds[:, 0] are the lower boundaries and</span>
+<span class="sd">        bounds[:, 1] are the upper boundaries</span>
+
+<span class="sd">    samples : array-like, shape (n_samples, n_params)</span>
+<span class="sd">        Samples from the search distribution. Will be modified so that they</span>
+<span class="sd">        are within the boundaries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># TODO vectorize?</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)):</span>
+            <span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="CMAESOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer">[docs]</a><span class="k">class</span> <span class="nc">CMAESOptimizer</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Covariance Matrix Adaptation Evolution Strategy.</span>
+
+<span class="sd">    See `Wikipedia &lt;http://en.wikipedia.org/wiki/CMA-ES&gt;`_ for details.</span>
+
+<span class="sd">    Plain CMA-ES is considered to useful for</span>
+
+<span class="sd">    * non-convex,</span>
+<span class="sd">    * non-separable,</span>
+<span class="sd">    * ill-conditioned,</span>
+<span class="sd">    * or noisy</span>
+
+<span class="sd">    objective functions. However, in some cases CMA-ES will be outperformed</span>
+<span class="sd">    by other methods:</span>
+
+<span class="sd">    * if the search space dimension is very small (e.g. less than 5),</span>
+<span class="sd">      downhill simplex or surrogate-assisted methods will be better</span>
+<span class="sd">    * easy functions (separable, nearly quadratic, etc.) will usually be</span>
+<span class="sd">      solved faster by NEWUOA</span>
+<span class="sd">    * multimodal objective functions require restart strategies</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array-like, shape = (n_params,), optional (default: 0s)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1.0)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    n_samples_per_update : integer, optional (default: 4+int(3*log(n_params)))</span>
+<span class="sd">        Number of roll-outs that are required for a parameter update.</span>
+
+<span class="sd">    active : bool, optional (default: False)</span>
+<span class="sd">        Active CMA-ES (aCMA-ES) with negative weighted covariance matrix</span>
+<span class="sd">        update</span>
+
+<span class="sd">    bounds : array-like, shape (n_params, 2), optional (default: None)</span>
+<span class="sd">        Upper and lower bounds for each parameter.</span>
+
+<span class="sd">    maximize : boolean, optional (default: True)</span>
+<span class="sd">        Maximize return or minimize cost?</span>
+
+<span class="sd">    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)</span>
+<span class="sd">        Minimum variance before restart</span>
+
+<span class="sd">    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)</span>
+<span class="sd">        Minimum distance between fitness values before restart</span>
+
+<span class="sd">    max_condition : float optional (default: 1e7)</span>
+<span class="sd">        Maximum condition of covariance matrix</span>
+
+<span class="sd">    log_to_file: boolean or string, optional (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: boolean, optional (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : int or RandomState, optional (default: None)</span>
+<span class="sd">        Seed for the random number generator or RandomState object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CMAESOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">n_samples_per_update</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">min_variance</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">min_fitness_dist</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">max_condition</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span>
+            <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">initial_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="n">variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="n">n_samples_per_update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="n">active</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maximize</span> <span class="o">=</span> <span class="n">maximize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_variance</span> <span class="o">=</span> <span class="n">min_variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_fitness_dist</span> <span class="o">=</span> <span class="n">min_fitness_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_condition</span> <span class="o">=</span> <span class="n">max_condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span> <span class="o">=</span> <span class="n">log_to_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="o">=</span> <span class="n">log_to_stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+<div class="viewcode-block" id="CMAESOptimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the behavior search.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_params : int</span>
+<span class="sd">            dimension of the parameter vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">=</span> <span class="n">n_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_params</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions (</span><span class="si">%d</span><span class="s2">) does not match &quot;</span>
+                             <span class="s2">&quot;number of initial parameters (</span><span class="si">%d</span><span class="s2">).&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="n">n_params</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness_it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reinit</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_reinit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Iteration of last reinitialization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+
+        <span class="c1"># Sample weights for mean recombination</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Time constant for cumulation of the covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">=</span> <span class="p">((</span><span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span> <span class="o">/</span>
+                   <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">))</span>
+        <span class="c1"># Time constant for cumulation for sigma control</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="c1"># Learning rate for rank-one update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span>
+        <span class="c1"># Learning rate for rank-mu update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span>
+                            <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">))</span> <span class="o">/</span>
+                    <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">))</span>
+        <span class="c1"># Damping for sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">damps</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span>
+                                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span>
+
+        <span class="c1"># Misc constants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps_update_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hsig_threshold</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eigen_update_freq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">/</span>
+                                  <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="c1"># Evolution path for covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="c1"># Evolution path for sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_old</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neg_cmu</span> <span class="o">=</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">/</span>
+                            <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">1.5</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_covariance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">it</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">_bound</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">samples</span>
+
+<div class="viewcode-block" id="CMAESOptimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.get_next_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get next individual/parameter vector for evaluation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : array_like, shape (n_params,)</span>
+<span class="sd">            Parameter vector, will be modified</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span>
+        <span class="n">params</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CMAESOptimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedback</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set feedbacks for the parameter vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        feedback : list of float</span>
+<span class="sd">            feedbacks for each step or for the episode, depends on the problem</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">check_feedback</span><span class="p">(</span><span class="n">feedback</span><span class="p">,</span> <span class="n">compute_sum</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maximize</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness_it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Iteration #</span><span class="si">%d</span><span class="s2">, fitness: </span><span class="si">%g</span><span class="s2">&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Variance </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_it</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="c1"># 1) Update sample distribution mean</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">ranking</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fitness</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">update_samples</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">ranking</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">update_samples</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">mean_diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_mean</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="c1"># 2) Cumulation: update evolution paths</span>
+
+        <span class="c1"># Isotropic (step size) evolution path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps_update_weight</span> <span class="o">/</span> <span class="n">sigma</span> <span class="o">*</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mean_diff</span><span class="p">))</span>
+        <span class="c1"># Anisotropic (covariance) evolution path</span>
+        <span class="n">ps_norm_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># Temporary constant</span>
+        <span class="n">generation</span> <span class="o">=</span> <span class="n">it</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span>
+        <span class="n">hsig</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ps_norm_2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">/</span>
+                   <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">generation</span><span class="p">))</span>
+                   <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsig_threshold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">*=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">+=</span> <span class="p">(</span><span class="n">hsig</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span> <span class="o">*</span>
+                    <span class="n">mean_diff</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span>
+
+        <span class="c1"># 3) Update sample distribution covariance</span>
+
+        <span class="c1"># Rank-1 update</span>
+        <span class="n">rank_one_update</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pc</span><span class="p">)</span>
+
+        <span class="c1"># Rank-mu update</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span><span class="n">update_samples</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+        <span class="n">rank_mu_update</span> <span class="o">=</span> <span class="n">noise</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+        <span class="c1"># Correct variance loss by hsig</span>
+        <span class="n">c1a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="n">neg_update</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">ranking</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">]]</span>
+            <span class="n">neg_update</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_mean</span>
+            <span class="n">neg_update</span> <span class="o">/=</span> <span class="n">sigma</span>
+            <span class="n">neg_rank_mu_update</span> <span class="o">=</span> <span class="n">neg_update</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+                                                  <span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">neg_update</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">*=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">c1a</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_cmu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_old</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="n">rank_one_update</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="n">rank_mu_update</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmu</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_cmu</span> <span class="o">*</span>
+                                          <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_old</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">-=</span> <span class="n">neg_rank_mu_update</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_cmu</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">*=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">c1a</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="n">rank_one_update</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="n">rank_mu_update</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span>
+
+        <span class="c1"># Adapt step size with factor &lt;= exp(0.6)</span>
+        <span class="n">log_step_size_update</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">damps</span><span class="p">)</span> <span class="o">*</span>
+                                <span class="p">(</span><span class="n">ps_norm_2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># NOTE some implementations of CMA-ES use the denominator</span>
+        <span class="c1"># np.sqrt(self.n_params) * (1.0 - 1.0 / (4 * self.n_params) +</span>
+        <span class="c1">#                           1.0 / (21 * self.n_params ** 2))</span>
+        <span class="c1"># instead of self.n_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">log_step_size_update</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">it</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigen_update_freq</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_covariance</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">=</span> <span class="n">it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">D</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)</span>
+        <span class="c1"># HACK: avoid numerical problems</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">D</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CMAESOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the optimization is finished.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the learning of a behavior finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="c1"># Check for invalid values</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span><span class="p">))</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">))</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">))</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping: infs or nans&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_variance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_variance</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping: </span><span class="si">%g</span><span class="s2"> &lt; min_variance&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">max_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">max_dist</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_fitness_dist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping: </span><span class="si">%g</span><span class="s2"> &lt; min_fitness_dist&quot;</span> <span class="o">%</span> <span class="n">max_dist</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">cov_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_condition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">cov_diag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_condition</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cov_diag</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping: </span><span class="si">%g</span><span class="s2"> / </span><span class="si">%g</span><span class="s2"> &gt; max_condition&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="CMAESOptimizer.get_best_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.get_best_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the best parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method : string, optional (default: &#39;best&#39;)</span>
+<span class="sd">            Either &#39;best&#39; or &#39;mean&#39;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        best_params : array-like, shape (n_params,)</span>
+<span class="sd">            Best parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;best&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span></div>
+
+<div class="viewcode-block" id="CMAESOptimizer.get_best_fitness"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CMAESOptimizer.html#bolero.optimizer.CMAESOptimizer.get_best_fitness">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the best observed fitness.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        best_fitness : float</span>
+<span class="sd">            Best fitness (sum of feedbacks) so far. Corresponds to the</span>
+<span class="sd">            parameters obtained by get_best_parameters(method=&#39;best&#39;). For</span>
+<span class="sd">            maximize=True, this is the highest observed fitness, and for</span>
+<span class="sd">            maximize=False, this is the lowest observed fitness.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maximize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fitness</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fitness</span></div>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;logger&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RestartCMAESOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.RestartCMAESOptimizer.html#bolero.optimizer.RestartCMAESOptimizer">[docs]</a><span class="k">class</span> <span class="nc">RestartCMAESOptimizer</span><span class="p">(</span><span class="n">CMAESOptimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CMA-ES with restarts.</span>
+
+<span class="sd">    This will outperform plain CMA-ES on multimodal functions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array-like, shape = (n_params,), optional (default: 0s)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1.0)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    n_samples_per_update : integer, optional (default: 4+int(3*log(n_params)))</span>
+<span class="sd">        Number of roll-outs that are required for a parameter update.</span>
+
+<span class="sd">    active : bool, optional (default: False)</span>
+<span class="sd">        Active CMA-ES (aCMA-ES) with negative weighted covariance matrix</span>
+<span class="sd">        update</span>
+
+<span class="sd">    bounds : array-like, shape (n_samples, 2), optional (default: None)</span>
+<span class="sd">        Upper and lower bounds for each parameter.</span>
+
+<span class="sd">    maximize : optional, boolean (default: True)</span>
+<span class="sd">        Maximize return or minimize cost?</span>
+
+<span class="sd">    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)</span>
+<span class="sd">        Minimum variance before restart</span>
+
+<span class="sd">    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)</span>
+<span class="sd">        Minimum distance between fitness values before restart</span>
+
+<span class="sd">    max_condition : float optional (default: 1e7)</span>
+<span class="sd">        Maximum condition of covariance matrix</span>
+
+<span class="sd">    log_to_file: optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RestartCMAESOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.RestartCMAESOptimizer.html#bolero.optimizer.RestartCMAESOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">n_samples_per_update</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">maximize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_variance</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">min_fitness_dist</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">max_condition</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span>
+            <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">initial_params</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">n_samples_per_update</span><span class="p">,</span>
+            <span class="n">active</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">maximize</span><span class="p">,</span> <span class="n">min_variance</span><span class="p">,</span> <span class="n">min_fitness_dist</span><span class="p">,</span>
+            <span class="n">max_condition</span><span class="p">,</span> <span class="n">log_to_file</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_restart</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reinit</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_test_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">is_behavior_learning_done</span><span class="p">()</span>
+
+<div class="viewcode-block" id="RestartCMAESOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.RestartCMAESOptimizer.html#bolero.optimizer.RestartCMAESOptimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns false because we will restart and not stop.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the learning of a behavior finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">False</span></div></div>
+
+
+<div class="viewcode-block" id="IPOPCMAESOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.IPOPCMAESOptimizer.html#bolero.optimizer.IPOPCMAESOptimizer">[docs]</a><span class="k">class</span> <span class="nc">IPOPCMAESOptimizer</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Increasing population size CMA-ES.</span>
+
+<span class="sd">    After each restart, the population size will be doubled. Hence, the</span>
+<span class="sd">    solution will be searched more globally.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array-like, shape = (n_params,), optional (default: 0s)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1.0)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    n_samples_per_update : integer, optional (default: 4+int(3*log(n_params)))</span>
+<span class="sd">        Number of roll-outs that are required for a parameter update.</span>
+
+<span class="sd">    active : bool, optional (default: False)</span>
+<span class="sd">        Active CMA-ES (aCMA-ES) with negative weighted covariance matrix</span>
+<span class="sd">        update</span>
+
+<span class="sd">    bounds : array-like, shape (n_samples, 2), optional (default: None)</span>
+<span class="sd">        Upper and lower bounds for each parameter.</span>
+
+<span class="sd">    maximize : optional, boolean (default: True)</span>
+<span class="sd">        Maximize return or minimize cost?</span>
+
+<span class="sd">    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)</span>
+<span class="sd">        Minimum variance before restart</span>
+
+<span class="sd">    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)</span>
+<span class="sd">        Minimum distance between fitness values before restart</span>
+
+<span class="sd">    max_condition : float optional (default: 1e7)</span>
+<span class="sd">        Maximum condition of covariance matrix</span>
+
+<span class="sd">    log_to_file: optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="IPOPCMAESOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.IPOPCMAESOptimizer.html#bolero.optimizer.IPOPCMAESOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">n_samples_per_update</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">maximize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_variance</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="n">min_fitness_dist</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span>
+                 <span class="n">max_condition</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IPOPCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">initial_params</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">n_samples_per_update</span><span class="p">,</span>
+            <span class="n">active</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">maximize</span><span class="p">,</span> <span class="n">min_variance</span><span class="p">,</span> <span class="n">min_fitness_dist</span><span class="p">,</span>
+            <span class="n">max_condition</span><span class="p">,</span> <span class="n">log_to_file</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_restart</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reinit</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BIPOPCMAESOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.BIPOPCMAESOptimizer.html#bolero.optimizer.BIPOPCMAESOptimizer">[docs]</a><span class="k">class</span> <span class="nc">BIPOPCMAESOptimizer</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;BI-population CMA-ES.</span>
+
+<span class="sd">    After each restart, the population size will be increased or decreased.</span>
+<span class="sd">    For details, see `the paper</span>
+<span class="sd">    &lt;http://hal.archives-ouvertes.fr/docs/00/38/20/93/PDF/hansen2009bbi.pdf&gt;`_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array-like, shape = (n_params,), optional (default: 0s)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1.0)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    n_samples_per_update : integer, optional (default: 4+int(3*log(n_params)))</span>
+<span class="sd">        Number of roll-outs that are required for a parameter update.</span>
+
+<span class="sd">    active : bool, optional (default: False)</span>
+<span class="sd">        Active CMA-ES (aCMA-ES) with negative weighted covariance matrix</span>
+<span class="sd">        update</span>
+
+<span class="sd">    bounds : array-like, shape (n_samples, 2), optional (default: None)</span>
+<span class="sd">        Upper and lower bounds for each parameter.</span>
+
+<span class="sd">    maximize : optional, boolean (default: True)</span>
+<span class="sd">        Maximize return or minimize cost?</span>
+
+<span class="sd">    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)</span>
+<span class="sd">        Minimum variance before restart</span>
+
+<span class="sd">    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)</span>
+<span class="sd">        Minimum distance between fitness values before restart</span>
+
+<span class="sd">    max_condition : float optional (default: 1e7)</span>
+<span class="sd">        Maximum condition of covariance matrix</span>
+
+<span class="sd">    log_to_file: optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BIPOPCMAESOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.BIPOPCMAESOptimizer.html#bolero.optimizer.BIPOPCMAESOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">n_samples_per_update</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">maximize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_variance</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="n">min_fitness_dist</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span>
+                 <span class="n">max_condition</span><span class="o">=</span><span class="mf">1e7</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BIPOPCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">initial_params</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">n_samples_per_update</span><span class="p">,</span>
+            <span class="n">active</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">maximize</span><span class="p">,</span> <span class="n">min_variance</span><span class="p">,</span> <span class="n">min_fitness_dist</span><span class="p">,</span>
+            <span class="n">max_condition</span><span class="p">,</span> <span class="n">log_to_file</span><span class="p">,</span> <span class="n">log_to_stdout</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance_default</span> <span class="o">=</span> <span class="n">variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_large</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_small</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_restarts</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">large_regime</span> <span class="o">=</span> <span class="bp">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RestartCMAESOptimizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_restart</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_restarts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_restarts</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Compute budget of the two regimes</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">large_regime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">large_regime</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_large</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_it</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_small</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_it</span>
+
+            <span class="c1"># Set population size and initial variance for the regime</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_large</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter_small</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">large_regime</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_default</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_large</span> <span class="o">/</span>
+                    <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_default</span><span class="p">))</span> <span class="o">**</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variance_default</span> <span class="o">*</span>
+                                 <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">()))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">large_regime</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_large</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_default</span> <span class="o">*</span>
+                                        <span class="mi">2</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_restarts</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_large</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance_default</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reinit</span><span class="p">()</span></div>
+
+
+<span class="n">cma_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="n">CMAESOptimizer</span><span class="p">,</span>
+             <span class="s2">&quot;restart&quot;</span><span class="p">:</span> <span class="n">RestartCMAESOptimizer</span><span class="p">,</span>
+             <span class="s2">&quot;ipop&quot;</span><span class="p">:</span> <span class="n">IPOPCMAESOptimizer</span><span class="p">,</span>
+             <span class="s2">&quot;bipop&quot;</span><span class="p">:</span> <span class="n">BIPOPCMAESOptimizer</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">fmin</span><span class="p">(</span><span class="n">objective_function</span><span class="p">,</span> <span class="n">cma_type</span><span class="o">=</span><span class="s2">&quot;standard&quot;</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+         <span class="n">eval_initial_x</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">maxfun</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Functional interface to the stochastic optimizer CMA-ES.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    objective_function : callable</span>
+<span class="sd">        Objective function</span>
+
+<span class="sd">    cma_type : string, optional (default: &#39;standard&#39;)</span>
+<span class="sd">        Must be one of [&#39;standard&#39;, &#39;restart&#39;, &#39;ipop&#39;, &#39;bipop&#39;]</span>
+
+<span class="sd">    x0 : array-like, shape = (n_params,), optional (default: 0)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    eval_initial_x : bool, optional (default: False)</span>
+<span class="sd">        Whether the initial parameter vector x0 is evaluated</span>
+
+<span class="sd">    maxfun : int, optional (default: 1000)</span>
+<span class="sd">        The maximum number of function evaluations after which CMA-ES terminates</span>
+
+<span class="sd">    maximize : bool, optional (default: False)</span>
+<span class="sd">        Maximize objective function</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    params : array, shape (n_params,)</span>
+<span class="sd">        Best parameters</span>
+
+<span class="sd">    fitness : float</span>
+<span class="sd">        Fitness value of best parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cma_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cma_types</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown cma_type </span><span class="si">%s</span><span class="s2">. Must be one of </span><span class="si">%s</span><span class="s2">.&quot;</span>
+                         <span class="o">%</span> <span class="p">(</span><span class="n">cma_type</span><span class="p">,</span> <span class="n">cma_types</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmaes</span> <span class="o">=</span> <span class="n">cma_types</span><span class="p">[</span><span class="n">cma_type</span><span class="p">](</span><span class="n">initial_params</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">maximize</span><span class="o">=</span><span class="n">maximize</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">cmaes</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxfun</span><span class="p">):</span>
+        <span class="n">cmaes</span><span class="o">.</span><span class="n">get_next_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">cmaes</span><span class="o">.</span><span class="n">set_evaluation_feedback</span><span class="p">(</span><span class="n">objective_function</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+
+    <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">cmaes</span><span class="o">.</span><span class="n">get_best_parameters</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">),</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">get_best_fitness</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">eval_initial_x</span><span class="p">:</span>
+        <span class="n">f0</span> <span class="o">=</span> <span class="n">objective_function</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">maximize</span> <span class="ow">and</span> <span class="n">f0</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span> <span class="n">f0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">maximize</span> <span class="ow">and</span> <span class="n">f0</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span> <span class="n">f0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">best</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
+      Last updated on May 21, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

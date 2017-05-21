@@ -1,0 +1,10 @@
+:mod:`bolero.environment`.ObjectiveFunction
+==================================================
+
+.. currentmodule:: bolero.environment
+
+.. autoclass:: ObjectiveFunction
+
+   
+   .. automethod:: __init__
+   

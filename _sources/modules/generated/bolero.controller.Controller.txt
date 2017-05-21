@@ -1,0 +1,10 @@
+:mod:`bolero.controller`.Controller
+==========================================
+
+.. currentmodule:: bolero.controller
+
+.. autoclass:: Controller
+
+   
+   .. automethod:: __init__
+   
