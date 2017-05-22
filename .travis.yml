@@ -7,9 +7,10 @@ branches:
     - /\d+\.\d+\..+/
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-pip python-numpy python-yaml python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config
-  - sudo pip install --upgrade scikit-learn scipy joblib pandas bs4 matplotlib nose
-  - wget https://github.com/jbeder/yaml-cpp/archive/release-0.5.3.zip; unzip release-0.5.3.zip; cd yaml-cpp-release-0.5.3/; mkdir build; cd build; cmake -DBUILD_SHARED_LIBS:BOOL=ON ..; sudo make install; cd ../..
+  - sudo apt-get install -qq python-pip python-numpy python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config
+  - sudo pip install pyyaml scikit-learn scipy joblib pandas bs4 matplotlib nose
+  - sudo apt-get install libyaml-cpp-dev
+  #- wget https://github.com/jbeder/yaml-cpp/archive/release-0.5.3.zip; unzip release-0.5.3.zip; cd yaml-cpp-release-0.5.3/; mkdir build; cd build; cmake -DBUILD_SHARED_LIBS:BOOL=ON ..; sudo make install; cd ../..
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
