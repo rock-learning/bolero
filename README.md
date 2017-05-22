@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rock-learning/bolero.svg?branch=master)](https://travis-ci.org/rock-learning/bolero)
+
 <img width="60%" src="doc/source/_static/logo.png" />
 
 # BOLeRo
