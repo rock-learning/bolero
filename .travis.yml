@@ -11,6 +11,7 @@ before_script:
   - sudo pip install pyyaml scikit-learn scipy joblib pandas bs4 matplotlib nose
   - sudo apt-get install libyaml-cpp-dev
   #- wget https://github.com/jbeder/yaml-cpp/archive/release-0.5.3.zip; unzip release-0.5.3.zip; cd yaml-cpp-release-0.5.3/; mkdir build; cd build; cmake -DBUILD_SHARED_LIBS:BOOL=ON ..; sudo make install; cd ../..
+  - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
