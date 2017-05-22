@@ -7,23 +7,15 @@ branches:
     - /\d+\.\d+\..+/
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-pip python-numpy python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config
-  - sudo pip install pyyaml scikit-learn scipy joblib pandas bs4 matplotlib nose
-  - sudo apt-get install libyaml-cpp-dev
-  #- wget https://github.com/jbeder/yaml-cpp/archive/release-0.5.3.zip; unzip release-0.5.3.zip; cd yaml-cpp-release-0.5.3/; mkdir build; cd build; cmake -DBUILD_SHARED_LIBS:BOOL=ON ..; sudo make install; cd ../..
+  - sudo apt-get install -qq python-pip python-numpy python-dev libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config libyaml-cpp-dev
+  - sudo pip install pyyaml scikit-learn scipy joblib pandas bs4 matplotlib nose scikit-optimize gym
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log tools/configmaps
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/representation/dmp
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/cec13_test_functions
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/controller
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/optimizer/cmaes_optimizer
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/mountain_car
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/optimizer/pso_optimizer
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero/src/environment/function_approximation
-  - cd bolero-dev; source env.sh; pybob/pybob.py show-log learning/bolero
+  - cd bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
+  # uncomment to debug failing builds:
+  #- cd bolero-dev; source env.sh; pybob/pybob.py show-log <package>
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
