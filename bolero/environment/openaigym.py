@@ -129,7 +129,7 @@ class OpenAiGym(Environment):
     def step_action(self):
         inputs = self.input_handler(self.inputs)
         observations, reward, done, info = self.env.step(inputs)
-        self.outputs[:] = observations.ravel()
+        self.outputs[:] = np.atleast_1d(observations).ravel()
         self.rewards.append(reward)
         self.done = self.done or done
 
