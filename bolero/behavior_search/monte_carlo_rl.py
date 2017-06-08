@@ -66,7 +66,7 @@ class EpsilonGreedyPolicy(Behavior):
         return True
 
 
-class MonteCarlo(BehaviorSearch, PickableMixin):
+class MonteCarloRL(BehaviorSearch, PickableMixin):
     """Tabular Monte Carlo is a model-free reinforcement learning method.
 
     The action space and the state space must be discrete for this
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     env = OpenAiGym("FrozenLake-v0", render=True, seed=1)
     env.init()
     action_space = list(range(env.env.action_space.n))
-    bs = MonteCarlo(action_space, random_state=1)
+    bs = MonteCarloRL(action_space, random_state=1)
     ctrl = Controller(environment=env, behavior_search=bs, n_episodes=10000,
                       finish_after_convergence=True, verbose=0)
     rewards = ctrl.learn()
