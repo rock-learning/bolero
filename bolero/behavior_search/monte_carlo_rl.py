@@ -1,10 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from collections import defaultdict
-from bolero.behavior_search import BehaviorSearch
-from bolero.behavior_search.behavior_search import PickableMixin
-from bolero.representation import Behavior
-from bolero.utils import check_random_state
+from .behavior_search import BehaviorSearch, PickableMixin
+from ..representation import Behavior
+from ..utils import check_random_state
 
 
 class EpsilonGreedyPolicy(Behavior):
@@ -231,29 +229,3 @@ class MonteCarloRL(BehaviorSearch, PickableMixin):
         policy = EpsilonGreedyPolicy(self.Q, self.action_space, epsilon=0.0)
         policy.init(1, 1)
         return policy
-
-
-if __name__ == "__main__":
-    from bolero.environment import OpenAiGym
-    from bolero.controller import Controller
-    env = OpenAiGym("FrozenLake-v0", render=True, seed=1)
-    env.init()
-    action_space = list(range(env.env.action_space.n))
-    bs = MonteCarloRL(action_space, random_state=1)
-    ctrl = Controller(environment=env, behavior_search=bs, n_episodes=10000,
-                      finish_after_convergence=True, verbose=0)
-    rewards = ctrl.learn()
-
-    print(ctrl.episode_with(bs.get_best_behavior()))
-
-    for s in bs.Q.keys():
-        for a in bs.Q[s].keys():
-            print("(%d, %d) -> %.3f" % (s, a, bs.Q[s][a]))
-
-    plt.figure()
-    ax = plt.subplot(111)
-    ax.set_title("Optimization progress")
-    ax.plot(rewards)
-    ax.set_xlabel("Episode")
-    ax.set_ylabel("Reward")
-    plt.show()

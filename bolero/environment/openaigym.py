@@ -156,3 +156,18 @@ class OpenAiGym(Environment):
             return np.inf
         else:
             return self.env.spec.reward_threshold
+
+    def get_discrete_action_space(self):
+        """Get list of possible actions.
+
+        An error will be raised if the action space of the problem is not
+        discrete. The environment must be initialized before this method can
+        be called.
+
+        Returns
+        -------
+        """
+        if not hasattr(self.env.action_space, "n"):
+            raise TypeError("gym environment '%d' does not have a discrete "
+                            "action space")
+        return list(range(self.env.action_space.n))
