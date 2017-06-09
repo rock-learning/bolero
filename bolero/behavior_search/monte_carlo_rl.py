@@ -209,7 +209,7 @@ class MonteCarloRL(BehaviorSearch, PickableMixin):
         self.done = any(feedbacks > 0) and diff < 1e-3
 
     def is_behavior_learning_done(self):
-        """Check if the behavior learning is finished, e.g. it converged.
+        """Check if the value function converged.
 
         Returns
         -------
