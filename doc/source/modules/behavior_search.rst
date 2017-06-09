@@ -25,6 +25,9 @@ provided by BOLeRo.
    * - :ref:`Black-box Search <black_box_search>`
      - Policy search, behavior is considered to be a black box
 
+   * - :ref:`Monte Carlo Reinforcement Learning <monte_carlo_rl>`
+     - Reinforcement learning, uses a behavior derived from the value function
+
 
 .. _black_box_search:
 
@@ -37,6 +40,18 @@ A :class:`BlackBoxSearch` combines an :class:`~bolero.optimizer.Optimizer` and a
 The optimizer does not need to know anything about the behavior except its
 number of parameters and the performance in the environment to do direct policy
 search.
+
+.. _monte_carlo_rl:
+
+Monte Carlo Reinforcement Learning
+----------------------------------
+
+:class:`~MonteCarloRL` is a epsilon-soft on-policy Monte Carlo control
+algorithm. It is a model-free reinforcement learning method. The
+epsilon-greedy policy that is used during the learning process is derived
+from the state-action value function Q. Q is estimated from the experience of
+previous episodes. This implementation can only handle discrete state and
+action spaces.
 
 
 Contextual Behavior Search
