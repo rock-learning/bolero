@@ -156,6 +156,132 @@ class BoundedScalingPolicy(UpperLevelPolicy):
         self.upper_level_policy.fit(X, Y, weights, context_transform)
 
 
+class ConstantGaussianPolicy(UpperLevelPolicy):
+    """Gaussian policy with constant mean.
+
+    Upper-level policy, which samples weight vectors for lower-level policies
+    (like DMPs) from a Gaussian distribution
+
+    .. math::
+
+        \pi(u) = \mathcal{N}(u|mu, \Sigma)
+
+    with constant mean mu and covariance Sigma. Thus, contextual information
+    cannot be taken into account
+
+    See [Deisenroth2013]_, page 131 for details.
+
+    Parameters
+    ----------
+    n_weights : int
+        dimensionality of weight vector of lower-level policy
+
+    covariance : string ("full" or "diag")
+        whether full or diagonal covariance is learned
+
+    mean : array-like, shape (num_samples)
+        initial mean of policy
+
+    covariance_scale : float
+        the covariance is initialized to numpy.eye(n_weights) *
+        covariance_scale
+
+    random_state : optional, int
+        Seed for the random number generator.
+    """
+    def __init__(self, n_weights, covariance="full", mean=None,
+                 covariance_scale=1.0, random_state=None):
+        self.n_weights = n_weights
+        self.covariance = covariance
+        self.random_state = check_random_state(random_state)
+
+        self.mean = mean
+        if self.mean is None:
+            self.mean = np.ones(n_weights)
+        self.Sigma = np.eye(n_weights) * covariance_scale
+
+    def __call__(self, context=None, explore=True):
+        """Evaluates policy.
+
+        Samples weight vector from distribution if explore is true, otherwise
+        return the distribution's mean.
+
+        Parameters
+        ----------
+        context : array-like, (n_context_dims,)
+            context vector (ignored by this policy, defaults to None)
+
+        explore : bool
+            if true, weight vector is sampled from distribution. otherwise the
+            distribution's mean is returned
+
+        Returns
+        -------
+        parameter_vector: array-like, (n_weights,)
+            the selected parameters
+        """
+        # Note: Context is ignored
+        if not explore:
+            return self.mean
+        else:
+            # Sample from normal distribution
+            return self.random_state.multivariate_normal(
+                mean=self.mean, cov=self.Sigma, size=1)[0]
+
+    def fit(self, X, Y, weights, *_):
+        """Trains policy by weighted maximum likelihood.
+
+        Parameters
+        ----------
+        X : ignored
+
+        Y : array-like, shape (num_samples, n_weights)
+            2d array of parameter vectors
+
+        weights : array-like, (num_samples,)
+            weights of individual samples (weight vectors)
+        """
+        # Avoid that all but one weights become 0
+        weights[weights == 0] = np.finfo(np.float).eps
+
+        self.mean = (weights * Y.T).sum(axis=1) / weights.sum()
+
+        # Estimate covariance matrix (either full or diagonal)
+        Z = (weights.sum() ** 2 - (weights ** 2).sum()) / weights.sum()
+        if self.covariance == 'full':
+            nominator = np.zeros_like(self.Sigma)
+            for i in range(Y.shape[0]):
+                temp = Y[i] - self.mean
+                nominator += weights[i] * np.outer(temp, temp)
+            self.Sigma = nominator / (1e-10 + Z)
+        elif self.covariance == 'diag':
+            nominator = np.zeros(self.Sigma.shape[0])
+            for i in range(Y.shape[0]):
+                nominator += weights[i] * (Y[i] - self.mean) ** 2
+            self.Sigma = np.diag(nominator / (1e-10 + Z))
+
+        if not np.isfinite(self.Sigma).all():
+            raise ValueError("Computed non-finite covariance matrix.")
+
+    def probabilities(self, Y):
+        """Probabilities of parameter vectors Y
+
+        Parameters
+        ----------
+        Y : array-like, shape (num_samples, n_weights)
+            2d array of parameter vectors
+
+        Returns
+        ----------
+        resp : array-like, shape (num_samples)
+            the probabilities of the samples under this policy
+
+        """
+        # TODO: Check SciPy version (>= 0.14 for multivariate_normal)
+        from scipy.stats import multivariate_normal
+        return multivariate_normal(mean=self.mean, cov=self.Sigma).pdf(Y)
+
+
 class ContextTransformationPolicy(UpperLevelPolicy):
     """ A wrapper class around a policy which transform contexts.
 

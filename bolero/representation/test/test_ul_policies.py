@@ -1,10 +1,11 @@
 import numpy as np
 from bolero.representation.ul_policies import (LinearGaussianPolicy,
+                                               ConstantGaussianPolicy,
                                                ContextTransformationPolicy,
                                                BoundedScalingPolicy)
 from bolero.representation.context_transformations import quadratic
 from numpy.testing import assert_array_almost_equal, assert_array_equal
-from nose.tools import assert_almost_equal, assert_raises_regexp
+from nose.tools import assert_almost_equal, assert_raises_regexp, assert_greater
 
 
 def test_linear_gaussian():
@@ -28,6 +29,25 @@ def test_linear_gaussian():
     Y_sampled = np.array([ulp(x, explore=True) for x in X_bias])
     assert_almost_equal(np.mean(Y_sampled), 10.0, places=1)
     assert_almost_equal(np.std(Y_sampled), 1.0, places=1)
+
+
+def test_constant_gaussian():
+    random_state = np.random.RandomState(0)
+
+    n_samples = 10000
+    n_weights = 5
+    mean = np.ones(n_weights)
+    ulp = ConstantGaussianPolicy(
+        n_weights, covariance="full", mean=mean,
+        covariance_scale=1.0, random_state=random_state)
+    Y = mean + random_state.randn(n_samples, n_weights)
+    ulp.fit(None, Y, np.ones(n_samples))
+    estimated_mean = ulp(explore=False)
+    assert_array_almost_equal(mean, estimated_mean, decimal=2)
+
+    p = ulp.probabilities([mean])
+    p2 = ulp.probabilities([mean + 1.0])
+    assert_greater(p, p2)
 
 
 def test_context_transformation():
