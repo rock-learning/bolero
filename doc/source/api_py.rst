@@ -97,6 +97,7 @@ Optimizer classes
    BIPOPCMAESOptimizer
    NoOptimizer
    RandomOptimizer
+   REPSOptimizer
    CREPSOptimizer
    SkOptOptimizer
 

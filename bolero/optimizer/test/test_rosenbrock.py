@@ -1,7 +1,8 @@
 """Test for unimodal function optimization."""
 import numpy as np
 from nose.tools import assert_less, assert_greater
-from bolero.optimizer import CMAESOptimizer, NoOptimizer, RandomOptimizer
+from bolero.optimizer import (CMAESOptimizer, REPSOptimizer, NoOptimizer,
+                              RandomOptimizer)
 from bolero.environment.objective_functions import Rosenbrock
 
 
@@ -32,6 +33,14 @@ def test_acmaes():
     opt.init(n_dims)
     r = eval_loop(x, opt, n_dims)
     assert_greater(r.max(), -1e-5)
+
+
+def test_reps():
+    x = np.zeros(n_dims)
+    opt = REPSOptimizer(x, random_state=0, log_to_stdout=False)
+    opt.init(n_dims)
+    r = eval_loop(x, opt, n_dims)
+    assert_greater(r.max(), -1e-10)
 
 
 def test_no():

@@ -31,7 +31,7 @@ def test_linear_gaussian():
     assert_almost_equal(np.std(Y_sampled), 1.0, places=1)
 
 
-def test_constant_gaussian():
+def test_constant_gaussian_full_covariance():
     random_state = np.random.RandomState(0)
 
     n_samples = 10000
@@ -39,6 +39,25 @@ def test_constant_gaussian():
     mean = np.ones(n_weights)
     ulp = ConstantGaussianPolicy(
         n_weights, covariance="full", mean=mean,
+        covariance_scale=1.0, random_state=random_state)
+    Y = mean + random_state.randn(n_samples, n_weights)
+    ulp.fit(None, Y, np.ones(n_samples))
+    estimated_mean = ulp(explore=False)
+    assert_array_almost_equal(mean, estimated_mean, decimal=2)
+
+    p = ulp.probabilities([mean])
+    p2 = ulp.probabilities([mean + 1.0])
+    assert_greater(p, p2)
+
+
+def test_constant_gaussian_diag_covariance():
+    random_state = np.random.RandomState(0)
+
+    n_samples = 10000
+    n_weights = 5
+    mean = np.ones(n_weights)
+    ulp = ConstantGaussianPolicy(
+        n_weights, covariance="diag", mean=mean,
         covariance_scale=1.0, random_state=random_state)
     Y = mean + random_state.randn(n_samples, n_weights)
     ulp.fit(None, Y, np.ones(n_samples))

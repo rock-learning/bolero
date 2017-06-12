@@ -25,7 +25,8 @@ print(__doc__)
 
 import numpy as np
 from bolero.optimizer import (NoOptimizer, RandomOptimizer, CMAESOptimizer,
-                              IPOPCMAESOptimizer, BIPOPCMAESOptimizer)
+                              IPOPCMAESOptimizer, BIPOPCMAESOptimizer,
+                              REPSOptimizer)
 from bolero.environment.objective_functions import Rosenbrock, Katsuura
 import matplotlib.pyplot as plt
 
@@ -52,6 +53,7 @@ optimizers = {
     "CMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0),
     "aCMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), active=True,
                               random_state=0),
+    "REPS": REPSOptimizer(x, random_state=0)
     }
 
 plt.figure(figsize=(12, 8))
