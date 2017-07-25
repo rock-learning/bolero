@@ -33,7 +33,7 @@ class CMAESOptimizer(Optimizer):
 
     See `Wikipedia <http://en.wikipedia.org/wiki/CMA-ES>`_ for details.
 
-    Plain CMA-ES is considered to useful for
+    Plain CMA-ES is considered to be useful for
 
     * non-convex,
     * non-separable,
