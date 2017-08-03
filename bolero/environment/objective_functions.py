@@ -671,7 +671,7 @@ class StepEllipsoidal(ObjectiveFunctionBase):
         z_sim = np.empty(self.n_dims)
         idx = z_hat > 0.5
         z_sim[idx] = np.round(z_hat[idx])
-        idx = np.negative(idx)
+        idx = np.logical_not(idx)
         z_sim[idx] = np.round(self.alpha * z_hat[idx]) / self.alpha
         z = self.Q.dot(z_sim)
         return -(0.1 * np.maximum(1e-4 * np.abs(z_hat[0]),
