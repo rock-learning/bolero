@@ -1,5 +1,9 @@
 #include <Eigen/Core>
-#include <math.h>
+#include <cmath>
+#if __cplusplus >= 201103L
+using std::isinf;
+using std::isnan;
+#endif
 
 namespace dmp
 {
