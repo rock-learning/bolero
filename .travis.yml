@@ -13,15 +13,11 @@ before_script:
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - ./bootstrap_bolero.sh
-  - pwd
-  - ls
   - cd bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
   # uncomment to debug failing builds:
   #- cd bolero-dev; source env.sh; pybob/pybob.py show-log <package>
-  - pwd
-  - ls
-  - cat autoproj/bob/logs/*.txt
-  - source env.sh; pypob/pybob.py show-log learning/bolero/src/representation/dmp
+  - cat /home/travis/build/rock-learning/bolero/bolero-dev/autoproj/bob/logs/*.txt
+  - cd /home/travis/build/rock-learning/bolero/bolero-dev; source env.sh; pypob/pybob.py show-log learning/bolero/src/representation/dmp
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
