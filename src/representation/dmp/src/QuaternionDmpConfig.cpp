@@ -99,22 +99,22 @@ bool QuaternionDmpConfig::isValid() const
 
   for(int i = 0; i < 4; ++i)
   {
-    if(isnan(startPosition[i]))
+    if(std::isnan(startPosition[i]))
     {
       cerr << "QuaternionDmpConfing invalid. Start position contains NaN" << endl;
       return false;
     }
-    if(isnan(endPosition[i]))
+    if(std::isnan(endPosition[i]))
     {
       cerr << "QuaternionDmpConfing invalid. End position contains NaN" << endl;
       return false;
     }
-    if(isinf(startPosition[i]))
+    if(std::isinf(startPosition[i]))
     {
       cerr << "QuaternionDmpConfing invalid. Start position contains inf" << endl;
       return false;
     }
-    if(isinf(endPosition[i]))
+    if(std::isinf(endPosition[i]))
     {
       cerr << "QuaternionDmpConfing invalid. End position contains inf" << endl;
       return false;
@@ -123,12 +123,12 @@ bool QuaternionDmpConfig::isValid() const
 
   for(int i = 0; i < 3; ++i)
   {
-    if(isnan(startVelocity[i]))
+    if(std::isnan(startVelocity[i]))
     {
       cerr << "QuaternionDmpConfing invalid. Start velocity contains NaN" << endl;
       return false;
     }
-    if(isinf(startVelocity[i]))
+    if(std::isinf(startVelocity[i]))
     {
       cerr << "QuaternionDmpConfing invalid. Start velocity contains inf" << endl;
       return false;

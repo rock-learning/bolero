@@ -8,7 +8,7 @@
 #include <sstream>
 #include <istream>
 #include <iomanip>
-#include <cmath>
+#include <math.h>
 
 namespace dmp_cpp{
 class DMPModel{

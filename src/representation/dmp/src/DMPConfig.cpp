@@ -1,7 +1,7 @@
 #include "DMPConfig.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
-#include <cmath>
+#include <math.h>
 #include <sstream>
 #include <iostream>
 
@@ -143,64 +143,64 @@ bool DMPConfig::is_valid() const
     //this loop only works if all dimensions are equal
     for(unsigned i = 0; i < dmp_startPosition.size(); ++i)
     {
-      if(isnan(dmp_startPosition[i]))
+      if(std::isnan(dmp_startPosition[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startPosition contains Nan." << endl;
       }
-      if(isnan(dmp_endPosition[i]))
+      if(std::isnan(dmp_endPosition[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endPosition contains Nan." << endl;
       }
-      if(isnan(dmp_startVelocity[i]))
+      if(std::isnan(dmp_startVelocity[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startVelocity contains Nan." << endl;
       }
-      if(isnan(dmp_endVelocity[i]))
+      if(std::isnan(dmp_endVelocity[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endVelocity contains Nan." << endl;
       }
-      if(isnan(dmp_startAcceleration[i]))
+      if(std::isnan(dmp_startAcceleration[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startAcceleration contains Nan." << endl;
       }
-      if(isnan(dmp_endAcceleration[i]))
+      if(std::isnan(dmp_endAcceleration[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endAcceleration contains Nan." << endl;
       }
 
 
-      if(isinf(dmp_startPosition[i]))
+      if(std::isinf(dmp_startPosition[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startPosition contains Inf." << endl;
       }
-      if(isinf(dmp_endPosition[i]))
+      if(std::isinf(dmp_endPosition[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endPosition contains Inf." << endl;
       }
-      if(isinf(dmp_startVelocity[i]))
+      if(std::isinf(dmp_startVelocity[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startVelocity contains Inf." << endl;
       }
-      if(isinf(dmp_endVelocity[i]))
+      if(std::isinf(dmp_endVelocity[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endVelocity contains Inf." << endl;
       }
-      if(isinf(dmp_startAcceleration[i]))
+      if(std::isinf(dmp_startAcceleration[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_startAcceleration contains Inf." << endl;
       }
-      if(isinf(dmp_endAcceleration[i]))
+      if(std::isinf(dmp_endAcceleration[i]))
       {
         valid = false;
         cerr << "DMPConfig not valid. dmp_endAcceleration contains Inf." << endl;
