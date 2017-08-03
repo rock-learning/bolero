@@ -1,7 +1,11 @@
 #include <Eigen/Core>
 #include <math.h>
+#ifndef isinf
 using std::isinf;
+#endif
+#ifndef isnan
 using std::isnan;
+#endif
 
 namespace dmp
 {
