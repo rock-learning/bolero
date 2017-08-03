@@ -16,7 +16,8 @@ script:
   - cd bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
   # uncomment to debug failing builds:
   #- cd bolero-dev; source env.sh; pybob/pybob.py show-log <package>
-  - cd bolero-dev; source env.sh; pypob/pybob.py show-log learning/bolero/src/representation/dmp
+  - cat autoproj/bob/logs/*.txt
+  - source env.sh; pypob/pybob.py show-log learning/bolero/src/representation/dmp
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
