@@ -1,14 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-
-#ifdef NO_TR1
-    #include <memory>
-    using std::shared_ptr;
-#else
-    #include <tr1/memory>
-    using std::tr1::shared_ptr;
-#endif
+#include <memory>
+using std::shared_ptr;
 
 // TODO to allow calling functions/methods with arbitrary arguments we must
 // create a callable object and pass a Python argument list
