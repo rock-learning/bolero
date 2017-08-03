@@ -4,6 +4,12 @@
 using std::isinf;
 using std::isnan;
 #endif
+#ifdef isnan
+#undef isnan
+#endif
+#ifdef isinf
+#undef isinf
+#endif
 
 namespace dmp
 {
