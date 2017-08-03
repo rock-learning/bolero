@@ -1,5 +1,6 @@
 #include <Eigen/Core>
 #include <cmath>
+using namespace std;
 
 namespace dmp
 {
@@ -101,8 +102,8 @@ struct EigenHelpers
   {
     for(unsigned i = 0; i < data.size(); ++i)
     {
-      assert(!std::isnan(data[i]));
-      assert(!std::isinf(data[i]));
+      assert(!isnan(data[i]));
+      assert(!isinf(data[i]));
     }
   }
 
