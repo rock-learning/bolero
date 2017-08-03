@@ -17,7 +17,6 @@ script:
   # uncomment to debug failing builds:
   #- cd bolero-dev; source env.sh; pybob/pybob.py show-log <package>
   - cat /home/travis/build/rock-learning/bolero/bolero-dev/autoproj/bob/logs/*.txt
-  - cd /home/travis/build/rock-learning/bolero/bolero-dev; source env.sh; pypob/pybob.py show-log learning/bolero/src/representation/dmp
 notifications:
   recipients:
     - alexander.fabisch@dfki.de

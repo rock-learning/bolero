@@ -1,6 +1,5 @@
 #include <Eigen/Core>
-#include <cmath>
-using namespace std;
+#include <math.h>
 
 namespace dmp
 {
