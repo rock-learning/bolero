@@ -1,14 +1,14 @@
 #include <Eigen/Core>
 #include <cmath>
-#if __cplusplus >= 201103L
-using std::isinf;
-using std::isnan;
-#endif
 #ifdef isnan
 #undef isnan
 #endif
 #ifdef isinf
 #undef isinf
+#endif
+#if __cplusplus >= 201103L
+using std::isnan;
+using std::isinf;
 #endif
 
 namespace dmp
