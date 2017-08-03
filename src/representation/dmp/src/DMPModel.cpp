@@ -92,7 +92,7 @@ bool DMPModel::containsNanOrInf(const vector<double>& data) const
 {
   for(unsigned i = 0; i < data.size(); ++i)
   {
-    if(std::isnan(data[i]) || isinf(data[i]))
+    if(std::isnan(data[i]) || std::isinf(data[i]))
     {
       return true;
     }
