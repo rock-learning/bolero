@@ -6,6 +6,6 @@
   <depend package="learning/bolero/include" />
   <depend package="simulation/lib_manager" />
   <depend package="external/yaml-cpp" />
-  <rosdep name="python-numpy" />
+  <rosdep name="numpy" />
   <rosdep name="python" /> 
 </package>
