@@ -151,8 +151,11 @@ class SkOptOptimizer(Optimizer):
             "n_jobs": n_jobs
         }
         self.optimizer = _SkOptOptimizer(
-            dimensions, base_estimator, n_random_starts, acq_func,
-            acq_optimizer, random_state, acq_func_kwargs, acq_optimizer_kwargs)
+            dimensions=dimensions, base_estimator=base_estimator,
+            n_initial_points=n_random_starts, acq_func=acq_func,
+            acq_optimizer=acq_optimizer, random_state=random_state,
+            acq_func_kwargs=acq_func_kwargs,
+            acq_optimizer_kwargs=acq_optimizer_kwargs)
 
     def init(self, n_params):
         """Initialize the behavior search.
