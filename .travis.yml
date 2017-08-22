@@ -7,8 +7,8 @@ branches:
     - /\d+\.\d+\..+/
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-dev python-pip python-numpy python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev cython pkg-config libyaml-cpp-dev
-  - sudo pip install pyyaml scikit-learn scipy joblib pandas bs4 matplotlib nose scikit-optimize gym
+  - sudo apt-get install -qq python-dev python-pip python-numpy python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev
+  - sudo pip install pyyaml scikit-learn scipy cython joblib pandas bs4 matplotlib nose scikit-optimize gym
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
