@@ -7,7 +7,7 @@ A simple problem with a discrete state and action space is solved with
 a tabular reinforcement learning algorithm. The plot shows the obtained return
 for each episode. Successful episodes terminate with the return 1, otherwise
 the return is 0. The learning process is stopped when the value function
-converved.
+converged.
 """
 print(__doc__)
 
