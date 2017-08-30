@@ -12,11 +12,9 @@ before_script:
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-  - ./bootstrap_bolero.sh
-  - cd bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
-  # uncomment to debug failing builds:
-  #- cd bolero-dev; source env.sh; pybob/pybob.py show-log <package>
-  - cat /home/travis/build/rock-learning/bolero/bolero-dev/autoproj/bob/logs/*.txt
+  - mkdir -p ../build; cd ../build; cp ../bolero/bootstrap_bolero.sh .; ./bootstrap_bolero.sh; rm -rf bolero-dev/learning/bolero/; mv ../bolero bolero-dev/learning; cd bolero-dev; source env.sh; pybob/pybob.py install
+  - cd /home/travis/build/rock-learning/build/bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
+  - cat /home/travis/build/rock-learning/build/bolero-dev/autoproj/bob/logs/*.txt
 notifications:
   recipients:
     - alexander.fabisch@dfki.de
