@@ -1,4 +1,21 @@
-# News
+# Release History
+
+## Version 0.0.2
+
+Not released yet.
+
+### Features
+
+* Continuous integration with Travis CI
+* New behavior search: Monte Carlo RL
+
+## Version 0.0.1
+
+2017/05/19
+
+First public release.
+
+### Breaking Changes
 
 In comparison to the old behavior learning framework used by the DFKI RIC and
 the University of Bremen, we changed the following details:

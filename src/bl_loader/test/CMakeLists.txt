@@ -28,6 +28,10 @@ link_directories(${BL_LOADER_LIBRARY_DIRS})
 
 include_directories(src)
 
+if(UNIX)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} bl_loader
                                       ${YAML_LIBRARIES}

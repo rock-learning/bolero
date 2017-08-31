@@ -20,7 +20,8 @@ def test_bayes_opt_base_estimator():
         normalize_y=True, random_state=0, alpha=0.0,
         noise="gaussian", n_restarts_optimizer=2)
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator, random_state=0)
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator=base_estimator,
+        random_state=0)
     opt.init(2)
     params = np.empty(2)
     for _ in range(10):
@@ -32,7 +33,8 @@ def test_bayes_opt_base_estimator():
 
 def test_bayes_opt_gpr():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", random_state=0)
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP",
+        random_state=0)
     opt.init(2)
     params = np.empty(2)
     for _ in range(10):
@@ -48,8 +50,8 @@ def test_bayes_opt_gpr():
 
 def test_bayes_opt_gpr_minimize():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", maximize=False,
-        random_state=0)
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP",
+        random_state=0, maximize=False)
     opt.init(2)
     params = np.empty(2)
     for _ in range(10):
@@ -61,7 +63,7 @@ def test_bayes_opt_gpr_minimize():
 
 def test_bayes_opt_gbrt():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GBRT",
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GBRT",
         acq_optimizer="sampling", random_state=0)
     opt.init(2)
     params = np.empty(2)
@@ -74,7 +76,7 @@ def test_bayes_opt_gbrt():
 
 def test_bayes_opt_rf():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="RF",
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="RF",
         acq_optimizer="sampling", random_state=0)
     opt.init(2)
     params = np.empty(2)
@@ -87,7 +89,7 @@ def test_bayes_opt_rf():
 
 def test_bayes_opt_et():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="ET",
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="ET",
         acq_optimizer="sampling", random_state=0)
     opt.init(2)
     params = np.empty(2)
@@ -100,11 +102,12 @@ def test_bayes_opt_et():
 
 def test_bayes_opt_unknown_base_estimator():
     assert_raises_regexp(ValueError, "base_estimator parameter",
-        SkOptOptimizer, [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="unknown",
-        random_state=0)
+        SkOptOptimizer, dimensions=[(-1.0, 1.0), (-1.0, 1.0)],
+        base_estimator="unknown", random_state=0)
 
 
 def test_bayes_opt_wrong_dimensions():
     opt = SkOptOptimizer(
-        [(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP", random_state=0)
+        dimensions=[(-1.0, 1.0), (-1.0, 1.0)], base_estimator="GP",
+        random_state=0)
     assert_raises_regexp(ValueError, "Number of dimensions", opt.init, 1)

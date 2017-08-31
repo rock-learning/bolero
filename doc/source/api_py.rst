@@ -72,6 +72,7 @@ Behavior search classes
    ContextualBlackBoxSearch
    JustOptimizer
    JustContextualOptimizer
+   MonteCarloRL
 
 :mod:`bolero.optimizer`: Optimizer
 ==================================
