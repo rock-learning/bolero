@@ -66,7 +66,7 @@ namespace bolero {
       std::string dataFile, dataFile2;
       std::string testDataFile;
       double *y;
-      unsigned long numEvaluationsToSwitch, evaluationCount;
+      unsigned long numEvaluationsToSwitch, evaluationCount, evalCount, evaluateRunX;
 
       void readExpData(std::vector<FitData> *expData, std::string filename);
       void readValue(char **linePtr, char *buf, int bufSize, int lineLength);

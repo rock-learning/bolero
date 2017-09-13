@@ -34,6 +34,7 @@ namespace bolero {
       dataFile2 = "";
       numEvaluationsToSwitch = 0;
       evaluationCount = 0;
+      evaluateRunX = 1;
       if(map.hasKey("Environment")) {
         configmaps::ConfigMap &map2 = map["Environment"];
         if(map2.hasKey("DataFile")) {
@@ -46,8 +47,11 @@ namespace bolero {
         if(map2.hasKey("TestDataFile")) {
           testDataFile << map2["TestDataFile"];
         }
+        if(map2.hasKey("EvaluateRunX")) {
+          evaluateRunX << map2["EvaluateRunX"];
+        }
       }
-
+      evalCount = evaluateRunX;
       fprintf(stderr, "scan: %s\n", dataFile.c_str());
       readExpData(&fitData, dataFile);
       if(dataFile2 != "") {
@@ -64,6 +68,7 @@ namespace bolero {
     void FunctionApproximation::reset() {
       error = 0;
       dataPoint = currentData->begin();
+      evalCount = evaluateRunX;
     }
 
     void FunctionApproximation::setTestMode(bool testMode) {
@@ -97,6 +102,12 @@ namespace bolero {
       }
       ++dataPoint;
       if(dataPoint == currentData->end()) {
+        if(--evalCount > 0) {
+          dataPoint = currentData->begin();
+          error = 0;
+          return;
+        }
+
         error /= currentData->size();
         error = sqrt(error);
         //error /= currentData->size()*numOutputs;
