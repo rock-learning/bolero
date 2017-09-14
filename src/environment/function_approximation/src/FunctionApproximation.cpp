@@ -193,8 +193,8 @@ namespace bolero {
           }
           ++i;
         }
+        fclose(file);
       }
-      fclose(file);
     }
 
     void FunctionApproximation::readValue(char **linePtr, char *buf,
