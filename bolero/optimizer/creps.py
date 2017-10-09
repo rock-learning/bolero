@@ -25,11 +25,11 @@ def solve_dual_contextual_reps(S, R, epsilon, min_eta):
     R : array, shape (n_samples_per_update,)
         Corresponding obtained rewards
 
-    epsilon : float, optional (default: 2.0)
+    epsilon : float
         Maximum Kullback-Leibler divergence of two successive policy
         distributions.
 
-    min_eta : float, optional (default: 1e-8)
+    min_eta : float
         Minimum eta, 0 would result in numerical problems
 
     Returns
@@ -165,7 +165,7 @@ class CREPSOptimizer(ContextualOptimizer):
         Parameters
         ----------
         n_params : int
-            dimension of the parameter vector
+            number of parameters
 
         n_context_dims : int
             number of dimensions of the context space

@@ -45,9 +45,10 @@ def test_constant_gaussian_full_covariance():
     estimated_mean = ulp(explore=False)
     assert_array_almost_equal(mean, estimated_mean, decimal=2)
 
-    p = ulp.probabilities([mean])
-    p2 = ulp.probabilities([mean + 1.0])
-    assert_greater(p, p2)
+    mean_probability = ulp.probabilities([mean])
+    other = mean + 1.0
+    other_probability = ulp.probabilities([other])
+    assert_greater(mean_probability, other_probability)
 
 
 def test_constant_gaussian_diag_covariance():

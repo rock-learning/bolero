@@ -14,6 +14,28 @@ from ..utils.log import get_logger
 
 
 def solve_dual_reps(R, epsilon, min_eta):
+    """Solve dual function for REPS.
+
+    Parameters
+    ----------
+    R : array, shape (n_samples_per_update,)
+        Corresponding obtained rewards
+
+    epsilon : float
+        Maximum Kullback-Leibler divergence of two successive policy
+        distributions.
+
+    min_eta : float
+        Minimum eta, 0 would result in numerical problems
+
+    Returns
+    -------
+    d : array, shape (n_samples_per_update,)
+        Weights for training samples
+
+    eta : float
+        Temperature
+    """
     if R.ndim != 1:
         raise ValueError("Returns must be passed in a flat array!")
 
@@ -67,22 +89,22 @@ class REPSOptimizer(Optimizer):
 
     Parameters
     ----------
-    initial_params : array, shape = (num_params,)
+    initial_params : array, shape = (num_params,), optional (default: zeros)
         Initial parameter vector.
 
-    variance : float
+    variance : float, optional (default: 1)
         Initial exploration variance.
 
-    covariance : array-like, optional (default: None)
+    covariance : array-like, optional (default: None), optional (default: I)
         Either a diagonal (with shape (n_params,)) or a full covariance matrix
         (with shape (n_params, n_params)). A full covariance can contain
         information about the correlation of variables.
 
-    epsilon : float > 0.0
+    epsilon : float > 0.0, optional (default: 2)
         The maximum the KL divergence between old and new "data" distribution
         might take on
 
-    train_freq : int > 0
+    train_freq : int > 0, optional (default: 25)
         The frequency (the number of rollouts) of training, i.e., using REPS
         for updating the policies parameters. Defaults to 25 rollouts.
 
@@ -126,7 +148,7 @@ class REPSOptimizer(Optimizer):
         Parameters
         ----------
         n_params : int
-            dimension of the parameter vector
+            number of parameters
         """
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
@@ -167,7 +189,7 @@ class REPSOptimizer(Optimizer):
 
         Parameters
         ----------
-        params : array-like
+        params : array-like, shape = (n_params,)
             The selected parameters will be written into this as a side-effect.
 
         explore : bool
@@ -198,7 +220,21 @@ class REPSOptimizer(Optimizer):
             self.best_params = self.params
 
     def get_best_parameters(self):
+        """Get the best parameters.
+
+        Returns
+        -------
+        best_params : array-like, shape (n_params,)
+            Best parameters
+        """
         return self.best_params
 
     def is_behavior_learning_done(self):
+        """Check if the optimization is finished.
+
+        Returns
+        -------
+        finished : bool
+            Is the learning of a behavior finished?
+        """
         return False

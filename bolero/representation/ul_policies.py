@@ -7,6 +7,7 @@ import numpy as np
 from ..representation.context_transformations import CONTEXT_TRANSFORMATIONS
 from ..utils.scaling import Scaling, NoScaling
 from ..utils.validation import check_random_state
+from ..utils.dependency import compatible_version
 
 
 class UpperLevelPolicy(object):
@@ -277,7 +278,10 @@ class ConstantGaussianPolicy(UpperLevelPolicy):
             the probabilities of the samples under this policy
 
         """
-        # TODO: Check SciPy version (>= 0.14 for multivariate_normal)
+        if not compatible_version("scipy", ">= 0.14"):
+            raise ImportError(
+                "SciPy >= 0.14 is required for "
+                "'scipy.stats.multivariate_normal'.")
         from scipy.stats import multivariate_normal
         return multivariate_normal(mean=self.mean, cov=self.Sigma).pdf(Y)
 
