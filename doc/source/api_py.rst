@@ -201,3 +201,4 @@ Utility classes
    :template: class.rst
 
    log.HideExtern
+   ranking_svm.RankingSVM

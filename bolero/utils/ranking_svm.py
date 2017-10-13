@@ -9,7 +9,10 @@ MACHINE_EPSILON = np.finfo(np.float).eps ** 2
 
 
 class RankingSVM(object):
-    """Ranking SVM.
+    """Ranking Support Vector Machine.
+
+    A trained ranking SVM model will predict rank-preserving values for each
+    sample.
 
     The constraint violation cost will be computed according to
 
