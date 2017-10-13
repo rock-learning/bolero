@@ -1,3 +1,5 @@
+#cython.wraparound=False
+#cython.boundscheck=False
 import numpy as np
 cimport numpy as np
 from libc.stdlib cimport malloc, free
@@ -10,65 +12,52 @@ cdef double MACHINE_EPSILON = np.finfo(np.float).eps ** 2
 def optimize(np.ndarray[np.float_t, ndim=1] Ci,
              np.ndarray[np.float_t, ndim=2] K, double epsilon, int n_iter,
              object random_state):
-    cdef int n_train = K.shape[0]
-    cdef double* p_Ci = &Ci[0]
-    cdef double* p_K = &K[0, 0]
-    # Initialize alphas randomly
-    cdef np.ndarray[np.float_t, ndim=1] alpha = Ci * (0.95 + 0.05 * random_state.rand(n_train - 1))
-    cdef double* p_alpha = &alpha[0]
-    coptimize(n_train, p_Ci, epsilon, n_iter, p_K, p_alpha)
+    cdef int n_samples = K.shape[0]
+    cdef np.ndarray[np.float_t, ndim=1] alpha = Ci * (
+        0.95 + 0.05 * random_state.rand(n_samples - 1))
+    coptimize(n_samples, Ci, epsilon, n_iter, K, alpha)
     return alpha
 
 
 @cython.cdivision(True)
-cdef void coptimize(int n_train, double* p_Ci, double epsilon, int n_iter,
-                    double* p_K, double* p_alpha):
-    cdef int n_alpha = n_train - 1
-    cdef double old_alpha, new_alpha, delta_alpha, sumAlpha, dL
-    cdef int i, i1, j
-    cdef double* p_dKij = <double*> malloc(n_alpha * n_alpha * sizeof(double))
-    cdef double* p_sumAlphaDKij = <double*> malloc(n_alpha * sizeof(double))
-    cdef double* p_div_dKij = <double*> malloc(n_alpha * n_alpha * sizeof(double))
+cdef void coptimize(
+        int n_samples, np.ndarray[np.float_t, ndim=1] Ci, double epsilon,
+        int n_iter, np.ndarray[np.float_t, ndim=2] K,
+        np.ndarray[np.float_t, ndim=1] alpha):
+    cdef int n_alpha = n_samples - 1
+    cdef np.ndarray[np.float_t, ndim=2] dKij = np.empty((n_alpha, n_alpha))
+    cdef np.ndarray[np.float_t, ndim=1] sum_alpha_dKij = np.empty(n_alpha)
+    cdef np.ndarray[np.float_t, ndim=2] div_dKij = np.empty((n_alpha, n_alpha))
+
+    cdef int i, j
+    for i in range(n_alpha):
+        dKij[i] = K[i, :-1] - K[i, 1:] - K[i + 1, :-1] + K[i + 1, 1:]
+
+    cdef double sum_alpha
+    for i in range(n_alpha):
+        sum_alpha = 0
+        for j in range(n_alpha):
+            sum_alpha += alpha[j] * dKij[i, j]
+        sum_alpha_dKij[i] = -(sum_alpha - epsilon) / max(dKij[i, i], MACHINE_EPSILON)
 
     for i in range(n_alpha):
         for j in range(n_alpha):
-            p_dKij[i * n_alpha + j] = (p_K[i * n_train + j] -
-                                       p_K[i * n_train + (j + 1)] -
-                                       p_K[(i + 1) * n_train + j] +
-                                       p_K[(i + 1) * n_train + (j + 1)])
+            div_dKij[i, j] = dKij[i, j] / max(dKij[j, j], MACHINE_EPSILON)
 
-    for i in range(n_alpha):
-        sumAlpha = 0
-        for j in range(n_alpha):
-            sumAlpha += p_alpha[j] * p_dKij[i * n_alpha + j]
-        p_sumAlphaDKij[i] = (-(sumAlpha - epsilon) /
-                             max(p_dKij[i * n_alpha + i], MACHINE_EPSILON))
-
-    for i in range(n_alpha):
-        for j in range(n_alpha):
-            p_div_dKij[i * n_alpha + j] = (p_dKij[i * n_alpha + j] /
-                                           max(p_dKij[j * n_alpha + j],
-                                               MACHINE_EPSILON))
-
-    for i in range(n_iter):
-        i1 = i % n_alpha
-        old_alpha = p_alpha[i1]
-        new_alpha = old_alpha + p_sumAlphaDKij[i1]
-        if new_alpha > p_Ci[i1]:
-            new_alpha = p_Ci[i1]
+    cdef int it
+    cdef double new_alpha, delta_alpha, dL
+    for it in range(n_iter):
+        i = it % n_alpha
+        new_alpha = alpha[i] + sum_alpha_dKij[i]
+        if new_alpha > Ci[i]:
+            new_alpha = Ci[i]
         if new_alpha < 0:
             new_alpha = 0
-        delta_alpha = new_alpha - old_alpha
+        delta_alpha = new_alpha - alpha[i]
 
-        dL = delta_alpha * p_dKij[i1 * n_alpha + i1] * (p_sumAlphaDKij[i1] -
-                                                        0.5 * delta_alpha)
+        dL = delta_alpha * dKij[i, i] * (sum_alpha_dKij[i] - 0.5 * delta_alpha)
 
         if dL > 0:
             for j in range(n_alpha):
-                p_sumAlphaDKij[j] -= delta_alpha * p_div_dKij[i1 * n_alpha + j]
-
-            p_alpha[i1] = new_alpha
-
-    free(p_dKij)
-    free(p_sumAlphaDKij)
-    free(p_div_dKij)
+                sum_alpha_dKij[j] -= delta_alpha * div_dKij[i, j]
+            alpha[i] = new_alpha
