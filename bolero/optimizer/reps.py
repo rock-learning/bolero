@@ -78,14 +78,20 @@ def solve_dual_reps(R, epsilon, min_eta):
 class REPSOptimizer(Optimizer):
     """Relative Entropy Policy Search (REPS) as Optimizer.
 
-    Use REPS as a black-box optimizer: Learn an upper-level distribution
+    Use REPS as a black-box optimizer: learn an upper-level distribution
     :math:`\pi(\\boldsymbol{\\theta})` which selects weights
     :math:`\\boldsymbol{\\theta}` for the objective function. At the moment,
     :math:`\pi(\\boldsymbol{\\theta})` is assumed to be a multivariate
     gaussian distribution whose mean and covariance (governing exploration)
     are learned. REPS constrains the learning updates such that the KL
     divergence between the old and the new distribution is below a threshold
-    epsilon.
+    epsilon. More details can be found in the original publication [1]_.
+
+    Abdolmaleki et al. [2]_ state that
+    "the episodic REPS algorithm uses a sample based approximation of the
+    KL-bound, which needs a lot of samples in order to be accurate. Moreover,
+    a typical problem of REPS is that the entropy of the search distribution
+    decreases too quickly, resulting in premature convergence."
 
     Parameters
     ----------
@@ -125,6 +131,16 @@ class REPSOptimizer(Optimizer):
 
     random_state : optional, int
         Seed for the random number generator.
+
+    References
+    ----------
+    .. [1] Peters, J.; Muelling, K.; Altuen, Y. Relative Entropy Policy Search.
+        Proceedings of the Twenty-Fourth AAAI Conference on Artificial
+        Intelligence, 2010.
+
+    .. [2] Abdolmaleki, A.; Lioutikov, R.; Lau, N; Paulo Reis, L.; Peters, J.;
+        Neumann, G. Model-Based Relative Entropy Stochastic Search.
+        Advances in Neural Information Processing Systems 28, 2015.
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
                  epsilon=2.0, min_eta=1e-8, train_freq=25,
