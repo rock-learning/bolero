@@ -52,6 +52,9 @@ BOLeRo.
      - 5 - 2000 parameters, ill-conditioned, non-separable, multimodal
        objective functions
 
+   * - :ref:`REPSOptimizer <reps_opt>`
+     - 5 - 500 parameters, smooth objective functions
+
 
 .. _no_opt:
 
@@ -124,6 +127,17 @@ BIPOP-CMA-ES
 Another restart strategy is implemented by :class:`BIPOPCMAESOptimizer`.
 BIPOP-CMA-ES can decide whether it makes more sense to decrease or increase
 the population size.
+
+
+.. _reps_opt:
+
+REPS
+----
+
+:class:`REPSOptimizer` is an episodic policy search algorithm that can be used
+like a black-box optimizer. The search distribution is a multivariate Gaussian.
+REPS constrains the updates of the search distribution by bounding the KL
+divergence between successive search distributions.
 
 
 Contextual Optimizers

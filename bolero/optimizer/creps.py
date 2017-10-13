@@ -96,6 +96,10 @@ class CREPSOptimizer(ContextualOptimizer):
     learning updates such that the KL divergence between successive
     distribution is below the threshold :math:`\epsilon`.
 
+    This contextual version of :class:`~bolero.optimizer.REPSOptimizer`
+    inherits the properties from the original algorithm. More information
+    on the algorithm can be found in the original publication [1]_.
+
     Parameters
     ----------
     initial_params : array-like, shape (n_params,)
@@ -139,6 +143,13 @@ class CREPSOptimizer(ContextualOptimizer):
 
     random_state : optional, int
         Seed for the random number generator.
+
+    References
+    ----------
+    .. [1] Kupcsik, A.; Deisenroth, M.P.; Peters, J.; Loh, A.P.;
+        Vadakkepat, P.; Neumann, G. Model-based contextual policy search for
+        data-efficient generalization of robot skills.
+        Artificial Intelligence 247, 2017.
     """
     def __init__(self, initial_params=None, variance=None, covariance=None,
                  epsilon=2.0, min_eta=1e-8, train_freq=25,
