@@ -1,7 +1,29 @@
 <package>
-  <description brief="pybolero">
-    Pure Python modules of Behavior Optimization and Learning for Robots
+  <description brief="bolero">
+    Behavior Optimization and Learning for Robots. These are the Python modules
+    of BOLeRo. This description, however, is for the whole BOLeRo project.
   </description>
+  <maintainer>Alexander Fabisch/Alexander.Fabisch@dfki.de</maintainer>
+  <license>New BSD</license>
+  <url>https://github.com/rock-learning/bolero</url>
+  <logo>https://raw.githubusercontent.com/rock-learning/bolero/master/doc/source/_static/logo.png</logo>
+  <keywords>
+    <keyword>machine learning</keyword>
+    <keyword>reinforcement learning</keyword>
+    <keyword>policy search</keyword>
+    <keyword>robotics</keyword>
+    <keyword>evolutionary algorithms</keyword>
+  </keywords>
+  <stage>1</stage>
+  <use>multi project</use>
+  <activity>active</activity>
+  <tags>
+    <tag>python</tag>
+    <tag>c++</tag>
+    <tag>ubuntu</tag>
+    <tag>macos</tag>
+  </tags>
+
   <rosdep name="python" />
   <depend package="learning/bolero/bolero/wrapper" />
 </package>
