@@ -26,32 +26,32 @@ The preferred way to contribute to BOLeRo is to fork the `main
 repository <http://github.com/rock-learning/bolero/>`__ on GitHub,
 then submit a "pull request" (PR):
 
- 1. `Create an account <https://github.com/signup/free>`_ on
-    GitHub if you do not already have one.
+1. `Create an account <https://github.com/signup/free>`_ on
+   GitHub if you do not already have one.
 
- 2. Fork the `project repository <http://github.com/rock-learning/bolero>`__:
-    click on the 'Fork' button near the top of the page. This creates a copy of
-    the code under your account on the GitHub server.
+2. Fork the `project repository <http://github.com/rock-learning/bolero>`__:
+   click on the 'Fork' button near the top of the page. This creates a copy of
+   the code under your account on the GitHub server.
 
- 3. Clone this copy to your local disk::
+3. Clone this copy to your local disk::
 
-        $ git clone git@github.com:YourLogin/bolero.git
+       $ git clone git@github.com:YourLogin/bolero.git
 
- 4. Create a branch to hold your changes::
+4. Create a branch to hold your changes::
 
-        $ git checkout -b my-feature
+       $ git checkout -b my-feature
 
-    and start making changes. Never work in the ``master`` branch!
+   and start making changes. Never work in the ``master`` branch!
 
- 5. Work on this copy, on your computer, using Git to do the version
-    control. When you're done editing, do::
+5. Work on this copy, on your computer, using Git to do the version
+   control. When you're done editing, do::
 
-        $ git add modified_files
-        $ git commit
+       $ git add modified_files
+       $ git commit
 
-    to record your changes in Git, then push them to GitHub with::
+   to record your changes in Git, then push them to GitHub with::
 
-        $ git push -u origin my-feature
+       $ git push -u origin my-feature
 
 Finally, go to the web page of the your fork of the bolero repo,
 and click 'Pull request' to send your changes to the maintainers for review.
@@ -69,3 +69,21 @@ request.
 
 (If any of the above seems like magic to you, then look up the
 `Git documentation <http://git-scm.com/documentation>`_ on the web.)
+
+Merge Policy
+------------
+
+Usually it is not possible to push directly to the master branch of BOLeRo
+for anyone. Only tiny changes and urgent bugfixes can be pushed directly to
+the master branch by the maintainer without a review. Tiny means backwards
+compatibility is mandatory and all tests must succeed. No new features must
+be added.
+
+Developers have to submit pull requests. Those will be reviewed by at least
+one other developer and merged by the maintainer. New features must be
+documented and tested. Breaking changes must be discussed and announced
+in advance with deprecation warnings. Semantic versioning must be used,
+that is, the major version number will be incremented when the API changes
+in a backwards incompatible way, the minor version will be incremented when
+new functionality is added in a backwards compatible manner, and the patch
+version is incremented for bugfixes, documentation, etc.

@@ -71,6 +71,7 @@ Getting Started
    installation
    quickstart-controller
    quickstart
+   contributing
 
 Overview
 --------
@@ -106,7 +107,6 @@ API
    api_py
    api_cpp
    mars_environment
-   contributing
 
 Funding
 =======
