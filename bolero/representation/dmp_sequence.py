@@ -225,7 +225,8 @@ class DMPSequence(BlackBoxBehavior):
                              for i in range(1, self.n_dmps - 1)])
         self.weights = [w.reshape(self.n_weights_per_dmp[i], self.n_task_dims)
                         for i, w in enumerate(np.split(
-                            weights, self.split_weights)[:self.n_dmps])]
+                            weights, self.split_weights * self.n_task_dims)[
+                                :self.n_dmps])]
 
         for i in range(self.n_dmps - 1):
             self.subgoals[i + 1] = G[i]
@@ -320,5 +321,5 @@ class DMPSequence(BlackBoxBehavior):
 
     def can_step(self):
         """Returns true if step() can be called again, false otherwise."""
-        return len(np.where(self.t <= self.split_steps)[0]) > 0
+        return len(np.where(self.steps <= self.split_steps)[0]) > 0
 
