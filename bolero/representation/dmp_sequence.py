@@ -29,7 +29,7 @@ class DMPSequence(BlackBoxBehavior):
         Subgoals of the DMPs including the final goal and the
         initial state.
 
-    learn_goal_velocities : bool, optional (default: True)
+    learn_goal_velocities : bool, optional (default: False)
         Defines whether the parameter vector will include the velocities
         at the goals of the DMPs.
 
