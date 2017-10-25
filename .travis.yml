@@ -8,6 +8,7 @@ branches:
 before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -qq python-dev python-pip python-numpy python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev
+  - pip install --upgrade pip
   - sudo pip install pyyaml scikit-learn scipy cython joblib pandas bs4 nose scikit-optimize gym
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
 script:
