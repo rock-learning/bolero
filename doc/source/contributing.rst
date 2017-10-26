@@ -74,16 +74,21 @@ Merge Policy
 ------------
 
 Usually it is not possible to push directly to the master branch of BOLeRo
-for anyone. Only tiny changes and urgent bugfixes can be pushed directly to
-the master branch by the maintainer without a review. Tiny means backwards
-compatibility is mandatory and all tests must succeed. No new features must
-be added.
+for anyone. Only tiny changes, urgent bugfixes, and maintenance commits can
+be pushed directly to the master branch by the maintainer without a review.
+"Tiny" means backwards compatibility is mandatory and all tests must succeed.
+No new feature must be added.
 
 Developers have to submit pull requests. Those will be reviewed by at least
 one other developer and merged by the maintainer. New features must be
 documented and tested. Breaking changes must be discussed and announced
-in advance with deprecation warnings. Semantic versioning must be used,
-that is, the major version number will be incremented when the API changes
-in a backwards incompatible way, the minor version will be incremented when
-new functionality is added in a backwards compatible manner, and the patch
-version is incremented for bugfixes, documentation, etc.
+in advance with deprecation warnings.
+
+Versioning
+----------
+
+Semantic versioning must be used, that is, the major version number will be
+incremented when the API changes in a backwards incompatible way, the minor
+version will be incremented when new functionality is added in a backwards
+compatible manner, and the patch version is incremented for bugfixes,
+documentation, etc.
