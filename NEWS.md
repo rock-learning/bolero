@@ -8,6 +8,18 @@ Not released yet.
 
 * Continuous integration with Travis CI
 * New behavior search: Monte Carlo RL
+* New optimizer: relative entropy policy search (REPS)
+
+### Bugfixes
+
+* DMPSequence works with multiple dimensions
+* Minor fixes in docstrings
+* Multiple minor fixes for Travis CI
+
+### Documentation
+
+* Documented merge policy
+* Added meta information about the project to the manifest.xml
 
 ## Version 0.0.1
 
