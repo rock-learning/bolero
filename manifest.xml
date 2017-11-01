@@ -17,12 +17,12 @@
   <stage>1</stage>
   <use>multi project</use>
   <activity>active</activity>
-  <tags>
-    <tag>python</tag>
-    <tag>c++</tag>
-    <tag>ubuntu</tag>
-    <tag>macos</tag>
-  </tags>
+  <classifiers>
+    <classifier>python</classifier>
+    <classifier>c++</classifier>
+    <classifier>ubuntu</classifier>
+    <classifier>macos</classifier>
+  </classifiers>
 
   <rosdep name="python" />
   <depend package="learning/bolero/bolero/wrapper" />
