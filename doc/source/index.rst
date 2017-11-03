@@ -108,11 +108,18 @@ API
    api_cpp
    mars_environment
 
-Funding
-=======
+BOLeRo was initiated and is currently developed at the `Robotics Innovation Center
+<http://robotik.dfki-bremen.de/en/startpage.html>`_
+of the German Research Center for Artificial Intelligence (DFKI) in Bremen,
+together with the `Robotics Group
+<http://www.informatik.uni-bremen.de/robotik/index_en.php>`_ of the University
+of Bremen. BOLeRo has been funded by the German Federal Ministry for Economic
+Affairs and Energy.
+
+.. image:: _static/DFKI_Logo.jpg
+   :alt: German Research Center for Artificial Intelligence
+   :height: 150px
 
 .. image:: _static/241-logo-bmwi-jpg.jpg
    :alt: German Federal Ministry for Economic Affairs and Energy
-
-.. image:: _static/logo_125_52.png
-   :alt: German Federal Ministry for Economic Affairs and Energy
+   :height: 150px
