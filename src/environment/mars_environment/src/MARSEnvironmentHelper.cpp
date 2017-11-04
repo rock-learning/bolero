@@ -61,7 +61,7 @@ namespace bolero {
 
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml");
+      map = ConfigMap::fromYamlFile("learning_config.yml", true);
 
       graphicsStepSkip = graphicsUpdateTime = 0;
 
