@@ -129,6 +129,7 @@ namespace bolero {
         libManager->loadLibrary("data_broker_gui", NULL, true);
         libManager->loadLibrary("cfg_manager_gui", NULL, true);
         libManager->loadLibrary("lib_manager_gui", NULL, true);
+        libManager->loadLibrary("data_broker_plotter2", NULL, true);
       }
 
       // load the simulation other_libs:
