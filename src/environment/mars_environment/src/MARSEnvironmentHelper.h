@@ -50,11 +50,13 @@ namespace bolero {
 
       virtual bool isBehaviorLearningDone() const = 0;
 
+    protected:
+      unsigned int graphicsUpdateTime, graphicsStepSkip;
+
     private:
       bool initialized;
       MARSThread *marsThread;
       MARSEnvPlugin *marsPlugin;
-      unsigned int graphicsUpdateTime, graphicsStepSkip;
 
     }; // end of class definition MARSEnvironmentHelper
 
