@@ -65,11 +65,18 @@ if(PYTHON_SUPPORT)
     src/PyLoadable.h
     src/PythonInterpreter.hpp
   )
-  set(EXTRA_LIBRARIES
+if(WIN32)
+set(EXTRA_LIBRARIES
+    ${EXTRA_LIBRARIES}
+    ${PYTHON_LIBRARIES}
+  )
+else(WIN32)
+set(EXTRA_LIBRARIES
     ${EXTRA_LIBRARIES}
     ${PYTHON_LIBRARIES}
     -lutil
   )
+endif()
 endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
