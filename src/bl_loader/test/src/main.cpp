@@ -24,15 +24,15 @@ TEST_CASE( "io", "[PythonInterpreter]" ) {
   std::string stringResult = functions->function("produce_string").call().returnObject()->asString();
   REQUIRE(stringResult == "Test string");
 
-  functions->function("take_int").pass(INT).call(intResult);
-  functions->function("take_double").pass(DOUBLE).call(doubleResult);
-  functions->function("take_bool").pass(BOOL).call(boolResult);
-  functions->function("take_string").pass(STRING).call(&stringResult);
+  functions->function("take_int").pass(bl_loader::INT).call(intResult);
+  functions->function("take_double").pass(bl_loader::DOUBLE).call(doubleResult);
+  functions->function("take_bool").pass(bl_loader::BOOL).call(boolResult);
+  functions->function("take_string").pass(bl_loader::STRING).call(&stringResult);
 
   shared_ptr<ListBuilder> list = python.listBuilder();
-  list->pass(DOUBLE).build(1.0);
-  list->pass(DOUBLE).build(2.0);
-  list->pass(DOUBLE).build(3.0);
+  list->pass(bl_loader::DOUBLE).build(1.0);
+  list->pass(bl_loader::DOUBLE).build(2.0);
+  list->pass(bl_loader::DOUBLE).build(3.0);
   shared_ptr<std::vector<double> > vector = list->build()->as1dArray();
   REQUIRE(vector->at(0) == 1.0);
   REQUIRE(vector->at(1) == 2.0);
