@@ -1,6 +1,6 @@
 import numpy as np
 from bolero.environment.contextual_objective_functions import \
-    LinearContextualSphere
+    LinearContextualSphere, ConstantContextualSphere
 from bolero.optimizer import CCMAESOptimizer
 #from bolero.optimizer import CREPSOptimizer
 
@@ -10,8 +10,10 @@ def test_linear_contextual_sphere():
     n_params = 3
     n_context_dims = 2
     obj = LinearContextualSphere(random_state, n_params, n_context_dims)
+    #obj = ConstantContextualSphere(random_state, n_params, n_context_dims)
 
-    opt = CCMAESOptimizer(context_features="affine", random_state=random_state)
+    opt = CCMAESOptimizer(context_features="affine", random_state=random_state,
+                          log_to_stdout=True)
     #opt = CREPSOptimizer(context_features="affine", random_state=random_state)
     opt.init(n_params, n_context_dims)
     params = np.empty(n_params)

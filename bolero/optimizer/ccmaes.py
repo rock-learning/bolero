@@ -1,7 +1,6 @@
-# Authors: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
+# Author: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import numpy as np
-from scipy.optimize import fmin_l_bfgs_b
 from collections import deque
 from ..optimizer import ContextualOptimizer
 from ..utils.mathext import logsumexp
@@ -201,8 +200,17 @@ class CCMAESOptimizer(ContextualOptimizer):
             weights = solve_dual_contextual_reps(
                 phi_s, R, self.epsilon, self.min_eta)[0]
 
-            # Number of effectice samples depends on weights
-            mu_w = int(1.0 / np.sum(weights ** 2))
+            """
+            mu = self.n_samples_per_update // 2
+            weights = np.zeros(self.n_samples_per_update)
+            indices = np.argsort(R)[::-1][:mu]
+            weights[indices] = np.log(mu + 0.5) - np.log1p(np.arange(int(mu)))
+            weights /= np.sum(weights)
+            """
+
+            # Number of effectice samples depends on weights.
+            # Note that each sample is still used for the update!
+            mu_w = 1.0 / np.sum(weights ** 2)
             self.logger.info("[CCMAES] %d active samples" % mu_w)
 
             c1 = (2 * min(1, int(self.n_samples_per_update / 6.0))) / (
@@ -215,6 +223,13 @@ class CCMAESOptimizer(ContextualOptimizer):
             d_sigma = (1 + c_sigma
                        + 2 * np.sqrt((mu_w - 1) / (self.n_total_dims + 1))
                        - 2 + np.log(1 + 2 * self.n_total_dims))
+            print(cc)
+            print(c_sigma)
+            print(c1)
+            print(cmu)
+            print(d_sigma)
+            print(mu_w)
+            print("===")
 
             last_W = np.copy(self.policy_.W)
             self.policy_.fit(phi_s, theta, weights, context_transform=False)
@@ -256,10 +271,16 @@ class CCMAESOptimizer(ContextualOptimizer):
             cov += cmu * rank_mu_update
             cov += c1 * rank_one_update
 
+            # Alternative implementation:
+            #expected_randn_norm = (np.sqrt(self.n_params) *
+            #                       (1.0 - 1.0 / (4 * self.n_params) + 1.0 /
+            #                        (21 * self.n_params ** 2)))
+            #log_step_size_update = ((c_sigma / d_sigma) * (np.sqrt(ps_norm_2) / expected_randn_norm - 1))
+            log_step_size_update = (c_sigma / (2.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1)
             # Adapt step size with factor <= exp(0.6)
-            log_step_size_update = ((c_sigma / d_sigma) *
-                                    (ps_norm_2 / self.n_params - 1))
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
+            self.policy_.policy.Sigma = self.var * cov
+            print(self.var)
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
