@@ -223,13 +223,6 @@ class CCMAESOptimizer(ContextualOptimizer):
             d_sigma = (1 + c_sigma
                        + 2 * np.sqrt((mu_w - 1) / (self.n_total_dims + 1))
                        - 2 + np.log(1 + 2 * self.n_total_dims))
-            print(cc)
-            print(c_sigma)
-            print(c1)
-            print(cmu)
-            print(d_sigma)
-            print(mu_w)
-            print("===")
 
             last_W = np.copy(self.policy_.W)
             self.policy_.fit(phi_s, theta, weights, context_transform=False)
@@ -280,7 +273,6 @@ class CCMAESOptimizer(ContextualOptimizer):
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov
-            print(self.var)
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
