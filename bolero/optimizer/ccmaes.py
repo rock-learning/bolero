@@ -66,7 +66,7 @@ class CCMAESOptimizer(ContextualOptimizer):
     .. [1] Abdolmaleki, A.; Price, B.; Lau, N.; Paulo Reis, L.; Neumann, G.
         Contextual Covariance Matrix Adaptation Evolution Strategies.
     """
-    def __init__(self, initial_params=None, variance=None, covariance=None,
+    def __init__(self, initial_params=None, variance=1.0, covariance=None,
                  epsilon=2.0, min_eta=1e-8, n_samples_per_update=None,
                  context_features=None, gamma=1e-4,
                  log_to_file=False, log_to_stdout=False,
@@ -109,6 +109,11 @@ class CCMAESOptimizer(ContextualOptimizer):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
                              % (n_params, len(self.initial_params)))
+        self.n_params = n_params
+        if self.covariance is None:
+            self.covariance = np.eye(n_params)
+        elif self.covariance.ndim == 1:
+            self.covariance = np.diag(self.covariance)
 
         self.context = None
         self.params = None
@@ -117,7 +122,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.policy_ = ContextTransformationPolicy(
             LinearGaussianPolicy, n_params, n_context_dims,
             context_transformation=self.context_features,
-            mean=inv_scaled_params, covariance_scale=1.0, gamma=self.gamma,
+            mean=self.initial_params, covariance_scale=1.0, gamma=self.gamma,
             random_state=self.random_state)
         self.policy_.policy.Sigma = self.variance * self.covariance
 
@@ -198,7 +203,7 @@ class CCMAESOptimizer(ContextualOptimizer):
 
             # Number of effectice samples depends on weights
             mu_w = int(1.0 / np.sum(weights ** 2))
-            self.logger.info("[CCMAES] %d active samples" % mu)
+            self.logger.info("[CCMAES] %d active samples" % mu_w)
 
             c1 = (2 * min(1, int(self.n_samples_per_update / 6.0))) / (
                 (self.n_total_dims + 1.3) ** 2 + mu_w)
@@ -212,7 +217,7 @@ class CCMAESOptimizer(ContextualOptimizer):
                        - 2 + np.log(1 + 2 * self.n_total_dims))
 
             last_W = np.copy(self.policy_.W)
-            self.policy_.fit(phi_s, theta, d, context_transform=False)
+            self.policy_.fit(phi_s, theta, weights, context_transform=False)
 
             mean_phi = np.mean(phi_s, axis=0)
             sigma = np.sqrt(self.var)
@@ -233,7 +238,7 @@ class CCMAESOptimizer(ContextualOptimizer):
                         invsqrtC.dot(mean_diff))
 
             ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
-            generation = it / self.n_samples_per_update
+            generation = self.it / self.n_samples_per_update
             hsig = int(ps_norm_2 / self.n_params /
                     np.sqrt(1 - (1 - c_sigma) ** (2 * generation))
                     < self.hsig_threshold)
@@ -260,10 +265,9 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.reward = check_feedback(rewards, compute_sum=True)
         self.logger.info("Reward %.6f" % self.reward)
 
-        inv_scaled_params = self.scaler.inv_scale(self.params)
         phi_s = self.policy_.transform_context(self.context)
 
-        self.history_theta.append(inv_scaled_params)
+        self.history_theta.append(self.params)
         self.history_R.append(self.reward)
         self.history_s.append(self.context)
         self.history_phi_s.append(phi_s)
