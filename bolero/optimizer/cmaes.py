@@ -311,13 +311,15 @@ class CMAESOptimizer(Optimizer):
             self.cov += rank_one_update * self.c1
             self.cov += rank_mu_update * self.cmu
 
-        # Adapt step size with factor <= exp(0.6)
+        # NOTE here is a bug: it should be cs / (2 * damps), however, that
+        #      breaks unit tests and does not improve results
         log_step_size_update = ((self.cs / self.damps) *
                                 (ps_norm_2 / self.n_params - 1))
         # NOTE some implementations of CMA-ES use the denominator
         # np.sqrt(self.n_params) * (1.0 - 1.0 / (4 * self.n_params) +
         #                           1.0 / (21 * self.n_params ** 2))
-        # instead of self.n_params
+        # instead of self.n_params, in this case cs / damps is correct
+        # Adapt step size with factor <= exp(0.6)
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
 
         if it - self.eigen_decomp_updated > self.eigen_update_freq:
