@@ -197,20 +197,20 @@ class CCMAESOptimizer(ContextualOptimizer):
             theta = np.asarray(self.history_theta)
             R = np.asarray(self.history_R)
 
-            weights = solve_dual_contextual_reps(
-                phi_s, R, self.epsilon, self.min_eta)[0]
+            _, _, beta = solve_dual_contextual_reps(
+                phi_s, R, self.epsilon, self.min_eta)
+            advantages = R - beta.dot(phi_s.T)
 
-            """
+            # here we did some modifications: we only consider the first mu samples
             mu = self.n_samples_per_update // 2
             weights = np.zeros(self.n_samples_per_update)
-            indices = np.argsort(R)[::-1][:mu]
+            indices = np.argsort(advantages)[::-1][:mu]
             weights[indices] = np.log(mu + 0.5) - np.log1p(np.arange(int(mu)))
             weights /= np.sum(weights)
-            """
 
             # Number of effectice samples depends on weights.
             # Note that each sample is still used for the update!
-            mu_w = 1.0 / np.sum(weights ** 2)
+            mu_w = 1.0 / np.sum(weights ** 2)  # corresponds to mueff in CMA-ES
             self.logger.info("[CCMAES] %d active samples" % mu_w)
 
             c1 = (2 * min(1, int(self.n_samples_per_update / 6.0))) / (
@@ -269,7 +269,9 @@ class CCMAESOptimizer(ContextualOptimizer):
             #                       (1.0 - 1.0 / (4 * self.n_params) + 1.0 /
             #                        (21 * self.n_params ** 2)))
             #log_step_size_update = ((c_sigma / d_sigma) * (np.sqrt(ps_norm_2) / expected_randn_norm - 1))
-            log_step_size_update = (c_sigma / (2.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1)
+            # actually it should be (c_sigma / (2.0 * d_sigma)), but that seems
+            # to lead to instable results
+            log_step_size_update = (c_sigma / (1.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1)
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov

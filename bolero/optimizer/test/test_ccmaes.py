@@ -2,7 +2,7 @@ import numpy as np
 from bolero.environment.contextual_objective_functions import \
     LinearContextualSphere, ConstantContextualSphere
 from bolero.optimizer import CCMAESOptimizer
-#from bolero.optimizer import CREPSOptimizer
+from bolero.optimizer import CREPSOptimizer
 
 
 def test_linear_contextual_sphere():
@@ -13,11 +13,11 @@ def test_linear_contextual_sphere():
     #obj = ConstantContextualSphere(random_state, n_params, n_context_dims)
 
     opt = CCMAESOptimizer(context_features="affine", random_state=random_state,
-                          log_to_stdout=True)
+                          log_to_stdout=False)
     #opt = CREPSOptimizer(context_features="affine", random_state=random_state)
     opt.init(n_params, n_context_dims)
     params = np.empty(n_params)
-    for i in range(1000):
+    for i in range(500):
         context = random_state.rand(n_context_dims) * 2.0 - 1.0
         opt.set_context(context)
         opt.get_next_parameters(params)
@@ -30,3 +30,4 @@ def test_linear_contextual_sphere():
     f = np.array([obj.feedback(policy(s), s) for s in test_contexts])
     f_opt = np.array([obj.f_opt(np.array(s)) for s in test_contexts])
     print(np.linalg.norm(f - f_opt))
+    # TODO compare learning plots of C-REPS and C-CMA-ES (and move to example)
