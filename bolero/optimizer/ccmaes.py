@@ -3,14 +3,11 @@
 import numpy as np
 from collections import deque
 from ..optimizer import ContextualOptimizer
-from ..utils.mathext import logsumexp
-from ..utils.scaling import Scaling
 from ..representation.ul_policies import (ContextTransformationPolicy,
-                                          LinearGaussianPolicy,
-                                          BoundedScalingPolicy)
+                                          LinearGaussianPolicy)
 from ..utils.validation import check_random_state, check_feedback, check_context
 from ..utils.log import get_logger
-from .creps import solve_dual_contextual_reps
+from sklearn.linear_model import Ridge
 
 
 class CCMAESOptimizer(ContextualOptimizer):
@@ -33,13 +30,6 @@ class CCMAESOptimizer(ContextualOptimizer):
         (with shape (n_params, n_params)). A full covariance can contain
         information about the correlation of variables.
 
-    epsilon : float, optional (default: 2.0)
-        Maximum Kullback-Leibler divergence of two successive policy
-        distributions.
-
-    min_eta : float, optional (default: 1e-8)
-        Minimum eta, 0 would result in numerical problems
-
     n_samples_per_update : int, optional
         Number of samples that will be used to update a policy.
         default: 4 + int(3*log(n_params + n_context_dims)) *
@@ -48,8 +38,8 @@ class CCMAESOptimizer(ContextualOptimizer):
     context_features : string or callable, optional (default: None)
         (Nonlinear) feature transformation for the context.
 
-    gamma : float, optional (default: 1e-4)
-        Regularization parameter. Should be removed in the future.
+    gamma : float, optional (default: 1e-5)
+        Regularization parameter.
 
     log_to_file: optional, boolean or string (default: False)
         Log results to given file, it will be located in the $BL_LOG_PATH
@@ -66,15 +56,12 @@ class CCMAESOptimizer(ContextualOptimizer):
         Contextual Covariance Matrix Adaptation Evolution Strategies.
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
-                 epsilon=2.0, min_eta=1e-8, n_samples_per_update=None,
-                 context_features=None, gamma=1e-4,
+                 n_samples_per_update=None, context_features=None, gamma=1e-4,
                  log_to_file=False, log_to_stdout=False,
                  random_state=None, **kwargs):
         self.initial_params = initial_params
         self.variance = variance
         self.covariance = covariance
-        self.epsilon = epsilon
-        self.min_eta = min_eta
         self.n_samples_per_update = n_samples_per_update
         self.context_features = context_features
         self.gamma = gamma
@@ -197,16 +184,19 @@ class CCMAESOptimizer(ContextualOptimizer):
             theta = np.asarray(self.history_theta)
             R = np.asarray(self.history_R)
 
-            _, _, beta = solve_dual_contextual_reps(
-                phi_s, R, self.epsilon, self.min_eta)
-            advantages = R - beta.dot(phi_s.T)
+            reward_model = Ridge(alpha=self.gamma).fit(phi_s, R)
+            advantages = R - reward_model.predict(phi_s)
 
-            # here we did some modifications: we only consider the first mu samples
-            mu = self.n_samples_per_update // 2
+            # here we can do some modification:
+            # we only consider the first mu samples
+            mu = self.n_samples_per_update
             weights = np.zeros(self.n_samples_per_update)
             indices = np.argsort(advantages)[::-1][:mu]
-            weights[indices] = np.log(mu + 0.5) - np.log1p(np.arange(int(mu)))
+            weights[indices] = (np.log(self.n_samples_per_update + 0.5) -
+                                np.log1p(np.arange(int(mu))))
             weights /= np.sum(weights)
+            self.logger.info("[CCMAES] Weighted sum of rewwards: %f"
+                             % np.sum(R * weights))
 
             # Number of effectice samples depends on weights.
             # Note that each sample is still used for the update!
@@ -271,14 +261,15 @@ class CCMAESOptimizer(ContextualOptimizer):
             #log_step_size_update = ((c_sigma / d_sigma) * (np.sqrt(ps_norm_2) / expected_randn_norm - 1))
             # actually it should be (c_sigma / (2.0 * d_sigma)), but that seems
             # to lead to instable results
-            log_step_size_update = (c_sigma / (1.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1)
+            log_step_size_update = (
+                (c_sigma / (1.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1))
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
-        self.logger.info("Reward %.6f" % self.reward)
+        self.logger.info("[CCMAES] Reward %.6f" % self.reward)
 
         phi_s = self.policy_.transform_context(self.context)
 
