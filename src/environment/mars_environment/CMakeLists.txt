@@ -48,8 +48,6 @@ pkg_check_modules(MARS_INTERFACES "mars_interfaces")
 include_directories(${MARS_INTERFACES_INCLUDE_DIRS})
 link_directories(${MARS_INTERFACES_LIBRARY_DIRS})
 
-setup_qt()
-
 include_directories(src)
 
 set(SOURCES 
@@ -67,10 +65,18 @@ set(HEADERS
     src/MARSReceiver.h
 )
 
+# without main_gui we don't need qt
+pkg_check_modules(MAIN_GUI "main_gui")
+if(MAIN_GUI_FOUND)
+  setup_qt()
+else(MAIN_GUI_FOUND)
+  add_definitions("-DNO_GUI")
+endif(MAIN_GUI_FOUND)
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if (${USE_QT5})
-qt5_use_modules(${PROJECT_NAME} Widgets)
+  qt5_use_modules(${PROJECT_NAME} Widgets)
 endif (${USE_QT5})
 
 target_link_libraries(${PROJECT_NAME}
