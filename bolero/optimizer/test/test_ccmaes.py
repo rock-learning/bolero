@@ -9,7 +9,7 @@ def evaluate(policy, obj):
     c1 = c2 = np.linspace(-1, 1, 11)
     C1, C2 = np.meshgrid(c1, c2)
     test_contexts = np.array(zip(C1.ravel(), C2.ravel()))
-    f = np.array([obj.feedback(policy(s), s) for s in test_contexts])
+    f = np.array([obj.feedback(policy(s, explore=False), s) for s in test_contexts])
     f_opt = np.array([obj.f_opt(np.array(s)) for s in test_contexts])
     return np.linalg.norm(f - f_opt)
 
