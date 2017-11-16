@@ -19,6 +19,7 @@ def test_linear_contextual_sphere():
     random_state = np.random.RandomState(0)
     n_params = 3
     n_context_dims = 2
+    # TODO this might require degree 4 (?)
     obj = QuadraticContextualSphere(random_state, n_params, n_context_dims)
     #obj = LinearContextualSphere(random_state, n_params, n_context_dims)
     #obj = ConstantContextualSphere(random_state, n_params, n_context_dims)
