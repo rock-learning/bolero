@@ -133,7 +133,25 @@ class CCMAESOptimizer(ContextualOptimizer):
         # Evolution path for sigma
         self.ps = np.zeros(self.n_params)
 
-        # TODO
+        self.ordered_weights = (
+            np.log(self.n_samples_per_update + 0.5) -
+            np.log1p(np.arange(int(self.n_samples_per_update))))
+        self.ordered_weights /= np.sum(self.ordered_weights)
+        # corresponds to mueff in CMA-ES
+        self.mu_w = 1.0 / np.sum(self.ordered_weights ** 2)
+
+        self.c1 = (2 * min(1.0, self.gamma / 6.0)) / (
+            (self.n_total_dims + 1.3) ** 2 + self.mu_w)
+        self.cmu = 2 * (self.mu_w - 2.0 + 1.0 / self.mu_w) / (
+            (self.n_total_dims + 2) ** 2 + self.mu_w)
+        self.cc = 4.0 / (4.0 + self.n_total_dims)
+
+        self.c_sigma = (self.mu_w + 2) / float(self.n_total_dims + self.mu_w + 3)
+        self.d_sigma = (1 + self.c_sigma
+                        + 2 * np.sqrt((self.mu_w - 1) / (self.n_total_dims + 1))
+                        - 2 + np.log(1 + 2 * self.n_total_dims))
+
+        self.weights = np.empty(self.n_samples_per_update)
 
     def get_desired_context(self):
         """C-REPS does not actively select the context.
@@ -186,42 +204,18 @@ class CCMAESOptimizer(ContextualOptimizer):
 
             reward_model = Ridge(alpha=self.gamma).fit(phi_s, R)
             advantages = R - reward_model.predict(phi_s)
-
-            weights = np.empty(self.n_samples_per_update)
             indices = np.argsort(advantages)[::-1]
-            weights[indices] = (
-                np.log(self.n_samples_per_update + 0.5) -
-                np.log1p(np.arange(int(self.n_samples_per_update))))
-            weights /= np.sum(weights)
-            self.logger.info("[CCMAES] Weighted sum of rewwards: %f"
-                             % np.sum(R * weights))
 
-            # TODO move to init()
-
-            # Number of effectice samples depends on weights.
-            # Note that each sample is still used for the update!
-            mu_w = 1.0 / np.sum(weights ** 2)  # corresponds to mueff in CMA-ES
-            self.logger.info("[CCMAES] %d active samples" % mu_w)
-
-            c1 = (2 * min(1.0, self.gamma / 6.0)) / (
-                (self.n_total_dims + 1.3) ** 2 + mu_w)
-            cmu = 2 * (mu_w - 2.0 + 1.0 / mu_w) / (
-                (self.n_total_dims + 2) ** 2 + mu_w)
-            cc = 4.0 / (4.0 + self.n_total_dims)
-
-            c_sigma = (mu_w + 2) / float(self.n_total_dims + mu_w + 3)
-            d_sigma = (1 + c_sigma
-                       + 2 * np.sqrt((mu_w - 1) / (self.n_total_dims + 1))
-                       - 2 + np.log(1 + 2 * self.n_total_dims))
+            self.weights[indices] = self.ordered_weights
 
             last_W = np.copy(self.policy_.W)
-            self.policy_.fit(phi_s, theta, weights, context_transform=False)
+            self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
 
             mean_phi = np.mean(phi_s, axis=0)
             sigma = np.sqrt(self.var)
             mean_diff = (self.policy_.W.dot(mean_phi) - last_W.dot(mean_phi)) / sigma
 
-            self.ps *= (1.0 - c_sigma)
+            self.ps *= (1.0 - self.c_sigma)
 
             # TODO refactor?
             cov = np.copy(self.policy_.policy.Sigma)
@@ -232,16 +226,17 @@ class CCMAESOptimizer(ContextualOptimizer):
             D = np.diag(np.sqrt(1.0 / D))
             invsqrtC = B.dot(D).dot(B.T)
 
-            self.ps += (np.sqrt(c_sigma * (2.0 - c_sigma) * mu_w) *
-                        invsqrtC.dot(mean_diff))
+            self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
+                                self.mu_w) * invsqrtC.dot(mean_diff))
 
             ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
             generation = self.it / self.n_samples_per_update
             hsig = int(ps_norm_2 / self.n_params /
-                    np.sqrt(1 - (1 - c_sigma) ** (2 * generation))
+                    np.sqrt(1.0 - (1.0 - self.c_sigma) ** (2 * generation))
                     < self.hsig_threshold)
-            self.pc *= 1.0 - cc
-            self.pc += hsig * np.sqrt(cc * (2.0 - cc) * mu_w) * mean_diff
+            self.pc *= 1.0 - self.cc
+            self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mu_w) *
+                        mean_diff)
 
             # Rank-1 update
             rank_one_update = np.outer(self.pc, self.pc)
@@ -249,24 +244,17 @@ class CCMAESOptimizer(ContextualOptimizer):
             # Rank-mu update
             noise = (theta - last_W.dot(mean_phi)) / sigma
             # TODO refactor: compute with var instead of sigma?
-            rank_mu_update = noise.T.dot(np.diag(weights)).dot(noise)
+            rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
 
             # Correct variance loss by hsig
-            c1a = c1 * (1 - (1 - hsig) * cc * (2.0 - cc))
+            c1a = self.c1 * (1 - (1 - hsig) * self.cc * (2.0 - self.cc))
 
-            cov *= (1.0 - c1a - cmu)
-            cov += cmu * rank_mu_update
-            cov += c1 * rank_one_update
+            cov *= (1.0 - c1a - self.cmu)
+            cov += self.cmu * rank_mu_update
+            cov += self.c1 * rank_one_update
 
-            # Alternative implementation:
-            #expected_randn_norm = (np.sqrt(self.n_params) *
-            #                       (1.0 - 1.0 / (4 * self.n_params) + 1.0 /
-            #                        (21 * self.n_params ** 2)))
-            #log_step_size_update = ((c_sigma / d_sigma) * (np.sqrt(ps_norm_2) / expected_randn_norm - 1))
-            # actually it should be (c_sigma / (2.0 * d_sigma)), but that seems
-            # to lead to instable results
             log_step_size_update = (
-                (c_sigma / (2.0 * d_sigma)) * (ps_norm_2 / self.n_params - 1))
+                (self.c_sigma / (2.0 * self.d_sigma)) * (ps_norm_2 / self.n_params - 1))
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov

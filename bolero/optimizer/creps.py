@@ -222,6 +222,8 @@ class CREPSOptimizer(ContextualOptimizer):
         self.history_s = deque(maxlen=self.n_samples_per_update)
         self.history_phi_s = deque(maxlen=self.n_samples_per_update)
 
+        self.weights = np.zeros(self.n_samples_per_update)
+
     def get_desired_context(self):
         """C-REPS does not actively select the context.
 
@@ -271,10 +273,11 @@ class CREPSOptimizer(ContextualOptimizer):
             theta = np.asarray(self.history_theta)
             R = np.asarray(self.history_R)
 
-            d = solve_dual_contextual_reps(
+            self.weights = solve_dual_contextual_reps(
                 phi_s, R, self.epsilon, self.min_eta)[0]
             # NOTE the context have already been transformed
-            self.policy_.fit(phi_s, theta, d, context_transform=False)
+            self.policy_.fit(phi_s, theta, self.weights,
+                             context_transform=False)
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
