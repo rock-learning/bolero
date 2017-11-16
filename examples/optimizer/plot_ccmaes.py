@@ -42,14 +42,14 @@ def plot_policy(policy, opt_name):
 random_state = np.random.RandomState(0)
 initial_params = 4.0 * np.ones(1)
 n_samples_per_update = 20
-variance = 1.0
+variance = 0.1
 context_features = "affine"
 ccmaes = CCMAESOptimizer(
     initial_params=initial_params, n_samples_per_update=n_samples_per_update,
     variance=variance, context_features=context_features, random_state=0)
 creps = CREPSOptimizer(
     initial_params=initial_params, n_samples_per_update=n_samples_per_update,
-    train_freq=n_samples_per_update, variance=variance, epsilon=0.5,
+    train_freq=n_samples_per_update, variance=variance, epsilon=2.0,
     context_features=context_features, random_state=0)
 opts = [ccmaes, creps]
 opt_names = ["C-CMA-ES", "C-REPS"]
