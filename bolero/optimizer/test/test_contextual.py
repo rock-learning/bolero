@@ -32,6 +32,15 @@ def test_creps():
     return r
 
 
+def test_creps_variance():
+    x = np.zeros(1)
+    opt = CREPSOptimizer(x, variance=100.0, random_state=0)
+    opt.init(1, 1)
+    r = eval_loop(x, opt)
+    assert_less(-1e-10, r.max())
+    return r
+
+
 def test_creps_baseline():
     x = np.zeros(1)
     opt = CREPSOptimizer(x, context_features="quadratic", random_state=0)
