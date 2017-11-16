@@ -274,12 +274,11 @@ class CREPSOptimizer(ContextualOptimizer):
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
-        self.logger.info("Reward %.6f" % self.reward)
+        self.logger.info("[CREPS] Reward %.6f" % self.reward)
 
-        inv_scaled_params = self.scaler.inv_scale(self.params)
         phi_s = self.policy_.transform_context(self.context)
 
-        self.history_theta.append(inv_scaled_params)
+        self.history_theta.append(self.params)
         self.history_R.append(self.reward)
         self.history_s.append(self.context)
         self.history_phi_s.append(phi_s)
