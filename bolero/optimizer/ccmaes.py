@@ -147,7 +147,8 @@ class CCMAESOptimizer(ContextualOptimizer):
             (self.n_total_dims + 2) ** 2 + self.mu_w)
         self.cc = 4.0 / (4.0 + self.n_total_dims)
 
-        self.c_sigma = (self.mu_w + 2) / float(self.n_total_dims + self.mu_w + 3)
+        self.c_sigma = (self.mu_w + 2) / float(self.n_total_dims +
+                                               self.mu_w + 3)
         self.d_sigma = (1 + self.c_sigma
                         + 2 * np.sqrt((self.mu_w - 1) / (self.n_total_dims + 1))
                         - 2 + np.log(1 + 2 * self.n_total_dims))
@@ -213,11 +214,13 @@ class CCMAESOptimizer(ContextualOptimizer):
             invsqrtC = inv_sqrt(cov)
 
             last_W = np.copy(self.policy_.W)
-            self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
+            self.policy_.fit(phi_s, theta, self.weights,
+                             context_transform=False)
 
             mean_phi = np.mean(phi_s, axis=0)
             sigma = np.sqrt(self.var)
-            mean_diff = (self.policy_.W.dot(mean_phi) - last_W.dot(mean_phi)) / sigma
+            mean_diff = (self.policy_.W.dot(mean_phi) -
+                         last_W.dot(mean_phi)) / sigma
 
             self.ps *= (1.0 - self.c_sigma)
 
@@ -238,7 +241,6 @@ class CCMAESOptimizer(ContextualOptimizer):
 
             # Rank-mu update
             noise = (theta - last_W.dot(mean_phi)) / sigma
-            # TODO refactor: compute with var instead of sigma?
             rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
 
             # Correct variance loss by hsig
@@ -249,7 +251,8 @@ class CCMAESOptimizer(ContextualOptimizer):
             cov += self.c1 * rank_one_update
 
             log_step_size_update = (
-                (self.c_sigma / (2.0 * self.d_sigma)) * (ps_norm_2 / self.n_params - 1))
+                (self.c_sigma / (2.0 * self.d_sigma)) *
+                (ps_norm_2 / self.n_params - 1))
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov
