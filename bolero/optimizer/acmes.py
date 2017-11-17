@@ -16,7 +16,7 @@ class ACMESOptimizer(Optimizer):
     For details, see
 
     * `presentation <http://loshchilov.com/publications/GECCO2010_slides.pdf>`_
-    * `paper <http://loshchilov.com/publications/PPSN2010_ACM-ES.pdf>`_
+    * `paper <http://loshchilov.com/publications/PPSN2010_ACM-ES.pdf>`_ [1]_
 
     The authors of the algorithm were creative with the name: the letters of
     ACM-ES have the same meaning as in CMA-ES but the order of the first three
@@ -71,6 +71,12 @@ class ACMESOptimizer(Optimizer):
 
     random_state : int or RandomState, optional (default: None)
         Seed for the random number generator or RandomState object.
+
+    References
+    ----------
+    .. [1] Loshchilov, I.; Schoenauer, M.; Sebag, M.
+        Comparison-Based Optimizers Need Comparison-Based Surrogates,
+        Parallel Problem Solving from Nature, 2010.
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
                  n_samples_per_update=None, n_pre_samples_per_update=500,
