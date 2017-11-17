@@ -99,6 +99,10 @@ class ACMESOptimizer(Optimizer):
         self.random_state = random_state
 
     def init(self, dimension):
+        if self.n_pre_samples_per_update <= 0:
+            raise ValueError("At least one sample must be evaluated by the "
+                             "surrogate model. Otherwise you can use standard "
+                             "CMA-ES.")
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
         self.random_state = check_random_state(self.random_state)
