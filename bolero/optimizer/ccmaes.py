@@ -7,6 +7,7 @@ from ..representation.ul_policies import (ContextTransformationPolicy,
                                           LinearGaussianPolicy)
 from ..utils.validation import check_random_state, check_feedback, check_context
 from ..utils.log import get_logger
+from .cmaes import inv_sqrt
 from sklearn.linear_model import Ridge
 
 
@@ -208,6 +209,9 @@ class CCMAESOptimizer(ContextualOptimizer):
 
             self.weights[indices] = self.ordered_weights
 
+            cov = self.policy_.policy.Sigma
+            invsqrtC = inv_sqrt(cov)
+
             last_W = np.copy(self.policy_.W)
             self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
 
@@ -216,15 +220,6 @@ class CCMAESOptimizer(ContextualOptimizer):
             mean_diff = (self.policy_.W.dot(mean_phi) - last_W.dot(mean_phi)) / sigma
 
             self.ps *= (1.0 - self.c_sigma)
-
-            # TODO refactor?
-            cov = np.copy(self.policy_.policy.Sigma)
-            cov[:, :] = np.triu(cov) + np.triu(cov, 1).T
-            D, B = np.linalg.eigh(cov)
-            # HACK: avoid numerical problems
-            D = np.maximum(D, np.finfo(np.float).eps)
-            D = np.diag(np.sqrt(1.0 / D))
-            invsqrtC = B.dot(D).dot(B.T)
 
             self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
                                 self.mu_w) * invsqrtC.dot(mean_diff))

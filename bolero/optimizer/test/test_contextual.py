@@ -54,6 +54,6 @@ def test_ccmaes():
     x = np.zeros(1)
     opt = CCMAESOptimizer(x, random_state=0)
     opt.init(1, 1)
-    r = eval_loop(x, opt)
-    assert_less(-1e-6, r.max())
+    r = eval_loop(x, opt, n_evals=1000)
+    assert_less(-1e-7, r.max())
     return r
