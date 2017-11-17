@@ -1,5 +1,5 @@
 import numpy as np
-from bolero.optimizer import CREPSOptimizer
+from bolero.optimizer import CREPSOptimizer, CCMAESOptimizer
 from nose.tools import assert_less
 
 
@@ -47,4 +47,13 @@ def test_creps_baseline():
     opt.init(1, 1)
     r = eval_loop(x, opt, baseline_fct=lambda x: x**2)
     assert_less(-1e-7, r.max())
+    return r
+
+
+def test_ccmaes():
+    x = np.zeros(1)
+    opt = CCMAESOptimizer(x, random_state=0)
+    opt.init(1, 1)
+    r = eval_loop(x, opt)
+    assert_less(-1e-6, r.max())
     return r
