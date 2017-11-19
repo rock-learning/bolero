@@ -139,25 +139,26 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.ordered_weights[:self.mu] = (
             np.log(self.mu + 0.5) - np.log1p(np.arange(int(self.mu))))
         self.ordered_weights /= np.sum(self.ordered_weights)
-        # corresponds to mueff in CMA-ES
-        self.mu_w = 1.0 / np.sum(self.ordered_weights ** 2)
+        self.mueff = 1.0 / np.sum(self.ordered_weights ** 2)
 
-        self.c1 = 2.0 / ((self.n_total_dims + 1.3) ** 2 + self.mu_w)
-        #self.cmu = 2 * (self.mu_w - 2.0 + 1.0 / self.mu_w) / (
-        #    (self.n_total_dims + 2) ** 2 + self.mu_w)
+        self.c1 = 2.0 / ((self.n_total_dims + 1.3) ** 2 + self.mueff)
         self.cmu = min(
             1.0 - self.c1,
-            2.0 * (self.mu_w - 2.0 + 1.0 / self.mu_w) /
-            (self.n_total_dims + 2.0) ** 2 + self.mu_w)
-        self.cc = ((4.0 + self.mu_w / self.n_total_dims) /
-                   (4.0 + self.n_total_dims + self.mu_w / self.n_total_dims))
+            2.0 * (self.mueff - 2.0 + 1.0 / self.mueff) /
+            ((self.n_total_dims + 2.0) ** 2 + self.mueff))
+        self.cc = ((4.0 + self.mueff / self.n_total_dims) /
+                   (4.0 + self.n_total_dims +
+                    2.0 * self.mueff / self.n_total_dims))
 
-        self.c_sigma = (self.mu_w + 2) / float(self.n_total_dims +
-                                               self.mu_w + 5)
-        self.d_sigma = (1.0 + 2.0 * max(0.0, np.sqrt((self.mu_w - 1.0) / (self.n_total_dims + 1.0)) - 1.0) + self.c_sigma) + np.log(n_context_dims + 1.0)
+        self.c_sigma = (self.mueff + 2.0) / float(
+            self.n_total_dims + self.mueff + 5.0)
+        self.d_sigma = ((1.0 + 2.0 * max(
+            0.0, np.sqrt((self.mueff - 1.0) /
+                         (self.n_total_dims + 1.0)) - 1.0) + self.c_sigma)
+            + np.log(n_context_dims + 1.0))
         self.randn_vector_norm = (
-            np.sqrt(self.n_params) * (1.0 - 1.0 / (4.0 * self.n_params) + 1.0 /
-                                      (21.0 * self.n_params ** 2)))
+            np.sqrt(self.n_params) * (1.0 - 1.0 / (4.0 * self.n_params)
+                                      + 1.0 / (21.0 * self.n_params ** 2)))
 
         self.weights = np.empty(self.n_samples_per_update)
 
@@ -231,7 +232,7 @@ class CCMAESOptimizer(ContextualOptimizer):
             self.ps *= (1.0 - self.c_sigma)
 
             self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
-                                self.mu_w) * invsqrtC.dot(mean_diff))
+                                self.mueff) * invsqrtC.dot(mean_diff))
 
             ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
             generation = self.it / self.n_samples_per_update
@@ -239,7 +240,7 @@ class CCMAESOptimizer(ContextualOptimizer):
                     np.sqrt(1.0 - (1.0 - self.c_sigma) ** (2 * generation))
                     < self.hsig_threshold)
             self.pc *= 1.0 - self.cc
-            self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mu_w) *
+            self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mueff) *
                         mean_diff)
 
             # Rank-1 update
