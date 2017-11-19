@@ -53,4 +53,4 @@ def test_linear_contextual_sphere():
         opt.set_evaluation_feedback([obj.feedback(params, context)])
     policy = opt.best_policy()
     mean_reward = evaluate(policy, obj)
-    assert_greater(mean_reward, -1e-4)
+    assert_greater(mean_reward, -1e-5)

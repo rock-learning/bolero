@@ -134,24 +134,30 @@ class CCMAESOptimizer(ContextualOptimizer):
         # Evolution path for sigma
         self.ps = np.zeros(self.n_params)
 
-        self.ordered_weights = (
-            np.log(self.n_samples_per_update + 0.5) -
-            np.log1p(np.arange(int(self.n_samples_per_update))))
+        self.mu = self.n_samples_per_update // 2
+        self.ordered_weights = np.zeros(self.n_samples_per_update)
+        self.ordered_weights[:self.mu] = (
+            np.log(self.mu + 0.5) - np.log1p(np.arange(int(self.mu))))
         self.ordered_weights /= np.sum(self.ordered_weights)
         # corresponds to mueff in CMA-ES
         self.mu_w = 1.0 / np.sum(self.ordered_weights ** 2)
 
-        self.c1 = (2 * min(1.0, self.gamma / 6.0)) / (
-            (self.n_total_dims + 1.3) ** 2 + self.mu_w)
-        self.cmu = 2 * (self.mu_w - 2.0 + 1.0 / self.mu_w) / (
-            (self.n_total_dims + 2) ** 2 + self.mu_w)
-        self.cc = 4.0 / (4.0 + self.n_total_dims)
+        self.c1 = 2.0 / ((self.n_total_dims + 1.3) ** 2 + self.mu_w)
+        #self.cmu = 2 * (self.mu_w - 2.0 + 1.0 / self.mu_w) / (
+        #    (self.n_total_dims + 2) ** 2 + self.mu_w)
+        self.cmu = min(
+            1.0 - self.c1,
+            2.0 * (self.mu_w - 2.0 + 1.0 / self.mu_w) /
+            (self.n_total_dims + 2.0) ** 2 + self.mu_w)
+        self.cc = ((4.0 + self.mu_w / self.n_total_dims) /
+                   (4.0 + self.n_total_dims + self.mu_w / self.n_total_dims))
 
         self.c_sigma = (self.mu_w + 2) / float(self.n_total_dims +
-                                               self.mu_w + 3)
-        self.d_sigma = (1 + self.c_sigma
-                        + 2 * np.sqrt((self.mu_w - 1) / (self.n_total_dims + 1))
-                        - 2 + np.log(1 + 2 * self.n_total_dims))
+                                               self.mu_w + 5)
+        self.d_sigma = (1.0 + 2.0 * max(0.0, np.sqrt((self.mu_w - 1.0) / (self.n_total_dims + 1.0)) - 1.0) + self.c_sigma) + np.log(n_context_dims + 1.0)
+        self.randn_vector_norm = (
+            np.sqrt(self.n_params) * (1.0 - 1.0 / (4.0 * self.n_params) + 1.0 /
+                                      (21.0 * self.n_params ** 2)))
 
         self.weights = np.empty(self.n_samples_per_update)
 
@@ -251,8 +257,8 @@ class CCMAESOptimizer(ContextualOptimizer):
             cov += self.c1 * rank_one_update
 
             log_step_size_update = (
-                (self.c_sigma / (2.0 * self.d_sigma)) *
-                (ps_norm_2 / self.n_params - 1))
+                (self.c_sigma / self.d_sigma) *
+                (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
             # Adapt step size with factor <= exp(0.6)
             self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
             self.policy_.policy.Sigma = self.var * cov
