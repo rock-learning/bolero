@@ -10,7 +10,7 @@ from ..utils.log import get_logger
 
 
 class XNESOptimizer(Optimizer):
-    """Exponential Natural Evolution Strategy.
+    """Exponential Natural Evolution Strategies (xNES).
 
     See `Wikipedia <http://en.wikipedia.org/wiki/Natural_evolution_strategy>`_
     for details.
@@ -88,7 +88,6 @@ class XNESOptimizer(Optimizer):
 
         self.n_params = n_params
         self.it = 0
-        self.eigen_decomp_updated = 0
 
         if self.initial_params is None:
             self.initial_params = np.zeros(n_params)
@@ -107,7 +106,7 @@ class XNESOptimizer(Optimizer):
         if self.covariance.ndim == 1:
             self.covariance = np.diag(self.covariance)
 
-        self.best_fitness = np.inf
+        self.best_fitness = -np.inf
         self.best_fitness_it = self.it
         self.best_params = self.initial_params.copy()
 
@@ -117,8 +116,6 @@ class XNESOptimizer(Optimizer):
         # Iteration of last reinitialization
         self.initial_it = self.it
 
-        self.var = self.variance
-
         if self.n_samples_per_update is None:
             self.n_samples_per_update = 4 + int(3 * np.log(self.n_params))
 
@@ -126,10 +123,9 @@ class XNESOptimizer(Optimizer):
             self.bounds = np.asarray(self.bounds)
 
         self.mean = self.initial_params.copy()
-        self.cov = self.covariance.copy()
 
-        self.samples = np.empty((self.n_samples_per_update, self.n_params))
         self.noise = np.empty((self.n_samples_per_update, self.n_params))
+        self.samples = np.empty((self.n_samples_per_update, self.n_params))
         self.fitness = np.empty(self.n_samples_per_update)
 
         self.A = np.linalg.cholesky(self.variance * self.covariance)
@@ -145,11 +141,10 @@ class XNESOptimizer(Optimizer):
         self._sample()
 
     def _sample(self):
-        k = self.it % self.n_samples_per_update
         self.noise[:, :] = self.random_state.randn(
             self.n_samples_per_update, self.n_params)
         self.samples[:, :] = self.noise.dot(self.A.T) + self.mean
-        _bound(self.bounds, self.samples)
+        _bound(self.bounds, self.samples)  # TODO extract method from cmaes.py
 
     def get_next_parameters(self, params):
         """Get next individual/parameter vector for evaluation.
@@ -172,10 +167,10 @@ class XNESOptimizer(Optimizer):
         """
         k = self.it % self.n_samples_per_update
         self.fitness[k] = check_feedback(feedback, compute_sum=True)
-        if self.maximize:
+        if not self.maximize:
             self.fitness[k] *= -1
 
-        if self.fitness[k] <= self.best_fitness:
+        if self.fitness[k] >= self.best_fitness:
             self.best_fitness = self.fitness[k]
             self.best_fitness_it = self.it
             self.best_params[:] = self.samples[k]
@@ -185,10 +180,10 @@ class XNESOptimizer(Optimizer):
         if self.log_to_stdout or self.log_to_file:
             self.logger.info("[XNES] Iteration #%d, fitness: %g"
                              % (self.it, self.fitness[k]))
-            self.logger.info("[XNES] Variance %g" % self.var)
 
         if (self.it - self.initial_it) % self.n_samples_per_update == 0:
             self._update(self.samples, self.fitness, self.it)
+            self._sample()
 
     def _update(self, samples, fitness, it):
         # Sample weights for mean recombination
@@ -220,15 +215,14 @@ class XNESOptimizer(Optimizer):
 
         # Check for invalid values
         if not (np.all(np.isfinite(self.A)) and
-                np.all(np.isfinite(self.cov)) and
-                np.all(np.isfinite(self.mean)) and
-                np.isfinite(self.var)):
+                np.all(np.isfinite(self.mean))):
             self.logger.info("Stopping: infs or nans" % self.var)
             return True
 
         if (self.min_variance is not None and
-                np.max(np.diag(self.cov)) * self.var <= self.min_variance):
-            self.logger.info("Stopping: %g < min_variance" % self.var)
+                np.max((self.A ** 2).sum(axis=1)) <= self.min_variance):
+            self.logger.info("Stopping: %g < min_variance"
+                             % np.max((self.A ** 2).sum(axis=1)))
             return True
 
         max_dist = np.max(pdist(self.fitness[:, np.newaxis]))
@@ -236,11 +230,11 @@ class XNESOptimizer(Optimizer):
             self.logger.info("Stopping: %g < min_fitness_dist" % max_dist)
             return True
 
-        cov_diag = np.diag(self.cov)
+        cov_diag = (self.A ** 2).sum(axis=1)
         if (self.max_condition is not None and
                 np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
             self.logger.info("Stopping: %g / %g > max_condition"
-                             % (np.max(self.cov), np.min(self.cov)))
+                             % (np.max(cov_diag), np.min(cov_diag)))
             return True
 
         return False
@@ -275,9 +269,9 @@ class XNESOptimizer(Optimizer):
             maximize=False, this is the lowest observed fitness.
         """
         if self.maximize:
-            return -self.best_fitness
-        else:
             return self.best_fitness
+        else:
+            return -self.best_fitness
 
     def __getstate__(self):
         d = dict(self.__dict__)
