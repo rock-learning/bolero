@@ -377,7 +377,7 @@ class CMAESOptimizer(Optimizer):
         if (self.max_condition is not None and
                 np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
             self.logger.info("Stopping: %g / %g > max_condition"
-                             % (np.max(self.cov), np.min(self.cov)))
+                             % (np.max(cov_diag), np.min(cov_diag)))
             return True
 
         return False
