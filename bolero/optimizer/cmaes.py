@@ -227,7 +227,8 @@ class CMAESOptimizer(Optimizer):
     def _sample(self, n_samples):
         samples = self.random_state.multivariate_normal(
             self.mean, self.var * self.cov, size=n_samples)
-        _bound(self.bounds, samples)
+        if self.bounds is not None:
+            np.clip(samples, self.bounds[:, 0], self.bounds[:, 1], out=samples)
         return samples
 
     def get_next_parameters(self, params):

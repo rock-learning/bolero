@@ -54,6 +54,13 @@ class XNESOptimizer(Optimizer):
 
     random_state : int or RandomState, optional (default: None)
         Seed for the random number generator or RandomState object.
+
+    References
+    ----------
+    .. [1] Wierstra, D.; Schaul, T.; Glasmachers, T.; Sun, Y.; Peters, J.;
+        Schmidhuber, J.
+        Natural Evolution Strategies, Journal of Machine Learning Research,
+        2014.
     """
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
@@ -144,7 +151,9 @@ class XNESOptimizer(Optimizer):
         self.noise[:, :] = self.random_state.randn(
             self.n_samples_per_update, self.n_params)
         self.samples[:, :] = self.noise.dot(self.A.T) + self.mean
-        _bound(self.bounds, self.samples)  # TODO extract method from cmaes.py
+        if self.bounds is not None:
+            np.clip(self.samples, self.bounds[:, 0], self.bounds[:, 1],
+                    out=self.samples)
 
     def get_next_parameters(self, params):
         """Get next individual/parameter vector for evaluation.
@@ -199,7 +208,7 @@ class XNESOptimizer(Optimizer):
         self.A = np.dot(self.A, scipy.linalg.expm(0.5 * self.learning_rate *
                                                   cov_gradient))
 
-    def is_behavior_learning_done(self):  # TODO refactor with CMA-ES
+    def is_behavior_learning_done(self):
         """Check if the optimization is finished.
 
         Returns
