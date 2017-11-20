@@ -102,6 +102,7 @@ Optimizer classes
    CREPSOptimizer
    SkOptOptimizer
    ACMESOptimizer
+   XNESOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================
