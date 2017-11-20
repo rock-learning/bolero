@@ -59,6 +59,9 @@ BOLeRo.
      - 5 - 150 parameters, ill-conditioned, non-separable, unimodal objective
        functions, more sample-efficient than standard CMA-ES
 
+   * - :ref:`XNESOptimizer <xnes_opt>`
+     - similar to CMAESOptimizer
+
 
 .. _no_opt:
 
@@ -159,6 +162,15 @@ REPS
 like a black-box optimizer. The search distribution is a multivariate Gaussian.
 REPS constrains the updates of the search distribution by bounding the KL
 divergence between successive search distributions.
+
+.. _xnes_opt:
+
+xNES
+----
+
+:class:`XNESOptimizer` is very similar to CMA-ES and it is theoretically
+justified as it follows the natural gradient. It sometimes performs worse
+though.
 
 
 Contextual Optimizers
