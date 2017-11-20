@@ -4,7 +4,6 @@ import numpy as np
 import scipy
 from scipy.spatial.distance import pdist
 from .optimizer import Optimizer
-from .cmaes import _bound
 from ..utils.validation import check_random_state, check_feedback
 from ..utils.log import get_logger
 
