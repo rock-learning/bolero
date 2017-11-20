@@ -1,7 +1,6 @@
 # Author: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import numpy as np
-import warnings
 from scipy.spatial.distance import pdist
 from .optimizer import Optimizer
 from ..utils.validation import check_random_state, check_feedback

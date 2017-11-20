@@ -29,7 +29,7 @@ print(__doc__)
 import numpy as np
 from bolero.optimizer import (NoOptimizer, RandomOptimizer, CMAESOptimizer,
                               IPOPCMAESOptimizer, BIPOPCMAESOptimizer,
-                              REPSOptimizer, ACMESOptimizer)
+                              REPSOptimizer, ACMESOptimizer, XNESOptimizer)
 from bolero.environment.objective_functions import Rosenbrock, Katsuura
 import matplotlib.pyplot as plt
 
@@ -58,6 +58,7 @@ optimizers = {
                               random_state=0),
     "REPS": REPSOptimizer(x, random_state=0),
     "ACM-ES": ACMESOptimizer(x, random_state=0)
+    "XNES": XNESOptimizer(x, random_state=0)
     }
 
 plt.figure(figsize=(12, 8))
