@@ -21,10 +21,7 @@ def _bound(bounds, samples):
         are within the boundaries.
     """
     if bounds is not None:
-        # TODO vectorize?
-        for k in range(len(samples)):
-            samples[k] = np.maximum(samples[k], bounds[:, 0])
-            samples[k] = np.minimum(samples[k], bounds[:, 1])
+        np.clip(samples, bounds[:, 0], bounds[:, 1], out=samples)
 
 
 def inv_sqrt(cov):
