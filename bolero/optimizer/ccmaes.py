@@ -162,6 +162,8 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         self.weights = np.empty(self.n_samples_per_update)
 
+        self.reward_model = Ridge(alpha=self.gamma, fit_intercept=False)
+
     def get_desired_context(self):
         """C-REPS does not actively select the context.
 
@@ -207,62 +209,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         self._add_sample(rewards)
 
         if self.it % self.n_samples_per_update == 0:
-            phi_s = np.asarray(self.history_phi_s)
-            theta = np.asarray(self.history_theta)
-            R = np.asarray(self.history_R)
-
-            reward_model = Ridge(alpha=self.gamma).fit(phi_s, R)
-            advantages = R - reward_model.predict(phi_s)
-            indices = np.argsort(advantages)[::-1]
-
-            self.weights[indices] = self.ordered_weights
-
-            cov = self.policy_.policy.Sigma
-            invsqrtC = inv_sqrt(cov)
-
-            last_W = np.copy(self.policy_.W)
-            self.policy_.fit(phi_s, theta, self.weights,
-                             context_transform=False)
-
-            mean_phi = np.mean(phi_s, axis=0)
-            sigma = np.sqrt(self.var)
-            mean_diff = (self.policy_.W.dot(mean_phi) -
-                         last_W.dot(mean_phi)) / sigma
-
-            self.ps *= (1.0 - self.c_sigma)
-
-            self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
-                                self.mueff) * invsqrtC.dot(mean_diff))
-
-            ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
-            generation = self.it / self.n_samples_per_update
-            hsig = int(ps_norm_2 / self.n_params /
-                    np.sqrt(1.0 - (1.0 - self.c_sigma) ** (2 * generation))
-                    < self.hsig_threshold)
-            self.pc *= 1.0 - self.cc
-            self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mueff) *
-                        mean_diff)
-
-            # Rank-1 update
-            rank_one_update = np.outer(self.pc, self.pc)
-
-            # Rank-mu update
-            noise = (theta - last_W.dot(mean_phi)) / sigma
-            rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
-
-            # Correct variance loss by hsig
-            c1a = self.c1 * (1 - (1 - hsig) * self.cc * (2.0 - self.cc))
-
-            cov *= (1.0 - c1a - self.cmu)
-            cov += self.cmu * rank_mu_update
-            cov += self.c1 * rank_one_update
-
-            log_step_size_update = (
-                (self.c_sigma / self.d_sigma) *
-                (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
-            # Adapt step size with factor <= exp(0.6)
-            self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
-            self.policy_.policy.Sigma = self.var * cov
+            self._update()
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
@@ -276,6 +223,63 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.history_phi_s.append(phi_s)
 
         self.it += 1
+
+    def _update(self):
+        phi_s = np.asarray(self.history_phi_s)
+        theta = np.asarray(self.history_theta)
+        R = np.asarray(self.history_R)
+
+        self.reward_model.fit(phi_s, R)
+        advantages = R - self.reward_model.predict(phi_s)
+        indices = np.argsort(advantages)[::-1]
+
+        self.weights[indices] = self.ordered_weights
+
+        cov = self.policy_.policy.Sigma
+        invsqrtC = inv_sqrt(cov)
+
+        mean_phi = np.mean(phi_s, axis=0)
+        last_mean_theta = self.policy_.policy(mean_phi, explore=False)
+        self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
+
+        mean_theta = self.policy_.policy(mean_phi, explore=False)
+        sigma = np.sqrt(self.var)
+        mean_diff = (mean_theta - last_mean_theta) / sigma
+
+        self.ps *= (1.0 - self.c_sigma)
+
+        self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
+                            self.mueff) * invsqrtC.dot(mean_diff))
+
+        ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
+        generation = self.it / self.n_samples_per_update
+        hsig = int(ps_norm_2 / self.n_params /
+                np.sqrt(1.0 - (1.0 - self.c_sigma) ** (2 * generation))
+                < self.hsig_threshold)
+        self.pc *= 1.0 - self.cc
+        self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mueff) *
+                    mean_diff)
+
+        # Rank-1 update
+        rank_one_update = np.outer(self.pc, self.pc)
+
+        # Rank-mu update
+        noise = (theta - last_mean_theta) / sigma
+        rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
+
+        # Correct variance loss by hsig
+        c1a = self.c1 * (1 - (1 - hsig) * self.cc * (2.0 - self.cc))
+
+        cov *= (1.0 - c1a - self.cmu)
+        cov += self.cmu * rank_mu_update
+        cov += self.c1 * rank_one_update
+
+        log_step_size_update = (
+            (self.c_sigma / self.d_sigma) *
+            (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
+        # Adapt step size with factor <= exp(0.6)
+        self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
+        self.policy_.policy.Sigma = self.var * cov
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
