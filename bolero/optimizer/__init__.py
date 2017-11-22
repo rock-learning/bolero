@@ -10,8 +10,7 @@ __all__ = [
     "Optimizer", "ContextualOptimizer", "NoOptimizer", "RandomOptimizer", "CMAESOptimizer",
     "RestartCMAESOptimizer", "IPOPCMAESOptimizer", "BIPOPCMAESOptimizer",
     "fmin", "REPSOptimizer", "CREPSOptimizer"]
-try:
-    from .skoptimize import SkOptOptimizer
+
+from .skoptimize import SkOptOptimizer, skopt_available
+if skopt_available:
     __all__.append("SkOptOptimizer")
-except:
-    pass

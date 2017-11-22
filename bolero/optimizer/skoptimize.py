@@ -113,7 +113,7 @@ class SkOptOptimizer(Optimizer):
                  random_state=None, n_points=10000, n_restarts_optimizer=5,
                  xi=0.01, kappa=1.96, n_jobs=1):
         if not skopt_available:
-            raise ImportError("skopt is note installed correctly")
+            raise ImportError("skopt is not installed correctly")
         self.maximize = maximize
         self.n_params = len(dimensions)
 
