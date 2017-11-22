@@ -34,8 +34,8 @@ def inv_sqrt(cov):
     D, B = np.linalg.eigh(cov)
     # HACK: avoid numerical problems
     D = np.maximum(D, np.finfo(np.float).eps)
-    D = np.diag(np.sqrt(1.0 / D))
-    return B.dot(D).dot(B.T)
+    D = np.sqrt(D)
+    return B.dot(np.diag(1.0 / D)).dot(B.T), B, D
 
 
 class CMAESOptimizer(Optimizer):
@@ -219,7 +219,7 @@ class CMAESOptimizer(Optimizer):
             self.neg_cmu = ((1.0 - self.cmu) * 0.25 * self.mueff /
                             ((self.n_params + 2) ** 1.5 + 2.0 * self.mueff))
 
-        self.invsqrtC = inv_sqrt(self.cov)
+        self.invsqrtC = inv_sqrt(self.cov)[0]
         self.eigen_decomp_updated = self.it
 
     def _sample(self, n_samples):
@@ -334,7 +334,7 @@ class CMAESOptimizer(Optimizer):
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
 
         if it - self.eigen_decomp_updated > self.eigen_update_freq:
-            self.invsqrtC = inv_sqrt(self.cov)
+            self.invsqrtC = inv_sqrt(self.cov)[0]
             self.eigen_decomp_updated = self.it
 
         self.samples = self._sample(self.n_samples_per_update)
