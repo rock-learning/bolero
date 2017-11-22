@@ -1,5 +1,31 @@
 #! /bin/bash
 
+# checking minimal dependencies on Ubuntu systems...
+if [ -f /etc/lsb-release ]; then
+    if [ -z `which sudo` ];
+    then
+        echo "sudo not available, trying to install it with 'apt-get install sudo'"
+        apt-get install sudo
+    fi
+    if [ -z `which git` ];
+    then
+        echo "git not available, trying to install it with 'sudo apt-get install git'"
+        sudo apt-get install git
+    fi
+    if [ -z `which python` ];
+    then
+        echo "python not available, trying to install it with 'sudo apt-get install python'"
+        sudo apt-get install python python-pip
+    fi
+    YAML_AVAILABLE=1
+    `python -c "import yaml" 2> /dev/null` || YAML_AVAILABLE=0
+    if [ $YAML_AVAILABLE == 0 ];
+    then
+          echo "python-yaml not available, trying to install it with 'sudo apt-get install python-yaml'"
+          sudo apt-get install python-yaml
+    fi
+fi
+
 mkdir bolero-dev
 cd bolero-dev
 DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
