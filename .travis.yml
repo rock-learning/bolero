@@ -7,14 +7,14 @@ branches:
     - /\d+\.\d+\..+/
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-dev python-pip python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev gfortran python-sklearn
+  - sudo apt-get install -qq python-dev python-pip python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev gfortran
   - pip install --upgrade pip
   - sudo pip install pyyaml cython joblib pandas bs4 nose
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - mkdir -p ../build; cd ../build; cp ../bolero/bootstrap_bolero.sh .; ./bootstrap_bolero.sh; rm -rf bolero-dev/learning/bolero/; mv ../bolero bolero-dev/learning; cd bolero-dev; source env.sh; pybob/pybob.py install
   - sudo apt-get remove python-scipy
-  - sudo pip install scipy gym
+  - sudo pip install scipy gym scikit-learn
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - cd /home/travis/build/rock-learning/build/bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
