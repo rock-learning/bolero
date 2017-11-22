@@ -23,6 +23,17 @@ script
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
+BOLeRo is developed for Ubuntu 16.04, it has been tested with 17.04. Using
+it on Mac OS or Windows is possible, however, the installation might be
+more complicated. We recommend to use Docker if you want to take a quick
+look at the software. Instructions are
+[here](https://github.com/AlexanderFabisch/bolero/blob/37595d5d8f22c1afb40e329f6df1487401d77988/docker/README.md#create-container).
+
+The installation script will create a new folder 'bolero-dev' that contains
+all sources and built binaries. If you want to use BOLeRo, you have to source
+the file env.sh:
+
+    source bolero-dev/env.sh
 
 ## Documentation
 
