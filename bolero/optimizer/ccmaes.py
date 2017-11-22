@@ -111,6 +111,8 @@ class CCMAESOptimizer(ContextualOptimizer):
             context_transformation=self.context_features,
             mean=self.initial_params, covariance_scale=1.0, gamma=self.gamma,
             random_state=self.random_state)
+        self.cov = np.copy(self.covariance)
+        self.var = self.variance
         self.policy_.policy.Sigma = self.variance * self.covariance
 
         self.n_total_dims = n_params + n_context_dims
@@ -126,8 +128,6 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.history_R = deque(maxlen=self.n_samples_per_update)
         self.history_s = deque(maxlen=self.n_samples_per_update)
         self.history_phi_s = deque(maxlen=self.n_samples_per_update)
-
-        self.var = self.variance
 
         # Evolution path for covariance
         self.pc = np.zeros(self.n_params)
@@ -163,6 +163,11 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.weights = np.empty(self.n_samples_per_update)
 
         self.reward_model = Ridge(alpha=self.gamma, fit_intercept=False)
+
+        self.invsqrtC = inv_sqrt(self.cov)[0]
+        self.eigen_decomp_updated = self.it
+        self.eigen_update_freq = (self.n_samples_per_update /
+                                  ((self.c1 + self.cmu) * self.n_params * 10))
 
     def get_desired_context(self):
         """C-REPS does not actively select the context.
@@ -231,15 +236,18 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         self.reward_model.fit(phi_s, R)
         advantages = R - self.reward_model.predict(phi_s)
-        indices = np.argsort(advantages)[::-1]
+        indices = np.argsort(np.argsort(advantages)[::-1])
 
-        self.weights[indices] = self.ordered_weights
+        self.weights = self.ordered_weights[indices]
 
-        cov = self.policy_.policy.Sigma
-        invsqrtC = inv_sqrt(cov)
+        if self.it - self.eigen_decomp_updated > self.eigen_update_freq:
+            self.invsqrtC = inv_sqrt(self.cov)[0]
+            self.eigen_decomp_updated = self.it
 
         mean_phi = np.mean(phi_s, axis=0)
         last_mean_theta = self.policy_.policy(mean_phi, explore=False)
+        last_mean_thetas = phi_s.dot(self.policy_.W.T)
+
         self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
 
         mean_theta = self.policy_.policy(mean_phi, explore=False)
@@ -249,7 +257,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.ps *= (1.0 - self.c_sigma)
 
         self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
-                            self.mueff) * invsqrtC.dot(mean_diff))
+                            self.mueff) * self.invsqrtC.dot(mean_diff))
 
         ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
         generation = self.it / self.n_samples_per_update
@@ -264,22 +272,29 @@ class CCMAESOptimizer(ContextualOptimizer):
         rank_one_update = np.outer(self.pc, self.pc)
 
         # Rank-mu update
-        noise = (theta - last_mean_theta) / sigma
+        noise = (theta - last_mean_thetas) / sigma
         rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
 
         # Correct variance loss by hsig
         c1a = self.c1 * (1 - (1 - hsig) * self.cc * (2.0 - self.cc))
 
-        cov *= (1.0 - c1a - self.cmu)
-        cov += self.cmu * rank_mu_update
-        cov += self.c1 * rank_one_update
+        self.cov *= (1.0 - c1a - self.cmu)
+        self.cov += self.cmu * rank_mu_update
+        self.cov += self.c1 * rank_one_update
 
         log_step_size_update = (
             (self.c_sigma / self.d_sigma) *
             (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
         # Adapt step size with factor <= exp(0.6)
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
-        self.policy_.policy.Sigma = self.var * cov
+        self.policy_.policy.Sigma = self.var * self.cov
+        print("===")
+        print(np.diag(self.cov).mean())
+        print(np.diag(rank_mu_update).mean())
+        print(np.diag(rank_one_update).mean())
+        print(self.var)
+        print(ps_norm_2)
+        print(self.pc.dot(self.pc))
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
