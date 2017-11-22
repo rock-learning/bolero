@@ -1,10 +1,14 @@
 import numpy as np
-from skopt.optimizer import Optimizer as _SkOptOptimizer
-from skopt.learning import (ExtraTreesRegressor, RandomForestRegressor,
-                            GaussianProcessRegressor,
-                            GradientBoostingQuantileRegressor)
-from skopt.learning.gaussian_process.kernels import ConstantKernel
-from skopt.learning.gaussian_process.kernels import Matern
+try:
+    from skopt.optimizer import Optimizer as _SkOptOptimizer
+    from skopt.learning import (ExtraTreesRegressor, RandomForestRegressor,
+                                GaussianProcessRegressor,
+                                GradientBoostingQuantileRegressor)
+    from skopt.learning.gaussian_process.kernels import ConstantKernel
+    from skopt.learning.gaussian_process.kernels import Matern
+    skopt_available = True
+except:
+    skopt_available = False
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.utils import check_random_state
 from .optimizer import Optimizer
@@ -108,6 +112,8 @@ class SkOptOptimizer(Optimizer):
                  n_random_starts=10, acq_func="LCB", acq_optimizer="lbfgs",
                  random_state=None, n_points=10000, n_restarts_optimizer=5,
                  xi=0.01, kappa=1.96, n_jobs=1):
+        if not skopt_available:
+            raise ImportError("skopt is note installed correctly")
         self.maximize = maximize
         self.n_params = len(dimensions)
 
