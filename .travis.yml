@@ -7,7 +7,7 @@ branches:
     - /\d+\.\d+\..+/
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-dev python-pip python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev gfortran
+  - sudo apt-get install -qq python-dev python-pip python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev gfortran python-sklearn
   - pip install --upgrade pip
   - sudo pip install pyyaml cython joblib pandas bs4 nose
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
