@@ -12,6 +12,11 @@ if [ -f /etc/lsb-release ]; then
         echo "git not available, trying to install it with 'sudo apt-get install git'"
         sudo apt-get install git --yes
     fi
+    if [ -z `which unzip` ];
+    then
+        echo "unzip not available, trying to install it with 'sudo apt-get install unzip'"
+        sudo apt-get install unzip --yes
+    fi
     if [ -z `which python` ];
     then
         echo "python not available, trying to install it with 'sudo apt-get install python'"
