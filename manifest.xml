@@ -27,5 +27,7 @@
   <rosdep name="python" />
   <rosdep name="python-numpy" />
   <rosdep name="python-scipy" />
+  <rosdep name="python-matplotlib" />
+  <rosdep name="python-sklearn" />
   <depend package="learning/bolero/bolero/wrapper" />
 </package>
