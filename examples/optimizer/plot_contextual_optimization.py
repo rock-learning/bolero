@@ -19,6 +19,10 @@ the covariance matrix. In this example, we use a very simple objective function
 to illustrate samples from the search distribution and the current mean of the
 search distribution. Each sample is weighted based on the reward to update the
 search distribution. Weights are indicated by the color of displayed samples.
+
+We initialize the search distribution with an intentionally low variance.
+C-CMA-ES adapts quite fast, C-REPS is slower because it bounds the
+Kullback-Leibler divergence between successive search distributions.
 """
 print(__doc__)
 
