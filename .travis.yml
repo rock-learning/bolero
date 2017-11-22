@@ -13,8 +13,8 @@ before_script:
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - mkdir -p ../build; cd ../build; cp ../bolero/bootstrap_bolero.sh .; ./bootstrap_bolero.sh; rm -rf bolero-dev/learning/bolero/; mv ../bolero bolero-dev/learning; cd bolero-dev; source env.sh; pybob/pybob.py install
-  - sudo apt-get remove python-numpy python-scipy python-sklearn
-  - sudo pip install numpy scipy scikit-learn scikit-optimize gym
+  - sudo apt-get remove python-scipy
+  - sudo pip install scipy scikit-optimize gym
 script:
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - cd /home/travis/build/rock-learning/build/bolero-dev; source env.sh; cd learning/bolero; nosetests -sv
