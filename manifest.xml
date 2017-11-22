@@ -25,5 +25,7 @@
   </classifiers>
 
   <rosdep name="python" />
+  <rosdep name="python-numpy" />
+  <rosdep name="python-scipy" />
   <depend package="learning/bolero/bolero/wrapper" />
 </package>
