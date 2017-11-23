@@ -51,7 +51,7 @@ def benchmark():
                     covariance=np.eye(n_params),
                     variance=1.0,
                     n_samples_per_update=n_samples_per_update,
-                    context_features="affine",
+                    context_features="quadratic",
                     random_state=random_state,
                     gamma=1e-10,
                     **additional_ctor_args[algorithm_name]
@@ -78,6 +78,7 @@ def benchmark():
             average_feedbacks = np.array(feedbacks).reshape(
                 n_episodes / n_samples_per_update, n_samples_per_update).sum(axis=1)
             plt.plot(average_feedbacks, label=algorithm_name)
+            plt.yscale("symlog")
             plt.xlabel("Episodes")
             plt.ylabel("Average Return")
             plt.legend()
