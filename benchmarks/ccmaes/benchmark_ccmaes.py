@@ -51,9 +51,6 @@ def benchmark():
     )
     for objective_name in objective_functions.keys():
         for algorithm_name in algorithms.keys():
-            #for run_idx, seed in enumerate(seeds):
-            #    feedbacks = optimize(objective_name, algorithm_name, seed)
-            #    results[objective_name][algorithm_name].append(feedbacks)
             feedbacks = Parallel(n_jobs=n_jobs, verbose=10)(
                 delayed(optimize)(objective_name, algorithm_name, seed)
                 for run_idx, seed in enumerate(seeds))
