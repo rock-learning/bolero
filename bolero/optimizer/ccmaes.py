@@ -125,7 +125,7 @@ class CCMAESOptimizer(ContextualOptimizer):
             mean=self.initial_params, covariance_scale=1.0, gamma=self.gamma,
             random_state=self.random_state)
         self.cov = np.copy(self.covariance)
-        self.var = self.variance
+        self.sigma = np.sqrt(self.variance)
         self.policy_.policy.Sigma = self.variance * self.covariance
 
         self.n_total_dims = n_params + n_context_dims
@@ -249,9 +249,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         theta = np.asarray(self.history_theta)
         R = np.asarray(self.history_R)
 
-        baseline_features = self.reward_model_features.fit_transform(s)
-        self.reward_model.fit(baseline_features, R)
-        advantages = R - self.reward_model.predict(baseline_features)
+        advantages = R - self._estimate_baseline(s, R)
         indices = np.argsort(np.argsort(advantages)[::-1])
 
         self.weights = self.ordered_weights[indices]
@@ -266,12 +264,10 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         self.policy_.fit(phi_s, theta, self.weights, context_transform=False)
 
-        mean_theta = self.policy_.policy(mean_phi, explore=False)
-        sigma = np.sqrt(self.var)
-        mean_diff = (mean_theta - last_mean_theta) / sigma
+        new_mean_theta = self.policy_.policy(mean_phi, explore=False)
+        mean_diff = (new_mean_theta - last_mean_theta) / self.sigma
 
         self.ps *= (1.0 - self.c_sigma)
-
         self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
                             self.mueff) * self.invsqrtC.dot(mean_diff))
 
@@ -288,7 +284,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         rank_one_update = np.outer(self.pc, self.pc)
 
         # Rank-mu update
-        noise = (theta - last_mean_thetas) / sigma
+        noise = (theta - last_mean_thetas) / self.sigma
         rank_mu_update = noise.T.dot(np.diag(self.weights)).dot(noise)
 
         # Correct variance loss by hsig
@@ -302,8 +298,13 @@ class CCMAESOptimizer(ContextualOptimizer):
             (self.c_sigma / self.d_sigma) *
             (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
         # Adapt step size with factor <= exp(0.6)
-        self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
-        self.policy_.policy.Sigma = self.var * self.cov
+        self.sigma *= np.exp(np.min((0.6, log_step_size_update)))
+        self.policy_.policy.Sigma = self.sigma ** 2 * self.cov
+
+    def _estimate_baseline(self, s, R):
+        baseline_features = self.reward_model_features.fit_transform(s)
+        self.reward_model.fit(baseline_features, R)
+        return self.reward_model.predict(baseline_features)
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
