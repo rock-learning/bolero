@@ -17,7 +17,13 @@ class CCMAESOptimizer(ContextualOptimizer):
 
     This contextual version of :class:`~bolero.optimizer.CMAESOptimizer`
     inherits the properties from the original algorithm. More information
-    on the algorithm can be found in the original publication [1]_.
+    on the algorithm can be found in the original publication [1]_. A major
+    advantage over C-REPS is that it quickly adapts the step size.
+
+    C-CMA-ES internally models the context-dependent baseline with polynomial
+    ridge regression. The degree of the polynomial can be configured. The
+    regularization coefficient is shared with the upper-level policy.
+    Context features are only used for the upper-level policy.
 
     Parameters
     ----------

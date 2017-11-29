@@ -177,6 +177,9 @@ provided by BOLeRo.
    * - :ref:`CREPSOptimizer <creps_opt>`
      - 5 - 500 parameters and 1 - 5 context dimensions
 
+   * - :ref:`CCMAESOptimizer <ccmaes_opt>`
+     - 5 - 500 parameters and 1 - 5 context dimensions
+
 
 .. _creps_opt:
 
@@ -205,3 +208,14 @@ the appendix of
 
     Fabisch, Metzen: Active Contextual Policy Search.
     http://jmlr.org/papers/v15/fabisch14a.html
+
+
+.. _ccmaes_opt:
+
+C-CMA-ES Optimizer
+------------------
+
+:class:`CCMAESOptimizer` is an extension of CMA-ES to the contextual
+optimization domain. It works better than C-REPS for problems where the
+step size has to be adapted quickly because the step size adaptation is
+not bounded by the KL divergence like in C-REPS.
