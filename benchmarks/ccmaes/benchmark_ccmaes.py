@@ -113,6 +113,7 @@ def show_results(results):
             plt.yticks(range(-5, 7), yticks_labels)
             plt.xlabel("Generation")
             plt.ylabel("Average Return")
+            plt.xlim((0, n_generations))
             plt.legend()
             plt.savefig(objective_name + "_plot.png")
     plt.show()
