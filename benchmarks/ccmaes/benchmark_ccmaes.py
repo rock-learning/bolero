@@ -43,6 +43,7 @@ n_episodes_per_objective = {
 
 
 def benchmark():
+    """Run benchmarks for all configurations of objective and algorithm."""
     results = dict(
         (objective_name,
          dict((algorithm_name, [])
@@ -59,6 +60,7 @@ def benchmark():
 
 
 def optimize(objective_name, algorithm_name, seed):
+    """Perform one benchmark run."""
     n_context_dims = context_dims_per_objective[objective_name]
     n_episodes = n_episodes_per_objective[objective_name]
     random_state = np.random.RandomState(seed)
@@ -91,6 +93,7 @@ def optimize(objective_name, algorithm_name, seed):
 
 
 def show_results(results):
+    """Display results."""
     for objective_name, objective_results in results.items():
         plt.figure()
         plt.title(objective_name)
@@ -103,15 +106,27 @@ def show_results(results):
             mean_feedbacks = average_feedback_per_generation.mean(axis=0)
             std_feedbacks = average_feedback_per_generation.std(axis=0)
             generation = np.arange(n_generations) + 1.0
-            plt.plot(generation, mean_feedbacks, label=algorithm_name)
-            plt.fill_between(
-                generation, mean_feedbacks - std_feedbacks,
-                mean_feedbacks + std_feedbacks, alpha=0.5)
-            plt.yscale("symlog")
+            m, l, u = _log_transform(mean_feedbacks, std_feedbacks)
+            plt.plot(generation, m, label=algorithm_name)
+            plt.fill_between(generation, l, u, alpha=0.5)
+            yticks_labels = map(lambda t: "$-10^{%d}$" % -t, range(-5, 7))
+            plt.yticks(range(-5, 7), yticks_labels)
             plt.xlabel("Generation")
             plt.ylabel("Average Return")
             plt.legend()
+            plt.savefig(objective_name + "_plot.png")
     plt.show()
+
+
+def _log_transform(mean_feedbacks, std_feedbacks):
+    m = mean_feedbacks
+    l = m - std_feedbacks
+    m_log = -np.log10(-m)
+    l_log = -np.log10(-l)
+    # this is a hack: mean + std usually does not have the same distance to
+    # the mean like mean - std in a log-scaled plot!
+    u_log = m_log + (m_log - l_log)
+    return m_log, l_log, u_log
 
 
 if __name__ == "__main__":
