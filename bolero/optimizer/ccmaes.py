@@ -8,6 +8,7 @@ from ..representation.ul_policies import (ContextTransformationPolicy,
 from ..utils.validation import check_random_state, check_feedback, check_context
 from ..utils.log import get_logger
 from .cmaes import inv_sqrt
+from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import Ridge
 
 
@@ -37,10 +38,15 @@ class CCMAESOptimizer(ContextualOptimizer):
                  (1 + 2 * n_context_dims)
 
     context_features : string or callable, optional (default: None)
-        (Nonlinear) feature transformation for the context.
+        (Nonlinear) feature transformation for the context, which will be used
+        to learn the upper-level policy.
 
-    gamma : float, optional (default: 1e-5)
-        Regularization parameter.
+    baseline_degree : int, optional (default: 2)
+        Degree of the polynomial features that will be used to estimate the
+        context-dependent reward baseline.
+
+    gamma : float, optional (default: 1e-4)
+        Regularization parameter for baseline and upper-level policy.
 
     log_to_file: optional, boolean or string (default: False)
         Log results to given file, it will be located in the $BL_LOG_PATH
@@ -57,14 +63,15 @@ class CCMAESOptimizer(ContextualOptimizer):
         Contextual Covariance Matrix Adaptation Evolution Strategies.
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
-                 n_samples_per_update=None, context_features=None, gamma=1e-4,
-                 log_to_file=False, log_to_stdout=False,
-                 random_state=None, **kwargs):
+                 n_samples_per_update=None, context_features=None,
+                 baseline_degree=2, gamma=1e-4, log_to_file=False,
+                 log_to_stdout=False, random_state=None, **kwargs):
         self.initial_params = initial_params
         self.variance = variance
         self.covariance = covariance
         self.n_samples_per_update = n_samples_per_update
         self.context_features = context_features
+        self.baseline_degree = baseline_degree
         self.gamma = gamma
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
@@ -121,7 +128,6 @@ class CCMAESOptimizer(ContextualOptimizer):
                 4 + int(3 * np.log(self.n_total_dims)) *
                 (1 + 2 * n_context_dims))
 
-        # TODO don't know if n_params or n_total_dims
         self.hsig_threshold = 2 + 4.0 / (self.n_params + 1)
 
         self.history_theta = deque(maxlen=self.n_samples_per_update)
@@ -162,7 +168,9 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         self.weights = np.empty(self.n_samples_per_update)
 
-        self.reward_model = Ridge(alpha=self.gamma, fit_intercept=False)
+        self.reward_model_features = PolynomialFeatures(
+            degree=self.baseline_degree, include_bias=False)
+        self.reward_model = Ridge(alpha=self.gamma, fit_intercept=True)
 
         self.invsqrtC = inv_sqrt(self.cov)[0]
         self.eigen_decomp_updated = self.it
@@ -230,12 +238,14 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.it += 1
 
     def _update(self):
+        s = np.asarray(self.history_s)
         phi_s = np.asarray(self.history_phi_s)
         theta = np.asarray(self.history_theta)
         R = np.asarray(self.history_R)
 
-        self.reward_model.fit(phi_s, R)
-        advantages = R - self.reward_model.predict(phi_s)
+        baseline_features = self.reward_model_features.fit_transform(s)
+        self.reward_model.fit(baseline_features, R)
+        advantages = R - self.reward_model.predict(baseline_features)
         indices = np.argsort(np.argsort(advantages)[::-1])
 
         self.weights = self.ordered_weights[indices]
@@ -288,13 +298,6 @@ class CCMAESOptimizer(ContextualOptimizer):
         # Adapt step size with factor <= exp(0.6)
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
         self.policy_.policy.Sigma = self.var * self.cov
-        print("===")
-        print(np.diag(self.cov).mean())
-        print(np.diag(rank_mu_update).mean())
-        print(np.diag(rank_one_update).mean())
-        print(self.var)
-        print(ps_norm_2)
-        print(self.pc.dot(self.pc))
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
