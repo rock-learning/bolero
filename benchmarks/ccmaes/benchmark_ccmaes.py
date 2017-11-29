@@ -1,18 +1,24 @@
+import os
+import pickle
 import numpy as np
+import matplotlib.pyplot as plt
 from joblib import Parallel, delayed
 from bolero.optimizer import CCMAESOptimizer, CREPSOptimizer
 from objective import Sphere, Rosenbrock
 
 
+n_jobs = 4
+result_file = "results.pickle"
+
 objective_functions = {
     "sphere" : Sphere,
-    #"rosenbrock": Rosenbrock
+    "rosenbrock": Rosenbrock
 }
 algorithms = {
     "C-CMA-ES": CCMAESOptimizer,
-    #"C-REPS": CREPSOptimizer
+    "C-REPS": CREPSOptimizer
 }
-seeds = list(range(8))#list(range(20)) TODO
+seeds = list(range(20))
 
 n_samples_per_update = 50
 additional_ctor_args = {
@@ -30,7 +36,10 @@ context_dims_per_objective = {
     "sphere": 2,
     "rosenbrock": 1
 }
-n_episodes = 250 * n_samples_per_update # 200 for Sphere, 850 for Rosenbrock
+n_episodes_per_objective = {
+    "sphere": 200 * n_samples_per_update,
+    "rosenbrock": 850 * n_samples_per_update
+}
 
 
 def benchmark():
@@ -45,36 +54,16 @@ def benchmark():
             #for run_idx, seed in enumerate(seeds):
             #    feedbacks = optimize(objective_name, algorithm_name, seed)
             #    results[objective_name][algorithm_name].append(feedbacks)
-            feedbacks = Parallel(n_jobs=8)(
+            feedbacks = Parallel(n_jobs=n_jobs, verbose=10)(
                 delayed(optimize)(objective_name, algorithm_name, seed)
                 for run_idx, seed in enumerate(seeds))
             results[objective_name][algorithm_name] = feedbacks
-
-    import matplotlib.pyplot as plt
-    for objective_name, objective_results in results.items():
-        plt.figure()
-        plt.title(objective_name)
-        for algorithm_name, algorithm_results in objective_results.items():
-            n_generations = n_episodes / n_samples_per_update
-            grouped_feedbacks = np.array(algorithm_results).reshape(
-                len(seeds), n_generations, n_samples_per_update)
-            average_feedback_per_generation = grouped_feedbacks.mean(axis=2)
-            mean_feedbacks = average_feedback_per_generation.mean(axis=0)
-            std_feedbacks = average_feedback_per_generation.std(axis=0)
-            generation = np.arange(n_generations) + 1.0
-            plt.plot(generation, mean_feedbacks, label=algorithm_name)
-            plt.fill_between(
-                generation, mean_feedbacks - std_feedbacks,
-                mean_feedbacks + std_feedbacks, alpha=0.5)
-            plt.yscale("symlog")
-            plt.xlabel("Generation")
-            plt.ylabel("Average Return")
-            plt.legend()
-    plt.show()
+    return results
 
 
 def optimize(objective_name, algorithm_name, seed):
     n_context_dims = context_dims_per_objective[objective_name]
+    n_episodes = n_episodes_per_objective[objective_name]
     random_state = np.random.RandomState(seed)
     # contexts are sampled uniformly from 1 <= s <= 2 (here: < 2)
     contexts = random_state.rand(n_episodes, n_context_dims) + 1.0
@@ -104,5 +93,36 @@ def optimize(objective_name, algorithm_name, seed):
     return feedbacks
 
 
+def show_results(results):
+    for objective_name, objective_results in results.items():
+        plt.figure()
+        plt.title(objective_name)
+        for algorithm_name, algorithm_results in objective_results.items():
+            n_episodes = n_episodes_per_objective[objective_name]
+            n_generations = n_episodes / n_samples_per_update
+            grouped_feedbacks = np.array(algorithm_results).reshape(
+                len(seeds), n_generations, n_samples_per_update)
+            average_feedback_per_generation = grouped_feedbacks.mean(axis=2)
+            mean_feedbacks = average_feedback_per_generation.mean(axis=0)
+            std_feedbacks = average_feedback_per_generation.std(axis=0)
+            generation = np.arange(n_generations) + 1.0
+            plt.plot(generation, mean_feedbacks, label=algorithm_name)
+            plt.fill_between(
+                generation, mean_feedbacks - std_feedbacks,
+                mean_feedbacks + std_feedbacks, alpha=0.5)
+            plt.yscale("symlog")
+            plt.xlabel("Generation")
+            plt.ylabel("Average Return")
+            plt.legend()
+    plt.show()
+
+
 if __name__ == "__main__":
-    benchmark()
+    if os.path.exists(result_file):
+        with open(result_file, "r") as f:
+            results = pickle.load(f)
+    else:
+        results = benchmark()
+        with open(result_file, "w") as f:
+            pickle.dump(results, f)
+    show_results(results)
