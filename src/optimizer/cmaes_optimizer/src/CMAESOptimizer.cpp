@@ -92,7 +92,12 @@ namespace bolero {
         confFile = confPath;
         confFile += "/learning_config.yml";
       }
-      map = ConfigMap::fromYamlFile(confFile);
+
+      try {
+        map = ConfigMap::fromYamlFile(confFile);
+      } catch (...) {
+        fprintf(stderr, "optional learning_config.yml not loaded\n");
+      }
 
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
