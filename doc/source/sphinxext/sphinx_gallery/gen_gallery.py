@@ -11,14 +11,16 @@ when building the documentation.
 
 
 from __future__ import division, print_function, absolute_import
+import codecs
 import copy
 import re
 import os
 
-from . import glr_path_static
+from . import sphinx_compatibility, glr_path_static, __version__ as _sg_version
 from .gen_rst import generate_dir_rst, SPHX_GLR_SIG
 from .docs_resolv import embed_code_links
 from .downloads import generate_zipfiles
+from .sorting import NumberOfCodeLinesSortKey
 
 try:
     FileNotFoundError
@@ -29,17 +31,27 @@ except NameError:
 DEFAULT_GALLERY_CONF = {
     'filename_pattern': re.escape(os.sep) + 'plot',
     'examples_dirs': os.path.join('..', 'examples'),
+    'subsection_order': None,
+    'within_subsection_order': NumberOfCodeLinesSortKey,
     'gallery_dirs': 'auto_examples',
     'backreferences_dir': None,
     'doc_module': (),
     'reference_url': {},
-    # build options
-    'plot_gallery': True,
+    # Build options
+    # -------------
+    # We use a string for 'plot_gallery' rather than simply the Python boolean
+    # `True` as it avoids a warning about unicode when controlling this value
+    # via the command line switches of sphinx-build
+    'plot_gallery': 'True',
     'download_all_examples': True,
     'abort_on_example_error': False,
     'failing_examples': {},
     'expected_failing_examples': set(),
+    'thumbnail_size': (400, 280),  # Default CSS does 0.4 scaling (160, 112)
+    'min_reported_time': 0,
 }
+
+logger = sphinx_compatibility.getLogger('sphinx-gallery')
 
 
 def clean_gallery_out(build_dir):
@@ -51,7 +63,7 @@ def clean_gallery_out(build_dir):
     #  the docs, the number of images in the directory grows.
     #
     # This question has been asked on the sphinx development list, but there
-    #  was no response: http://osdir.com/ml/sphinx-dev/2011-02/msg00123.html
+    #  was no response: https://git.net/ml/sphinx-dev/2011-02/msg00123.html
     #
     # The following is a hack that prevents this behavior by clearing the
     #  image build directory from gallery images each time the docs are built.
@@ -69,7 +81,6 @@ def clean_gallery_out(build_dir):
 
 def parse_config(app):
     """Process the Sphinx Gallery configuration"""
-    # TODO: Test this behavior.
     try:
         plot_gallery = eval(app.builder.config.plot_gallery)
     except TypeError:
@@ -99,30 +110,63 @@ present issue read carefully how to update in the online documentation
 https://sphinx-gallery.readthedocs.io/en/latest/advanced_configuration.html#references-to-examples"""
 
         gallery_conf['backreferences_dir'] = gallery_conf['mod_example_dir']
-        app.warn("Old configuration for backreferences detected \n"
-                 "using the configuration variable `mod_example_dir`\n"
-                 + backreferences_warning
-                 + update_msg, prefix="DeprecationWarning: ")
+        logger.warning(
+            "Old configuration for backreferences detected \n"
+            "using the configuration variable `mod_example_dir`\n"
+            "%s%s",
+            backreferences_warning,
+            update_msg,
+            type=DeprecationWarning)
 
     elif gallery_conf['backreferences_dir'] is None:
         no_care_msg = """
 If you don't care about this features set in your conf.py
 'backreferences_dir': False\n"""
 
-        app.warn(backreferences_warning + no_care_msg)
+        logger.warning(backreferences_warning + no_care_msg)
 
         gallery_conf['backreferences_dir'] = os.path.join(
             'modules', 'generated')
-        app.warn("using old default 'backreferences_dir':'{}'.\n"
-                 " This will be disabled in future releases\n".format(
-                     gallery_conf['backreferences_dir']),
-                 prefix="DeprecationWarning: ")
+        logger.warning(
+            "Using old default 'backreferences_dir':'%s'.\n"
+            "This will be disabled in future releases\n",
+            gallery_conf['backreferences_dir'],
+            type=DeprecationWarning)
 
     # this assures I can call the config in other places
     app.config.sphinx_gallery_conf = gallery_conf
     app.config.html_static_path.append(glr_path_static())
 
     return gallery_conf
+
+
+def get_subsections(srcdir, examples_dir, sortkey):
+    """Returns the list of subsections of a gallery
+
+    Parameters
+    ----------
+    srcdir : str
+        absolute path to directory containing conf.py
+    examples_dir : str
+        path to the examples directory relative to conf.py
+    sortkey : callable
+        The sort key to use.
+
+    Returns
+    -------
+    out : list
+        sorted list of gallery subsection folder names
+
+    """
+    subfolders = [subfolder for subfolder in os.listdir(examples_dir)
+                  if os.path.exists(os.path.join(examples_dir, subfolder, 'README.txt'))]
+    base_examples_dir_path = os.path.relpath(examples_dir, srcdir)
+    subfolders_with_path = [os.path.join(base_examples_dir_path, item)
+                            for item in subfolders]
+    sorted_subfolders = sorted(subfolders_with_path, key=sortkey)
+
+    return [subfolders[i] for i in [subfolders_with_path.index(item)
+                                    for item in sorted_subfolders]]
 
 
 def _prepare_sphx_glr_dirs(gallery_conf, srcdir):
@@ -132,8 +176,13 @@ def _prepare_sphx_glr_dirs(gallery_conf, srcdir):
 
     if not isinstance(examples_dirs, list):
         examples_dirs = [examples_dirs]
+
     if not isinstance(gallery_dirs, list):
         gallery_dirs = [gallery_dirs]
+
+    for outdir in gallery_dirs:
+        if not os.path.exists(outdir):
+            os.makedirs(outdir)
 
     if bool(gallery_conf['backreferences_dir']):
         backreferences_dir = os.path.join(
@@ -141,7 +190,7 @@ def _prepare_sphx_glr_dirs(gallery_conf, srcdir):
         if not os.path.exists(backreferences_dir):
             os.makedirs(backreferences_dir)
 
-    return examples_dirs, gallery_dirs
+    return zip(examples_dirs, gallery_dirs)
 
 
 def generate_gallery_rst(app):
@@ -150,7 +199,7 @@ def generate_gallery_rst(app):
     Start the sphinx-gallery configuration and recursively scan the examples
     directories in order to populate the examples gallery
     """
-    print('Generating gallery')
+    logger.info('generating gallery...', color='white')
     gallery_conf = parse_config(app)
 
     clean_gallery_out(app.builder.outdir)
@@ -158,55 +207,56 @@ def generate_gallery_rst(app):
     seen_backrefs = set()
 
     computation_times = []
-    examples_dirs, gallery_dirs = _prepare_sphx_glr_dirs(gallery_conf,
-                                                         app.builder.srcdir)
+    workdirs = _prepare_sphx_glr_dirs(gallery_conf,
+                                      app.builder.srcdir)
 
-    for examples_dir, gallery_dir in zip(examples_dirs, gallery_dirs):
+    for examples_dir, gallery_dir in workdirs:
+
         examples_dir = os.path.join(app.builder.srcdir, examples_dir)
         gallery_dir = os.path.join(app.builder.srcdir, gallery_dir)
 
-        for workdir in [examples_dir, gallery_dir]:
-            if not os.path.exists(workdir):
-                os.makedirs(workdir)
-        # Here we don't use an os.walk, but we recurse only twice: flat is
-        # better than nested.
-        this_fhindex, this_computation_times = generate_dir_rst(
-            examples_dir, gallery_dir, gallery_conf, seen_backrefs)
-        if this_fhindex == "":
+        if not os.path.exists(os.path.join(examples_dir, 'README.txt')):
             raise FileNotFoundError("Main example directory {0} does not "
                                     "have a README.txt file. Please write "
                                     "one to introduce your gallery."
                                     .format(examples_dir))
 
+        # Here we don't use an os.walk, but we recurse only twice: flat is
+        # better than nested.
+
+        this_fhindex, this_computation_times = generate_dir_rst(
+            examples_dir, gallery_dir, gallery_conf, seen_backrefs)
+
         computation_times += this_computation_times
 
         # we create an index.rst with all examples
-        fhindex = open(os.path.join(gallery_dir, 'index.rst'), 'w')
-        # :orphan: to suppress "not included in TOCTREE" sphinx warnings
-        fhindex.write(":orphan:\n\n" + this_fhindex)
-        for directory in sorted(os.listdir(examples_dir)):
-            if os.path.isdir(os.path.join(examples_dir, directory)):
-                src_dir = os.path.join(examples_dir, directory)
-                target_dir = os.path.join(gallery_dir, directory)
+        with codecs.open(os.path.join(gallery_dir, 'index.rst'), 'w',
+                         encoding='utf-8') as fhindex:
+            # :orphan: to suppress "not included in TOCTREE" sphinx warnings
+            fhindex.write(":orphan:\n\n" + this_fhindex)
+
+            for subsection in get_subsections(app.builder.srcdir, examples_dir, gallery_conf['subsection_order']):
+                src_dir = os.path.join(examples_dir, subsection)
+                target_dir = os.path.join(gallery_dir, subsection)
                 this_fhindex, this_computation_times = generate_dir_rst(src_dir, target_dir, gallery_conf,
                                                                         seen_backrefs)
                 fhindex.write(this_fhindex)
                 computation_times += this_computation_times
 
-        if gallery_conf['download_all_examples']:
-            download_fhindex = generate_zipfiles(gallery_dir)
-            fhindex.write(download_fhindex)
+            if gallery_conf['download_all_examples']:
+                download_fhindex = generate_zipfiles(gallery_dir)
+                fhindex.write(download_fhindex)
 
-        fhindex.write(SPHX_GLR_SIG)
-        fhindex.flush()
+            fhindex.write(SPHX_GLR_SIG)
 
     if gallery_conf['plot_gallery']:
-        print("Computation time summary:")
-        for time_elapsed, fname in sorted(computation_times)[::-1]:
+        logger.info("computation time summary:", color='white')
+        for time_elapsed, fname in sorted(computation_times, reverse=True):
             if time_elapsed is not None:
-                print("\t- %s : %.2g sec" % (fname, time_elapsed))
+                if time_elapsed >= gallery_conf['min_reported_time']:
+                    logger.info("\t- %s: %.2g sec", fname, time_elapsed)
             else:
-                print("\t- %s : not run" % fname)
+                logger.info("\t- %s: not run", fname)
 
 
 def touch_empty_backreferences(app, what, name, obj, options, lines):
@@ -248,13 +298,11 @@ def sumarize_failing_examples(app, exception):
 
     examples_expected_to_fail = failing_examples.intersection(
         expected_failing_examples)
-    expected_fail_msg = []
     if examples_expected_to_fail:
-        expected_fail_msg.append("\n\nExamples failing as expected:")
+        logger.info("Examples failing as expected:", color='brown')
         for fail_example in examples_expected_to_fail:
-            expected_fail_msg.append(fail_example + ' failed leaving traceback:\n' +
-                                     gallery_conf['failing_examples'][fail_example] + '\n')
-        print("\n".join(expected_fail_msg))
+            logger.info('%s failed leaving traceback:', fail_example)
+            logger.info(gallery_conf['failing_examples'][fail_example])
 
     examples_not_expected_to_fail = failing_examples.difference(
         expected_failing_examples)
@@ -263,7 +311,8 @@ def sumarize_failing_examples(app, exception):
         fail_msgs.append("Unexpected failing examples:")
         for fail_example in examples_not_expected_to_fail:
             fail_msgs.append(fail_example + ' failed leaving traceback:\n' +
-                             gallery_conf['failing_examples'][fail_example] + '\n')
+                             gallery_conf['failing_examples'][fail_example] +
+                             '\n')
 
     examples_not_expected_to_pass = expected_failing_examples.difference(
         failing_examples)
@@ -288,6 +337,8 @@ def get_default_config_value(key):
 
 def setup(app):
     """Setup sphinx-gallery sphinx extension"""
+    sphinx_compatibility._app = app
+
     app.add_config_value('sphinx_gallery_conf', DEFAULT_GALLERY_CONF, 'html')
     for key in ['plot_gallery', 'abort_on_example_error']:
         app.add_config_value(key, get_default_config_value(key), 'html')
@@ -295,7 +346,8 @@ def setup(app):
     app.add_stylesheet('gallery.css')
 
     # Sphinx < 1.6 calls it `_extensions`, >= 1.6 is `extensions`.
-    extensions_attr = '_extensions' if hasattr(app, '_extensions') else 'extensions'
+    extensions_attr = '_extensions' if hasattr(
+        app, '_extensions') else 'extensions'
     if 'sphinx.ext.autodoc' in getattr(app, extensions_attr):
         app.connect('autodoc-process-docstring', touch_empty_backreferences)
 
@@ -303,3 +355,11 @@ def setup(app):
 
     app.connect('build-finished', sumarize_failing_examples)
     app.connect('build-finished', embed_code_links)
+    metadata = {'parallel_read_safe': True,
+                'version': _sg_version}
+    return metadata
+
+
+def setup_module():
+    # HACK: Stop nosetests running setup() above
+    pass
