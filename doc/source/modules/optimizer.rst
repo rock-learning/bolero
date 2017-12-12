@@ -55,6 +55,10 @@ BOLeRo.
    * - :ref:`REPSOptimizer <reps_opt>`
      - 5 - 500 parameters, smooth objective functions
 
+   * - :ref:`ACMESOptimizer <acmes_opt>`
+     - 5 - 150 parameters, ill-conditioned, non-separable, unimodal objective
+       functions, more sample-efficient than standard CMA-ES
+
 
 .. _no_opt:
 
@@ -105,6 +109,18 @@ displays one generation of samples. Each generation is sampled from the same
 search distribution. The old search distribution is displayed by an orange
 equiprobable ellipse and the updated search distribution is displayed by a
 green ellipse.
+
+
+.. _acmes_opt:
+
+ACM-ES
+------
+
+:class:`ACMESOptimizer` is CMA-ES with a surrogate model. The surrogate model
+is a ranking SVM that tries to predict the rank of samples locally. This
+improves sample efficiency but also increases computational demand of the
+optimization algorithm. If an episode has a high cost, it will make sense
+to prefer this variant of CMA-ES.
 
 
 .. _ipop_cmaes_opt:
