@@ -184,12 +184,12 @@ class CCMAESOptimizer(ContextualOptimizer):
                                   ((self.c1 + self.cmu) * self.n_params * 10))
 
     def get_desired_context(self):
-        """C-REPS does not actively select the context.
+        """C-CMA-ES does not actively select the context.
 
         Returns
         -------
         context : None
-            C-REPS does not have any preference
+            C-CMA-ES does not have any preference
         """
         return None
 
@@ -228,7 +228,11 @@ class CCMAESOptimizer(ContextualOptimizer):
         self._add_sample(rewards)
 
         if self.it % self.n_samples_per_update == 0:
-            self._update()
+            s = np.asarray(self.history_s)
+            phi_s = np.asarray(self.history_phi_s)
+            theta = np.asarray(self.history_theta)
+            R = np.asarray(self.history_R)
+            self._update(s, phi_s, theta, R)
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
@@ -243,12 +247,7 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         self.it += 1
 
-    def _update(self):
-        s = np.asarray(self.history_s)
-        phi_s = np.asarray(self.history_phi_s)
-        theta = np.asarray(self.history_theta)
-        R = np.asarray(self.history_R)
-
+    def _update(self, s, phi_s, theta, R):
         advantages = R - self._estimate_baseline(s, R)
         indices = np.argsort(np.argsort(advantages)[::-1])
 
