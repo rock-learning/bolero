@@ -209,7 +209,7 @@ def _from_dict(name, config):
         return clazz(**c)
     except TypeError as e:
         raise TypeError("Parameters for type '%s' do not match: %r. Reason: "
-                        "'%s'" % (type_name, c, e.message))
+                        "'%s'" % (type_name, c, e))
 
 
 PERMITTED_BASECLASSES = [
