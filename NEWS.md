@@ -9,12 +9,14 @@ Not released yet.
 * Continuous integration with Travis CI
 * New behavior search: Monte Carlo RL
 * New optimizer: relative entropy policy search (REPS)
+* New optimizer: ACM-ES (CMA-ES with surrogate model)
 
 ### Bugfixes
 
 * DMPSequence works with multiple dimensions
 * Minor fixes in docstrings
 * Multiple minor fixes for Travis CI
+* Fixed scaling issues in C-REPS
 
 ### Documentation
 
