@@ -7,6 +7,7 @@ Not released yet.
 ### Features
 
 * Continuous integration with Travis CI
+* Added docker image
 * New behavior search: Monte Carlo RL
 * New optimizer: relative entropy policy search (REPS)
 * New optimizer: ACM-ES (CMA-ES with surrogate model)

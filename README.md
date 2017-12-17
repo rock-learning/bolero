@@ -21,7 +21,7 @@ integration runs on 14.04.
 Using it on Mac OS or Windows is possible, however, the installation might be
 more complicated. We recommend to use Docker if you want to take a quick
 look at the software. Instructions are
-[here](https://github.com/rock-learning/bolero/docker/README.md#create-container).
+[here](https://github.com/rock-learning/bolero/blob/master/docker/README.md#create-container).
 
 In order to install all dependencies and BOLeRo you can use the installation
 script
