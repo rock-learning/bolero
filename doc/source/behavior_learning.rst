@@ -21,6 +21,7 @@ episode (or rollout or trial), the **behavior** is executed in the
 generates an action based on the current state in each step.
 
 .. image:: _static/control_flow.svg
+   :width: 80%
    :alt: Control flow
    :align: center
 

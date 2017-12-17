@@ -34,6 +34,11 @@ Controller
 A :class:`Controller` can be used to do behavior search when a behavior search
 algorithm is defined or it can be used to execute behaviors in an environment.
 
+.. include:: ../gen_modules/backreferences/bolero.controller.Controller.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 .. _contextual_controller:
 
 Contextual Controller

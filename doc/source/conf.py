@@ -79,7 +79,10 @@ html_show_sphinx = False
 html_show_copyright = True
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
-    "gallery_dirs"  : "auto_examples"
+    "gallery_dirs": "auto_examples",
+    "backreferences_dir": "gen_modules/backreferences",
+    "doc_module": ("bolero",),
+    "download_section_examples": False
 }
 
 # Add any extra paths that contain custom files (such as robots.txt or

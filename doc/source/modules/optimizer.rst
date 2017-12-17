@@ -68,6 +68,11 @@ No Optimizer
 A :class:`NoOptimizer` does not optimize at all. It can be used as a baseline
 for optimizers.
 
+.. include:: ../gen_modules/backreferences/bolero.optimizer.NoOptimizer.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 
 .. _random_opt:
 

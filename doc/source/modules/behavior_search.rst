@@ -41,6 +41,11 @@ The optimizer does not need to know anything about the behavior except its
 number of parameters and the performance in the environment to do direct policy
 search.
 
+.. include:: ../gen_modules/backreferences/bolero.behavior_search.BlackBoxSearch.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 .. _monte_carlo_rl:
 
 Monte Carlo Reinforcement Learning
@@ -52,6 +57,11 @@ epsilon-greedy policy that is used during the learning process is derived
 from the state-action value function Q. Q is estimated from the experience of
 previous episodes. This implementation can only handle discrete state and
 action spaces.
+
+.. include:: ../gen_modules/backreferences/bolero.behavior_search.MonteCarloRL.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
 
 
 Contextual Behavior Search
