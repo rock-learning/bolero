@@ -22,6 +22,7 @@ Not released yet.
 
 * Documented merge policy
 * Added meta information about the project to the manifest.xml
+* Updated documentation on how to build custom MARS environments
 
 ## Version 0.0.1
 
