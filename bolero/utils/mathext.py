@@ -3,8 +3,9 @@ import numpy as np
 import scipy
 from .dependency import compatible_version
 
-
-if compatible_version("scipy", ">= 0.12"):
+if compatible_version("scipy", ">= 1.0.0"):
+    from scipy.special import logsumexp
+elif compatible_version("scipy", ">= 0.12"):
     # You can use this function from current scipy implementations
     from scipy.misc import logsumexp
 else:
