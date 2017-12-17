@@ -2,6 +2,11 @@ import logging
 import numpy as np
 from .environment import Environment
 from ..utils.log import get_logger
+try:
+    import gym
+    gym_available = True
+except ImportError:
+    gym_available = False
 
 
 class BoxClipHandler(object):
@@ -36,6 +41,9 @@ class HighLowHandler(object):
 class OpenAiGym(Environment):
     """Wrapper for OpenAI Gym environments.
 
+    gym is a dependency and it is not installed with BOLeRo by default.
+    You have to install it manually with "sudo pip install gym".
+
     OpenAI Gym is a toolkit for developing and comparing reinforcement
     learning algorithms. See `here <https://gym.openai.com/>`_ for details.
 
@@ -59,6 +67,9 @@ class OpenAiGym(Environment):
     """
     def __init__(self, env_name="CartPole-v0", render=False, log_to_file=False,
                  log_to_stdout=False, seed=None):
+        if not gym_available:
+            raise ImportError(
+                "OpenAiGym environment requires the Python package 'gym'.")
         self.env_name = env_name
         self.render = render
         self.log_to_file = log_to_file
@@ -66,14 +77,9 @@ class OpenAiGym(Environment):
         self.seed = seed
 
     def init(self):
-        try:
-            self.gym = __import__("gym")
-            self.gym.configuration.undo_logger_setup()
-        except ImportError:
-            raise ImportError("OpenAiGym environment requires the Python "
-                              "package 'gym'.")
+        gym.configuration.undo_logger_setup()
 
-        self.env = self.gym.make(self.env_name)
+        self.env = gym.make(self.env_name)
         self.n_inputs, self.input_handler = self._init_space(
             self.env.action_space)
         self.inputs = np.empty(self.n_inputs)
@@ -90,18 +96,18 @@ class OpenAiGym(Environment):
             self.logger.info("Number of outputs: %d" % self.n_outputs)
 
     def _init_space(self, space):
-        if not isinstance(space, self.gym.Space):
+        if not isinstance(space, gym.Space):
             raise ValueError("Unknown space, type '%s'" % type(space))
-        elif isinstance(space, self.gym.spaces.Box):
+        elif isinstance(space, gym.spaces.Box):
             n_dims = np.product(space.shape)
             handler = BoxClipHandler(space.low, space.high)
-        elif isinstance(space, self.gym.spaces.Discrete):
+        elif isinstance(space, gym.spaces.Discrete):
             n_dims = 1
             handler = IntHandler(space.n)
-        elif isinstance(space, self.gym.spaces.HighLow):
+        elif isinstance(space, gym.spaces.HighLow):
             n_dims = space.num_rows
             handler = HighLowHandler(space.matrix)
-        elif isinstance(space, self.gym.spaces.Tuple):
+        elif isinstance(space, gym.spaces.Tuple):
             raise NotImplementedError("Space of type '%s' is not supported"
                                       % type(space))
         return n_dims, handler

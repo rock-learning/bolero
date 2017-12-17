@@ -4,9 +4,13 @@ from .objective_functions import ObjectiveFunctionBase, ObjectiveFunction
 from .contextual_objective_functions import ContextualObjectiveFunction
 from .optimum_trajectory import OptimumTrajectory
 from .catapult import Catapult
-from .openaigym import OpenAiGym
 
 
 __all__ = [
     "Environment", "ContextualEnvironment", "SetContext", "ObjectiveFunction",
-    "ContextualObjectiveFunction", "OptimumTrajectory", "Catapult", "OpenAiGym"]
+    "ContextualObjectiveFunction", "OptimumTrajectory", "Catapult"]
+
+from .openaigym import OpenAiGym, gym_available
+__all__.append("gym_available")
+if gym_available:
+    __all__.append("OpenAiGym")
