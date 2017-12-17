@@ -51,7 +51,7 @@ You can give containers names that can be used like their IDs:
 
 ## Setup GPU
 
-You usually have to set up your GPU if you use the EnviRe visualizer. For
+You usually have to set up your GPU if you use the visualization of MARS. For
 example, to make an Nvidia GPU available in the docker container, the following
 steps have to be taken:
 
