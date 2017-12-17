@@ -79,9 +79,9 @@ and run it with
 
 .. code-block:: bash
 
-    nosetests
+    nosetests bolero -sv
 
-in the bolero main directory.
+in the bolero main directory `bolero-dev/learning/bolero`.
 
 Building the Documentation
 ==========================
