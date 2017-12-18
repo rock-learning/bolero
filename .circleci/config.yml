@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Build
-          command: pwd
+          command: ./bootstrap_bolero.sh
       - run:
           name: Test
-          command: ls
+          command: cd bolero-dev; source env.sh; cd learning/bolero/; nosetests bolero -sv
