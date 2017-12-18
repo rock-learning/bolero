@@ -6,7 +6,7 @@ Not released yet.
 
 ### Features
 
-* Continuous integration with Travis CI
+* Continuous integration with Travis CI and CircleCI
 * Added docker image
 * New behavior search: Monte Carlo RL
 * New optimizer: relative entropy policy search (REPS)
