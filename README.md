@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/rock-learning/bolero.svg?branch=master)](https://travis-ci.org/rock-learning/bolero)
+[![Travis Status](https://travis-ci.org/rock-learning/bolero.svg?branch=master)](https://travis-ci.org/rock-learning/bolero)
+[![CircleCI Status](https://circleci.com/gh/rock-learning/bolero/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/bolero)
 
 <img width="60%" src="doc/source/_static/logo.png" />
 
