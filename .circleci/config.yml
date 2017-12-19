@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: Build
-          command: .circleci/build.sh
+          command: ./build_tools/circleci/build.sh
       - run:
           name: Test
-          command: .circleci/test.sh
+          command: ./build_tools/circleci/test.sh
