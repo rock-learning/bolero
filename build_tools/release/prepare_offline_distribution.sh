@@ -40,7 +40,7 @@ if [ -f /etc/lsb-release ]; then
     fi
 fi
 
-mkdir bolero-dev
+mkdir -p bolero-dev
 cd bolero-dev
 DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
 git clone https://github.com/rock-simulation/pybob.git
@@ -59,3 +59,6 @@ echo "rockFlavor: master" >> pybob.yml
 ./pybob.py buildconf
 cp ../../manifest ../autoproj/manifest
 ./pybob.py fetch
+cp ../../env.sh ../env.sh
+cd ../..
+zip -r bolero_release.zip bolero-dev
