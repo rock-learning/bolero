@@ -13,10 +13,10 @@ layout:
   - learning/bolero/src/representation/dmp
   - learning/bolero
   # Optional packages
-  - learning/bolero/src/environment/mars_environment
-  - simulation/mars/smurf_loader
-  - simulation/mars/entity_generation/entity_factory
-  - base/logging
+  #- learning/bolero/src/environment/mars_environment
+  #- simulation/mars/smurf_loader
+  #- simulation/mars/entity_generation/entity_factory
+  #- base/logging
 
 
 exclude_packages:
