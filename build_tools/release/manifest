@@ -1,0 +1,22 @@
+package_sets:
+  - github: rock-learning/package_set
+
+layout:
+  - learning/bolero/include
+  - learning/bolero/src/bl_loader
+  - learning/bolero/src/controller
+  - learning/bolero/src/optimizer/cmaes_optimizer
+  - learning/bolero/src/optimizer/pso_optimizer
+  - learning/bolero/src/environment/cec13_test_functions
+  - learning/bolero/src/environment/function_approximation
+  - learning/bolero/src/environment/mountain_car
+  - learning/bolero/src/representation/dmp
+  - learning/bolero
+  # Optional packages
+  - learning/bolero/src/environment/mars_environment
+  - simulation/mars/smurf_loader
+  - simulation/mars/entity_generation/entity_factory
+  - base/logging
+
+
+exclude_packages:

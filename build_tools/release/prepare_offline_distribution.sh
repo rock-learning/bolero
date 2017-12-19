@@ -1,10 +1,13 @@
 #! /bin/bash
+
+# clean up environment variables that might interfere with this script
 unset AUTOPROJ_CURRENT_ROOT
 unset MARS_SCRIPT_DIR
 unset LD_LIBRARY_PATH
 unset ROCK_CONFIGURATION_PATH
 unset PYTHONPATH
 unset PKG_CONFIG_PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # checking minimal dependencies on Ubuntu systems...
 if [ -f /etc/lsb-release ]; then
@@ -40,7 +43,7 @@ fi
 mkdir bolero-dev
 cd bolero-dev
 DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
-git clone https://github.com/AlexanderFabisch/pybob.git
+git clone https://github.com/rock-simulation/pybob.git
 cd pybob
 
 # create default config for bolero
@@ -53,5 +56,6 @@ echo "pyScriptDir: ${DEV_DIR}/pybob" >> pybob.yml
 echo "rockFlavor: master" >> pybob.yml
 
 # clone build configuration
+./pybob.py buildconf
+cp ../../manifest ../autoproj/manifest
 ./pybob.py fetch
-
