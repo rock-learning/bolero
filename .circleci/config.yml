@@ -1,11 +1,9 @@
 version: 2
 general:
-    build_dir: build
-    artifacts:
-        - "bolero-dev/install"
-    branches:
-        ignore:
-            - gh-pages
+  build_dir: build
+  branches:
+    ignore:
+      - gh-pages
 jobs:
   build:
     docker:
@@ -18,3 +16,6 @@ jobs:
       - run:
           name: Test
           command: .circleci/test.sh
+      - run:
+          name: Deploy
+          command: cp -R $CIRCLE_WORKING_DIRECTORY/bolero-dev $CIRCLE_ARTIFACTS
