@@ -43,7 +43,7 @@ fi
 mkdir -p bolero-dev
 cd bolero-dev
 DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
-git clone https://github.com/rock-simulation/pybob.git
+git clone https://github.com/AlexanderFabisch/pybob.git --branch path
 cd pybob
 
 # create default config for bolero
