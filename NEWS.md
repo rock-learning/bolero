@@ -1,8 +1,8 @@
 # Release History
 
-## Version 0.0.2
+## Version 0.1.0
 
-Not released yet.
+2017/12/19
 
 ### Features
 
