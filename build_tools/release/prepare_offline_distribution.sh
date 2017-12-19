@@ -59,6 +59,11 @@ echo "rockFlavor: master" >> pybob.yml
 ./pybob.py buildconf
 cp ../../manifest ../autoproj/manifest
 ./pybob.py fetch
-cp ../../env.sh ../env.sh
+
+# bundle
 cd ../..
+cp README.md bolero-dev/README.md
+cp install.sh bolero-dev/install.sh
+rm bolero-dev/env.sh
+rm bolero-dev/pybob/pybob.yml
 zip -r bolero_release.zip bolero-dev

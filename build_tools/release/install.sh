@@ -1,5 +1,11 @@
-#! /bin/sh
-export MARS_SCRIPT_DIR="$AUTOPROJ_CURRENT_ROOT/pybob"
+#! /bin/bash
+
+AUTOPROJ_CURRENT_ROOT=`pwd`
+MARS_SCRIPT_DIR=$AUTOPROJ_CURRENT_ROOT/pybob
+
+echo "#! /bin/sh" > env.sh
+echo "export AUTOPROJ_CURRENT_ROOT=$AUTOPROJ_CURRENT_ROOT" >> env.sh
+echo "export MARS_SCRIPT_DIR='$AUTOPROJ_CURRENT_ROOT/pybob'
 export PATH="$PATH:$AUTOPROJ_CURRENT_ROOT/install/bin"
 export LD_LIBRARY_PATH="$AUTOPROJ_CURRENT_ROOT/install/lib:$DYLD_LIBRARY_PATH"
 export ROCK_CONFIGURATION_PATH="$AUTOPROJ_CURRENT_ROOT/install/configuration"
@@ -19,3 +25,16 @@ alias bob-list='${MARS_SCRIPT_DIR}/pybob.py list'
 alias bob-fetch='${MARS_SCRIPT_DIR}/pybob.py fetch'
 alias bob-show-log='${MARS_SCRIPT_DIR}/pybob.py show-log'
 . ${MARS_SCRIPT_DIR}/auto_complete.sh
+" >> env.sh
+
+echo "autoprojEnv: false" > pybob/pybob.yml
+echo "buildconfAddress: https://github.com/rock-learning/bolero_buildconf.git" >> pybob/pybob.yml
+echo "buildconfBranch: ''" >> pybob/pybob.yml
+echo "defBuildType: debug" >> pybob/pybob.yml
+echo "devDir: ${AUTOPROJ_CURRENT_ROOT}" >> pybob/pybob.yml
+echo "pyScriptDir: ${AUTOPROJ_CURRENT_ROOT}/pybob" >> pybob/pybob.yml
+echo "rockFlavor: master" >> pybob/pybob.yml
+
+source env.sh
+cd pybob
+./pybob.py install
