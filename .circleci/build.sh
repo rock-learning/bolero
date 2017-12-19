@@ -5,4 +5,4 @@ cd bolero-dev
 source env.sh
 cd learning/bolero
 git checkout $CIRCLE_BRANCH
-bob-install
+${MARS_SCRIPT_DIR}/pybob.py install
