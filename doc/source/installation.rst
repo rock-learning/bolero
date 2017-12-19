@@ -4,10 +4,27 @@
 Installation
 ============
 
-The installation process for BOLeRo is a little bit unusual because we depend
-on the latest versions of many libraries and support Linux, MaxOS and Windows
-so that we usually have to download and build them. You can download the
-installation script and run it with
+There are two alternatives to install BOLeRo.
+
+Download Source
+===============
+
+BOLeRo is also available at [mloss.org](http://mloss.org/software/view/698/)
+or you can download the latest release from
+[Github](https://github.com/rock-learning/bolero/releases). After you unzipped
+the release, you can build BOLeRo with the script `install.sh` from the folder
+`bolero-dev`. Note that you have to run it from that folder, otherwise the
+environment variables will not be configured correctly. The installation
+script will also install dependencies.
+
+Installation Script
+===================
+
+This is the recommended way to install BOLeRo. The installation process for
+BOLeRo is a little bit unusual because we depend on the latest versions of
+many libraries and support Linux, MaxOS and Windows so that we usually have
+to download and build them. You can download the installation script and run
+it with
 
 .. code-block:: bash
 
