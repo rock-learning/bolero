@@ -127,7 +127,11 @@ class CREPSOptimizer(ContextualOptimizer):
         Number of samples that will be used to update a policy.
 
     context_features : string or callable, optional (default: None)
-        (Nonlinear) feature transformation for the context.
+        (Nonlinear) feature transformation for the context. Possible options
+        are 'constant', 'linear', 'affine', 'quadratic', 'cubic', or you can
+        write a custom function that computes a transformation of the context.
+        This will make a linear upper level policy capable of representing
+        nonlinear functions.
 
     gamma : float, optional (default: 1e-4)
         Regularization parameter. Should be removed in the future.

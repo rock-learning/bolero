@@ -4,6 +4,10 @@
 
 Not released yet
 
+### Documentation
+
+* Documented `context_features` of CREPSOptimizer
+
 ## Version 0.1.0
 
 2017/12/19
