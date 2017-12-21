@@ -14,11 +14,12 @@ optimization optimizes a parametric function or conditional probability
 distribution. Two instances of contextual optimization algorithms are
 Contextual Relative Entropy Policy Search (C-REPS) and Contextual Covariance
 Matrix Adaptation Evolution Strategy (C-CMA-ES). Both use linear models with
-Gaussian exploration as a search distribution. Differences are in the update of
-the covariance matrix. In this example, we use a very simple objective function
-to illustrate samples from the search distribution and the current mean of the
-search distribution. Each sample is weighted based on the reward to update the
-search distribution. Weights are indicated by the color of displayed samples.
+quadratic features and Gaussian exploration as a search distribution.
+Differences are in the update of the covariance matrix. In this example, we
+use a very simple objective function to illustrate samples from the search
+distribution and the current mean of the search distribution. Each sample is
+weighted based on the reward to update the search distribution. Weights are
+indicated by the color of displayed samples.
 
 We initialize the search distribution with an intentionally low variance.
 C-CMA-ES adapts quite fast, C-REPS is slower because it bounds the
@@ -33,7 +34,7 @@ from bolero.optimizer import CCMAESOptimizer, CREPSOptimizer
 
 
 def objective(x, s):
-    x_offset = x + np.array([[2.0]]).dot(s)
+    x_offset = x + s.dot(np.array([[0.2]])).dot(s)
     return -np.array([x_offset.dot(x_offset)])
 
 
@@ -43,15 +44,15 @@ def plot_objective():
         objective(np.array([params[i, j]]), np.array([contexts[i, j]]))[0]
         for i in range(contexts.shape[0])] for j in range(contexts.shape[1])])
     plt.contourf(params, contexts, rewards, cmap=plt.cm.Blues,
-                 levels=np.linspace(rewards.min(), rewards.max(), 30))
+                 levels=np.linspace(rewards.min(), rewards.max(), 50))
     plt.setp(plt.gca(), xticks=(), yticks=(), xlim=(-5, 5), ylim=(-5, 5))
 
 
 random_state = np.random.RandomState(0)
 initial_params = 4.0 * np.ones(1)
-n_samples_per_update = 25
-variance = 0.1
-context_features = "affine"
+n_samples_per_update = 30
+variance = 0.03
+context_features = "quadratic"
 ccmaes = CCMAESOptimizer(
     initial_params=initial_params, n_samples_per_update=n_samples_per_update,
     variance=variance, context_features=context_features, random_state=0)
