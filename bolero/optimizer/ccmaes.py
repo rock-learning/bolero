@@ -249,9 +249,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         self.it += 1
 
     def _update(self, s, phi_s, theta, R):
-        baseline_features = self.reward_model_features.fit_transform(s)
-        self.reward_model.fit(baseline_features, R)
-        advantages = R - self.reward_model.predict(baseline_features)
+        advantages = self._estimate_baseline(s, R)
         indices = np.argsort(np.argsort(advantages)[::-1])
 
         self.weights = self.ordered_weights[indices]
@@ -304,6 +302,11 @@ class CCMAESOptimizer(ContextualOptimizer):
         # Adapt step size with factor <= exp(0.6)
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
         self.policy_.policy.Sigma = self.var * self.cov
+
+    def _estimate_baseline(self, s, R):
+        baseline_features = self.reward_model_features.fit_transform(s)
+        self.reward_model.fit(baseline_features, R)
+        return R - self.reward_model.predict(baseline_features)
 
     def best_policy(self):
         """Return current best estimate of contextual policy.
