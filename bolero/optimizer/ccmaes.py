@@ -236,7 +236,8 @@ class CCMAESOptimizer(ContextualOptimizer):
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
-        self.logger.info("[CCMAES] Reward %.6f" % self.reward)
+        if self.log_to_stdout or self.log_to_file:
+            self.logger.info("[CCMAES] Reward %.6f" % self.reward)
 
         phi_s = self.policy_.transform_context(self.context)
 
