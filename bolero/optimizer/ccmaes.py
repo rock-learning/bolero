@@ -305,7 +305,7 @@ class CCMAESOptimizer(ContextualOptimizer):
         return R - self.reward_model.predict(baseline_features)
 
     def _update_step_size_evolution_path(self, mean_diff):
-        self.ps *= (1.0 - self.c_sigma)
+        self.ps *= 1.0 - self.c_sigma
         self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
                             self.mueff) * self.invsqrtC.dot(mean_diff))
 
