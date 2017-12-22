@@ -31,7 +31,7 @@ namespace bolero {
       lambda = 0;
     }
 
-    void CMAESOptimizer::init(int dimension) {
+    void CMAESOptimizer::init(int dimension, std::string config) {
       if(isInit) deinit();
 
       assert(dimension > 0);
@@ -85,19 +85,7 @@ namespace bolero {
         sigma[i] = 1.0;
       }
 
-      ConfigMap map;
-      std::string confFile = "learning_config.yml";
-      char *confPath = getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      }
-
-      try {
-        map = ConfigMap::fromYamlFile(confFile);
-      } catch (...) {
-        fprintf(stderr, "optional learning_config.yml not loaded\n");
-      }
+      ConfigMap map = ConfigMap::fromYamlString(config);
 
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;

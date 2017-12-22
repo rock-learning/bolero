@@ -47,7 +47,7 @@ namespace bolero {
         delete marsThread;
     }
 
-    void MARSEnvironmentHelper::init() {
+    void MARSEnvironmentHelper::init(std::string config) {
       int *argc = (int*)malloc(sizeof(int));
       char **argv = (char**)malloc(sizeof(char*)*4);
       *argc = 3;
@@ -61,7 +61,7 @@ namespace bolero {
 
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml", true);
+      map = ConfigMap::fromYamlString(config);
 
       graphicsStepSkip = graphicsUpdateTime = 0;
 
@@ -81,7 +81,20 @@ namespace bolero {
           graphicsStepSkip = (*map2)["graphicsStepSkip"];
         else
           graphicsStepSkip = 0u;
+
+        if(map2->hasKey("calc_ms")) {
+          double dValue = (*map2)["calc_ms"][0];
+          if(marsPlugin->control->cfg) {
+            marsPlugin->control->cfg->setPropertyValue(
+                "Simulator", "calc_ms", "value", dValue);
+          }
+        }
+
+        if(map2->hasKey("stepTimeMs")) {
+          marsPlugin->stepTimeMs = (*map2)["stepTimeMs"];
+        }
       }
+
       if(enableGUI)
         fprintf(stderr, "enableGUI: yes\n");
       else
