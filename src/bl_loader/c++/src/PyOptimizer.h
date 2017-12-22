@@ -25,7 +25,7 @@ namespace bolero { namespace bl_loader {
                 int libVersion);
 
     // Optimizer methods
-    virtual void init(int dimension);
+    virtual void init(int dimension, std::string config="");
     virtual void getNextParameters(double *p, int numP);
     virtual void getBestParameters(double *p, int numP);
     virtual void setEvaluationFeedback(const double *feedbacks,

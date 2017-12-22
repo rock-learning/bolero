@@ -53,8 +53,9 @@ namespace bolero {
 
     /**
      * Initialize environment.
+     * \param config configuration of the environment
      */
-    virtual void init() = 0;
+    virtual void init(std::string config="") = 0;
 
     /**
      * Reset state of the environment.

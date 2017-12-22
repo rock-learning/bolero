@@ -26,7 +26,7 @@ PyBehaviorSearch::~PyBehaviorSearch()
     delete bestBehavior;
 }
 
-void PyBehaviorSearch::init(int numInputs, int numOutputs) {
+void PyBehaviorSearch::init(int numInputs, int numOutputs, std::string config) {
   behaviorSearch->method("init")
     .pass(INT).pass(INT).call(numInputs, numOutputs);
 }

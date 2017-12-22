@@ -19,7 +19,7 @@ namespace bolero { namespace bl_loader {
         std::runtime_error("Optimizer construction failed");
   }
 
-  void PyOptimizer::init(int dimension) {
+  void PyOptimizer::init(int dimension, std::string config) {
     this->dimension = dimension;
     optimizer->method("init").pass(INT).call(dimension);
   }

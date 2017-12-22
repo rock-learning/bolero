@@ -13,7 +13,7 @@ public:
   PyEnvironment(lib_manager::LibManager *theManager, const std::string libName,
                 int libVersion);
 
-  void init();
+  void init(std::string config="");
   void reset();
 
   int getNumInputs() const;
