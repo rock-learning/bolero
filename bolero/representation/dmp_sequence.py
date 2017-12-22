@@ -301,7 +301,6 @@ class DMPSequence(BlackBoxBehavior):
         assert np.abs(idx) < len(self.subgoal_velocities)
         return self.subgoal_velocities[idx]
 
-
     def reset(self):
         """Reset DMP."""
         if self.x0 is None:
@@ -324,7 +323,7 @@ class DMPSequence(BlackBoxBehavior):
         return len(np.where(self.steps <= self.split_steps)[0]) > 0
 
     def trajectory(self):
-        """Generate trajectory represented by the DMP in open loop.
+        """Generate trajectory represented by the sequence of DMPs in open loop.
 
         The function can be used for debugging purposes.
 
@@ -348,9 +347,11 @@ class DMPSequence(BlackBoxBehavior):
         yd = np.empty(self.n_task_dims)
         ydd = np.empty(self.n_task_dims)
 
-        Y = []
-        Yd = []
-        Ydd = []
+        n_steps = int(sum(self.execution_times) / self.dt) + 1
+        Y = np.empty([n_steps, self.n_task_dims])
+        Yd = np.empty([n_steps, self.n_task_dims])
+        Ydd = np.empty([n_steps, self.n_task_dims])
+
         steps = 0
         for t in np.arange(0, sum(self.execution_times) + self.dt, self.dt):
             dmp_idx = np.where(steps <= self.split_steps)[0][0]
@@ -378,10 +379,9 @@ class DMPSequence(BlackBoxBehavior):
             last_y[:] = y
             last_yd[:] = yd
             last_ydd[:] = ydd
-            Y.append(y.copy())
-            Yd.append(yd.copy())
-            Ydd.append(ydd.copy())
+            Y[steps, :] = y.copy()
+            Yd[steps, :] = yd.copy()
+            Ydd[steps, :] = ydd.copy()
             steps += 1
 
-        return np.asarray(Y), np.asarray(Yd), np.asarray(Ydd)
-
+        return Y, Yd, Ydd
