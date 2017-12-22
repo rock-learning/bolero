@@ -43,7 +43,7 @@ class CMAESOptimizer(Optimizer):
 
     See `Wikipedia <http://en.wikipedia.org/wiki/CMA-ES>`_ for details.
 
-    Plain CMA-ES is considered to be useful for
+    Plain CMA-ES [1]_ is considered to be useful for
 
     * non-convex,
     * non-separable,
@@ -102,6 +102,12 @@ class CMAESOptimizer(Optimizer):
 
     random_state : int or RandomState, optional (default: None)
         Seed for the random number generator or RandomState object.
+
+    References
+    ----------
+    .. [1] Hansen, N.; Ostermeier, A. Completely Derandomized Self-Adaptation
+        in Evolution Strategies. In: Evolutionary Computation, 9(2), pp.
+        159-195. https://www.lri.fr/~hansen/cmaartic.pdf
     """
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
