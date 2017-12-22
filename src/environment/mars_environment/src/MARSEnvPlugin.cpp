@@ -45,25 +45,6 @@ namespace bolero {
   
     void MARSEnvPlugin::init() {
       assert(control);
-      ConfigMap map;
-      ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml");
-
-      if(map.hasKey("Environment")) {
-        map2 = map["Environment"];
-
-        if(map2->hasKey("calc_ms")) {
-          double dValue = (*map2)["calc_ms"][0];
-          if(control->cfg) {
-            control->cfg->setPropertyValue("Simulator", "calc_ms", "value",
-                                           dValue);
-          }
-        }
-
-        if(map2->hasKey("stepTimeMs")) {
-          stepTimeMs = (*map2)["stepTimeMs"];
-        }
-      }
 
       initMARSEnvironment();
 

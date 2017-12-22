@@ -17,6 +17,7 @@
 
 #include <mars/interfaces/sim/PluginInterface.h>
 #include <mars/utils/Mutex.h>
+#include <mars/cfg_manager/CFGManagerInterface.h>
 
 namespace bolero {
   namespace mars_environment {

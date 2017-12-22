@@ -25,10 +25,10 @@ namespace bolero {
       delete[] y;
     }
 
-    void FunctionApproximation::init() {
+    void FunctionApproximation::init(std::string config) {
       configmaps::ConfigMap map;
       configmaps::ConfigMap *map2;
-      map = configmaps::ConfigMap::fromYamlFile("learning_config.yml",true);
+      map = configmaps::ConfigMap::fromYamlString(config);
 
       dataFile = "data_to_fit.txt";
       dataFile2 = "";
