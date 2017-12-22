@@ -168,7 +168,7 @@ class CCMAESOptimizer(ContextualOptimizer):
             0.0, np.sqrt((self.mueff - 1.0) /
                          (self.n_total_dims + 1.0)) - 1.0) + self.c_sigma)
             + np.log(n_context_dims + 1.0))
-        self.randn_vector_norm = (
+        self.expected_norm_snorm_vector = (
             np.sqrt(self.n_params) * (1.0 - 1.0 / (4.0 * self.n_params)
                                       + 1.0 / (21.0 * self.n_params ** 2)))
 
@@ -223,7 +223,8 @@ class CCMAESOptimizer(ContextualOptimizer):
         Parameters
         ----------
         rewards : list of float
-            Feedbacks for each step or for the episode, depends on the problem
+            Feedbacks for each step or for the episode, depending on the
+            problem
         """
         self._add_sample(rewards)
 
@@ -268,19 +269,14 @@ class CCMAESOptimizer(ContextualOptimizer):
         sigma = np.sqrt(self.var)
         mean_diff = (mean_theta - last_mean_theta) / sigma
 
-        self.ps *= (1.0 - self.c_sigma)
-
-        self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
-                            self.mueff) * self.invsqrtC.dot(mean_diff))
+        self._update_step_size_evolution_path(mean_diff)
 
         ps_norm_2 = np.linalg.norm(self.ps) ** 2  # Temporary constant
         generation = self.it / self.n_samples_per_update
         hsig = int(ps_norm_2 / self.n_params /
                 np.sqrt(1.0 - (1.0 - self.c_sigma) ** (2 * generation))
                 < self.hsig_threshold)
-        self.pc *= 1.0 - self.cc
-        self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mueff) *
-                    mean_diff)
+        self._update_covariance_evolution_path(mean_diff, hsig)
 
         # Rank-1 update
         rank_one_update = np.outer(self.pc, self.pc)
@@ -298,7 +294,7 @@ class CCMAESOptimizer(ContextualOptimizer):
 
         log_step_size_update = (
             (self.c_sigma / self.d_sigma) *
-            (np.sqrt(ps_norm_2) / self.randn_vector_norm - 1.0))
+            (np.sqrt(ps_norm_2) / self.expected_norm_snorm_vector - 1.0))
         # Adapt step size with factor <= exp(0.6)
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
         self.policy_.policy.Sigma = self.var * self.cov
@@ -307,6 +303,16 @@ class CCMAESOptimizer(ContextualOptimizer):
         baseline_features = self.reward_model_features.fit_transform(s)
         self.reward_model.fit(baseline_features, R)
         return R - self.reward_model.predict(baseline_features)
+
+    def _update_step_size_evolution_path(self, mean_diff):
+        self.ps *= (1.0 - self.c_sigma)
+        self.ps += (np.sqrt(self.c_sigma * (2.0 - self.c_sigma) *
+                            self.mueff) * self.invsqrtC.dot(mean_diff))
+
+    def _update_covariance_evolution_path(self, mean_diff, hsig):
+        self.pc *= 1.0 - self.cc
+        self.pc += (hsig * np.sqrt(self.cc * (2.0 - self.cc) * self.mueff) *
+                    mean_diff)
 
     def best_policy(self):
         """Return current best estimate of contextual policy.

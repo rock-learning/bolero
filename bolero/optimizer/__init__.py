@@ -9,12 +9,19 @@ from .ccmaes import CCMAESOptimizer
 
 
 __all__ = [
-    "Optimizer", "ContextualOptimizer",
-    "NoOptimizer", "RandomOptimizer",
-    "CMAESOptimizer", "RestartCMAESOptimizer", "IPOPCMAESOptimizer",
-    "BIPOPCMAESOptimizer", "fmin",
-    "ACMESOptimizer", "CCMAESOptimizer",
-    "REPSOptimizer", "CREPSOptimizer"]
+    "Optimizer",
+    "ContextualOptimizer",
+    "NoOptimizer",
+    "RandomOptimizer",
+    "CMAESOptimizer",
+    "RestartCMAESOptimizer",
+    "IPOPCMAESOptimizer",
+    "BIPOPCMAESOptimizer",
+    "fmin",
+    "ACMESOptimizer",
+    "CCMAESOptimizer",
+    "REPSOptimizer",
+    "CREPSOptimizer"]
 
 from .skoptimize import SkOptOptimizer, skopt_available
 if skopt_available:
