@@ -19,7 +19,7 @@ PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
         std::runtime_error("Environment construction failed");
 }
 
-void PyEnvironment::init() {
+void PyEnvironment::init(std::string config) {
   environment->method("init").call();
 }
 

@@ -53,8 +53,9 @@ namespace bolero {
     /**
      * Initialize optimizer.
      * \param dimension dimension of parameter vector
+     * \param config configuration of the optimizer
      */
-    virtual void init(int dimension) = 0;
+    virtual void init(int dimension, std::string config="") = 0;
 
     /**
      * Get next individual/parameter vector for evaluation.

@@ -14,7 +14,7 @@ public:
                    const std::string libName, int libVersion);
   ~PyBehaviorSearch();
 
-  void init(int numInputs, int numOutputs);
+  void init(int numInputs, int numOutputs, std::string config="");
   bolero::Behavior* getNextBehavior();
   bolero::Behavior* getBestBehavior();
   void setEvaluationFeedback(const double *feedbacks,
