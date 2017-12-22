@@ -150,6 +150,19 @@ def test_smoke():
     assert_almost_equal(X[100, 0], 2.0, places=2)
 
 
+def test_trajectory_generation():
+    dmp_seq = create_dmp_seq(n_task_dims=1)
+    traj = dmp_seq.trajectory()[0]
+    subgoal = dmp_seq.get_subgoal(0)
+    assert_almost_equal(traj[0,0], subgoal)
+    subgoal = dmp_seq.get_subgoal(1)
+    assert_almost_equal(traj[20,0], subgoal, places=2)
+    subgoal = dmp_seq.get_subgoal(2)
+    assert_almost_equal(traj[50,0], subgoal, places=2)
+    subgoal = dmp_seq.get_subgoal(3)
+    assert_almost_equal(traj[100,0], subgoal, places=2)
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     dmp_seq = create_dmp_seq(2)
