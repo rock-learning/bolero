@@ -10,6 +10,8 @@
 #include <float.h>
 #include <limits>
 #include <signal.h>
+#include <fstream>
+#include <streambuf>
 
 using namespace lib_manager;
 using namespace bolero;
@@ -79,7 +81,22 @@ namespace bolero {
       blLoader->loadConfigFile(libFile);
     }
 
-    ConfigMap map = ConfigMap::fromYamlFile("learning_config.yml");
+    char *confPath = getenv("BL_CONF_PATH");
+    if(confPath) {
+      confFile = confPath;
+      confFile += "/learning_config.yml";
+    } else {
+      confFile = "learning_config.yml";
+    }
+    std::ifstream confFileStream(confFile.c_str());
+    std::string config;
+    confFileStream.seekg(0, std::ios::end);
+    config.reserve(confFileStream.tellg());
+    confFileStream.seekg(0, std::ios::beg);
+    config.assign(std::istreambuf_iterator<char>(confFileStream),
+                  std::istreambuf_iterator<char>());
+
+    ConfigMap map = ConfigMap::fromYamlString(config);
     string strEnvironment = map["Environment"]["type"];
     string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
@@ -124,7 +141,7 @@ namespace bolero {
     assert(environment);
     assert(behaviorSearch);
 
-    environment->init();
+    environment->init(config);
     //environment->init(map["Environment"][0].children.toYamlString());
     int numInputs = environment->getNumOutputs();
     int numOutputs = environment->getNumInputs();
@@ -132,7 +149,7 @@ namespace bolero {
     double *inputs = new double[numInputs];
     double *outputs = new double[numOutputs];
     fprintf(stderr, "num in- and outputs: %d %d\n", numInputs, numOutputs);
-    behaviorSearch->init(numInputs, numOutputs);
+    behaviorSearch->init(numInputs, numOutputs, config);
     // behaviorSearch->init(numInputs, numOutputs, map["BehaviorSearch"][0].children.toYamlString());
 
     blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
@@ -175,7 +192,7 @@ namespace bolero {
       num_feedbacks = environment->getFeedback(feedbacks);
       //assert(num_feedbacks == size_feedbacks);
       feedback = 0.0;
-      for(int i = 0; i < num_feedbacks; i++)
+      for(size_t i = 0; i < num_feedbacks; i++)
         feedback += feedbacks[i];
       if(!testMode) {
         if(fitnessLog || logResults) {
