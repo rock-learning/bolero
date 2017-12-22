@@ -52,7 +52,7 @@ namespace bolero {
       , wasInit(false) {
     }
 
-    void PSOOptimizer::init(int dimension) {
+    void PSOOptimizer::init(int dimension, std::string config) {
       assert(dimension > 0);
 
       long seed = 0;
@@ -80,20 +80,8 @@ namespace bolero {
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
-      ConfigMap map;
+      ConfigMap map = ConfigMap::fromYamlString(config);
       ConfigMap *map2;
-      std::string confFile = "learning_config.yml";
-      char *confPath = getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      }
-
-      try {
-        map = ConfigMap::fromYamlFile(confFile);
-      } catch (...) {
-        fprintf(stderr, "optional learning_config.yml not loaded\n");
-      }
 
       if(map.hasKey("BehaviorSearch Parameters")) {
         map2 = map["BehaviorSearch Parameters"];

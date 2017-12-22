@@ -29,7 +29,7 @@ namespace bolero {
 
       CREATE_MODULE_INFO();
 
-      virtual void init();
+      virtual void init(std::string config="");
       virtual void reset();
 
       /**
