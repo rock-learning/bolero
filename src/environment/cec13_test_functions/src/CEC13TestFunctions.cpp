@@ -42,17 +42,19 @@ namespace bolero {
     void CEC13TestFunctions::init(std::string config) {
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlString(config);
 
       dimension = 10;
       testFunction = 1;
 
-      if(map.find("Environment") != map.end()) {
-        map2 = map["Environment"];
-        dimension = map2->get("Dimension", dimension);
-        assert(dimension>0);
-        testFunction = map2->get("CEC13TestFunction", testFunction);
-        assert(testFunction > 0 && testFunction < 29);
+      if(config != "") {
+        map = ConfigMap::fromYamlString(config);
+        if(map.find("Environment") != map.end()) {
+          map2 = map["Environment"];
+          dimension = map2->get("Dimension", dimension);
+          assert(dimension>0);
+          testFunction = map2->get("CEC13TestFunction", testFunction);
+          assert(testFunction > 0 && testFunction < 29);
+        }
       }
 
       x = new double[dimension];
