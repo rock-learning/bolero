@@ -80,13 +80,16 @@ namespace bolero {
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
-      ConfigMap map = ConfigMap::fromYamlString(config);
-      ConfigMap *map2;
+      if(config != "")
+      {
+        ConfigMap map = ConfigMap::fromYamlString(config);
+        ConfigMap *map2;
 
-      if(map.hasKey("BehaviorSearch Parameters")) {
-        map2 = map["BehaviorSearch Parameters"];
-        if(map2->find("PopulationSize") != map2->end()) {
-          particleCount = (*map2)["PopulationSize"];
+        if(map.hasKey("BehaviorSearch Parameters")) {
+            map2 = map["BehaviorSearch Parameters"];
+            if(map2->find("PopulationSize") != map2->end()) {
+            particleCount = (*map2)["PopulationSize"];
+            }
         }
       }
 
