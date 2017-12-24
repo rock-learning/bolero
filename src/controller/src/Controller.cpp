@@ -44,7 +44,7 @@ namespace bolero {
     const char *blLogPath;
     const char *blConfPath;
     std::string confFile;
-    double* feedbacks = new double[100];
+    double* feedbacks = new double[1000];
     unsigned int num_feedbacks = 0; //, size_feedbacks = 0;
     double feedback;
     double minFeedback = DBL_MAX;
@@ -109,8 +109,14 @@ namespace bolero {
       logAllBehaviors = map["Controller"]["LogAllBehaviors"];
     }
 
-    blLoader->loadLibrary(strEnvironment);
-    blLoader->loadLibrary(strBehaviorSearch);
+    try {
+      blLoader->loadLibrary(strEnvironment);
+    } catch(std::runtime_error) {
+    }
+    try {
+      blLoader->loadLibrary(strBehaviorSearch);
+    } catch(std::runtime_error) {
+    }
 
     if(map["Controller"].hasKey("GenerateFitnessLog")) {
       if(map["Controller"]["GenerateFitnessLog"]) {
@@ -166,6 +172,8 @@ namespace bolero {
           behavior = behaviorSearch->getNextBehavior();
         }
       }
+
+      environment->reset();
 
       do {
         environment->getOutputs(inputs, numInputs);
@@ -236,8 +244,6 @@ namespace bolero {
         fprintf(pFile, "number evaluations: %d\n", evaluationCount);
         fclose(pFile);
       }
-
-      environment->reset();
 
       if(!testMode) {
         ++evaluationCount;

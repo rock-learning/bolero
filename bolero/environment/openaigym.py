@@ -172,6 +172,8 @@ class OpenAiGym(Environment):
 
         Returns
         -------
+        action_space : iterable
+            Actions that the agent can take
         """
         if not hasattr(self.env.action_space, "n"):
             raise TypeError("gym environment '%d' does not have a discrete "
