@@ -34,6 +34,10 @@ fi
 mkdir bolero-dev
 cd bolero-dev
 DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+if [ -f /mingw64.exe ]; then
+  DEV_DIR="$(cmd //c echo $DEV_DIR)"
+fi
 git clone https://github.com/rock-simulation/pybob.git
 cd pybob
 
