@@ -7,6 +7,7 @@ include_directories(
     ${BOLERO_INCLUDE_DIRS}
     ${CATCH_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
+link_directories(${YAMLCPP_LIBRARY_DIRS})
 
 set(dmp_sources
     test_dmp_config.cpp
