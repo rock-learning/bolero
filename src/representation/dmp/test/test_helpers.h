@@ -6,6 +6,10 @@
 #include <iostream>
 #define get_current_dir getcwd
 
+#ifdef __WIN32__
+typedef unsigned int uint;
+#endif
+
 class TestHelpers
 {
   public:

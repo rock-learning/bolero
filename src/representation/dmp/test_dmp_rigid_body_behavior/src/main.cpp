@@ -3,6 +3,10 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef __WIN32__
+typedef unsigned int uint;
+#endif
+
 
 void printPose(double* pose)
 {
