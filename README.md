@@ -24,8 +24,10 @@ more complicated. We recommend to use Docker if you want to take a quick
 look at the software. Instructions are
 [here](https://github.com/rock-learning/bolero/blob/master/docker/README.md#create-container).
 
-In order to install all dependencies and BOLeRo you can use the installation
-script
+In order to install BOLeRo and it's dependencies from source, the pybob build system
+is used.  Therefore, the operating system needs to be prepared according to the prepare
+sections in the documentation at https://github.com/rock-simulation/pybob. Afterwards,
+the following installation script (which setups pybob) can be used:
 
     wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
     chmod +x bootstrap_bolero.sh
