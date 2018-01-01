@@ -4,25 +4,31 @@
 Installation
 ============
 
+Prerequisites
+=============
+
+BOLeRo is developed for the latest Ubuntu LTS (currently 16.04), has been
+tested with 17.04 and the current version of 18.04 and its continuous
+integration runs on 14.04.
+Using it on Mac OS or Windows is possible, however, the installation might be
+more complicated. We recommend to use Docker if you want to take a quick
+look at the software. Instructions are
+`here <https://github.com/rock-learning/bolero/blob/master/docker/README.md>`_.
+
+In order to install BOLeRo and its dependencies from source, the pybob build
+system is used. Therefore, the operating system needs to be prepared according
+to the prepare sections in the
+`documentation <https://github.com/rock-simulation/pybob>`_.
+Afterwards, the following installation instructions can be used.
+
 There are two alternatives to install BOLeRo.
-
-Download Source
-===============
-
-BOLeRo is also available at `mloss.org <http://mloss.org/software/view/698/>`_
-or you can download the latest release from
-`Github <https://github.com/rock-learning/bolero/releases>`_. After you unzipped
-the release, you can build BOLeRo with the script `install.sh` from the folder
-`bolero-dev`. Note that you have to run it from that folder, otherwise the
-environment variables will not be configured correctly. The installation
-script will also install dependencies.
 
 Installation Script
 ===================
 
 This is the recommended way to install BOLeRo. The installation process for
 BOLeRo is a little bit unusual because we depend on the latest versions of
-many libraries and support Linux, MaxOS and Windows so that we usually have
+many libraries and support Linux, MacOS and Windows so that we usually have
 to download and build them. You can download the installation script and run
 it with
 
@@ -31,6 +37,17 @@ it with
     wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
+
+Download Source
+===============
+
+The latest release of BOLeRo is also available at
+`mloss.org <http://mloss.org/software/view/698/>`_ or you can download it from
+`Github <https://github.com/rock-learning/bolero/releases>`_. After you unzipped
+the release, you can build BOLeRo with the script `install.sh` from the folder
+`bolero-dev`. Note that you have to run it from that folder, otherwise the
+environment variables will not be configured correctly. The installation
+script will also install dependencies.
 
 Environment
 ===========
