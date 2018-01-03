@@ -64,7 +64,7 @@ namespace bolero {
     virtual void init(int dimension, std::string config) {
       if(!initHasBeenCalled) {
           initHasBeenCalled = true;
-          init(dimension);
+          init(dimension);  // Fall back to deprecated init function
       }
     }
     virtual void init(int dimension) {
