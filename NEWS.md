@@ -1,6 +1,6 @@
 # Release History
 
-## Version 0.1.1
+## Version 0.2
 
 Not released yet
 
@@ -8,11 +8,21 @@ Not released yet
 
 * New ContextualOptimizer: C-CMA-ES (based on CMA-ES)
 
+### Breaking Changes
+
+* C++: BehaviorSearch, Optimizer, and Environment have an additional
+  parameter 'config' in their 'init' function. The YAML-based configuration
+  string will be given. Each implementation of this function must be able to
+  cope with an empty config string. In this case all parameters will be
+  set to their default values.
+* C++: The controller will run 'reset' of the environment once directly after
+  'init' before the first episode is executed.
+
 ### Documentation
 
 * Documented `context_features` of CREPSOptimizer
 
-## Version 0.1.0
+## Version 0.1
 
 2017/12/19
 
