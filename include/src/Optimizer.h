@@ -59,7 +59,7 @@ namespace bolero {
     /**
      * Initialize optimizer.
      * \param dimension dimension of parameter vector
-     * \param config configuration of the optimizer
+     * \param config YAML-based configuration the optimizer, can be empty
      */
     virtual void init(int dimension, std::string config="") = 0;
     virtual void init(int dimension) {

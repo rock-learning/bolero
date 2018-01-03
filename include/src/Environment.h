@@ -59,7 +59,7 @@ namespace bolero {
 
     /**
      * Initialize environment.
-     * \param config configuration of the environment
+     * \param config YAML-based configuration the environment, can be empty
      */
     virtual void init(std::string config="") = 0;
     virtual void init() {
