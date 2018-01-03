@@ -44,7 +44,7 @@ namespace bolero {
                    const std::string &libName,
                    int libVersion)
         : lib_manager::LibInterface(theManager), libName(libName),
-          libVersion(libVersion) {
+          libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~BehaviorSearch() {}
@@ -63,7 +63,12 @@ namespace bolero {
      * \param numOutputs number of outputs of the behavior
      * \param config YAML-based configuration the behavior search, can be empty
      */
-    virtual void init(int numInputs, int numOutputs, std::string config) {}
+    virtual void init(int numInputs, int numOutputs, std::string config) {
+      if(!initHasBeenCalled) {
+          initHasBeenCalled = true;
+          init(numInputs, numOutputs);
+      }
+    }
     virtual void init(int numInputs, int numOutputs) {
       std::cerr
         << "[DEPRECATION WARNING] bolero::BehaviorSearch::init(int numInputs, "
@@ -144,6 +149,7 @@ namespace bolero {
     int numAgentInputs, numAgentOutputs;
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
 
   }; // end of class definition BehaviorSearch
 
