@@ -66,7 +66,7 @@ namespace bolero {
     virtual void init(int numInputs, int numOutputs, std::string config) {
       if(!initHasBeenCalled) {
           initHasBeenCalled = true;
-          init(numInputs, numOutputs);
+          init(numInputs, numOutputs);  // Fall back to deprecated init function
       }
     }
     virtual void init(int numInputs, int numOutputs) {
