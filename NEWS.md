@@ -4,6 +4,16 @@
 
 Not released yet.
 
+### Breaking Changes
+
+* C++: BehaviorSearch, Optimizer, and Environment have an additional
+  parameter 'config' in their 'init' function. The YAML-based configuration
+  string will be given. Each implementation of this function must be able to
+  cope with an empty config string. In this case all parameters will be
+  set to their default values.
+* C++: The controller will run 'reset' of the environment once directly after
+  'init' before the first episode is executed.
+
 ## Version 0.2
 
 2018/01/23

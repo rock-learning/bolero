@@ -61,7 +61,7 @@ namespace bolero {
      * Initialize the behavior search.
      * \param numInputs number of inputs of the behavior
      * \param numOutputs number of outputs of the behavior
-     * \param config configuration the behavior search
+     * \param config YAML-based configuration the behavior search, can be empty
      */
     virtual void init(int numInputs, int numOutputs, std::string config) = 0;
     virtual void init(int numInputs, int numOutputs) {
