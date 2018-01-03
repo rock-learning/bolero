@@ -91,12 +91,13 @@ Optimizer classes
 
    Optimizer
    ContextualOptimizer
+   NoOptimizer
+   RandomOptimizer
    CMAESOptimizer
    RestartCMAESOptimizer
    IPOPCMAESOptimizer
    BIPOPCMAESOptimizer
-   NoOptimizer
-   RandomOptimizer
+   CCMAESOptimizer
    REPSOptimizer
    CREPSOptimizer
    SkOptOptimizer
