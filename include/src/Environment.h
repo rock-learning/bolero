@@ -44,7 +44,7 @@ namespace bolero {
     Environment(lib_manager::LibManager *theManager,
                 const std::string &libName, int libVersion) :
       lib_manager::LibInterface(theManager), libName(libName),
-      libVersion(libVersion) {
+      libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~Environment() {}
@@ -61,7 +61,12 @@ namespace bolero {
      * Initialize environment.
      * \param config YAML-based configuration the environment, can be empty
      */
-    virtual void init(std::string config) {}
+    virtual void init(std::string config) {
+      if(!initHasBeenCalled) {
+          initHasBeenCalled = true;
+          init();
+      }
+    }
     virtual void init() {
       std::cerr
         << "[DEPRECATION WARNING] bolero::Environment::init() "
@@ -152,6 +157,7 @@ namespace bolero {
   protected:
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
 
   }; // end of class definition Environment
 

@@ -43,7 +43,7 @@ namespace bolero {
               std::string libName, int libVersion)
       : lib_manager::LibInterface(theManager),
         libName(libName),
-        libVersion(libVersion) {
+        libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~Optimizer() {}
@@ -61,7 +61,12 @@ namespace bolero {
      * \param dimension dimension of parameter vector
      * \param config YAML-based configuration the optimizer, can be empty
      */
-    virtual void init(int dimension, std::string config) {}
+    virtual void init(int dimension, std::string config) {
+      if(!initHasBeenCalled) {
+          initHasBeenCalled = true;
+          init(dimension);
+      }
+    }
     virtual void init(int dimension) {
       std::cerr
         << "[DEPRECATION WARNING] bolero::Optimizer::init(int dimension) "
@@ -122,6 +127,7 @@ namespace bolero {
     int dimension;
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
   }; // end of class definition Optimizer
 
 } // end of namespace bolero
