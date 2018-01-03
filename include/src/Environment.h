@@ -16,6 +16,12 @@
 #include <lib_manager/LibInterface.hpp>
 #include <string>
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   class Behavior;
@@ -56,6 +62,29 @@ namespace bolero {
      * \param config configuration of the environment
      */
     virtual void init(std::string config="") = 0;
+    virtual void init() {
+      std::cerr
+        << "[DEPRECATION WARNING] bolero::Environment::init() "
+           "will be replaced by bolero::Environment::init(std::string config) "
+           "with the next release!"
+        << std::endl;
+      std::string confFile;
+      char *confPath = std::getenv("BL_CONF_PATH");
+      if(confPath) {
+        confFile = confPath;
+        confFile += "/learning_config.yml";
+      } else {
+        confFile = "learning_config.yml";
+      }
+      std::ifstream confFileStream(confFile.c_str());
+      std::string config;
+      confFileStream.seekg(0, std::ios::end);
+      config.reserve(confFileStream.tellg());
+      confFileStream.seekg(0, std::ios::beg);
+      config.assign(std::istreambuf_iterator<char>(confFileStream),
+                    std::istreambuf_iterator<char>());
+      init(config);
+    }
 
     /**
      * Reset state of the environment.

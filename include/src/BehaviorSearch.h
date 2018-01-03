@@ -19,6 +19,12 @@
 
 #include "Behavior.h"
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   /**
@@ -57,7 +63,30 @@ namespace bolero {
      * \param numOutputs number of outputs of the behavior
      * \param config configuration the behavior search
      */
-    virtual void init(int numInputs, int numOutputs, std::string config="") = 0;
+    virtual void init(int numInputs, int numOutputs, std::string config) = 0;
+    virtual void init(int numInputs, int numOutputs) {
+      std::cerr
+        << "[DEPRECATION WARNING] bolero::BehaviorSearch::init(int numInputs, "
+           "int numOutputs) will be replaced by "
+           "bolero::BehaviorSearch::init(int numInputs, int numOutputs, "
+           "std::string config) with the next release!" << std::endl;
+      std::string confFile;
+      char *confPath = std::getenv("BL_CONF_PATH");
+      if(confPath) {
+        confFile = confPath;
+        confFile += "/learning_config.yml";
+      } else {
+        confFile = "learning_config.yml";
+      }
+      std::ifstream confFileStream(confFile.c_str());
+      std::string config;
+      confFileStream.seekg(0, std::ios::end);
+      config.reserve(confFileStream.tellg());
+      confFileStream.seekg(0, std::ios::beg);
+      config.assign(std::istreambuf_iterator<char>(confFileStream),
+                    std::istreambuf_iterator<char>());
+      init(numInputs, numOutputs, config);
+    }
 
     /**
      * Returns a pointer to the next behavior.

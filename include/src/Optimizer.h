@@ -18,6 +18,12 @@
 
 #include <lib_manager/LibInterface.hpp>
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   /**
@@ -56,6 +62,29 @@ namespace bolero {
      * \param config configuration of the optimizer
      */
     virtual void init(int dimension, std::string config="") = 0;
+    virtual void init(int dimension) {
+      std::cerr
+        << "[DEPRECATION WARNING] bolero::Optimizer::init(int dimension) "
+           "will be replaced by bolero::Optimizer::init(int dimension, "
+           "std::string config) with the next release!"
+        << std::endl;
+      std::string confFile;
+      char *confPath = std::getenv("BL_CONF_PATH");
+      if(confPath) {
+        confFile = confPath;
+        confFile += "/learning_config.yml";
+      } else {
+        confFile = "learning_config.yml";
+      }
+      std::ifstream confFileStream(confFile.c_str());
+      std::string config;
+      confFileStream.seekg(0, std::ios::end);
+      config.reserve(confFileStream.tellg());
+      confFileStream.seekg(0, std::ios::beg);
+      config.assign(std::istreambuf_iterator<char>(confFileStream),
+                    std::istreambuf_iterator<char>());
+      init(dimension, config);
+    }
 
     /**
      * Get next individual/parameter vector for evaluation.
