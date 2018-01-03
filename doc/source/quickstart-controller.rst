@@ -43,3 +43,23 @@ following form:
 
 Results will be stored in a directory that you specified. That includes
 fitness values and intermediate results.
+
+Example
+=======
+
+The following configuration will run Monte Carlo Reinforcement Learning on
+the environment FrozenLake-v0 from OpenAI Gym.
+
+.. code-block:: yaml
+
+    Controller:
+        MaxEvaluations: 10000
+        GenerateFitnessLog: true
+        LogResults: true
+        TestEveryXRun: 100
+    Environment:
+        type: bolero.environment.OpenAiGym
+        env_name: FrozenLake-v0
+    BehaviorSearch:
+        type: bolero.behavior_search.MonteCarloRL
+        action_space: [0, 1, 2, 3]
