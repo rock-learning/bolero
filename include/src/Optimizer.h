@@ -61,7 +61,7 @@ namespace bolero {
      * \param dimension dimension of parameter vector
      * \param config YAML-based configuration the optimizer, can be empty
      */
-    virtual void init(int dimension, std::string config="") = 0;
+    virtual void init(int dimension, std::string config) {}
     virtual void init(int dimension) {
       std::cerr
         << "[DEPRECATION WARNING] bolero::Optimizer::init(int dimension) "
