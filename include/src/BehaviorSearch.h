@@ -63,7 +63,7 @@ namespace bolero {
      * \param numOutputs number of outputs of the behavior
      * \param config YAML-based configuration the behavior search, can be empty
      */
-    virtual void init(int numInputs, int numOutputs, std::string config) = 0;
+    virtual void init(int numInputs, int numOutputs, std::string config) {}
     virtual void init(int numInputs, int numOutputs) {
       std::cerr
         << "[DEPRECATION WARNING] bolero::BehaviorSearch::init(int numInputs, "
