@@ -16,28 +16,21 @@ the robot construction kit (Rock).
 
 ## Installation
 
-BOLeRo is developed for the latest Ubuntu LTS (currently 16.04), has been
-tested with 17.04 and the current version of 18.04 and its continuous
-integration runs on 14.04.
-Using it on Mac OS or Windows is possible, however, the installation might be
-more complicated. We recommend to use Docker if you want to take a quick
-look at the software. Instructions are
-[here](https://github.com/rock-learning/bolero/blob/master/docker/README.md#create-container).
-
-In order to install BOLeRo and it's dependencies from source, the pybob build system
-is used.  Therefore, the operating system needs to be prepared according to the prepare
-sections in the documentation at https://github.com/rock-simulation/pybob. Afterwards,
-the following installation script (which setups pybob) can be used:
+On Ubuntu 16.04 and similar operating systems, you can install BOLeRo with
 
     wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
-The installation script will create a new folder 'bolero-dev' that contains
+The installation script will create a new folder `bolero-dev` that contains
 all sources and built binaries. If you want to use BOLeRo, you have to source
 the file env.sh:
 
     source bolero-dev/env.sh
+
+Detailed installation instructions (for other operating systems, with docker,
+etc.) can be found at
+[the documentation](https://rock-learning.github.io/bolero/installation.html).
 
 ## Documentation
 
