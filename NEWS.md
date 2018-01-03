@@ -4,6 +4,10 @@
 
 Not released yet
 
+### Features
+
+* New ContextualOptimizer: C-CMA-ES (based on CMA-ES)
+
 ### Documentation
 
 * Documented `context_features` of CREPSOptimizer
