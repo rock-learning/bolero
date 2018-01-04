@@ -233,7 +233,7 @@ class DMPSequence(BlackBoxBehavior):
         if self.learn_goal_velocities:
             self.subgoal_velocities = np.split(
                 goal_vels, [i * self.n_task_dims
-                            for i in xrange(1, self.n_dmps)])
+                            for i in xrange(1, self.n_dmps+1)])
 
     def set_subgoal(self, idx, subgoal):
         """Set subgoal manually.
