@@ -154,22 +154,22 @@ def test_trajectory_generation():
     dmp_seq, _ = create_dmp_seq(n_task_dims=1)
     traj = dmp_seq.trajectory()[0]
     subgoal = dmp_seq.get_subgoal(0)
-    assert_almost_equal(traj[0,0], subgoal)
+    assert_almost_equal(traj[0, 0], subgoal)
     subgoal = dmp_seq.get_subgoal(1)
-    assert_almost_equal(traj[20,0], subgoal, places=2)
+    assert_almost_equal(traj[20, 0], subgoal, places=2)
     subgoal = dmp_seq.get_subgoal(2)
-    assert_almost_equal(traj[50,0], subgoal, places=2)
+    assert_almost_equal(traj[50, 0], subgoal, places=2)
     subgoal = dmp_seq.get_subgoal(3)
-    assert_almost_equal(traj[100,0], subgoal, places=2)
+    assert_almost_equal(traj[100, 0], subgoal, places=2)
 
 
-def test_subgoal_velocities():
-    test_task_dims = range(1,100,1)
+def test_set_params_with_subgoal_velocities():
+    test_task_dims = range(1, 100, 1)
     for n_task_dims in test_task_dims:
         dmp_seq, subgoals = create_dmp_seq(n_task_dims=n_task_dims)
         dmp_seq.set_params(dmp_seq.get_params())
         for i in range(len(subgoals)):
-            assert_equal(len(dmp_seq.get_subgoal_velocity(i)),n_task_dims)
+            assert_equal(len(dmp_seq.get_subgoal_velocity(i)), n_task_dims)
 
 
 if __name__ == "__main__":
