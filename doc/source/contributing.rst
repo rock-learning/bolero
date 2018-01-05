@@ -70,6 +70,31 @@ request.
 (If any of the above seems like magic to you, then look up the
 `Git documentation <http://git-scm.com/documentation>`_ on the web.)
 
+Requirements for New Features
+-----------------------------
+
+Adding a new feature to BOLeRo requires a few other changes:
+
+* New classes or functions that are part of the public interface must be
+  documented. We use `NumPy's conventions for docstrings
+  <https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt>`_
+  for Python and doxygen for C++.
+* An entry to the API documentation must be added `here for Python
+  <https://rock-learning.github.io/bolero/api_py.html>`_ or `here for C++
+  <https://rock-learning.github.io/bolero/api_cpp.html>`_.
+* A new section should be added to the narrative documentation. For example,
+  you can add a section for a new environment `here
+  <https://rock-learning.github.io/bolero/modules/environment.html>`_.
+* Update NEWS.md.
+* Consider writing a simple example that will be added to the example
+  gallery.
+* If you reimplemented an algorithm from a paper, consider adding a benchmark
+  from the paper to the benchmark directory of BOLeRo.
+* Tests: Unit tests for new features are mandatory. They should cover most of
+  the branches. Exceptions are plotting functions, debug outputs, etc. These
+  are usually hard to test and are not a fundamental part of the library. We
+  use nosetests in Python and Catch in C++.
+
 Merge Policy
 ------------
 
@@ -80,7 +105,7 @@ be pushed directly to the master branch by the maintainer without a review.
 No new feature must be added.
 
 Developers have to submit pull requests. Those will be reviewed by at least
-one other developer and merged by the maintainer. New features must be
+one other developer and merged by a maintainer. New features must be
 documented and tested. Breaking changes must be discussed and announced
 in advance with deprecation warnings.
 
