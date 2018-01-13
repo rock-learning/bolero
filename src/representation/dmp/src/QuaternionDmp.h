@@ -54,13 +54,13 @@ public:
 
   /** Configure from yaml file
    * @param configPath path to the configuration file
-   * @see configure(QuaternionDmpConfig)
+   * @return successfully loaded configuration
    */
   virtual bool configure(const std::string& configPath);
 
   /** Configure from yaml string
    * @param yaml configuration in YAML format
-   * @see configure(QuaternionDmpConfig)*/
+   * @return successfully loaded configuration
    */
   virtual bool configureYaml(const std::string& yaml);
 

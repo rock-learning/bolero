@@ -1,8 +1,8 @@
 .. _api_cpp:
 
-=======
-C++ API
-=======
+=================
+C++ API (Summary)
+=================
 
 You can either use the `Doxygen HTML output <../_doxygen/html/index.html>`_ or
 this summary that has been generated with Breathe based on the XML output of

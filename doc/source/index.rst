@@ -106,6 +106,7 @@ API
 
    api_py
    api_cpp
+   modules/cpp_modules
    mars_environment
 
 BOLeRo was initiated and is currently developed at the `Robotics Innovation Center
