@@ -43,16 +43,19 @@ public:
 
   /**
    * \param values Concatenation of position, velocity and acceleration values
+   * \param numInputs Number of inputs
    */
   virtual void setInputs(const double *values, int numInputs);
 
   /**
    * \param values Concatenation of position, velocity and acceleration values
+   * \param numOutputs Number of outputs
    */
   virtual void getOutputs(double *values, int numOutputs) const;
 
+  /** Compute output for the received input. */
   virtual void step();
-
+  /** Check if more steps are possible. */
   virtual bool canStep() const;
 
   /**

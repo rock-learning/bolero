@@ -58,7 +58,11 @@ struct EigenHelpers
    * and first differences at the boundaries.
    * The returned gradient hence has the same shape as the input array.
    *
-   * \param dt distance between two points.
+   * \param in original values, each column corresponds to a time step
+   * \param[out] out will be overwritten with time derivatives
+   * \param dt time between two points
+   * \param allowFinalVelocity should the final velocity be zero or computed
+   *                           from the input array?
    *
    * @note this is the same as python's numpy.gradient()
    */

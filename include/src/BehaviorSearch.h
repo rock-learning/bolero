@@ -22,7 +22,7 @@
 namespace bolero {
 
   /**
-   * @BehaviorSearch
+   * @class BehaviorSearch
    * Common interface for behavior search.
    */
   class BehaviorSearch : public lib_manager::LibInterface {
