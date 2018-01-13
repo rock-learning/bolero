@@ -55,7 +55,7 @@ source_encoding = 'utf-8-sig'
 
 master_doc = 'index'
 project = u'bolero'
-copyright = u'2014-2017, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group'
+copyright = u'2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group'
 version = bolero.__version__
 release = bolero.__version__
 language = 'en'
