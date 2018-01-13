@@ -108,7 +108,7 @@ namespace bolero {
 
     /**
      * Get feedbacks from the last episode.
-     * \param[out] feedbacks
+     * \param[out] feedback array, will be filled with feedbacks
      * \return how many rewards were assigned for the whole evaluation
      */
     virtual int getFeedback(double *feedback) const = 0;
