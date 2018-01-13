@@ -1467,7 +1467,14 @@ class ObjectiveFunction(Environment):
     Parameters
     ----------
     name : string, optional (default: 'Sphere')
-        Name of the objective function
+        Name of the objective function. Possible options are:
+        'Sphere', 'Ellipsoidal', 'Rastrigin', 'BuecheRastrigin', 'LinearSlope',
+        'AttractiveSector', 'StepEllipsoidal', 'Rosenbrock',
+        'RosenbrockRotated', 'EllipsoidalRotated', 'Discus', 'BentCigar',
+        'SharpRidge', 'DifferentPowers', 'RastriginRotated', 'Weierstrass',
+        'SchaffersF7', 'SchaffersF7Ill', 'CompositeGriewankRosenbrockF8F2',
+        'Schwefel', 'GallaghersGaussian101mePeaks',
+        'GallaghersGaussian21hiPeaks', 'Katsuura', 'LunacekBiRastrigin'
 
     n_params : int, optional (default: 2)
         Number of dimensions
