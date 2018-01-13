@@ -41,7 +41,7 @@ class CCMAESOptimizer(ContextualOptimizer):
     n_samples_per_update : int, optional
         Number of samples that will be used to update a policy.
         default: 4 + int(3*log(n_params + n_context_dims)) *
-                 (1 + 2 * n_context_dims)
+        (1 + 2 * n_context_dims)
 
     context_features : string or callable, optional (default: None)
         (Nonlinear) feature transformation for the context, which will be used
