@@ -22,7 +22,7 @@ namespace bolero {
   namespace mars_environment {
 
     class MARSEnvPlugin: public mars::interfaces::PluginInterface {
-
+      /// @private
       friend class MARSEnvironmentHelper;
     public:
       MARSEnvPlugin();
@@ -62,8 +62,6 @@ namespace bolero {
       mutable mars::utils::Mutex dataMutex;
 
       void update();
-
-
     }; // end of class definition MARSEnvPlugin
 
   } // end of namespace mars_environment

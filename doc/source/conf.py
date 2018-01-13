@@ -49,7 +49,7 @@ breathe_projects = {
 breathe_default_project = "bolero"
 templates_path = ['_templates']
 source_suffix = '.rst'
-exclude_patterns = []
+exclude_patterns = ["sphinxext"]
 exclude_trees = ["_templates"]
 source_encoding = 'utf-8-sig'
 
