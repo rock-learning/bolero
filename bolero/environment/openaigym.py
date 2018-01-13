@@ -45,13 +45,14 @@ class OpenAiGym(Environment):
     You have to install it manually with "sudo pip install gym".
 
     OpenAI Gym is a toolkit for developing and comparing reinforcement
-    learning algorithms. See `here <https://gym.openai.com/>`_ for details.
+    learning algorithms. See `OpenAI gym's documentation
+    <https://gym.openai.com/>`_ for details.
 
     Parameters
     ----------
     env_name : string, optional (default: 'CartPole-v0')
-        Name of the environment. See `here <https://gym.openai.com/envs>`_ for
-        an overview.
+        Name of the environment. See `OpenAI gym's environments
+        <https://gym.openai.com/envs>`_ for an overview.
 
     render : bool, optional (default: False)
         Visualize the environment
