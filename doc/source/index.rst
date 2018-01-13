@@ -32,12 +32,17 @@ The highlights of BOLeRo are
   and correct handling of rotation in Cartesian space (see `Ude et al.
   <http://www-hcr.ijs.si/resources/papers/icra14b.pdf>`_) in C++ with a Python
   wrapper
-* Contextual Relative Entropy Policy Search (see `Kupcsik et al.
-  <http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf>`_)
-* a clean and readable implementation of Covariance Matrix Adaption
-  Evolution Strategies (CMA-ES, see
-  `Wikipedia <https://en.wikipedia.org/wiki/CMA-ES>`_) and several of its
-  variants
+* policy search:
+    * Relative Entropy Policy Search (REPS, see `Peters et al.
+      <https://www.aaai.org/ocs/index.php/AAAI/AAAI10/paper/view/1851/2264>`_)
+    * a clean and readable implementation of Covariance Matrix Adaption
+      Evolution Strategies (CMA-ES, see `Wikipedia <https://en.wikipedia.org/wiki/CMA-ES>`_)
+      and several of its variants
+* contextual policy search:
+    * Contextual Relative Entropy Policy Search (see `Kupcsik et al.
+      <http://www.ausy.informatik.tu-darmstadt.de/uploads/Publications/Kupcsik_AAAI_2013.pdf>`_)
+    * Contextual Covariance Matrix Adaptation Evolution Strategies (see
+      `Abdolmaleki et al. <http://www.ausy.tu-darmstadt.de/uploads/Site/EditPublication/Abdolmaleki_IJCA2017.pdf>`_)
 * it is easy to combine it with the simulation software
   `MARS <https://github.com/rock-simulation/mars>`_
 * C++ interface to Python modules and Python interface to C++ modules
