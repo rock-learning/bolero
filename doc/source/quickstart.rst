@@ -106,5 +106,5 @@ check what are the best parameters so far.
 Examples
 ========
 
-Take a look at the :ref:`examples-index` to see more complex
+Take a look at the :ref:`examples<general_examples>` to see more complex
 use cases.

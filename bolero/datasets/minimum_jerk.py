@@ -45,10 +45,6 @@ def make_minimum_jerk(start, goal, execution_time=1.0, dt=0.01):
 
     Xdd : array, shape (n_task_dims, n_steps, 1)
         The accelerations of the trajectory
-
-    Notes
-    -----
-    See :ref:`example_datasets_plot_minimum_jerk.py`
     """
     x0 = np.asarray(start)
     g = np.asarray(goal)
