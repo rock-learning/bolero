@@ -112,10 +112,12 @@ namespace bolero {
     try {
       blLoader->loadLibrary(strEnvironment);
     } catch(std::runtime_error) {
+      // found no C++ library with this name, might be a Python library
     }
     try {
       blLoader->loadLibrary(strBehaviorSearch);
     } catch(std::runtime_error) {
+      // found no C++ library with this name, might be a Python library
     }
 
     if(map["Controller"].hasKey("GenerateFitnessLog")) {
