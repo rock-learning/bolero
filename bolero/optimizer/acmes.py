@@ -15,7 +15,7 @@ class ACMESOptimizer(Optimizer):
 
     For details, see
 
-    * `presentation <http://loshchilov.com/publications/GECCO2010_slides.pdf>`_
+    * `presentation <http://loshchilov.com/publications/JET2011_ACMES.pdf>`_
     * `paper <http://loshchilov.com/publications/PPSN2010_ACM-ES.pdf>`_ [1]_
 
     The authors of the algorithm were creative with the name: the letters of

@@ -25,8 +25,11 @@ class RankingSVM(object):
 
     Parameters
     ----------
-    n_iter : int
+    n_iter : int, optional (default: 50000 * sqrt(n_features))
         Number of training iterations
+
+    epsilon : float, optional (default: 1.0)
+        Tolerance ranking value error
 
     c_base : float, optional (default: 6)
         Base for constraint violation cost
@@ -44,6 +47,7 @@ class RankingSVM(object):
     def __init__(self, n_iter=-1, epsilon=1.0, c_base=6.0, c_pow=2.0,
                  c_sigma=1.0, random_state=None):
         self.n_iter = n_iter
+        self.epsilon = epsilon
         self.c_base = c_base
         self.c_pow = c_pow
         self.c_sigma = c_sigma
@@ -85,7 +89,7 @@ class RankingSVM(object):
         Ci *= 10 ** self.c_base
 
         # Optimize alpha parameters
-        self.alpha = optimize(Ci, K, 1.0, n_iter, random_state)
+        self.alpha = optimize(Ci, K, self.epsilon, n_iter, random_state)
 
         return self
 
