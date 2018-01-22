@@ -18,6 +18,12 @@
 
 #include <lib_manager/LibInterface.hpp>
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   /**
@@ -37,7 +43,7 @@ namespace bolero {
               std::string libName, int libVersion)
       : lib_manager::LibInterface(theManager),
         libName(libName),
-        libVersion(libVersion) {
+        libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~Optimizer() {}
@@ -53,9 +59,9 @@ namespace bolero {
     /**
      * Initialize optimizer.
      * \param dimension dimension of parameter vector
+     * \param config YAML-based configuration the optimizer, can be empty
      */
-    virtual void init(int dimension) = 0;
-
+    virtual void init(int dimension, std::string config) = 0;
     /**
      * Get next individual/parameter vector for evaluation.
      * \param[out] p parameter vector, will be modified
@@ -92,6 +98,7 @@ namespace bolero {
     int dimension;
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
   }; // end of class definition Optimizer
 
 } // end of namespace bolero

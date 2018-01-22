@@ -47,7 +47,7 @@ namespace bolero {
         delete marsThread;
     }
 
-    void MARSEnvironmentHelper::init() {
+    void MARSEnvironmentHelper::init(std::string config) {
       int *argc = (int*)malloc(sizeof(int));
       char **argv = (char**)malloc(sizeof(char*)*4);
       *argc = 3;
@@ -59,29 +59,44 @@ namespace bolero {
       strcpy(argv[2], ".");
       argv[3] = NULL;
 
-      ConfigMap map;
-      ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml", true);
-
       graphicsStepSkip = graphicsUpdateTime = 0;
-
       bool enableGUI = true;
-      if(map.hasKey("Environment")) {
-        map2 = map["Environment"];
 
-        if(map2->hasKey("enableGUI"))
-          enableGUI = (*map2)["enableGUI"];
+      if(config != "")
+      {
+        ConfigMap map = ConfigMap::fromYamlString(config);
+        ConfigMap *map2;
 
-        if(map2->hasKey("graphicsUpdateTime"))
-          graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
-        else
-          graphicsUpdateTime = 0u;
+        if(map.hasKey("Environment")) {
+            map2 = map["Environment"];
 
-        if(map2->hasKey("graphicsStepSkip"))
-          graphicsStepSkip = (*map2)["graphicsStepSkip"];
-        else
-          graphicsStepSkip = 0u;
+            if(map2->hasKey("enableGUI"))
+              enableGUI = (*map2)["enableGUI"];
+
+            if(map2->hasKey("graphicsUpdateTime"))
+              graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
+            else
+              graphicsUpdateTime = 0u;
+
+            if(map2->hasKey("graphicsStepSkip"))
+              graphicsStepSkip = (*map2)["graphicsStepSkip"];
+            else
+              graphicsStepSkip = 0u;
+
+            if(map2->hasKey("calc_ms")) {
+              double dValue = (*map2)["calc_ms"][0];
+              if(marsPlugin->control->cfg) {
+                marsPlugin->control->cfg->setPropertyValue(
+                    "Simulator", "calc_ms", "value", dValue);
+              }
+            }
+        }
+
+        if(map2->hasKey("stepTimeMs")) {
+          marsPlugin->stepTimeMs = (*map2)["stepTimeMs"];
+        }
       }
+
       if(enableGUI)
         fprintf(stderr, "enableGUI: yes\n");
       else

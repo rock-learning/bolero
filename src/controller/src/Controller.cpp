@@ -42,7 +42,7 @@ namespace bolero {
     const char *blLogPath;
     const char *blConfPath;
     std::string confFile;
-    double* feedbacks = new double[100];
+    double* feedbacks = new double[1000];
     unsigned int num_feedbacks = 0; //, size_feedbacks = 0;
     double feedback;
     double minFeedback = DBL_MAX;
@@ -79,7 +79,16 @@ namespace bolero {
       blLoader->loadConfigFile(libFile);
     }
 
-    ConfigMap map = ConfigMap::fromYamlFile("learning_config.yml");
+    char *confPath = getenv("BL_CONF_PATH");
+    if(confPath) {
+      confFile = confPath;
+      confFile += "/learning_config.yml";
+    } else {
+      confFile = "learning_config.yml";
+    }
+
+    ConfigMap map = ConfigMap::fromYamlFile(confFile, true);
+    std::string config = map.toYamlString();
     string strEnvironment = map["Environment"]["type"];
     string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
@@ -92,8 +101,16 @@ namespace bolero {
       logAllBehaviors = map["Controller"]["LogAllBehaviors"];
     }
 
-    blLoader->loadLibrary(strEnvironment);
-    blLoader->loadLibrary(strBehaviorSearch);
+    try {
+      blLoader->loadLibrary(strEnvironment);
+    } catch(std::runtime_error) {
+      // found no C++ library with this name, might be a Python library
+    }
+    try {
+      blLoader->loadLibrary(strBehaviorSearch);
+    } catch(std::runtime_error) {
+      // found no C++ library with this name, might be a Python library
+    }
 
     if(map["Controller"].hasKey("GenerateFitnessLog")) {
       if(map["Controller"]["GenerateFitnessLog"]) {
@@ -124,7 +141,7 @@ namespace bolero {
     assert(environment);
     assert(behaviorSearch);
 
-    environment->init();
+    environment->init(config);
     //environment->init(map["Environment"][0].children.toYamlString());
     int numInputs = environment->getNumOutputs();
     int numOutputs = environment->getNumInputs();
@@ -132,7 +149,7 @@ namespace bolero {
     double *inputs = new double[numInputs];
     double *outputs = new double[numOutputs];
     fprintf(stderr, "num in- and outputs: %d %d\n", numInputs, numOutputs);
-    behaviorSearch->init(numInputs, numOutputs);
+    behaviorSearch->init(numInputs, numOutputs, config);
     // behaviorSearch->init(numInputs, numOutputs, map["BehaviorSearch"][0].children.toYamlString());
 
     blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
@@ -149,6 +166,8 @@ namespace bolero {
           behavior = behaviorSearch->getNextBehavior();
         }
       }
+
+      environment->reset();
 
       do {
         environment->getOutputs(inputs, numInputs);
@@ -175,7 +194,7 @@ namespace bolero {
       num_feedbacks = environment->getFeedback(feedbacks);
       //assert(num_feedbacks == size_feedbacks);
       feedback = 0.0;
-      for(int i = 0; i < num_feedbacks; i++)
+      for(size_t i = 0; i < num_feedbacks; i++)
         feedback += feedbacks[i];
       if(!testMode) {
         if(fitnessLog || logResults) {
@@ -219,8 +238,6 @@ namespace bolero {
         fprintf(pFile, "number evaluations: %d\n", evaluationCount);
         fclose(pFile);
       }
-
-      environment->reset();
 
       if(!testMode) {
         ++evaluationCount;

@@ -165,6 +165,7 @@ cdef class CppOptimizer:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+        self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = config_yaml
@@ -177,7 +178,7 @@ cdef class CppOptimizer:
         dimension : int
             dimension of the parameter vector
         """
-        self.thisptr.init(dimension)
+        self.thisptr.init(dimension, self.config_yaml)
 
     def get_next_parameters(self, p):
         """Get next individual/parameter vector for evaluation.
@@ -245,6 +246,7 @@ cdef class CppBehaviorSearch:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+        self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = config_yaml
@@ -259,7 +261,7 @@ cdef class CppBehaviorSearch:
         num_outputs : int
             number of outputs of the behavior
         """
-        self.thisptr.init(num_inputs, num_outputs)
+        self.thisptr.init(num_inputs, num_outputs, self.config_yaml)
 
     def get_next_behavior(self):
         """Obtain next behavior for evaluation.
@@ -332,13 +334,14 @@ cdef class CppEnvironment:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+        self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = config_yaml
 
     def init(self):
         """Initialize environment."""
-        self.thisptr.init()
+        self.thisptr.init(self.config_yaml)
 
     def reset(self):
         """Reset state of the environment."""
@@ -448,6 +451,7 @@ cdef class CppContextualEnvironment:
 
     def __cinit__(self):
         self.thisptr = NULL
+        self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = config_yaml
@@ -457,7 +461,7 @@ cdef class CppContextualEnvironment:
 
     def init(self):
         """Initialize environment."""
-        self.thisptr.init()
+        self.thisptr.init(self.config_yaml)
 
     def reset(self):
         """Reset state of the environment."""
@@ -597,13 +601,17 @@ cdef class CppParameterizedEnvironment:
 
     def __cinit__(self):
         self.thisptr = NULL
+        self.config_yaml = ""
 
     def __dealloc__(self):
         del self.thisptr
 
+    def initialize_yaml(self, config_yaml):
+        self.config_yaml = config_yaml
+
     def init(self):
         """Initialize environment."""
-        self.thisptr.init()
+        self.thisptr.init(self.config_yaml)
 
     def reset(self):
         """Reset state of the environment."""
@@ -745,6 +753,7 @@ cdef class CppBehavior:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+        self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = config_yaml

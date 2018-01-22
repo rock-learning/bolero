@@ -16,6 +16,12 @@
 #include <lib_manager/LibInterface.hpp>
 #include <string>
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   class Behavior;
@@ -38,7 +44,7 @@ namespace bolero {
     Environment(lib_manager::LibManager *theManager,
                 const std::string &libName, int libVersion) :
       lib_manager::LibInterface(theManager), libName(libName),
-      libVersion(libVersion) {
+      libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~Environment() {}
@@ -53,8 +59,9 @@ namespace bolero {
 
     /**
      * Initialize environment.
+     * \param config YAML-based configuration the environment, can be empty
      */
-    virtual void init() = 0;
+    virtual void init(std::string config) = 0;
 
     /**
      * Reset state of the environment.
@@ -122,6 +129,7 @@ namespace bolero {
   protected:
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
 
   }; // end of class definition Environment
 

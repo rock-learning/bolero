@@ -19,6 +19,12 @@
 
 #include "Behavior.h"
 
+// for backwards compatibilty with old init function
+#include <fstream>
+#include <streambuf>
+#include <cstdlib>
+#include <iostream>
+
 namespace bolero {
 
   /**
@@ -38,7 +44,7 @@ namespace bolero {
                    const std::string &libName,
                    int libVersion)
         : lib_manager::LibInterface(theManager), libName(libName),
-          libVersion(libVersion) {
+          libVersion(libVersion), initHasBeenCalled(false) {
     }
 
     virtual ~BehaviorSearch() {}
@@ -55,8 +61,9 @@ namespace bolero {
      * Initialize the behavior search.
      * \param numInputs number of inputs of the behavior
      * \param numOutputs number of outputs of the behavior
+     * \param config YAML-based configuration the behavior search, can be empty
      */
-    virtual void init(int numInputs, int numOutputs) = 0;
+    virtual void init(int numInputs, int numOutputs, std::string config) = 0;
 
     /**
      * Returns a pointer to the next behavior.
@@ -114,6 +121,7 @@ namespace bolero {
     int numAgentInputs, numAgentOutputs;
     std::string libName;
     int libVersion;
+    bool initHasBeenCalled;
 
   }; // end of class definition BehaviorSearch
 

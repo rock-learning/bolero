@@ -31,7 +31,7 @@ namespace bolero {
       lambda = 0;
     }
 
-    void CMAESOptimizer::init(int dimension) {
+    void CMAESOptimizer::init(int dimension, std::string config) {
       if(isInit) deinit();
 
       assert(dimension > 0);
@@ -85,31 +85,23 @@ namespace bolero {
         sigma[i] = 1.0;
       }
 
-      ConfigMap map;
-      std::string confFile = "learning_config.yml";
-      char *confPath = getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      }
-
-      try {
-        map = ConfigMap::fromYamlFile(confFile);
-      } catch (...) {
-        fprintf(stderr, "optional learning_config.yml not loaded\n");
-      }
-
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
-      if(map.hasKey("Optimizer")) {
-        ConfigMap &m = map["Optimizer"];
-        if(!lambda) {
-          lambda = m.get("PopulationSize", lambda);
+
+      if(config != "")
+      {
+        ConfigMap map = ConfigMap::fromYamlString(config);
+
+        if(map.hasKey("Optimizer")) {
+            ConfigMap &m = map["Optimizer"];
+            if(!lambda) {
+            lambda = m.get("PopulationSize", lambda);
+            }
+            logIndividual = m.get("LogIndividual", false);
+            logGeneration = m.get("LogGeneration", false);
+            logBest = m.get("LogBest", false);
+            reinitSigma = m.get("ReinitSigma", -1.);
         }
-        logIndividual = m.get("LogIndividual", false);
-        logGeneration = m.get("LogGeneration", false);
-        logBest = m.get("LogBest", false);
-        reinitSigma = m.get("ReinitSigma", -1.);
       }
 
       cmaes_init(&evo, NULL, dimension, xstart, sigma, seed, lambda, "non");
