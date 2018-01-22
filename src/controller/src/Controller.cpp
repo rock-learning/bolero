@@ -10,8 +10,6 @@
 #include <float.h>
 #include <limits>
 #include <signal.h>
-#include <fstream>
-#include <streambuf>
 
 using namespace lib_manager;
 using namespace bolero;
