@@ -9,17 +9,19 @@ namespace bolero { namespace bl_loader {
   PyOptimizer::PyOptimizer(lib_manager::LibManager *theManager,
                            std::string libName, int libVersion)
     : bolero::Optimizer(theManager, libName, libVersion),
-      dimension(0)
+      optimizer(0), dimension(0)
   {
-    optimizer = PythonInterpreter::instance()
-        .import("bolero.utils.module_loader")
-        ->function("optimizer_from_yaml").call()
-        .returnObject();
-    if(!optimizer)
-        std::runtime_error("Optimizer construction failed");
   }
 
   void PyOptimizer::init(int dimension, std::string config) {
+    if(config == "")
+      config = "Optimizer:\n    type: " + libName;
+    optimizer = PythonInterpreter::instance()
+    .import("bolero.utils.module_loader")
+    ->function("optimizer_from_yaml_string").pass(STRING).call(config)
+    .returnObject();
+    if(!optimizer)
+      std::runtime_error("Optimizer construction failed");
     this->dimension = dimension;
     optimizer->method("init").pass(INT).call(dimension);
   }

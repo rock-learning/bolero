@@ -6,6 +6,7 @@
 #include <Environment.h>
 #include <BehaviorSearch.h>
 #include <PythonInterpreter.hpp>
+#include <configmaps/ConfigData.h>
 
 using namespace bolero;
 using namespace bolero::bl_loader;
@@ -100,7 +101,10 @@ TEST_CASE( "optimize", "[PyOptimizer]" ) {
   double feedback[n_feedbacks];
 
   // Required step: initialize optimizer
-  opt->init(n_params);
+  configmaps::ConfigMap map = configmaps::ConfigMap::fromYamlFile(
+      "learning_config.yml", true);
+  std::string config = map.toYamlString();
+  opt->init(n_params, config);
 
   for(int i = 0; i < 200; i++)
   {
@@ -124,7 +128,10 @@ TEST_CASE( "environment", "[PyEnvironment]" ) {
   // Load environment that is defined by "learning_config.yml"
   bl_loader::BLLoader loader;
   Environment* env = loader.acquireEnvironment("Python");
-  REQUIRE_NOTHROW(env->init());
+  configmaps::ConfigMap map = configmaps::ConfigMap::fromYamlFile(
+      "learning_config.yml", true);
+  std::string config = map.toYamlString();
+  REQUIRE_NOTHROW(env->init(config));
   REQUIRE_NOTHROW(env->reset());
   REQUIRE(!env->isEvaluationDone());
   REQUIRE(env->getNumInputs() == 3);
@@ -146,7 +153,10 @@ TEST_CASE( "behavior_search", "[PyBehaviorSearch]" ) {
   // Load behavior search that is defined by "learning_config.yml"
   bl_loader::BLLoader loader;
   BehaviorSearch* bs = loader.acquireBehaviorSearch("Python");
-  REQUIRE_NOTHROW(bs->init(0, 3));
+  configmaps::ConfigMap map = configmaps::ConfigMap::fromYamlFile(
+      "learning_config.yml", true);
+  std::string config = map.toYamlString();
+  REQUIRE_NOTHROW(bs->init(0, 3, config));
   Behavior* beh = bs->getNextBehavior();
   double outputs[3];
   REQUIRE_NOTHROW(beh->getOutputs(outputs, 3));

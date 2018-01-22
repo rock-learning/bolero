@@ -19,9 +19,9 @@ include_directories(${CATCH_INCLUDE_DIRS})
 pkg_check_modules(BOLERO REQUIRED bolero)
 include_directories(${BOLERO_INCLUDE_DIRS})
 
-pkg_check_modules(YAML "yaml-cpp")
-include_directories(${YAML_INCLUDE_DIRS})
-link_directories(${YAML_LIBRARY_DIRS})
+pkg_check_modules(CONFIGMAPS configmaps)
+include_directories(${CONFIGMAPS_INCLUDE_DIRS})
+link_directories(${CONFIGMAPS_LIBRARY_DIRS})
 
 include_directories(${BL_LOADER_INCLUDE_DIRS})
 link_directories(${BL_LOADER_LIBRARY_DIRS})
@@ -33,9 +33,7 @@ if(UNIX)
 endif()
 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(${PROJECT_NAME} bl_loader
-                                      ${YAML_LIBRARIES}
-)
+target_link_libraries(${PROJECT_NAME} bl_loader ${CONFIGMAPS_LIBRARIES})
 
 file(COPY python/functions.py DESTINATION .)
 
