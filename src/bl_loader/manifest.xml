@@ -5,7 +5,7 @@
   <depend package="tools/catch" />
   <depend package="learning/bolero/include" />
   <depend package="simulation/lib_manager" />
-  <depend package="yaml-cpp" />
+  <depend package="tools/configmaps" />
   <rosdep name="numpy" />
   <rosdep name="python" /> 
 </package>

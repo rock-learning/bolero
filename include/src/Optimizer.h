@@ -61,36 +61,7 @@ namespace bolero {
      * \param dimension dimension of parameter vector
      * \param config YAML-based configuration the optimizer, can be empty
      */
-    virtual void init(int dimension, std::string config) {
-      if(!initHasBeenCalled) {
-          initHasBeenCalled = true;
-          init(dimension);  // Fall back to deprecated init function
-      }
-    }
-    virtual void init(int dimension) {
-      std::cerr
-        << "[DEPRECATION WARNING] bolero::Optimizer::init(int dimension) "
-           "will be replaced by bolero::Optimizer::init(int dimension, "
-           "std::string config) with the next release!"
-        << std::endl;
-      std::string confFile;
-      char *confPath = std::getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      } else {
-        confFile = "learning_config.yml";
-      }
-      std::ifstream confFileStream(confFile.c_str());
-      std::string config;
-      confFileStream.seekg(0, std::ios::end);
-      config.reserve(confFileStream.tellg());
-      confFileStream.seekg(0, std::ios::beg);
-      config.assign(std::istreambuf_iterator<char>(confFileStream),
-                    std::istreambuf_iterator<char>());
-      init(dimension, config);
-    }
-
+    virtual void init(int dimension, std::string config) = 0;
     /**
      * Get next individual/parameter vector for evaluation.
      * \param[out] p parameter vector, will be modified
