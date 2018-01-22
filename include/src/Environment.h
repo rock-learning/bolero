@@ -61,35 +61,7 @@ namespace bolero {
      * Initialize environment.
      * \param config YAML-based configuration the environment, can be empty
      */
-    virtual void init(std::string config) {
-      if(!initHasBeenCalled) {
-          initHasBeenCalled = true;
-          init();  // Fall back to deprecated init function
-      }
-    }
-    virtual void init() {
-      std::cerr
-        << "[DEPRECATION WARNING] bolero::Environment::init() "
-           "will be replaced by bolero::Environment::init(std::string config) "
-           "with the next release!"
-        << std::endl;
-      std::string confFile;
-      char *confPath = std::getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      } else {
-        confFile = "learning_config.yml";
-      }
-      std::ifstream confFileStream(confFile.c_str());
-      std::string config;
-      confFileStream.seekg(0, std::ios::end);
-      config.reserve(confFileStream.tellg());
-      confFileStream.seekg(0, std::ios::beg);
-      config.assign(std::istreambuf_iterator<char>(confFileStream),
-                    std::istreambuf_iterator<char>());
-      init(config);
-    }
+    virtual void init(std::string config) = 0;
 
     /**
      * Reset state of the environment.
