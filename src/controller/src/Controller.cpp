@@ -88,15 +88,9 @@ namespace bolero {
     } else {
       confFile = "learning_config.yml";
     }
-    std::ifstream confFileStream(confFile.c_str());
-    std::string config;
-    confFileStream.seekg(0, std::ios::end);
-    config.reserve(confFileStream.tellg());
-    confFileStream.seekg(0, std::ios::beg);
-    config.assign(std::istreambuf_iterator<char>(confFileStream),
-                  std::istreambuf_iterator<char>());
 
-    ConfigMap map = ConfigMap::fromYamlString(config);
+    ConfigMap map = ConfigMap::fromYamlFile(confFile, true);
+    std::string config = map.toYamlString();
     string strEnvironment = map["Environment"]["type"];
     string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
