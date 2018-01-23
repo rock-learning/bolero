@@ -1,12 +1,13 @@
 # Release History
 
-## Version 0.1.1
+## Version 0.2
 
 Not released yet
 
 ### Features
 
 * New ContextualOptimizer: C-CMA-ES (based on CMA-ES)
+* Support for Windows and MacOS
 
 ### Documentation
 
