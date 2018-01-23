@@ -13,6 +13,10 @@ Not released yet.
   set to their default values.
 * C++: The controller will run 'reset' of the environment once directly after
   'init' before the first episode is executed.
+* C++: Controller only passes corresonding sections of the learning
+  configuration to the components.
+* pso_optimizer: uses config section 'Optimizer' (previously:
+  'BehaviorSearch Parameters').
 
 ## Version 0.2
 

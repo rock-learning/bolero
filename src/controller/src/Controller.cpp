@@ -141,16 +141,14 @@ namespace bolero {
     assert(environment);
     assert(behaviorSearch);
 
-    environment->init(config);
-    //environment->init(map["Environment"][0].children.toYamlString());
+    environment->init(map["Environment"].toYamlString());
     int numInputs = environment->getNumOutputs();
     int numOutputs = environment->getNumInputs();
 
     double *inputs = new double[numInputs];
     double *outputs = new double[numOutputs];
     fprintf(stderr, "num in- and outputs: %d %d\n", numInputs, numOutputs);
-    behaviorSearch->init(numInputs, numOutputs, config);
-    // behaviorSearch->init(numInputs, numOutputs, map["BehaviorSearch"][0].children.toYamlString());
+    behaviorSearch->init(numInputs, numOutputs, map["BehaviorSearch"].toYamlString());
 
     blLoader->dumpTo(string(blLogPath) + "/libs_info.xml");
     int evaluationCount = 0;
