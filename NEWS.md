@@ -2,7 +2,7 @@
 
 ## Version 0.2
 
-Not released yet
+2018/01/23
 
 ### Features
 
