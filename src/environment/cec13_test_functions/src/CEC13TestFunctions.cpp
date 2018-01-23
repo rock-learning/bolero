@@ -50,11 +50,13 @@ namespace bolero {
         map = ConfigMap::fromYamlString(config);
         if(map.find("Environment") != map.end()) {
           map2 = map["Environment"];
-          dimension = map2->get("Dimension", dimension);
-          assert(dimension>0);
-          testFunction = map2->get("CEC13TestFunction", testFunction);
-          assert(testFunction > 0 && testFunction < 29);
+        } else {
+          map2 = &map;
         }
+        dimension = map2->get("Dimension", dimension);
+        assert(dimension>0);
+        testFunction = map2->get("CEC13TestFunction", testFunction);
+        assert(testFunction > 0 && testFunction < 29);
       }
 
       x = new double[dimension];

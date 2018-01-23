@@ -85,8 +85,8 @@ namespace bolero {
         ConfigMap map = ConfigMap::fromYamlString(config);
         ConfigMap *map2;
 
-        if(map.hasKey("BehaviorSearch Parameters")) {
-            map2 = map["BehaviorSearch Parameters"];
+        if(map.hasKey("Optimizer")) {
+            map2 = map["Optimizer"];
             if(map2->find("PopulationSize") != map2->end()) {
             particleCount = (*map2)["PopulationSize"];
             }

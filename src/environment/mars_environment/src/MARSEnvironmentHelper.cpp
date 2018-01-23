@@ -69,26 +69,28 @@ namespace bolero {
 
         if(map.hasKey("Environment")) {
             map2 = map["Environment"];
+        } else {
+            map2 = &map;
+        }
 
-            if(map2->hasKey("enableGUI"))
-              enableGUI = (*map2)["enableGUI"];
+        if(map2->hasKey("enableGUI"))
+            enableGUI = (*map2)["enableGUI"];
 
-            if(map2->hasKey("graphicsUpdateTime"))
-              graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
-            else
-              graphicsUpdateTime = 0u;
+        if(map2->hasKey("graphicsUpdateTime"))
+            graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
+        else
+            graphicsUpdateTime = 0u;
 
-            if(map2->hasKey("graphicsStepSkip"))
-              graphicsStepSkip = (*map2)["graphicsStepSkip"];
-            else
-              graphicsStepSkip = 0u;
+        if(map2->hasKey("graphicsStepSkip"))
+            graphicsStepSkip = (*map2)["graphicsStepSkip"];
+        else
+            graphicsStepSkip = 0u;
 
-            if(map2->hasKey("calc_ms")) {
-              double dValue = (*map2)["calc_ms"][0];
-              if(marsPlugin->control->cfg) {
+        if(map2->hasKey("calc_ms")) {
+            double dValue = (*map2)["calc_ms"][0];
+            if(marsPlugin->control->cfg) {
                 marsPlugin->control->cfg->setPropertyValue(
                     "Simulator", "calc_ms", "value", dValue);
-              }
             }
         }
 

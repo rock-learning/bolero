@@ -37,20 +37,23 @@ namespace bolero {
         configmaps::ConfigMap *map2;
 
         if(map.hasKey("Environment")) {
-          configmaps::ConfigMap &map2 = map["Environment"];
-          if(map2.hasKey("DataFile")) {
-            dataFile << map2["DataFile"];
-          }
-          if(map2.hasKey("DataFile2")) {
-            dataFile2 << map2["DataFile2"];
-            numEvaluationsToSwitch = map2["NumEvaluationsToSwitchDataFile"];
-          }
-          if(map2.hasKey("TestDataFile")) {
-            testDataFile << map2["TestDataFile"];
-          }
-          if(map2.hasKey("EvaluateRunX")) {
-            evaluateRunX << map2["EvaluateRunX"];
-          }
+          map2 = map["Environment"];
+        } else {
+          map2 = &map;
+        }
+
+        if(map2->hasKey("DataFile")) {
+          dataFile << (*map2)["DataFile"];
+        }
+        if(map2->hasKey("DataFile2")) {
+          dataFile2 << (*map2)["DataFile2"];
+          numEvaluationsToSwitch = (*map2)["NumEvaluationsToSwitchDataFile"];
+        }
+        if(map2->hasKey("TestDataFile")) {
+          testDataFile << (*map2)["TestDataFile"];
+        }
+        if(map2->hasKey("EvaluateRunX")) {
+          evaluateRunX << (*map2)["EvaluateRunX"];
         }
       }
 
