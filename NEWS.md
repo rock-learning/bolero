@@ -1,5 +1,9 @@
 # Release History
 
+## Version 0.3
+
+Not released yet.
+
 ## Version 0.2
 
 2018/01/23
@@ -13,7 +17,7 @@
 
 * Documented `context_features` of CREPSOptimizer
 
-## Version 0.1.0
+## Version 0.1
 
 2017/12/19
 
