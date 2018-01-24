@@ -44,7 +44,7 @@ namespace bolero {
                    const std::string &libName,
                    int libVersion)
         : lib_manager::LibInterface(theManager), libName(libName),
-          libVersion(libVersion), initHasBeenCalled(false) {
+          libVersion(libVersion) {
     }
 
     virtual ~BehaviorSearch() {}
@@ -121,7 +121,6 @@ namespace bolero {
     int numAgentInputs, numAgentOutputs;
     std::string libName;
     int libVersion;
-    bool initHasBeenCalled;
 
   }; // end of class definition BehaviorSearch
 
