@@ -43,7 +43,7 @@ namespace bolero {
               std::string libName, int libVersion)
       : lib_manager::LibInterface(theManager),
         libName(libName),
-        libVersion(libVersion), initHasBeenCalled(false) {
+        libVersion(libVersion) {
     }
 
     virtual ~Optimizer() {}
@@ -98,7 +98,6 @@ namespace bolero {
     int dimension;
     std::string libName;
     int libVersion;
-    bool initHasBeenCalled;
   }; // end of class definition Optimizer
 
 } // end of namespace bolero

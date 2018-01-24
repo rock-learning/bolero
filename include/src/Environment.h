@@ -44,7 +44,7 @@ namespace bolero {
     Environment(lib_manager::LibManager *theManager,
                 const std::string &libName, int libVersion) :
       lib_manager::LibInterface(theManager), libName(libName),
-      libVersion(libVersion), initHasBeenCalled(false) {
+      libVersion(libVersion) {
     }
 
     virtual ~Environment() {}
@@ -129,7 +129,6 @@ namespace bolero {
   protected:
     std::string libName;
     int libVersion;
-    bool initHasBeenCalled;
 
   }; // end of class definition Environment
 
