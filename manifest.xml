@@ -3,7 +3,7 @@
     Behavior Optimization and Learning for Robots. These are the Python modules
     of BOLeRo. This description, however, is for the whole BOLeRo project.
   </description>
-  <author>Alexander Fabisch/Alexander.Fabisch@dfki.de, Malte Langosz/Malte.Langosz@dfki.de</maintainer>
+  <author>Alexander Fabisch/Alexander.Fabisch@dfki.de, Malte Langosz/Malte.Langosz@dfki.de</author>
   <maintainer>Alexander Fabisch/Alexander.Fabisch@dfki.de, Malte Langosz/Malte.Langosz@dfki.de</maintainer>
   <license>New BSD</license>
   <url>https://github.com/rock-learning/bolero</url>
