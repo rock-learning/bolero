@@ -19,12 +19,6 @@
 
 #include "Behavior.h"
 
-// for backwards compatibilty with old init function
-#include <fstream>
-#include <streambuf>
-#include <cstdlib>
-#include <iostream>
-
 namespace bolero {
 
   /**
