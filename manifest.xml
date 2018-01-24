@@ -8,6 +8,7 @@
   <url>https://github.com/rock-learning/bolero</url>
   <logo>https://raw.githubusercontent.com/rock-learning/bolero/master/doc/source/_static/logo.png</logo>
   <keywords>
+    <keyword>Learning</keyword>
     <keyword>machine learning</keyword>
     <keyword>reinforcement learning</keyword>
     <keyword>policy search</keyword>
