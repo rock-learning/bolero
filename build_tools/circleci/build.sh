@@ -1,3 +1,4 @@
+apt-get update -qq
 ./bootstrap_bolero.sh
 cd bolero-dev
 source env.sh
