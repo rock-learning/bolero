@@ -4,6 +4,10 @@
 
 2018/02/11
 
+### Maintenance
+
+* Make BOLeRo compatible to latest version of OpenAI Gym (0.9.6)
+
 ### Breaking Changes
 
 * C++: BehaviorSearch, Optimizer, and Environment have an additional
