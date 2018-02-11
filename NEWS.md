@@ -1,8 +1,8 @@
 # Release History
 
-## Version 0.3
+## Version 1.0
 
-Not released yet.
+2018/02/11
 
 ### Breaking Changes
 
