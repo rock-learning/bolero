@@ -72,3 +72,4 @@ rm -rf bolero-dev/tools/catch/.git
 rm -rf bolero-dev/learning/bolero/.git
 
 zip -r bolero_release.zip bolero-dev
+rm -rf bolero-dev
