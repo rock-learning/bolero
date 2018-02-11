@@ -25,7 +25,7 @@ void PyBehaviorSearch::init(int numInputs, int numOutputs, std::string config) {
     config = "BehaviorSearch:\n    type: " + libName;
   behaviorSearch = PythonInterpreter::instance()
     .import("bolero.utils.module_loader")
-    ->function("behavior_search_from_yaml_string").pass(STRING).call(config)
+    ->function("behavior_search_from_yaml_string").pass(STRING).call(&config)
     .returnObject();
   if(!behaviorSearch)
     std::runtime_error("Behavior search construction failed");

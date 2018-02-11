@@ -18,7 +18,7 @@ namespace bolero { namespace bl_loader {
       config = "Optimizer:\n    type: " + libName;
     optimizer = PythonInterpreter::instance()
     .import("bolero.utils.module_loader")
-    ->function("optimizer_from_yaml_string").pass(STRING).call(config)
+    ->function("optimizer_from_yaml_string").pass(STRING).call(&config)
     .returnObject();
     if(!optimizer)
       std::runtime_error("Optimizer construction failed");

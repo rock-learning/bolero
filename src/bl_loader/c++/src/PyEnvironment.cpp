@@ -18,7 +18,7 @@ void PyEnvironment::init(std::string config) {
     config = "Environment:\n    type: " + libName;
   environment = PythonInterpreter::instance()
     .import("bolero.utils.module_loader")
-    ->function("environment_from_yaml_string").pass(STRING).call(config)
+    ->function("environment_from_yaml_string").pass(STRING).call(&config)
     .returnObject();
   if(!environment)
     std::runtime_error("Environment construction failed");
