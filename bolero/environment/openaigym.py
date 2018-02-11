@@ -78,7 +78,9 @@ class OpenAiGym(Environment):
         self.seed = seed
 
     def init(self):
-        gym.configuration.undo_logger_setup()
+        if hasattr(gym, "configuration"):
+            gym.configuration.undo_logger_setup()
+        # do nothing otherwise, gym no longer modifies global logging config
 
         self.env = gym.make(self.env_name)
         self.n_inputs, self.input_handler = self._init_space(
