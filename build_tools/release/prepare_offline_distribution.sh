@@ -68,7 +68,6 @@ rm bolero-dev/env.sh
 rm bolero-dev/pybob/pybob.yml
 
 # unfortunately mloss.org does not allow large archives
-rm -rf bolero-dev/tools/catch/.git
 rm -rf bolero-dev/learning/bolero/.git
 
 zip -r bolero_release.zip bolero-dev
