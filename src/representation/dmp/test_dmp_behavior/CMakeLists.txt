@@ -22,7 +22,7 @@ add_definitions(${BL_LOADER_CFLAGS_OTHER})
 include_directories(src)
 set(SOURCES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${BL_LOADER_LIBRARIES} dmp_cpp)
+target_link_libraries(${PROJECT_NAME} ${BL_LOADER_LIBRARIES} ${YAMLCPP_LIBRARIES} dmp_cpp)
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables
