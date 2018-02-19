@@ -23,7 +23,7 @@ link_directories(${CONFIGMAPS_LIBRARY_DIRS})
 include_directories(${BL_LOADER_INCLUDE_DIRS})
 link_directories(${BL_LOADER_LIBRARY_DIRS})
 
-include_directories(src ../../external)
+include_directories(src)
 
 if(UNIX)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
