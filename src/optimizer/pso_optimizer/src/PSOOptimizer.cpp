@@ -112,6 +112,21 @@ namespace bolero {
 
     PSOOptimizer::~PSOOptimizer() {
       if(wasInit) {
+        char *logDir = getenv("BL_LOG_PATH");
+        if(logDir) {
+          std::string file = logDir;
+          file += "/pso_best_params.dat";
+          FILE *resFile = fopen(file.c_str(), "w");
+          if(resFile) {
+            fprintf(resFile, "Generation %3d's best fitness: %12.6f\n",
+                    generation, gMinCost);
+            fprintf(resFile, "parameters:\n");
+            for(int i=0;i<dimension;++i) {
+              fprintf(resFile, "%g, ", gMin[i]);
+            }
+            fclose(resFile);
+          }
+        }
         for(int i = 0; i < particleCount; ++i) {
           delete particles[i];
         }
