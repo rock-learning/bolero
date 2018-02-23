@@ -18,7 +18,8 @@ def saw(val, param_min, param_max):
 
 
 if len(sys.argv) >= 3:
-    param_file = yaml.load(open(os.path.abspath(sys.argv[2])).read())["Parameters"]
+    param_path = os.path.abspath(sys.argv[2])
+    param_file = yaml.load(open(param_path).read())["Parameters"]
     cmaes = open(sys.argv[1]).read().split('\n')
     xbeststart = [l[0:9] for l in cmaes].index("xbestever") + 1
     xbestend = [l[0:6] for l in cmaes].index("xbest ")
@@ -29,11 +30,17 @@ if len(sys.argv) >= 3:
         i += 1
     if len(param_file) == len(pOut):
         out_file = open(os.path.abspath(sys.argv[3]), "w")
-        out_file.write(cmaes[[l[0:5] for l in cmaes].index("# ---")] + "\n#" + cmaes[xbeststart - 1] + "\n")
+        out_file.write(cmaes[[l[0:5] for l in cmaes].index("# ---")]
+                       + "\n#" + cmaes[xbeststart - 1] + "\n")
         for i in range(len(pOut)):
-            out_file.write(param_file[i]["name"] + ": " + str(
-                round(saw(float(pOut[i]), param_file[i]["min"], param_file[i]["max"]), 5)) + "\n")
+            param_min = param_file[i]["min"]
+            param_max = param_file[i]["max"]
+            out_file.write(param_file[i]["name"])
+            out_file.write(": ")
+            out_file.write(str(round(saw(float(pOut[i]),
+                           param_min, param_max), 5)) + "\n")
     else:
         print("ERROR: Number of parameters do not match!")
 else:
-    print("Failed. Usage: python evalCMAESOutput.py $allcmaes.dat $param.yml $output_parameters.yml")
+    print("Failed. Usage: python evalCMAESOutput.py $allcmaes.dat\
+          $param.yml $output_parameters.yml")
