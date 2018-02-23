@@ -18,16 +18,22 @@ def saw(val, param_min, param_max):
 
 
 if len(sys.argv) >= 3:
-    param_file = yaml.load(open(os.path.abspath(sys.argv[2])).read())["Parameters"]
+    param_path = os.path.abspath(sys.argv[2])
+    param_file = yaml.load(open(param_path).read())["Parameters"]
     pso_file = open(sys.argv[1]).read().split("\n")
     pOut = pso_file[2].split(', ')
     if len(param_file) == (len(pOut) - 1):
         out_file = open(os.path.abspath(sys.argv[3]), "w")
         out_file.write("#" + pso_file[0] + "\n")
         for i in range(len(pOut) - 1):
-            out_file.write(param_file[i]["name"] + ": " + str(
-                round(saw(float(pOut[i]), param_file[i]["min"], param_file[i]["max"]), 5)) + "\n")
+            param_min = param_file[i]["min"]
+            param_max = param_file[i]["max"]
+            out_file.write(param_file[i]["name"])
+            out_file.write(": ")
+            out_file.write(str(round(saw(float(pOut[i]),
+                           param_min, param_max), 5)) + "\n")
     else:
         print "ERROR: Number of parameters do not match!"
 else:
-    print "Failed. Usage: python evalPSOOutput.py $pso_best_params.dat $param.yml $output_parameters.yml"
+    print "Failed. Usage: python evalPSOOutput.py $pso_best_params.dat\
+           $param.yml $output_parameters.yml"
