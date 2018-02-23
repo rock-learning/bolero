@@ -33,7 +33,7 @@ if len(sys.argv) >= 3:
             out_file.write(str(round(saw(float(pOut[i]),
                            param_min, param_max), 5)) + "\n")
     else:
-        print "ERROR: Number of parameters do not match!"
+        print("ERROR: Number of parameters do not match!")
 else:
-    print "Failed. Usage: python evalPSOOutput.py $pso_best_params.dat\
-           $param.yml $output_parameters.yml"
+    print("Failed. Usage: python evalPSOOutput.py $pso_best_params.dat\
+           $param.yml $output_parameters.yml")
