@@ -100,6 +100,30 @@ namespace bolero {
       marsThread = new MARSThread(libManager, *argc, argv, enableGUI);
       marsThread->setupMARS();
 
+      if(config != "")
+      {
+        ConfigMap map = ConfigMap::fromYamlString(config);
+        ConfigMap *map2;
+
+        if(map.hasKey("Environment")) {
+            map2 = map["Environment"];
+        } else {
+            map2 = &map;
+        }
+
+        if(map2->hasKey("calc_ms")) {
+            double dValue = (*map2)["calc_ms"][0];
+            if(marsPlugin->control->cfg) {
+                marsPlugin->control->cfg->setPropertyValue(
+                    "Simulator", "calc_ms", "value", dValue);
+            }
+        }
+
+        if(map2->hasKey("stepTimeMs")) {
+          marsPlugin->stepTimeMs = (*map2)["stepTimeMs"];
+        }
+      }
+
       // load the simulation core_libs
       std::string coreConfigFile = "core_libs.txt";
       if(!enableGUI) {
