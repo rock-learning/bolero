@@ -85,18 +85,6 @@ namespace bolero {
             graphicsStepSkip = (*map2)["graphicsStepSkip"];
         else
             graphicsStepSkip = 0u;
-
-        if(map2->hasKey("calc_ms")) {
-            double dValue = (*map2)["calc_ms"][0];
-            if(marsPlugin->control->cfg) {
-                marsPlugin->control->cfg->setPropertyValue(
-                    "Simulator", "calc_ms", "value", dValue);
-            }
-        }
-
-        if(map2->hasKey("stepTimeMs")) {
-          marsPlugin->stepTimeMs = (*map2)["stepTimeMs"];
-        }
       }
 
       if(enableGUI)
