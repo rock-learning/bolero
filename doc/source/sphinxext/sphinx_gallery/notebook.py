@@ -157,7 +157,7 @@ def fill_notebook(work_notebook, script_blocks):
     script_blocks : list of tuples
     """
 
-    for blabel, bcontent in script_blocks:
+    for blabel, bcontent, lineno in script_blocks:
         if blabel == 'code':
             add_code_cell(work_notebook, bcontent)
         else:
@@ -187,7 +187,7 @@ def python_to_jupyter_cli(args=None, namespace=None):
     args = parser.parse_args(args, namespace)
 
     for src_file in args.python_src_file:
-        blocks = split_code_and_text_blocks(src_file)
+        file_conf, blocks = split_code_and_text_blocks(src_file)
         print('Converting {0}'.format(src_file))
         example_nb = jupyter_notebook(blocks)
         save_notebook(example_nb, src_file.replace('.py', '.ipynb'))

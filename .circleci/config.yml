@@ -1,0 +1,19 @@
+version: 2
+general:
+  artifacts:
+    - "bolero-dev"
+  branches:
+    ignore:
+      - gh-pages
+jobs:
+  build:
+    docker:
+      - image: af01/bolero_dependencies:latest
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: ./build_tools/circleci/build.sh
+      - run:
+          name: Test
+          command: ./build_tools/circleci/test.sh

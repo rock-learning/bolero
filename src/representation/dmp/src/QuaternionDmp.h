@@ -42,60 +42,71 @@ class QuaternionDmp :  public bolero::LoadableBehavior
 public:
   QuaternionDmp(lib_manager::LibManager *manager);
 
-  /**Initializes the dmp from the given config file*/
+  /** Initialize from yaml file
+   * @param initialConfigPath path to the model definition
+   */
   virtual bool initialize(const std::string& initialConfigPath);
 
-  /**Initializes the dmp from the given model */
+  /** Initialize from QuaternionDmpModel
+   * @param model model definition
+   */
   virtual bool initialize(const QuaternionDmpModel& model);
 
-  /**Configures the dmp from a yaml file.
-  *  @see configure(QuaternionDmpConfig) */
+  /** Configure from yaml file
+   * @param configPath path to the configuration file
+   * @return successfully loaded configuration
+   */
   virtual bool configure(const std::string& configPath);
 
-  /**Configures the dmp from a yaml string.
-  *  @see configure(QuaternionDmpConfig)*/
+  /** Configure from yaml string
+   * @param yaml configuration in YAML format
+   * @return successfully loaded configuration
+   */
   virtual bool configureYaml(const std::string& yaml);
 
-
   /**Applies the given configuration.
-  *  This can be done at any time after initialize() has been called.
-  *  The dmp can be reconfigured mid-run, e.g. to change the goal.
-  *
-  *  \note The start and end positions will be normalized. Therefore the values
-  *        might differ from the values defined in the configuration file. */
+   *  This can be done at any time after initialize() has been called.
+   *  The dmp can be reconfigured mid-run, e.g. to change the goal.
+   *
+   * @param config configuration
+   *
+   *  @note The start and end positions will be normalized. Therefore the values
+   *        might differ from the values defined in the configuration file.
+   */
   bool configure(const QuaternionDmpConfig& config);
 
   /**
   * @param[in] values array of size >= 4 that represents a quaternion. [w, x, ,y, z]
   *                   Only the first 4 elements of the array will be used.
+  * @param numInputs number of inputs, must be 4
   *
-  * \note The inputs will be normalized
+  * @note The inputs will be normalized
   */
   virtual void setInputs(const double *values, int numInputs);
 
   /**
-  * @param[out] values array of size >= 4 that represents a quaternion. [w, x, ,y, z]
-  *                    The first 4 elements will be overwritten with the output.
-  */
+   * @param[out] values array of size >= 4 that represents a quaternion. [w, x, ,y, z]
+   *                    The first 4 elements will be overwritten with the output.
+   * @param numOutputs number of outputs, must be 4
+   */
   virtual void getOutputs(double *values, int numOutputs) const;
 
+  /** Compute output for the received input. */
   virtual void step();
-
+  /** Check if more steps are possible. */
   virtual bool canStep() const;
 
-
   /**
-  * Sets the weights matrix of the forcing term
-  * Should be a 3xN matrix.
-  * N should be equal to the number of centers in the function approximator.
+  * Sets the weights matrix of the forcing term.
+  *
+  * @param newWeights A 3xN matrix. N is the number of centers in the function
+  *                   approximator.
   */
   virtual void setWeights(const Eigen::ArrayXXd& newWeights);
 
-
   /**
   * Gets the weights matrix of the forcing term
-  * Should be a 3xN matrix.
-  * N should be equal to the number of centers in the function approximator.
+  * @return A 3xN matrix. N is the number of centers in the function approximator.
   */
   virtual const Eigen::MatrixXd getWeights();
 

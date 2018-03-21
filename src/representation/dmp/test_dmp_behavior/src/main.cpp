@@ -2,6 +2,10 @@
 #include <LoadableBehavior.h>
 #include <iostream>
 
+#ifdef __WIN32__
+typedef unsigned int uint;
+#endif
+
 
 int main()
 {

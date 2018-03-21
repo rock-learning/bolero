@@ -91,15 +91,17 @@ Optimizer classes
 
    Optimizer
    ContextualOptimizer
+   NoOptimizer
+   RandomOptimizer
    CMAESOptimizer
    RestartCMAESOptimizer
    IPOPCMAESOptimizer
    BIPOPCMAESOptimizer
-   NoOptimizer
-   RandomOptimizer
+   CCMAESOptimizer
    REPSOptimizer
    CREPSOptimizer
    SkOptOptimizer
+   ACMESOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================
@@ -201,3 +203,4 @@ Utility classes
    :template: class.rst
 
    log.HideExtern
+   ranking_svm.RankingSVM

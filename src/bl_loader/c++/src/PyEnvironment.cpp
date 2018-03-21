@@ -9,17 +9,19 @@ namespace bolero { namespace bl_loader {
 
 PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
 		                     const std::string libName, int libVersion)
-  : bolero::Environment(theManager, libName, libVersion)
+  : bolero::Environment(theManager, libName, libVersion), environment(0)
 {
-    environment = PythonInterpreter::instance()
-        .import("bolero.utils.module_loader")
-        ->function("environment_from_yaml").call()
-        .returnObject();
-    if(!environment)
-        std::runtime_error("Environment construction failed");
 }
 
-void PyEnvironment::init() {
+void PyEnvironment::init(std::string config) {
+  if(config == "")
+    config = "Environment:\n    type: " + libName;
+  environment = PythonInterpreter::instance()
+    .import("bolero.utils.module_loader")
+    ->function("environment_from_yaml_string").pass(STRING).call(&config)
+    .returnObject();
+  if(!environment)
+    std::runtime_error("Environment construction failed");
   environment->method("init").call();
 }
 

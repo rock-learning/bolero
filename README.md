@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/rock-learning/bolero.svg?branch=master)](https://travis-ci.org/rock-learning/bolero)
+[![Travis Status](https://travis-ci.org/rock-learning/bolero.svg?branch=master)](https://travis-ci.org/rock-learning/bolero)
+[![CircleCI Status](https://circleci.com/gh/rock-learning/bolero/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/bolero)
 
 <img width="60%" src="doc/source/_static/logo.png" />
 
@@ -13,27 +14,23 @@ not an issue. Because the library provides a C++ interface, it is easy to
 integrate in most robotic frameworks, e.g. the robot operating system (ROS) or
 the robot construction kit (Rock).
 
-
 ## Installation
 
-In order to install all dependencies and BOLeRo you can use the installation
-script
+On Ubuntu 16.04 and similar operating systems, you can install BOLeRo with
 
     wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
-BOLeRo is developed for Ubuntu 16.04, it has been tested with 17.04. Using
-it on Mac OS or Windows is possible, however, the installation might be
-more complicated. We recommend to use Docker if you want to take a quick
-look at the software. Instructions are
-[here](https://github.com/AlexanderFabisch/bolero/blob/37595d5d8f22c1afb40e329f6df1487401d77988/docker/README.md#create-container).
-
-The installation script will create a new folder 'bolero-dev' that contains
+The installation script will create a new folder `bolero-dev` that contains
 all sources and built binaries. If you want to use BOLeRo, you have to source
 the file env.sh:
 
     source bolero-dev/env.sh
+
+Detailed installation instructions (for other operating systems, with docker,
+etc.) can be found at
+[the documentation](https://rock-learning.github.io/bolero/installation.html).
 
 ## Documentation
 

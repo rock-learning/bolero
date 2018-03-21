@@ -52,7 +52,7 @@ namespace bolero {
       , wasInit(false) {
     }
 
-    void PSOOptimizer::init(int dimension) {
+    void PSOOptimizer::init(int dimension, std::string config) {
       assert(dimension > 0);
 
       long seed = 0;
@@ -80,20 +80,16 @@ namespace bolero {
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
-      ConfigMap map;
-      ConfigMap *map2;
-      std::string confFile = "learning_config.yml";
-      char *confPath = getenv("BL_CONF_PATH");
-      if(confPath) {
-        confFile = confPath;
-        confFile += "/learning_config.yml";
-      }
-      map = ConfigMap::fromYamlFile(confFile);
+      if(config != "")
+      {
+        ConfigMap map = ConfigMap::fromYamlString(config);
+        ConfigMap *map2;
 
-      if(map.hasKey("BehaviorSearch Parameters")) {
-        map2 = map["BehaviorSearch Parameters"];
-        if(map2->find("PopulationSize") != map2->end()) {
-          particleCount = (*map2)["PopulationSize"];
+        if(map.hasKey("Optimizer")) {
+            map2 = map["Optimizer"];
+            if(map2->find("PopulationSize") != map2->end()) {
+            particleCount = (*map2)["PopulationSize"];
+            }
         }
       }
 
@@ -116,6 +112,21 @@ namespace bolero {
 
     PSOOptimizer::~PSOOptimizer() {
       if(wasInit) {
+        char *logDir = getenv("BL_LOG_PATH");
+        if(logDir) {
+          std::string file = logDir;
+          file += "/pso_best_params.dat";
+          FILE *resFile = fopen(file.c_str(), "w");
+          if(resFile) {
+            fprintf(resFile, "Generation %3d's best fitness: %12.6f\n",
+                    generation, gMinCost);
+            fprintf(resFile, "parameters:\n");
+            for(int i=0;i<dimension;++i) {
+              fprintf(resFile, "%g, ", gMin[i]);
+            }
+            fclose(resFile);
+          }
+        }
         for(int i = 0; i < particleCount; ++i) {
           delete particles[i];
         }

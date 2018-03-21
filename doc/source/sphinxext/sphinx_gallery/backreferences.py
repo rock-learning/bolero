@@ -18,6 +18,14 @@ try:
     import cPickle as pickle
 except ImportError:
     import pickle
+# Try Python 3 first, otherwise load from Python 2
+try:
+    from html import escape
+except ImportError:
+    from functools import partial
+    from xml.sax.saxutils import escape
+
+    escape = partial(escape, entities={'"': '&quot;'})
 
 
 class NameFinder(ast.NodeVisitor):
@@ -68,12 +76,23 @@ class NameFinder(ast.NodeVisitor):
 
 def get_short_module_name(module_name, obj_name):
     """ Get the shortest possible module name """
+    scope = {}
+    try:
+        # Find out what the real object is supposed to be.
+        exec('from %s import %s' % (module_name, obj_name), scope, scope)
+        real_obj = scope[obj_name]
+    except Exception:
+        return module_name
+
     parts = module_name.split('.')
     short_name = module_name
     for i in range(len(parts) - 1, 0, -1):
         short_name = '.'.join(parts[:i])
+        scope = {}
         try:
-            exec('from %s import %s' % (short_name, obj_name))
+            exec('from %s import %s' % (short_name, obj_name), scope, scope)
+            # Ensure shortened object is the same as what we expect.
+            assert real_obj is scope[obj_name]
         except Exception:  # libraries can throw all sorts of exceptions...
             # get the last working module name
             short_name = '.'.join(parts[:(i + 1)])
@@ -169,7 +188,8 @@ def _thumbnail_div(full_dir, fname, snippet, is_backref=False):
     ref_name = os.path.join(full_dir, fname).replace(os.path.sep, '_')
 
     template = BACKREF_THUMBNAIL_TEMPLATE if is_backref else THUMBNAIL_TEMPLATE
-    return template.format(snippet=snippet, thumbnail=thumb, ref_name=ref_name)
+    return template.format(snippet=escape(snippet),
+                           thumbnail=thumb, ref_name=ref_name)
 
 
 def write_backreferences(seen_backrefs, gallery_conf,

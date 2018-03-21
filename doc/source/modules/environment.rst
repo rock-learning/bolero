@@ -42,6 +42,11 @@ provided by the environment :class:`ObjectiveFunction`. The objective
 functions are the same as in the software `COCO
 <http://coco.gforge.inria.fr/doku.php>`_.
 
+.. include:: ../gen_modules/backreferences/bolero.environment.ObjectiveFunction.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 
 .. _openaigym:
 
@@ -50,6 +55,11 @@ OpenAI Gym
 
 The environment :class:`OpenAiGym` is a wrapper for
 `OpenAI Gym <https://gym.openai.com>`_ environments.
+
+.. include:: ../gen_modules/backreferences/bolero.environment.OpenAiGym.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
 
 
 .. _optimum_trajectory:
@@ -61,6 +71,11 @@ The environment :class:`OptimumTrajectory` is designed to use behavior learning
 algorithms for simple planning problems. The goal is to avoid obstacles and
 minimize the effort used for the trajectory, e.g. by minimizing the velocities
 or accelerations.
+
+.. include:: ../gen_modules/backreferences/bolero.environment.OptimumTrajectory.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
 
 
 Contextual Environment
@@ -100,7 +115,12 @@ based on the functions that are provided with `COCO
 Catapult
 --------
 
-The catapult environment is a benchmark problem for contextual policy search.
+The :class:`Catapult` environment is a benchmark problem for contextual policy search.
 It is a two-dimensional environment like the one displayed in the figur below.
 The goal is to hit the ground at a target specified on the x-axis. The target
 is given by the context vector.
+
+.. include:: ../gen_modules/backreferences/bolero.environment.Catapult.examples
+.. raw:: html
+
+    <div style='clear:both'></div>

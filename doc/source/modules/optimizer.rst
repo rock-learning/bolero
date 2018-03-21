@@ -55,6 +55,10 @@ BOLeRo.
    * - :ref:`REPSOptimizer <reps_opt>`
      - 5 - 500 parameters, smooth objective functions
 
+   * - :ref:`ACMESOptimizer <acmes_opt>`
+     - 5 - 150 parameters, ill-conditioned, non-separable, unimodal objective
+       functions, more sample-efficient than standard CMA-ES
+
 
 .. _no_opt:
 
@@ -63,6 +67,11 @@ No Optimizer
 
 A :class:`NoOptimizer` does not optimize at all. It can be used as a baseline
 for optimizers.
+
+.. include:: ../gen_modules/backreferences/bolero.optimizer.NoOptimizer.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
 
 
 .. _random_opt:
@@ -105,6 +114,18 @@ displays one generation of samples. Each generation is sampled from the same
 search distribution. The old search distribution is displayed by an orange
 equiprobable ellipse and the updated search distribution is displayed by a
 green ellipse.
+
+
+.. _acmes_opt:
+
+ACM-ES
+------
+
+:class:`ACMESOptimizer` is CMA-ES with a surrogate model. The surrogate model
+is a ranking SVM that tries to predict the rank of samples locally. This
+improves sample efficiency but also increases computational demand of the
+optimization algorithm. If an episode has a high cost, it will make sense
+to prefer this variant of CMA-ES.
 
 
 .. _ipop_cmaes_opt:
@@ -156,6 +177,9 @@ provided by BOLeRo.
    * - :ref:`CREPSOptimizer <creps_opt>`
      - 5 - 500 parameters and 1 - 5 context dimensions
 
+   * - :ref:`CCMAESOptimizer <ccmaes_opt>`
+     - 5 - 500 parameters and 1 - 5 context dimensions
+
 
 .. _creps_opt:
 
@@ -184,3 +208,14 @@ the appendix of
 
     Fabisch, Metzen: Active Contextual Policy Search.
     http://jmlr.org/papers/v15/fabisch14a.html
+
+
+.. _ccmaes_opt:
+
+C-CMA-ES Optimizer
+------------------
+
+:class:`CCMAESOptimizer` is an extension of CMA-ES to the contextual
+optimization domain. It works better than C-REPS for problems where the
+step size has to be adapted quickly because the step size adaptation is
+not bounded by the KL divergence like in C-REPS.

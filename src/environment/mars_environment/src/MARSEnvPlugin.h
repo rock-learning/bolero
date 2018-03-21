@@ -17,12 +17,13 @@
 
 #include <mars/interfaces/sim/PluginInterface.h>
 #include <mars/utils/Mutex.h>
+#include <mars/cfg_manager/CFGManagerInterface.h>
 
 namespace bolero {
   namespace mars_environment {
 
     class MARSEnvPlugin: public mars::interfaces::PluginInterface {
-
+      /// @private
       friend class MARSEnvironmentHelper;
     public:
       MARSEnvPlugin();
@@ -62,8 +63,6 @@ namespace bolero {
       mutable mars::utils::Mutex dataMutex;
 
       void update();
-
-
     }; // end of class definition MARSEnvPlugin
 
   } // end of namespace mars_environment

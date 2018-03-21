@@ -11,3 +11,6 @@ coverageReport
 *.pyc
 *.so
 build
+
+# Release
+build_tools/release/bolero_release.zip

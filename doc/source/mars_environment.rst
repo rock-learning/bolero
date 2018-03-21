@@ -5,41 +5,51 @@ MARS Environment
 ================
 
 This guide will explain how to set up a MARS-based environment for BOLeRo.
+We published an example for a MARS environment in a
+`separate project <https://github.com/rock-learning/throwing_environment>`_.
+We will go through this example step by step here. In the end you will see
+something like this:
+
+.. raw:: html
+
+    <center><img src="_static/throwing_environment.png" width=500px /></center>
 
 
 Folder and File Structure of an Environment
 ===========================================
 
 The structure of a project that provides a MARS-based environment always looks
-very similar to this one. You can download files from an example project by
-clicking on the links.
+very similar to this one.
 
-**example_environment/**
+**throwing_environment/**
 
-* :download:`README.md <_static/example_environment/README.md>` - provides
-  information for the user
-* :download:`CMakeLists.txt <_static/example_environment/CMakeLists.txt>`
-  - defines how we can build this project with `CMake <http://www.cmake.org/>`_
-* :download:`manifest.xml <_static/example_environment/manifest.xml>` -
-  defines dependencies for `Rock <http://rock-robotics.org>`_ or `ROS
-  <http://www.ros.org/>`_
-* :download:`example_environment.pc.in
-  <_static/example_environment/example_environment.pc.in>` - defines package
-  information like the location of the library, compiler flags etc.
-* **configuration/** - contains MARS scenes and config files which are used by
-  the environemnt
+* README.md - provides information for the user (installation, license, ...)
+* CMakeLists.txt - defines how we can build this project with
+  `CMake <http://www.cmake.org/>`_
+* manifest.xml - defines dependencies for `Rock <http://rock-robotics.org>`_ or
+  `ROS <http://www.ros.org/>`_
+* throwing_environment.pc.in - defines package information like the location of
+  the library, compiler flags etc.
+* configuration/ - contains configuration files for the environmet
 
-  * :download:`example.scn
-    <_static/example_environment/configuration/example.scn>`
-  * :download:`example_vc.scn
-    <_static/example_environment/configuration/example_vc.scn>`
+  * throwing.smurfs - description of the scene, tells MARS which objects it
+    should load and how they are connected
+  * robot - contains configuration files for the object with the name 'robot'
 
-* **src/** - contains source files for the environment implementation
+    * urdf - contains the URDF file of the object
+    * smurf - contains specific configuration files for the simulation, for
+      example, motor configuration and collision configuration
 
-  * :download:`ExampleEnvironment.h
-    <_static/example_environment/src/ExampleEnvironment.h>`
-  * :download:`ExampleEnvironment.cpp
-    <_static/example_environment/src/ExampleEnvironment.cpp>`
+* src/ - contains source files for the environment implementation
+
+The hardest part of creating a new simulation environment is usually to define
+the scene (everything that is located in configuration/). We cannot solve this
+problem here. Instead, we can refer to
+`Phobos <https://github.com/rock-simulation/phobos>`_. Phobos is a plugin for
+`Blender <https://www.blender.org/>`_. It enables the creation and modification
+of WYSIWYG robot models and those can be exported to MARS scenes (and other
+formats). We will take a closer look at the implementation of the scene with
+existing configuration files (everything that is located in src/).
 
 
 Building an Environment
@@ -53,7 +63,7 @@ to the standard CMake-based build process:
 
     mkdir build
     cd build
-    cmake_debug
+    cmake_debug ..  # this is different, 'cmake_debug' knows where bolero-dev is
     make install
 
 We do not use `cmake ..` because we want to install the environment to our
@@ -64,172 +74,292 @@ set the correct `CMAKE_INSTALL_PREFIX`.
 Creating Your Own Environment
 =============================
 
-Starting from the example environment, to create a new simple environment you
-have to do the following steps.
+We will show and explain important parts of
+`this environment <https://github.com/rock-learning/throwing_environment>`_.
+For further details, please take a look at the full source code.
 
-Changes in the folder names and filenames
------------------------------------------
+CMakeLists.txt
+--------------
 
-  * copy the example folder and rename it
-  * delete all scene files in the configuration folder and put the new ones in
-    it (the names of the new scene don't have to be like the environment name
-    but it would make things easier)
-  * rename the :download:`example_environment.pc.in
-    <_static/example_environment/example_environment.pc.in>` and put your
-    environment name in front
-  * go in the **src/** folder and rename the source files
-  * go back to the main folder and edit the :download:`CMakeLists.txt
-    <_static/example_environment/CMakeLists.txt>`
+A MARS environment depends on BOLeRo and the base class for MARS environments.
 
-    * change the project name to your environment name
-    * go to the section where the source files are set and correct the names to
-      the right ones
-    * go to the end of the file where the scene files are installed and change
-      the name of the files to your scene files
+.. code-block:: cmake
 
-Changes in the source
+    pkg_check_modules(BOLERO "bolero")
+    include_directories(${BOLERO_INCLUDE_DIRS})
+
+    pkg_check_modules(MARS_ENV "mars_environment")
+    include_directories(${MARS_ENV_INCLUDE_DIRS})
+    link_directories(${MARS_ENV_LIBRARY_DIRS})
+
+The environment will be compiled to a library.
+
+.. code-block:: cmake
+
+    set(SOURCES src/ThrowingEnvironment.cpp)
+    set(HEADERS src/ThrowingEnvironment.h)
+
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
+
+    target_link_libraries(${PROJECT_NAME}
+        ${MARS_ENV_LIBRARIES}
+        ${MARS_UTILS_LIBRARIES}
+        ${CONFIGMAPS_LIBRARIES})
+
+The following files have to be installed: the library, headers, pkg-config
+information, and scene configuration files.
+
+.. code-block:: cmake
+
+    # Install the library into the lib folder
+    install(TARGETS ${PROJECT_NAME} ${_INSTALL_DESTINATIONS})
+
+    # Install headers into mars include directory
+    install(FILES ${HEADERS} DESTINATION include/bolero/${PROJECT_NAME})
+
+    # Prepare and install necessary files to support finding of the library 
+    # using pkg-config
+    configure_file(${PROJECT_NAME}.pc.in ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc @ONLY)
+    install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION lib/pkgconfig)
+
+    install(FILES configuration/throwing.smurfs
+            DESTINATION configuration/${PROJECT_NAME}/)
+    install(DIRECTORY configuration/robot
+            DESTINATION configuration/${PROJECT_NAME})
+    install(DIRECTORY configuration/target
+            DESTINATION configuration/${PROJECT_NAME})
+
+ThrowingEnvironment.h
 ---------------------
 
-  * :download:`src/ExampleEnvironment.h
-    <_static/example_environment/src/ExampleEnvironment.h>`:
-    In the header file you search for every spot with the word *example* and
-    exchange it with the name of your environment.
+Our `ThrowingEnvironment` is a subclass of `mars_environment::MARSEnvironment`
+and, in this case, BOLeRo's `ContextualEnvironment`. A contextual environment
+defines a problem that can be parameterized by a context vector.
 
-  * :download:`src/ExampleEnvironment.cpp
-    <_static/example_environment/src/ExampleEnvironment.cpp>`:
-    First do the same as in the header file (exchange alle *example* with
-    your environment name).
+.. code-block:: c++
 
-Methods
--------
+    namespace bolero {
+      namespace throwing_environment {
 
-In the following we give a brief description of the methods and what changes
-have to be done.
+        class ThrowingEnvironment : public mars_environment::MARSEnvironment,
+                                    public ContextualEnvironment {
 
-**constructor**:
+The following functions have to be implemented.
 
-  *description*:
+.. code-block:: c++
 
-    * Constructor method of your environment class
-    * calls the parent constructor (Environment and MARSEnvironment)
-    * initialize constants:
+          virtual void initMARSEnvironment();
+          virtual void resetMARSEnvironment();
+          virtual void handleMARSError();
 
-      * MAX_TIME     : maximum time after which the evaluation is considerd as done
-      * numJoints    : the number of joints which are used by the environment
-      * numAllJoints : the total number of joint of the scene
+          virtual int getNumInputs() const;
+          virtual int getNumOutputs() const;
 
-  *changes*:
+          virtual void createOutputValues();
+          virtual void handleInputValues();
 
-    * change *numJoints* and *numAllJoints* to the right values
+          virtual int getFeedback(double *feedback) const;
 
-**initMARSEnvironment()**:
+          bool isEvaluationDone() const;
+          bool isBehaviorLearningDone() const { return false; }
 
-  *description*:
+          virtual double* request_context(double *context,int size);
+          virtual int get_num_context_dims() const;
 
-    * Initialise you environment:
-    * looks in the *learning_config.yml* wether the velocity or position controlled scene should be loaded
-    * loads the scene in MARS
-    
-  *changes*:
+ThrowingEnvironment.cpp
+-----------------------
 
-    * change the name of the normal scene and the velocity controlled scene to your scene file name.
+In `ThrowingEnvironment::initMARSEnvironment()` we load the configuration of
+the environment.
 
-**resetMARSEnvironment()**
+.. code-block:: c++
 
-  *description*:
+        void ThrowingEnvironment::initMARSEnvironment()
+        {
+          readConfig();
+          request_context(targetPos.data(), 2);
 
-    * resets the environment to the start state
+          if(!isSceneLoaded)
+          {
+            std::string sceneFile = getConfigPath() +
+                "/throwing_environment/throwing.smurfs";
+            control->sim->loadScene(sceneFile.c_str());
+            isSceneLoaded = true;
+          }
 
-  *changes*: None
+          getMotorIDs();
+        }
 
-**handleMARSError()**
+        void ThrowingEnvironment::readConfig()
+        {
+          // Parameters of the environment are in the file "learning_config.yml".
+          // It should be located in the current working directory. This
+          // environment accepts the additional parameters
+          // - ballThrowTime: after this has been reached (number of time steps),
+          //   the ball will be detached from the robot
+          // - armHeight: simulates that the arm is mounted on a table, this is the
+          //   height of the table, the simulation stops when the ball hits the
+          //   virtual ground
+          // - verbose - verbosity level
+          ConfigMap learningConfigMap = ConfigMap::fromYamlFile("learning_config.yml");
+          if(learningConfigMap.find("Environment") != learningConfigMap.end())
+          {
+            if(learningConfigMap["Environment"].find("ballThrowTime") != learningConfigMap["Environment"].endMap())
+              ballThrowTime = (learningConfigMap["Environment"])["ballThrowTime"];
+            if(learningConfigMap["Environment"].find("armHeight") != learningConfigMap["Environment"].endMap())
+              armHeight = learningConfigMap["Environment"]["armHeight"];
+            if(learningConfigMap["Environment"].find("verbose") != learningConfigMap["Environment"].endMap())
+              verbose = (learningConfigMap["Environment"])["verbose"];
+          }
+        }
 
-  *description*:
+        std::string ThrowingEnvironment::getConfigPath()
+        {
+          // Here we use the environment variable "ROCK_CONFIGURATION_PATH" in
+          // order to "find" the smurf file to be loaded. During installation it
+          // should be put in "$ROCK_CONFIGURATION_PATH/spacebot_throw_environment".
+          std::string configPath = std::string(getenv("ROCK_CONFIGURATION_PATH"));
+          if(configPath.empty())
+            throw std::runtime_error("WARNING: The ROCK_CONFIGURATION_PATH is not "
+                                     "set! Did you \"source env.sh\"?\n");
+          return configPath;
+        }
 
-    * Set the evaluation_done variable to *True* and the fitness to "DBL_MAX"
+        void ThrowingEnvironment::getMotorIDs()
+        {
+          motorIDs.clear();
 
-  *changes*: None
+          std::vector<mars::interfaces::core_objects_exchange>::iterator it;
+          std::vector<mars::interfaces::core_objects_exchange> motorList;
+          control->motors->getListMotors(&motorList);
 
-**getSensorIDs()**
+          for(it = motorList.begin(); it != motorList.end(); ++it)
+            motorIDs.push_back(it->index);
+        }
 
-  *description*:
+To reset the environment, we usually have to set the joint angles to the
+initial state.
 
-    * This Method should search for the id's of the motors you want to use in the environment.
-    * The id's are saved in a vector called *sensorIDs*.
+.. code-block:: c++
 
-  *changes*:
+        void ThrowingEnvironment::resetMARSEnvironment()
+        {
+          fitness = 0.0;
+          evaluation_done = false;
+          setStartAngles();
+        }
 
-    * In this example the method seaches for the id's of the sensors with the names: "Motor_Angles", "Endeffector_position", "Endeffector_rotation", "Endeffector_velocity".
-    * You have to change these names with the names of the sensors in your scene.
+        void ThrowingEnvironment::setStartAngles()
+        {
+          for(unsigned int i=0; i < motorIDs.size(); i++)
+          {
+            inputs[i] = startAnglePos(i);
+            control->motors->setMotorValue(motorIDs[i], startAnglePos(i));
+          }
 
-**getMotorIDs()**
+          dataMutex.lock();
+          handleInputValues();
+          createOutputValues();
+          dataMutex.unlock();
+        }
 
-  *description*:
+`ThrowingEnvironment::handleMARSError()` will be called when an exception
+occurs during simulation. We should set a very bad fitness and finish the
+evaluation in the environment.
 
-    * This Method should search for the id's of the motors you want to use in the environment.
-    * The id's are saved in a vector called *motorIDs*.
+.. code-block:: c++
 
-  *changes*:
+        void ThrowingEnvironment::handleMARSError()
+        {
+          fitness = -DBL_MAX;
+          evaluation_done = true;
+        }
 
-    * In this example we go through all motors and save their id's in the vector.
-    * If you dont want all of your motors to be changed by the environment you have to change this here.
+After each simulation step, this function will be called. Usually we
+want to output joint states. We could also output sensor measurements.
 
-**getNumInputs()**
+.. code-block:: c++
 
-  *description*:
+        void ThrowingEnvironment::createOutputValues(void)
+        {
+          setPositionOfVisualTarget(); // must always be done, falls down otherwise
+          outputMotorPositions();
+          checkBallPosition();
+          checkMaxTime();
+        }
 
-    * This Method returns the number of inputs this environment can handle
+        void ThrowingEnvironment::setPositionOfVisualTarget()
+        {
+          mars::interfaces::NodeId targetId = control->nodes->getID("target_link");
+          control->nodes->setPosition(targetId, targetPos);
+        }
 
-  *changes*:
+        void ThrowingEnvironment::outputMotorPositions()
+        {
+          for(unsigned int i = 0; i < motorIDs.size(); i++)
+            outputs[i] = (double)control->motors->getActualPosition(motorIDs[i]);
+        }
 
-    * Change the return value to the number of motors you want to control with your environment
+        void ThrowingEnvironment::checkBallPosition()
+        {
+          mars::interfaces::NodeId ballId = control->nodes->getID("ball_link");
+          mars::utils::Vector ballPos = control->nodes->getPosition(ballId);
 
-**getNumOutputs()**
+          if(ballPos[2] <= -armHeight)
+          {
+            ballHitX = ballPos[0];
+            ballHitY = ballPos[1];
+            const double diffX = ballPos[0] - targetPos[0];
+            const double diffY = ballPos[1] - targetPos[1];
+            const double squaredDist = diffX * diffX + diffY * diffY;
+            fitness = -squaredDist;
+            evaluation_done = true;
+          }
+        }
 
-  *description*:
+        void ThrowingEnvironment::checkMaxTime()
+        {
+          if(leftTime > MAX_SIMULATION_TIME) {
+            fitness = DBL_MAX;
+            evaluation_done = true;
+          }
+        }
 
-    * This Method returns the number of outputs your environment creates
+Before a simulation step is computed, we at least should write the motor
+commands.
 
-  *changes*:
+.. code-block:: c++
 
-    * Change the return to the number of outputs you want to give
+        void ThrowingEnvironment::handleInputValues()
+        {
+          setMotorValues();
+          checkBallThrowTime();
+        }
 
-**createOutputValues()**
+        void ThrowingEnvironment::setMotorValues()
+        {
+          for(unsigned int i=0; i < motorIDs.size(); i++)
+            control->motors->setMotorValue(motorIDs[i], inputs[i]);
+        }
 
-  *description*:
+        void ThrowingEnvironment::checkBallThrowTime()
+        {
+          if(leftTime > ballThrowTime)
+            control->joints->removeJoint(control->joints->getID("ball_joint"));
+        }
 
-    * In this method we create the output values and fill them into the array *outputs*.
-    * The *outputs* array is part of the mars_environment class. The length of this array depends on the number your *getNumOutputs()* function returns.
+In a contextual environment, we have to set the context on request.
 
-  *changes*:
+.. code-block:: c++
 
-  * You have to go through your sensorID's you got from *getSensorIDs()*, read the sensor data from each sensor and write them into the *outputs* array
+        double* ThrowingEnvironment::request_context(double *context, int size)
+        {
+          if(size != 2)
+            return NULL;
 
-**handleInputValues()**
+          targetPos[0] = context[0];
+          targetPos[1] = context[1];
+          targetPos[2] = -armHeight;
 
-  *description*:
-
-    * This method is called with every step and should handle the new inputs.
-    * The input data is in the *inputs* array which is also part of the mars_environment class.
-    * The length of this array depends on the number your *getNumInputs()* function returns.
-
-  *changes*:
-
-    * In this method we simply go through the *inputs* array and pass the values to the motors of the loaded scene.
-    * If you want to do something different with the inputs you ahve to do this here.
-
-**isEvaluationDone()**
-
-  *description*:
-
-    * *True* if the MAX_TIME is reached or an event sets the evaluation_done to *True*
-
-  *changes*: None
-
-**getFeedback(double *feedback)**
-
-  *description*:
-
-    * returns the feedback generated by the evaluation
-
-  *changes*: None
+          return targetPos.data();
+        }

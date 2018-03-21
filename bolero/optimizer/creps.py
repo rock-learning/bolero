@@ -127,7 +127,11 @@ class CREPSOptimizer(ContextualOptimizer):
         Number of samples that will be used to update a policy.
 
     context_features : string or callable, optional (default: None)
-        (Nonlinear) feature transformation for the context.
+        (Nonlinear) feature transformation for the context. Possible options
+        are 'constant', 'linear', 'affine', 'quadratic', 'cubic', or you can
+        write a custom function that computes a transformation of the context.
+        This will make a linear upper level policy capable of representing
+        nonlinear functions.
 
     gamma : float, optional (default: 1e-4)
         Regularization parameter. Should be removed in the future.
@@ -218,6 +222,8 @@ class CREPSOptimizer(ContextualOptimizer):
         self.history_s = deque(maxlen=self.n_samples_per_update)
         self.history_phi_s = deque(maxlen=self.n_samples_per_update)
 
+        self.weights = np.zeros(self.n_samples_per_update)
+
     def get_desired_context(self):
         """C-REPS does not actively select the context.
 
@@ -267,14 +273,16 @@ class CREPSOptimizer(ContextualOptimizer):
             theta = np.asarray(self.history_theta)
             R = np.asarray(self.history_R)
 
-            d = solve_dual_contextual_reps(
+            self.weights = solve_dual_contextual_reps(
                 phi_s, R, self.epsilon, self.min_eta)[0]
             # NOTE the context have already been transformed
-            self.policy_.fit(phi_s, theta, d, context_transform=False)
+            self.policy_.fit(phi_s, theta, self.weights,
+                             context_transform=False)
 
     def _add_sample(self, rewards):
         self.reward = check_feedback(rewards, compute_sum=True)
-        self.logger.info("[CREPS] Reward %.6f" % self.reward)
+        if self.log_to_stdout or self.log_to_file:
+            self.logger.info("[CREPS] Reward %.6f" % self.reward)
 
         phi_s = self.policy_.transform_context(self.context)
 

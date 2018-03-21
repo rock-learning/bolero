@@ -233,7 +233,7 @@ class DMPSequence(BlackBoxBehavior):
         if self.learn_goal_velocities:
             self.subgoal_velocities = np.split(
                 goal_vels, [i * self.n_task_dims
-                            for i in xrange(1, self.n_dmps)])
+                            for i in xrange(1, self.n_dmps+1)])
 
     def set_subgoal(self, idx, subgoal):
         """Set subgoal manually.
@@ -301,7 +301,6 @@ class DMPSequence(BlackBoxBehavior):
         assert np.abs(idx) < len(self.subgoal_velocities)
         return self.subgoal_velocities[idx]
 
-
     def reset(self):
         """Reset DMP."""
         if self.x0 is None:
@@ -323,3 +322,66 @@ class DMPSequence(BlackBoxBehavior):
         """Returns true if step() can be called again, false otherwise."""
         return len(np.where(self.steps <= self.split_steps)[0]) > 0
 
+    def trajectory(self):
+        """Generate trajectory represented by the sequence of DMPs in open loop.
+
+        The function can be used for debugging purposes.
+
+        Returns
+        -------
+        X : array, shape (n_steps, n_task_dims)
+            Positions
+
+        Xd : array, shape (n_steps, n_task_dims)
+            Velocities
+
+        Xdd : array, shape (n_steps, n_task_dims)
+            Accelerations
+        """
+        last_t = 0.0
+        last_y = np.copy(self.subgoals[0])
+        last_yd = np.copy(self.subgoal_velocities[0])
+        last_ydd = np.zeros(self.n_task_dims)
+
+        y = np.empty(self.n_task_dims)
+        yd = np.empty(self.n_task_dims)
+        ydd = np.empty(self.n_task_dims)
+
+        n_steps = int(sum(self.execution_times) / self.dt) + 1
+        Y = np.empty([n_steps, self.n_task_dims])
+        Yd = np.empty([n_steps, self.n_task_dims])
+        Ydd = np.empty([n_steps, self.n_task_dims])
+
+        steps = 0
+        for t in np.arange(0, sum(self.execution_times) + self.dt, self.dt):
+            dmp_idx = np.where(steps <= self.split_steps)[0][0]
+
+            dmp.dmp_step(
+                last_t, t,
+                last_y, last_yd, last_ydd,
+                y, yd, ydd,
+                self.subgoals[dmp_idx + 1],
+                self.subgoal_velocities[dmp_idx + 1],
+                np.zeros(self.n_task_dims),
+                self.subgoals[dmp_idx],
+                self.subgoal_velocities[dmp_idx],
+                np.zeros(self.n_task_dims),
+                np.sum(self.execution_times[:dmp_idx + 1]),
+                np.sum(self.execution_times[:dmp_idx]),
+                self.weights[dmp_idx],
+                self.widths[dmp_idx],
+                self.centers[dmp_idx],
+                self.alpha_y, self.beta_y, self.alpha_z[dmp_idx],
+                0.001
+            )
+
+            last_t = t
+            last_y[:] = y
+            last_yd[:] = yd
+            last_ydd[:] = ydd
+            Y[steps, :] = y.copy()
+            Yd[steps, :] = yd.copy()
+            Ydd[steps, :] = ydd.copy()
+            steps += 1
+
+        return Y, Yd, Ydd

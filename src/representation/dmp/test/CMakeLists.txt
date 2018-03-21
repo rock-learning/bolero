@@ -1,12 +1,11 @@
-pkg_check_modules(CATCH REQUIRED catch)
-
 include_directories(
     ${LIB_MANAGER_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
     ${YAMLCPP_INCLUDE_DIRS}
     ${BOLERO_INCLUDE_DIRS}
-    ${CATCH_INCLUDE_DIRS})
+    .)
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})
+link_directories(${YAMLCPP_LIBRARY_DIRS})
 
 set(dmp_sources
     test_dmp_config.cpp

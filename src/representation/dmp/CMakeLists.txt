@@ -39,7 +39,7 @@ pkg_check_modules(YAMLCPP REQUIRED yaml-cpp)
 
 add_subdirectory(implementation)
 add_subdirectory(src)
-include_directories(src)
+include_directories(src ${LIB_MANAGER_INCLUDE_DIRS})
 
 configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/dmp_cpp.pc.in"

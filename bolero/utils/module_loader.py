@@ -12,9 +12,20 @@ def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
     return from_yaml(filename, conf_path)["Optimizer"]
 
 
+def optimizer_from_yaml_string(yaml_str, conf_path=None):
+    """Create optimizer object from YAML string."""
+    return from_dict(yaml.load(yaml_str)["Optimizer"])
+
+
 def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create behavior object from YAML configuration file."""
     return from_yaml(filename, conf_path)["Behavior"]
+
+
+def behavior_from_yaml_string(yaml_str, conf_path=None):
+    """Create behavior object from YAML string."""
+    print(yaml_str)
+    return from_dict(yaml.load(yaml_str)["Behavior"])
 
 
 def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -22,9 +33,19 @@ def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
     return from_yaml(filename, conf_path)["BehaviorSearch"]
 
 
+def behavior_search_from_yaml_string(yaml_str, conf_path=None):
+    """Create behavior search object from YAML string."""
+    return from_dict(yaml.load(yaml_str)["BehaviorSearch"])
+
+
 def environment_from_yaml(filename="learning_config.yml", conf_path=None):
     """Create environment object from YAML configuration file."""
     return from_yaml(filename, conf_path)["Environment"]
+
+
+def environment_from_yaml_string(yaml_str, conf_path=None):
+    """Create environment object from YAML string."""
+    return from_dict(yaml.load(yaml_str)["Environment"])
 
 
 def from_yaml(filename, conf_path=None):
@@ -209,7 +230,7 @@ def _from_dict(name, config):
         return clazz(**c)
     except TypeError as e:
         raise TypeError("Parameters for type '%s' do not match: %r. Reason: "
-                        "'%s'" % (type_name, c, e.message))
+                        "'%s'" % (type_name, c, e))
 
 
 PERMITTED_BASECLASSES = [

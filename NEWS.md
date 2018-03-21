@@ -1,25 +1,64 @@
 # Release History
 
-## Version 0.0.2
+## Version 1.0
 
-Not released yet.
+2018/02/11
+
+### Maintenance
+
+* Make BOLeRo compatible to latest version of OpenAI Gym (0.9.6)
+
+### Breaking Changes
+
+* C++: BehaviorSearch, Optimizer, and Environment have an additional
+  parameter 'config' in their 'init' function. The YAML-based configuration
+  string will be given. Each implementation of this function must be able to
+  cope with an empty config string. In this case all parameters will be
+  set to their default values.
+* C++: The controller will run 'reset' of the environment once directly after
+  'init' before the first episode is executed.
+* C++: Controller only passes corresonding sections of the learning
+  configuration to the components.
+* pso_optimizer: uses config section 'Optimizer' (previously:
+  'BehaviorSearch Parameters').
+
+## Version 0.2
+
+2018/01/23
 
 ### Features
 
-* Continuous integration with Travis CI
+* New ContextualOptimizer: C-CMA-ES (based on CMA-ES)
+* Support for Windows and MacOS
+
+### Documentation
+
+* Documented `context_features` of CREPSOptimizer
+
+## Version 0.1
+
+2017/12/19
+
+### Features
+
+* Continuous integration with Travis CI and CircleCI
+* Added docker image
 * New behavior search: Monte Carlo RL
 * New optimizer: relative entropy policy search (REPS)
+* New optimizer: ACM-ES (CMA-ES with surrogate model)
 
 ### Bugfixes
 
 * DMPSequence works with multiple dimensions
 * Minor fixes in docstrings
 * Multiple minor fixes for Travis CI
+* Fixed scaling issues in C-REPS
 
 ### Documentation
 
 * Documented merge policy
 * Added meta information about the project to the manifest.xml
+* Updated documentation on how to build custom MARS environments
 
 ## Version 0.0.1
 

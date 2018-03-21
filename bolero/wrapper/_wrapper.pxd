@@ -33,7 +33,7 @@ cdef extern from "BehaviorSearch.h" namespace "bolero":
     int getLibVersion() except +
     string getLibName() except +
     void createModuleInfo() except +
-    void init(int numInputs, int numOutputs) except +
+    void init(int numInputs, int numOutputs, string config) except +
     Behavior* getNextBehavior() except +
     Behavior* getBestBehavior() except +
     void setEvaluationFeedback(double *feedbacks, int numFeedbacks) except +
@@ -48,7 +48,7 @@ cdef extern from "Environment.h" namespace "bolero":
     int getLibVersion() except +
     string getLibName() except +
     void createModuleInfo() except +
-    void init() except +
+    void init(string config) except +
     void reset() except +
     int getNumInputs() except +
     int getNumOutputs() except +
@@ -78,7 +78,7 @@ cdef extern from "Optimizer.h" namespace "bolero":
     int getLibVersion() except +
     string getLibName() except +
     void createModuleInfo() except +
-    void init(int dimension) except +
+    void init(int dimension, string config) except +
     void getNextParameters(double *p, int numP) except +
     void getBestParameters(double *p, int numP) except +
     void setEvaluationFeedback(double *feedbacks, int numFeedbacks) except +

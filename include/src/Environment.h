@@ -53,8 +53,9 @@ namespace bolero {
 
     /**
      * Initialize environment.
+     * \param config YAML-based configuration the environment, can be empty
      */
-    virtual void init() = 0;
+    virtual void init(std::string config) = 0;
 
     /**
      * Reset state of the environment.
@@ -108,7 +109,7 @@ namespace bolero {
 
     /**
      * Get feedbacks from the last episode.
-     * \param[out] feedbacks
+     * \param[out] feedback array, will be filled with feedbacks
      * \return how many rewards were assigned for the whole evaluation
      */
     virtual int getFeedback(double *feedback) const = 0;

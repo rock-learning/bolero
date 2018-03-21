@@ -13,7 +13,7 @@ public:
   PyEnvironment(lib_manager::LibManager *theManager, const std::string libName,
                 int libVersion);
 
-  void init();
+  void init(std::string config="");
   void reset();
 
   int getNumInputs() const;
@@ -25,8 +25,11 @@ public:
 
   bool isEvaluationDone() const;
 
-  // returns number of rewards that was assigned to the pointer parameter
-  // for the whole evaluation
+  /** Get feedbacks.
+   * @param[out] feedback array, will be filled with feedback values
+   * @return Number of rewards that was assigned to the pointer parameter
+   * for the whole evaluation
+   */
   int getFeedback(double *feedback) const;
 
   bool isBehaviorLearningDone() const;

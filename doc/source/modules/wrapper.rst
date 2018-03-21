@@ -33,14 +33,14 @@ C++ components usually need to be configured during acquisition. The
 configuration is provided via configuration files. As a convention, the
 configuration file `learning_config.yml` is used for this purpose, however,
 that depends on the implementation of the component. Another convention is
-that, for example an environment only uses the section `Environment Parameters`
-from the configuration file, an optimizer uses the section `Optimizer
-Parameters`, etc. For example, the following configuration file configures a
+that, for example an environment only uses the section `Environment`
+from the configuration file, an optimizer uses the section `Optimizer`,
+etc. For example, the following configuration file configures a
 MARS-based environment.
 
 .. code-block:: yaml
 
-    Environment Parameters:
+    Environment:
         calc_ms: 10
         stepTimeMs: 10
         graphicsUpdateTime: 10

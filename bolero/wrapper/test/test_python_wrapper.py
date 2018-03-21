@@ -49,6 +49,8 @@ def test_load_behavior_search():
     bhs = bll.acquire_behavior_search("Python")
     n_inputs = 1
     n_outputs = 1
+    with open(CURRENT_PATH + "/learning_config.yml", "r") as f:
+        bhs.initialize_yaml(f.read())
     bhs.init(n_inputs, n_outputs)
     beh = bhs.get_next_behavior()
     outputs = np.zeros(n_outputs)
@@ -67,6 +69,8 @@ def test_load_python_optimizer():
     bll = CppBLLoader()
     bll.load_config_file(LIBRARY_CONFIG_FILE)
     opt = bll.acquire_optimizer("Python")
+    with open(CURRENT_PATH + "/learning_config.yml", "r") as f:
+        opt.initialize_yaml(f.read())
     n_params = 5
     opt.init(n_params)
     params = np.empty(n_params)

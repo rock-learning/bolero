@@ -30,7 +30,7 @@ public:
   /**
    * Creates the behavior using module_loader.behavior_from_yaml()
    *
-   * \param initialConfigFile should be a yaml file that can be passed
+   * \param initialConfigPath should be a yaml file that can be passed
    *                          to the python function
    *                          module_loader.behavior_from_yaml()
    *                          If this string is empty no parameter

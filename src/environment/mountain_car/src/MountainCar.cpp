@@ -41,19 +41,7 @@ namespace bolero {
       }
     }
 
-    void MountainCar::init() {
-      /*
-      configmaps::ConfigMap map;
-      configmaps::ConfigMap *map2;
-      map = configmaps::ConfigMap::fromYamlFile("learning_config.yml");
-
-      if(map.find("Environment") != map.end()) {
-        map2 = &(map["Environment"][0].children);
-        if(map2->find("DataFile") != map2->end()) {
-          dataFile = (*map2)["DataFile"][0].getString();
-        }
-      }
-      */
+    void MountainCar::init(std::string config) {
       numOutputs = 2;
       numInputs = 3;
       inputs = new double[numInputs];

@@ -1,6 +1,5 @@
 import numpy as np
-from bolero.optimizer import SkOptOptimizer
-from bolero.optimizer.skoptimize import skopt_available
+from bolero.optimizer import SkOptOptimizer, skopt_available
 if not skopt_available:
     from nose import SkipTest
     raise SkipTest("scikit-optimize is not installed")

@@ -39,16 +39,20 @@ namespace bolero {
       free(x_bound);
     }
 
-    void CEC13TestFunctions::init() {
+    void CEC13TestFunctions::init(std::string config) {
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml");
 
       dimension = 10;
       testFunction = 1;
 
-      if(map.find("Environment") != map.end()) {
-        map2 = map["Environment"];
+      if(config != "") {
+        map = ConfigMap::fromYamlString(config);
+        if(map.find("Environment") != map.end()) {
+          map2 = map["Environment"];
+        } else {
+          map2 = &map;
+        }
         dimension = map2->get("Dimension", dimension);
         assert(dimension>0);
         testFunction = map2->get("CEC13TestFunction", testFunction);

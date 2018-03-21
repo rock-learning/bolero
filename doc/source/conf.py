@@ -49,13 +49,13 @@ breathe_projects = {
 breathe_default_project = "bolero"
 templates_path = ['_templates']
 source_suffix = '.rst'
-exclude_patterns = []
+exclude_patterns = ["sphinxext"]
 exclude_trees = ["_templates"]
 source_encoding = 'utf-8-sig'
 
 master_doc = 'index'
 project = u'bolero'
-copyright = u'2014-2017, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group'
+copyright = u'2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group'
 version = bolero.__version__
 release = bolero.__version__
 language = 'en'
@@ -79,7 +79,10 @@ html_show_sphinx = False
 html_show_copyright = True
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
-    "gallery_dirs"  : "auto_examples"
+    "gallery_dirs": "auto_examples",
+    "backreferences_dir": "gen_modules/backreferences",
+    "doc_module": ("bolero",),
+    "download_section_examples": False
 }
 
 # Add any extra paths that contain custom files (such as robots.txt or

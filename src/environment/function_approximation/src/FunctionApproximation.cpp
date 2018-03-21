@@ -25,32 +25,38 @@ namespace bolero {
       delete[] y;
     }
 
-    void FunctionApproximation::init() {
-      configmaps::ConfigMap map;
-      configmaps::ConfigMap *map2;
-      map = configmaps::ConfigMap::fromYamlFile("learning_config.yml",true);
-
+    void FunctionApproximation::init(std::string config) {
       dataFile = "data_to_fit.txt";
       dataFile2 = "";
       numEvaluationsToSwitch = 0;
       evaluationCount = 0;
       evaluateRunX = 1;
-      if(map.hasKey("Environment")) {
-        configmaps::ConfigMap &map2 = map["Environment"];
-        if(map2.hasKey("DataFile")) {
-          dataFile << map2["DataFile"];
+
+      if(config != "") {
+        configmaps::ConfigMap map = configmaps::ConfigMap::fromYamlString(config);
+        configmaps::ConfigMap *map2;
+
+        if(map.hasKey("Environment")) {
+          map2 = map["Environment"];
+        } else {
+          map2 = &map;
         }
-        if(map2.hasKey("DataFile2")) {
-          dataFile2 << map2["DataFile2"];
-          numEvaluationsToSwitch = map2["NumEvaluationsToSwitchDataFile"];
+
+        if(map2->hasKey("DataFile")) {
+          dataFile << (*map2)["DataFile"];
         }
-        if(map2.hasKey("TestDataFile")) {
-          testDataFile << map2["TestDataFile"];
+        if(map2->hasKey("DataFile2")) {
+          dataFile2 << (*map2)["DataFile2"];
+          numEvaluationsToSwitch = (*map2)["NumEvaluationsToSwitchDataFile"];
         }
-        if(map2.hasKey("EvaluateRunX")) {
-          evaluateRunX << map2["EvaluateRunX"];
+        if(map2->hasKey("TestDataFile")) {
+          testDataFile << (*map2)["TestDataFile"];
+        }
+        if(map2->hasKey("EvaluateRunX")) {
+          evaluateRunX << (*map2)["EvaluateRunX"];
         }
       }
+
       evalCount = evaluateRunX;
       fprintf(stderr, "scan: %s\n", dataFile.c_str());
       readExpData(&fitData, dataFile);

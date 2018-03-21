@@ -51,6 +51,24 @@ class ContextualObjectiveFunction(object):
         """
 
 
+class ConstantContextualSphere(ContextualObjectiveFunction):
+    """Sphere function with f_opt depending linearly on the context."""
+    def __init__(self, random_state, n_dims, n_context_dims):
+        super(ConstantContextualSphere, self).__init__(
+            random_state, n_dims, n_context_dims)
+        self.sphere = Sphere(self.random_state, self.n_dims)
+        self.w = self.random_state.randn(n_context_dims)
+
+    def feedback(self, x, _):
+        return self.sphere.feedback(x)
+
+    def x_opt(self, _):
+        return self.sphere.x_opt
+
+    def f_opt(self, _):
+        return self.sphere.f_opt
+
+
 class LinearContextualSphere(ContextualObjectiveFunction):
     """Sphere function with f_opt depending linearly on the context."""
     def __init__(self, random_state, n_dims, n_context_dims):

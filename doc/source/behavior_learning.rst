@@ -15,9 +15,13 @@ The following diagram shows the control flow of learning behaviors with
 BOLeRo. An **environment** defines the learning problem. It can execute the
 **behavior** and generates the feedback for the **behavior search** algorithm.
 The behavior search algorithm generates a new behavior for each episode and
-receives the feedback from the environment after each episode.
+receives the feedback from the environment after each episode. During an
+episode (or rollout or trial), the **behavior** is executed in the
+**environment**. A behavior measures the state of the environment and
+generates an action based on the current state in each step.
 
 .. image:: _static/control_flow.svg
+   :width: 80%
    :alt: Control flow
    :align: center
 

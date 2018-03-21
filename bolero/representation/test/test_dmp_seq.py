@@ -19,7 +19,7 @@ def create_dmp_seq(n_task_dims=1):
     dmp_seq.init(3 * n_task_dims, 3 * n_task_dims)
     dmp_seq.set_meta_parameters(["x0", "g"], [np.zeros(n_task_dims),
                                               2 * np.ones(n_task_dims)])
-    return dmp_seq
+    return dmp_seq, subgoals
 
 
 def test_dimensions_mismatch():
@@ -114,7 +114,7 @@ def test_no_dimensions():
 
 
 def test_smoke():
-    dmp_seq = create_dmp_seq(n_task_dims=1)
+    dmp_seq, _ = create_dmp_seq(n_task_dims=1)
 
     controller = Controller({"Controller":
                              {"record_inputs": True},
@@ -150,9 +150,31 @@ def test_smoke():
     assert_almost_equal(X[100, 0], 2.0, places=2)
 
 
+def test_trajectory_generation():
+    dmp_seq, _ = create_dmp_seq(n_task_dims=1)
+    traj = dmp_seq.trajectory()[0]
+    subgoal = dmp_seq.get_subgoal(0)
+    assert_almost_equal(traj[0, 0], subgoal)
+    subgoal = dmp_seq.get_subgoal(1)
+    assert_almost_equal(traj[20, 0], subgoal, places=2)
+    subgoal = dmp_seq.get_subgoal(2)
+    assert_almost_equal(traj[50, 0], subgoal, places=2)
+    subgoal = dmp_seq.get_subgoal(3)
+    assert_almost_equal(traj[100, 0], subgoal, places=2)
+
+
+def test_set_params_with_subgoal_velocities():
+    test_task_dims = range(1, 100, 1)
+    for n_task_dims in test_task_dims:
+        dmp_seq, subgoals = create_dmp_seq(n_task_dims=n_task_dims)
+        dmp_seq.set_params(dmp_seq.get_params())
+        for i in range(len(subgoals)):
+            assert_equal(len(dmp_seq.get_subgoal_velocity(i)), n_task_dims)
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    dmp_seq = create_dmp_seq(2)
+    dmp_seq, _ = create_dmp_seq(2)
 
     controller = Controller({"Controller":
                              {"record_outputs": True},

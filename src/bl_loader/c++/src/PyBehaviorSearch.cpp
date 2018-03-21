@@ -7,15 +7,9 @@ namespace bolero { namespace bl_loader {
 
 PyBehaviorSearch::PyBehaviorSearch(lib_manager::LibManager *theManager,
                                    const std::string libName, int libVersion)
-  : bolero::BehaviorSearch(theManager, libName, libVersion), behavior(0),
-    bestBehavior(0)
+  : bolero::BehaviorSearch(theManager, libName, libVersion), behaviorSearch(0),
+    behavior(0), bestBehavior(0)
 {
-    behaviorSearch = PythonInterpreter::instance()
-      .import("bolero.utils.module_loader")
-      ->function("behavior_search_from_yaml").call()
-      .returnObject();
-    if(!behaviorSearch)
-        std::runtime_error("Behavior search construction failed");
 }
 
 PyBehaviorSearch::~PyBehaviorSearch()
@@ -26,7 +20,15 @@ PyBehaviorSearch::~PyBehaviorSearch()
     delete bestBehavior;
 }
 
-void PyBehaviorSearch::init(int numInputs, int numOutputs) {
+void PyBehaviorSearch::init(int numInputs, int numOutputs, std::string config) {
+  if(config == "")
+    config = "BehaviorSearch:\n    type: " + libName;
+  behaviorSearch = PythonInterpreter::instance()
+    .import("bolero.utils.module_loader")
+    ->function("behavior_search_from_yaml_string").pass(STRING).call(&config)
+    .returnObject();
+  if(!behaviorSearch)
+    std::runtime_error("Behavior search construction failed");
   behaviorSearch->method("init")
     .pass(INT).pass(INT).call(numInputs, numOutputs);
 }

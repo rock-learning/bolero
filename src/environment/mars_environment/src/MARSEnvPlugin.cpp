@@ -27,8 +27,8 @@ using namespace mars::interfaces;
 using namespace mars::utils;
 using namespace configmaps;
 
-namespace bolero {  
-  namespace mars_environment {  
+namespace bolero {
+  namespace mars_environment {
 
     MARSEnvPlugin::MARSEnvPlugin()
         : mars::interfaces::PluginInterface(NULL), r(0) {
@@ -42,9 +42,10 @@ namespace bolero {
       newOutputData = false;
       doNotContinue = true;
     }
-  
+
     void MARSEnvPlugin::init() {
       assert(control);
+
       ConfigMap map;
       ConfigMap *map2;
       map = ConfigMap::fromYamlFile("learning_config.yml");

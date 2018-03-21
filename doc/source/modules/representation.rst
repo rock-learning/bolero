@@ -131,6 +131,16 @@ velocity at the goal, execution time) and can be learned from demonstrations.
 A variant of DMPs that works in Cartesian space is
 :class:`CartesianDMPBehavior`.
 
+.. include:: ../gen_modules/backreferences/bolero.representation.DMPBehavior.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
+.. include:: ../gen_modules/backreferences/bolero.representation.CartesianDMPBehavior.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 
 .. _dmp_seq:
 

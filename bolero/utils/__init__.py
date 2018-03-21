@@ -1,5 +1,5 @@
-from module_loader import from_yaml, from_yaml_string, from_dict
-from validation import check_random_state
+from .module_loader import from_yaml, from_yaml_string, from_dict
+from .validation import check_random_state
 
 
 class NonContextualException(Exception):

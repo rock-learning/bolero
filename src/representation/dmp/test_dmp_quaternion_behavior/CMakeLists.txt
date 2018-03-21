@@ -9,19 +9,19 @@ find_package(lib_manager)
 lib_defaults()
 define_module_info()
 
-pkg_check_modules(BLLOADER REQUIRED bl_loader)
 include_directories(
-    ${BLLOADER_INCLUDE_DIRS}
+    ${BL_LOADER_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
     ${YAMLCPP_INCLUDE_DIRS}
     ${BOLERO_INCLUDE_DIRS})
-link_directories(${BLLOADER_LIBRARY_DIRS})
-add_definitions(${BLLOADER_CFLAGS_OTHER})
+link_directories(${BL_LOADER_LIBRARY_DIRS})
+link_directories(${YAMLCPP_LIBRARY_DIRS})
+add_definitions(${BL_LOADER_CFLAGS_OTHER})
 
 include_directories(src)
 set(SOURCES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${BLLOADER_LIBRARIES} quaternion_dmp_cpp)
+target_link_libraries(${PROJECT_NAME} ${BL_LOADER_LIBRARIES} quaternion_dmp_cpp)
 
 if(WIN32)
   set(LIB_INSTALL_DIR bin) # .dll are in PATH, like executables

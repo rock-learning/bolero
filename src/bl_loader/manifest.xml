@@ -2,10 +2,10 @@
   <description brief="bl_loader">
     Loads C++ libraries for bolero.
   </description>
-  <depend package="tools/catch" />
   <depend package="learning/bolero/include" />
   <depend package="simulation/lib_manager" />
-  <depend package="yaml-cpp" />
+  <depend package="tools/configmaps" />
+  <depend package="python-dev" />
   <rosdep name="numpy" />
   <rosdep name="python" /> 
 </package>

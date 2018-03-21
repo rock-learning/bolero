@@ -28,12 +28,22 @@ def _bound(bounds, samples):
             samples[k] = np.minimum(samples[k], bounds[:, 1])
 
 
+def inv_sqrt(cov):
+    """Compute inverse square root of a covariance matrix."""
+    cov = np.triu(cov) + np.triu(cov, 1).T
+    D, B = np.linalg.eigh(cov)
+    # HACK: avoid numerical problems
+    D = np.maximum(D, np.finfo(np.float).eps)
+    D = np.sqrt(D)
+    return B.dot(np.diag(1.0 / D)).dot(B.T), B, D
+
+
 class CMAESOptimizer(Optimizer):
     """Covariance Matrix Adaptation Evolution Strategy.
 
     See `Wikipedia <http://en.wikipedia.org/wiki/CMA-ES>`_ for details.
 
-    Plain CMA-ES is considered to be useful for
+    Plain CMA-ES [1]_ is considered to be useful for
 
     * non-convex,
     * non-separable,
@@ -92,6 +102,12 @@ class CMAESOptimizer(Optimizer):
 
     random_state : int or RandomState, optional (default: None)
         Seed for the random number generator or RandomState object.
+
+    References
+    ----------
+    .. [1] Hansen, N.; Ostermeier, A. Completely Derandomized Self-Adaptation
+        in Evolution Strategies. In: Evolutionary Computation, 9(2), pp.
+        159-195. https://www.lri.fr/~hansen/cmaartic.pdf
     """
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
@@ -209,7 +225,8 @@ class CMAESOptimizer(Optimizer):
             self.neg_cmu = ((1.0 - self.cmu) * 0.25 * self.mueff /
                             ((self.n_params + 2) ** 1.5 + 2.0 * self.mueff))
 
-        self._update_covariance(self.it)
+        self.invsqrtC = inv_sqrt(self.cov)[0]
+        self.eigen_decomp_updated = self.it
 
     def _sample(self, n_samples):
         samples = self.random_state.multivariate_normal(
@@ -323,18 +340,10 @@ class CMAESOptimizer(Optimizer):
         self.var *= np.exp(np.min((0.6, log_step_size_update))) ** 2
 
         if it - self.eigen_decomp_updated > self.eigen_update_freq:
-            self._update_covariance(it)
+            self.invsqrtC = inv_sqrt(self.cov)[0]
+            self.eigen_decomp_updated = self.it
 
         self.samples = self._sample(self.n_samples_per_update)
-
-    def _update_covariance(self, it):
-        self.eigen_decomp_updated = it
-        self.cov[:, :] = np.triu(self.cov) + np.triu(self.cov, 1).T
-        D, B = np.linalg.eigh(self.cov)
-        # HACK: avoid numerical problems
-        D = np.maximum(D, np.finfo(np.float).eps)
-        D = np.diag(np.sqrt(1.0 / D))
-        self.invsqrtC = B.dot(D).dot(B.T)
 
     def is_behavior_learning_done(self):
         """Check if the optimization is finished.
