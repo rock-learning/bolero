@@ -4,6 +4,9 @@
  */
 
 #pragma once
+#ifndef PRIVATE
+#define PRIVATE private
+#endif
 #include <Behavior.h>
 #include <LoadableBehavior.h>
 #include <string>
@@ -97,7 +100,7 @@ public:
 
   CREATE_MODULE_INFO();
 
-private:
+PRIVATE:
   dmp_cpp::DMPModel model;
   dmp_cpp::DMPConfig config;
 

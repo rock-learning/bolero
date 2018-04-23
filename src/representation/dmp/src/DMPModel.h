@@ -1,5 +1,8 @@
 #ifndef DMPMODEL_H
 #define DMPMODEL_H
+#ifndef PRIVATE
+#define PRIVATE private
+#endif
 
 #include <vector>
 #include <string>
@@ -47,7 +50,7 @@ public:
 
     friend std::ostream& operator << (std::ostream& os, DMPModel& val);
 
-private:
+PRIVATE:
     /**
      * \return true if the vector contains at least one number that is NaN or Inf
      */

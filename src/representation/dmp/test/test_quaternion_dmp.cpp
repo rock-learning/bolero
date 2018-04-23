@@ -1,3 +1,4 @@
+#define PRIVATE public
 #include <catch/catch.hpp>
 #include <vector>
 #include <Eigen/Core>
@@ -8,7 +9,6 @@
 #include <lib_manager/LibManager.hpp>
 #include "test_helpers.h"
 #include "QuaternionDmpModel.h"
-#define private public
 #include "QuaternionDmp.h"
 
 using namespace dmp;
