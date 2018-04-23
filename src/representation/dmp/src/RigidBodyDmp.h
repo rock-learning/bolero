@@ -91,7 +91,7 @@ public:
   //without it the lib manager would be unable to load this module at run time.
   CREATE_MODULE_INFO();
 
-private:
+PRIVATE:
   lib_manager::LibManager* manager;
   RigidBodyDmpConfig config;
   std::auto_ptr<DmpBehavior> translationDmp;

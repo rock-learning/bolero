@@ -1,9 +1,9 @@
+#define PRIVATE public
 #include <catch/catch.hpp>
 #include <vector>
 #include <iostream>
 #include <string>
 #include "test_helpers.h"
-#define private public
 #include "RigidBodyDmpConfig.h"
 #include "RigidBodyDmp.h"
 #include "DMPModel.h"

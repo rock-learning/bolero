@@ -1,4 +1,7 @@
 #pragma once
+#ifndef PRIVATE
+#define PRIVATE private
+#endif
 #include <Eigen/Geometry>
 #include <LoadableBehavior.h>
 #include "QuaternionDmpModel.h"
@@ -114,7 +117,7 @@ public:
   //without it the lib manager would be unable to load this module at run time.
   CREATE_MODULE_INFO();
 
-private:
+PRIVATE:
   QuaternionDmpConfig config;
   bool initialized;/**<If true initialize() has been called successfully */
 
