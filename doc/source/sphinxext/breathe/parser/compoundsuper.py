@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #
 # Generated Thu Jun 11 18:44:25 2009 by generateDS.py.
 #
@@ -5795,4 +5793,3 @@ if __name__ == '__main__':
     main()
     #import pdb
     #pdb.run('main()')
-

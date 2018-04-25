@@ -1,4 +1,12 @@
 
+from __future__ import unicode_literals
+
+try:
+    from shlex import quote  # py3
+except ImportError:
+    from pipes import quote  # py2
+
+
 AUTOCFG_TEMPLATE = r"""
 PROJECT_NAME     = "{project_name}"
 OUTPUT_DIRECTORY = {output_dir}
@@ -15,6 +23,7 @@ GENERATE_HTML = NO
 GENERATE_XML = YES
 ALIASES = "rst=\verbatim embed:rst"
 ALIASES += "endrst=\endverbatim"
+{extra}
 """.strip()
 
 
@@ -36,12 +45,12 @@ class AutoDoxygenProcessHandle(object):
         self.write_file = write_file
         self.project_info_factory = project_info_factory
 
-    def generate_xml(self, app):
+    def generate_xml(self, projects_source, doxygen_options):
 
         project_files = {}
 
         # First collect together all the files which need to be doxygen processed for each project
-        for project_name, file_structure in app.config.breathe_projects_source.items():
+        for project_name, file_structure in projects_source.items():
 
             folder = file_structure[0]
             contents = file_structure[1]
@@ -55,13 +64,13 @@ class AutoDoxygenProcessHandle(object):
         # a directory in the Sphinx build area
         for project_name, data in project_files.items():
 
-            project_path = self.process(data.auto_project_info, data.files)
+            project_path = self.process(data.auto_project_info, data.files, doxygen_options)
 
             project_info = data.auto_project_info.create_project_info(project_path)
 
             self.project_info_factory.store_project_info_for_auto(project_name, project_info)
 
-    def process(self, auto_project_info, files):
+    def process(self, auto_project_info, files, doxygen_options):
 
         name = auto_project_info.name()
         cfgfile = "%s.cfg" % name
@@ -71,7 +80,8 @@ class AutoDoxygenProcessHandle(object):
         cfg = AUTOCFG_TEMPLATE.format(
             project_name=name,
             output_dir=name,
-            input=" ".join(full_paths)
+            input=" ".join(full_paths),
+            extra='\n'.join("%s=%s" % pair for pair in doxygen_options.items())
             )
 
         build_dir = self.path_handler.join(
@@ -82,6 +92,9 @@ class AutoDoxygenProcessHandle(object):
 
         self.write_file(build_dir, cfgfile, cfg)
 
-        self.run_process(['doxygen', cfgfile], cwd=build_dir)
+        # Shell-escape the cfg file name to try to avoid any issue where the name might include
+        # malicious shell character - We have to use the shell=True option to make it work on
+        # Windows. See issue #271
+        self.run_process('doxygen %s' % quote(cfgfile), cwd=build_dir, shell=True)
 
         return self.path_handler.join(build_dir, name, "xml")
