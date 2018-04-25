@@ -1,5 +1,4 @@
-
-__version__ = '4.0.0'
+__version__ = '4.7.3'
 
 
 def setup(app):
@@ -14,3 +13,4 @@ def setup(app):
     from . import directives
 
     directives.setup(app)
+    return {'version': __version__}

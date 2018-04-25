@@ -1,39 +1,29 @@
 
 from .finder.core import FinderFactory
-from .parser import DoxygenParserFactory, CacheFactory
-from .renderer.rst.doxygen import DoxygenToRstRendererFactoryCreatorConstructor, \
-    RstContentCreator, RenderContext
-from .renderer.rst.doxygen.filter import FilterFactory, GlobFactory
-from .renderer.rst.doxygen.target import TargetHandlerFactory
-from .renderer.rst.doxygen.mask import MaskFactory, NullMaskFactory, NoParameterNamesMask
+from .parser import DoxygenParserFactory
+from .renderer import DoxygenToRstRendererFactory
+from .renderer.base import RenderContext
+from .renderer.filter import FilterFactory
+from .renderer.target import TargetHandlerFactory
+from .renderer.mask import MaskFactory, NullMaskFactory, NoParameterNamesMask
 
-from .finder.doxygen.core import DoxygenItemFinderFactoryCreator
+from .finder.core import DoxygenItemFinderFactoryCreator
 from .directive.base import BaseDirective, create_warning
 from .directive.index import DoxygenIndexDirective, AutoDoxygenIndexDirective
 from .directive.file import DoxygenFileDirective, AutoDoxygenFileDirective
 from .process import AutoDoxygenProcessHandle
 from .exception import BreatheError
 from .project import ProjectInfoFactory, ProjectError
+from .node_factory import create_node_factory
 
 from docutils.parsers.rst.directives import unchanged_required, unchanged, flag
-from docutils.statemachine import ViewList
-from sphinx.domains import cpp, c, python
 from sphinx.writers.text import TextWriter
 from sphinx.builders.text import TextBuilder
-
-import docutils.nodes
-import sphinx.addnodes
-import sphinx.ext.mathbase
 
 import os
 import fnmatch
 import re
-import textwrap
-import collections
 import subprocess
-
-# Somewhat outrageously, reach in and fix a Sphinx regex
-cpp._identifier_re = re.compile(r'(~?\b[a-zA-Z_][a-zA-Z0-9_]*)\b')
 
 
 class NoMatchingFunctionError(BreatheError):
@@ -44,10 +34,6 @@ class UnableToResolveFunctionError(BreatheError):
 
     def __init__(self, signatures):
         self.signatures = signatures
-
-
-class NodeNotFoundError(BreatheError):
-    pass
 
 
 class FakeDestination(object):
@@ -121,8 +107,7 @@ class DoxygenFunctionDirective(BaseDirective):
         # Extract arguments from the function name.
         args = self.parse_args(args)
 
-        finder_filter = self.filter_factory.create_member_finder_filter(
-            namespace, function_name, 'function')
+        finder_filter = self.filter_factory.create_function_finder_filter(namespace, function_name)
 
         matches = []
         finder.filter_(finder_filter, matches)
@@ -157,7 +142,7 @@ class DoxygenFunctionDirective(BaseDirective):
             # TODO: We're cheating here with the set() as signatures has repeating entries for some
             # reason (failures in the matcher_stack code) so we consolidate them by shoving them in
             # a set to remove duplicates. Should be fixed!
-            for i, entry in enumerate(set(error.signatures)):
+            for i, entry in enumerate(sorted(set(error.signatures))):
                 if i:
                     literal_text += '\n'
                 # Replace new lines with a new line & enough spacing to reach the appropriate
@@ -181,14 +166,12 @@ class DoxygenFunctionDirective(BaseDirective):
             )
         filter_ = self.filter_factory.create_outline_filter(self.options)
 
-        return self.render(node_stack, project_info, self.options, filter_, target_handler,
-                           NullMaskFactory())
+        return self.render(node_stack, project_info, filter_, target_handler, NullMaskFactory(),
+                           self.directive_args)
 
     def parse_args(self, function_description):
         # Strip off trailing qualifiers
         pattern = re.compile(r'''(?<= \)) \s*
-                             (?: const)? \s*
-                             (?: volatile)? \s*
                              (?: = \s* 0)? \s* $ ''',
                              re.VERBOSE)
 
@@ -246,8 +229,13 @@ class DoxygenFunctionDirective(BaseDirective):
                 )
             filter_ = self.filter_factory.create_outline_filter(text_options)
             mask_factory = MaskFactory({'param': NoParameterNamesMask})
-            nodes = self.render(entry, project_info, text_options, filter_, target_handler,
-                                mask_factory)
+
+            # Override the directive args for this render
+            directive_args = self.directive_args[:]
+            directive_args[2] = text_options
+
+            nodes = self.render(entry, project_info, filter_, target_handler, mask_factory,
+                                directive_args)
 
             # Render the nodes to text
             signature = self.text_renderer.render(nodes, self.state.document)
@@ -320,8 +308,8 @@ class DoxygenClassLikeDirective(BaseDirective):
         filter_ = self.filter_factory.create_class_filter(name, self.options)
 
         mask_factory = NullMaskFactory()
-        return self.render(matches[0], project_info, self.options, filter_, target_handler,
-                           mask_factory)
+        return self.render(matches[0], project_info, filter_, target_handler, mask_factory,
+                           self.directive_args)
 
 
 class DoxygenClassDirective(DoxygenClassLikeDirective):
@@ -332,6 +320,11 @@ class DoxygenClassDirective(DoxygenClassLikeDirective):
 class DoxygenStructDirective(DoxygenClassLikeDirective):
 
     kind = "struct"
+
+
+class DoxygenInterfaceDirective(DoxygenClassLikeDirective):
+
+    kind = "interface"
 
 
 class DoxygenContentBlockDirective(BaseDirective):
@@ -402,16 +395,14 @@ class DoxygenContentBlockDirective(BaseDirective):
             )
         filter_ = self.filter_factory.create_render_filter(self.kind, self.options)
 
-        renderer_factory_creator = self.renderer_factory_creator_constructor.create_factory_creator(
-            project_info,
-            self.state.document,
-            self.options,
-            target_handler
+        renderer_factory = DoxygenToRstRendererFactory(
+            self.parser_factory,
+            project_info
             )
         node_list = []
 
         for node_stack in matches:
-            renderer_factory = renderer_factory_creator.create_factory(
+            object_renderer = renderer_factory.create_renderer(
                 node_stack,
                 self.state,
                 self.state.document,
@@ -421,8 +412,7 @@ class DoxygenContentBlockDirective(BaseDirective):
 
             mask_factory = NullMaskFactory()
             context = RenderContext(node_stack, mask_factory, self.directive_args)
-            object_renderer = renderer_factory.create_renderer(context)
-            node_list.extend(object_renderer.render())
+            node_list.extend(object_renderer.render(context.node_stack[0], context))
 
         return node_list
 
@@ -497,8 +487,8 @@ class DoxygenBaseItemDirective(BaseDirective):
 
         node_stack = matches[0]
         mask_factory = NullMaskFactory()
-        return self.render(node_stack, project_info, self.options, filter_, target_handler,
-                           mask_factory)
+        return self.render(node_stack, project_info, filter_, target_handler, mask_factory,
+                           self.directive_args)
 
 
 class DoxygenVariableDirective(DoxygenBaseItemDirective):
@@ -588,6 +578,7 @@ class DoxygenDirectiveFactory(object):
         "doxygenfunction": DoxygenFunctionDirective,
         "doxygenstruct": DoxygenStructDirective,
         "doxygenclass": DoxygenClassDirective,
+        "doxygeninterface": DoxygenInterfaceDirective,
         "doxygenvariable": DoxygenVariableDirective,
         "doxygendefine": DoxygenDefineDirective,
         "doxygenenum": DoxygenEnumDirective,
@@ -600,24 +591,16 @@ class DoxygenDirectiveFactory(object):
         "autodoxygenfile": AutoDoxygenFileDirective,
         }
 
-    def __init__(self, node_factory, text_renderer, root_data_object,
-                 renderer_factory_creator_constructor, finder_factory,
+    def __init__(self, node_factory, text_renderer, finder_factory,
                  project_info_factory, filter_factory, target_handler_factory, parser_factory):
 
         self.node_factory = node_factory
         self.text_renderer = text_renderer
-        self.root_data_object = root_data_object
-        self.renderer_factory_creator_constructor = renderer_factory_creator_constructor
         self.finder_factory = finder_factory
         self.project_info_factory = project_info_factory
         self.filter_factory = filter_factory
         self.target_handler_factory = target_handler_factory
         self.parser_factory = parser_factory
-
-    # TODO: This methods should be scrapped as they are only called in one place. We should just
-    # inline the code at the call site
-    def create_index_directive_container(self):
-        return self.create_directive_container("doxygenindex")
 
     def create_function_directive_container(self):
 
@@ -626,8 +609,6 @@ class DoxygenDirectiveFactory(object):
             self.directives["doxygenfunction"],
             self.node_factory,
             self.text_renderer,
-            self.root_data_object,
-            self.renderer_factory_creator_constructor,
             self.finder_factory,
             self.project_info_factory,
             self.filter_factory,
@@ -635,51 +616,10 @@ class DoxygenDirectiveFactory(object):
             self.parser_factory
             )
 
-    def create_struct_directive_container(self):
-        return self.create_directive_container("doxygenstruct")
-
-    def create_enum_directive_container(self):
-        return self.create_directive_container("doxygenenum")
-
-    def create_enumvalue_directive_container(self):
-        return self.create_directive_container("doxygenenumvalue")
-
-    def create_typedef_directive_container(self):
-        return self.create_directive_container("doxygentypedef")
-
-    def create_union_directive_container(self):
-        return self.create_directive_container("doxygenunion")
-
-    def create_class_directive_container(self):
-        return self.create_directive_container("doxygenclass")
-
-    def create_file_directive_container(self):
-        return self.create_directive_container("doxygenfile")
-
-    def create_namespace_directive_container(self):
-        return self.create_directive_container("doxygennamespace")
-
-    def create_group_directive_container(self):
-        return self.create_directive_container("doxygengroup")
-
-    def create_variable_directive_container(self):
-        return self.create_directive_container("doxygenvariable")
-
-    def create_define_directive_container(self):
-        return self.create_directive_container("doxygendefine")
-
-    def create_auto_index_directive_container(self):
-        return self.create_directive_container("autodoxygenindex")
-
-    def create_auto_file_directive_container(self):
-        return self.create_directive_container("autodoxygenfile")
-
     def create_directive_container(self, type_):
 
         return DirectiveContainer(
             self.directives[type_],
-            self.root_data_object,
-            self.renderer_factory_creator_constructor,
             self.finder_factory,
             self.project_info_factory,
             self.filter_factory,
@@ -697,30 +637,10 @@ class DoxygenDirectiveFactory(object):
             app.config.breathe_domain_by_extension,
             app.config.breathe_domain_by_file_pattern,
             app.config.breathe_projects_source,
-            app.config.breathe_build_directory
+            app.config.breathe_build_directory,
+            app.config.breathe_show_define_initializer,
+            app.config.breathe_use_project_refids,
             )
-
-
-class NodeFactory(object):
-
-    def __init__(self, *args):
-
-        self.sources = args
-
-    def __getattr__(self, node_name):
-
-        for source in self.sources:
-            try:
-                return getattr(source, node_name)
-            except AttributeError:
-                pass
-
-        raise NodeNotFoundError(node_name)
-
-
-class RootDataObject(object):
-
-    node_type = "root"
 
 
 class PathHandler(object):
@@ -813,7 +733,7 @@ class FileStateCache(object):
 
         stale = []
 
-        for filename, info in self.app.env.breathe_file_state.iteritems():
+        for filename, info in self.app.env.breathe_file_state.items():
             old_mtime, docnames = info
             if self.mtimer.get_mtime(filename) > old_mtime:
                 stale.extend(docnames)
@@ -827,7 +747,7 @@ class FileStateCache(object):
 
         toremove = []
 
-        for filename, info in self.app.env.breathe_file_state.iteritems():
+        for filename, info in self.app.env.breathe_file_state.items():
 
             _, docnames = info
             docnames.discard(docname)
@@ -838,102 +758,33 @@ class FileStateCache(object):
             del self.app.env.breathe_file_state[filename]
 
 
-class DomainDirectiveFactory(object):
-    # A mapping from node kinds to cpp domain classes and directive names.
-    cpp_classes = {
-        'class': (cpp.CPPClassObject, 'class'),
-        'struct': (cpp.CPPClassObject, 'class'),
-        'function': (cpp.CPPFunctionObject, 'function'),
-        'friend': (cpp.CPPFunctionObject, 'function'),
-        'slot': (cpp.CPPFunctionObject, 'function'),
-        'enum': (cpp.CPPTypeObject, 'type'),
-        'typedef': (cpp.CPPTypeObject, 'type'),
-        'union': (cpp.CPPTypeObject, 'type'),
-        'namespace': (cpp.CPPTypeObject, 'type'),
-        # Use CPPClassObject for enum values as the cpp domain doesn't have a directive for
-        # enum values and CPPMemberObject requires a type.
-        'enumvalue': (cpp.CPPClassObject, 'member'),
-        'define': (c.CObject, 'macro')
-    }
-
-    python_classes = {
-        'function': (python.PyModulelevel, 'function'),
-        'variable': (python.PyClassmember, 'attribute')
-    }
-
-    @staticmethod
-    def fix_python_signature(sig):
-        def_ = 'def '
-        if sig.startswith(def_):
-            sig = sig[len(def_):]
-        # Doxygen uses an invalid separator ('::') in Python signatures. Replace them with '.'.
-        return sig.replace('::', '.')
-
-    @staticmethod
-    def create(domain, args):
-        if domain == 'c':
-            return c.CObject(*args)
-        if domain == 'py':
-            cls, name = DomainDirectiveFactory.python_classes.get(
-                args[0], (python.PyClasslike, 'class'))
-            args[1] = [DomainDirectiveFactory.fix_python_signature(n) for n in args[1]]
-        else:
-            cls, name = DomainDirectiveFactory.cpp_classes.get(
-                args[0], (cpp.CPPMemberObject, 'member'))
-        # Replace the directive name because domain directives don't know how to handle
-        # Breathe's "doxygen" directives.
-        args = [name] + args[1:]
-        return cls(*args)
-
-
 # Setup
 # -----
 
 def setup(app):
 
-    cache_factory = CacheFactory()
-    cache = cache_factory.create_cache()
     path_handler = PathHandler(app.confdir, os.sep, os.path.basename, os.path.join)
     mtimer = MTimer(os.path.getmtime)
     file_state_cache = FileStateCache(mtimer, app)
-    parser_factory = DoxygenParserFactory(cache, path_handler, file_state_cache)
-    glob_factory = GlobFactory(fnmatch.fnmatch)
-    filter_factory = FilterFactory(glob_factory, path_handler)
+    parser_factory = DoxygenParserFactory(path_handler, file_state_cache)
+    filter_factory = FilterFactory(path_handler)
     item_finder_factory_creator = DoxygenItemFinderFactoryCreator(parser_factory, filter_factory)
     index_parser = parser_factory.create_index_parser()
     finder_factory = FinderFactory(index_parser, item_finder_factory_creator)
-
-    # Create a math_nodes object with a displaymath member for the displaymath
-    # node so that we can treat it in the same way as the nodes & addnodes
-    # modules in the NodeFactory
-    math_nodes = collections.namedtuple("MathNodes", ["displaymath"])
-    math_nodes.displaymath = sphinx.ext.mathbase.displaymath
-    node_factory = NodeFactory(docutils.nodes, sphinx.addnodes, math_nodes)
-
-    rst_content_creator = RstContentCreator(ViewList, textwrap.dedent)
-    renderer_factory_creator_constructor = DoxygenToRstRendererFactoryCreatorConstructor(
-        node_factory,
-        parser_factory,
-        DomainDirectiveFactory,
-        rst_content_creator
-        )
 
     # Assume general build directory is the doctree directory without the last component. We strip
     # off any trailing slashes so that dirname correctly drops the last part. This can be overriden
     # with the breathe_build_directory config variable
     build_dir = os.path.dirname(app.doctreedir.rstrip(os.sep))
     project_info_factory = ProjectInfoFactory(app.srcdir, build_dir, app.confdir, fnmatch.fnmatch)
+    node_factory = create_node_factory()
     target_handler_factory = TargetHandlerFactory(node_factory)
-
-    root_data_object = RootDataObject()
 
     text_renderer = TextRenderer(app)
 
     directive_factory = DoxygenDirectiveFactory(
         node_factory,
         text_renderer,
-        root_data_object,
-        renderer_factory_creator_constructor,
         finder_factory,
         project_info_factory,
         filter_factory,
@@ -941,81 +792,28 @@ def setup(app):
         parser_factory
         )
 
-    DoxygenFunctionDirective.app = app
+    def add_directive(name):
+        app.add_directive(name, directive_factory.create_directive_container(name))
 
-    app.add_directive(
-        "doxygenindex",
-        directive_factory.create_index_directive_container(),
-        )
+    add_directive('doxygenindex')
+    add_directive('doxygenstruct')
+    add_directive('doxygenenum')
+    add_directive('doxygenenumvalue')
+    add_directive('doxygentypedef')
+    add_directive('doxygenunion')
+    add_directive('doxygenclass')
+    add_directive('doxygeninterface')
+    add_directive('doxygenfile')
+    add_directive('doxygennamespace')
+    add_directive('doxygengroup')
+    add_directive('doxygenvariable')
+    add_directive('doxygendefine')
+    add_directive('autodoxygenindex')
+    add_directive('autodoxygenfile')
 
     app.add_directive(
         "doxygenfunction",
         directive_factory.create_function_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenstruct",
-        directive_factory.create_struct_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenenum",
-        directive_factory.create_enum_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenenumvalue",
-        directive_factory.create_enumvalue_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygentypedef",
-        directive_factory.create_typedef_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenunion",
-        directive_factory.create_union_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenclass",
-        directive_factory.create_class_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenfile",
-        directive_factory.create_file_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygennamespace",
-        directive_factory.create_namespace_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygengroup",
-        directive_factory.create_group_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygenvariable",
-        directive_factory.create_variable_directive_container(),
-        )
-
-    app.add_directive(
-        "doxygendefine",
-        directive_factory.create_define_directive_container(),
-        )
-
-    app.add_directive(
-        "autodoxygenindex",
-        directive_factory.create_auto_index_directive_container(),
-        )
-
-    app.add_directive(
-        "autodoxygenfile",
-        directive_factory.create_auto_file_directive_container(),
         )
 
     app.add_config_value("breathe_projects", {}, True)
@@ -1026,7 +824,10 @@ def setup(app):
     app.add_config_value("breathe_projects_source", {}, True)
     app.add_config_value("breathe_build_directory", '', True)
     app.add_config_value("breathe_default_members", (), True)
+    app.add_config_value("breathe_show_define_initializer", False, 'env')
     app.add_config_value("breathe_implementation_filename_extensions", ['.c', '.cc', '.cpp'], True)
+    app.add_config_value("breathe_doxygen_config_options", {}, True)
+    app.add_config_value("breathe_use_project_refids", False, "env")
 
     breathe_css = "breathe.css"
     if (os.path.exists(os.path.join(app.confdir, "_static", breathe_css))):
@@ -1039,11 +840,17 @@ def setup(app):
         project_info_factory
         )
 
-    app.connect("builder-inited", doxygen_handle.generate_xml)
+    def doxygen_hook(app):
+        doxygen_handle.generate_xml(
+            app.config.breathe_projects_source,
+            app.config.breathe_doxygen_config_options
+        )
 
     app.connect("builder-inited", directive_factory.get_config_values)
 
     app.connect("builder-inited", filter_factory.get_config_values)
+
+    app.connect("builder-inited", doxygen_hook)
 
     app.connect("env-get-outdated", file_state_cache.get_outdated)
 
