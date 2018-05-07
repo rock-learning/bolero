@@ -34,7 +34,8 @@ class DMPSequence(BlackBoxBehavior):
         at the goals of the DMPs.
 
     initial_weights : list
-        List of initial weight vectors for the DMPs
+        List of initial weight vectors for the DMPs.
+        Each entry initial_weights[i] has the shape n_features[i] * n_task_dims
     """
     def __init__(self, n_dmps=1, execution_times=None, dt=0.01, n_features=None,
                  subgoals=None, learn_goal_velocities=False,
