@@ -12,7 +12,6 @@ namespace promp {
     int numDim_;
     bool isStroke_;
     double overlap_;
-    mutable int counter = 0;
     void sampleTrajectoryData(TrajectoryData &traj) const;
 
     void stepCov(const double timestamp, double *covs, int numCovs) const;

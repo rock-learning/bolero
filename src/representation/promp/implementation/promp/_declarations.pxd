@@ -12,7 +12,6 @@ cdef extern from "../src/promp.h" namespace "promp":
         int numDim_
         bool isStroke_
         double overlap_
-        int counter
         TrajectoryData(int numBF, int numDim, bool isStroke, double overlap)
         void sampleTrajectoryData(TrajectoryData traj) except +
         void stepCov(double timestamp, double * covs, int numCovs) except +

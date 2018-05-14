@@ -102,17 +102,6 @@ cdef class TrajectoryData:
         cdef double cpp_overlap_ = overlap_
         self.thisptr.overlap_ = cpp_overlap_
 
-    counter = property(__get_counter, __set_counter)
-
-    cpdef __get_counter(TrajectoryData self):
-        cdef int result = self.thisptr.counter
-        return result
-
-
-    cpdef __set_counter(TrajectoryData self, int counter):
-        cdef int cpp_counter = counter
-        self.thisptr.counter = cpp_counter
-
 
     cpdef sample_trajectory_data(TrajectoryData self, TrajectoryData traj):
         cdef cpp.TrajectoryData * cpp_traj = traj.thisptr
