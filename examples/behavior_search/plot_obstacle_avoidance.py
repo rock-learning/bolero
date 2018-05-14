@@ -22,7 +22,7 @@ x0 = np.zeros(n_task_dims)
 g = np.ones(n_task_dims)
 execution_time = 1.0
 dt = 0.01
-n_features = 10
+n_features = 50
 n_episodes = 500
 
 

@@ -36,9 +36,9 @@ Trajectory::Trajectory(const TrajectoryData &data) :
   type_ = data.isStroke_ ? Stroke : Periodic;
   weightMean_ = constVector(data.mean_.data(), data.numDim_ * data.numBF_);
   weightCovars_ = constMatrix(data.covariance_.data(), data.numDim_ * data.numBF_, data.numDim_ * data.numBF_);
-  conditionPoints_ = ConditionPoint::fromMatrix(constMatrix(data.covariance_.data(), data.covariance_.size()/ConditionPoint::NUM_FIELDS, ConditionPoint::NUM_FIELDS));
+  conditionPoints_ = ConditionPoint::fromMatrix(constMatrix(data.conditions_.data(), data.conditions_.size()/ConditionPoint::NUM_FIELDS, ConditionPoint::NUM_FIELDS));
   setBF();
-  //condition(weightMean_,weightCovars_); TODO
+  condition(weightMean_,weightCovars_);
 }
 
 Trajectory::Trajectory(const int numWeights, const VectorXd &weights, const double overlap, const MatrixXd &covars,
@@ -232,7 +232,7 @@ VectorXd Trajectory::getValueCovars(const double time) const {
   return getValueCovars(timeVec).row(0);
 }
 
-void Trajectory::condition(VectorXd weightMean,MatrixXd weightCovars) const{
+void Trajectory::condition(VectorXd& weightMean,MatrixXd& weightCovars) const{
   if( conditionPoints_.empty())
     return;
   MatrixXd basisFunc_tmp = MatrixXd::Zero(conditionPoints_.size(), numDim_ * numWeights_);
@@ -241,7 +241,8 @@ void Trajectory::condition(VectorXd weightMean,MatrixXd weightCovars) const{
 
   for (size_t i = 0; i < conditionPoints_.size(); i++) {
     const ConditionPoint &point = conditionPoints_[i];
-
+    std::cout << point.timestamp << ", " << point.dimension << ", " << point.derivative << ", " << point.mean << ", " << point.variance <<  std::endl;
+    
     if (point.derivative == 0) {
       basisFunc_tmp.block(i, numWeights_ * point.dimension, 1, numWeights_).row(0) = basisFunctions_->getValue(
               point.timestamp).row(0);

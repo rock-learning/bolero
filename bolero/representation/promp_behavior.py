@@ -97,7 +97,7 @@ class ProMPBehavior(BlackBoxBehavior):
         Name of a configuration file that should be used to initialize the promp.
         If it is set all other arguments will be ignored.
     """
-    def __init__(self, execution_time=1.0, dt=0.01, n_features=50,
+    def __init__(self, execution_time=1.0, dt=0.01, n_features=50,overlap=0.7,
                  configuration_file=None, learnCovariance = False, useCovar= False):
         self.learnCovariance = learnCovariance
         self.useCovar = useCovar
@@ -119,9 +119,6 @@ class ProMPBehavior(BlackBoxBehavior):
         n_outputs : int
             number of outputs
         """
-        #if n_inputs != n_outputs:
-        #    raise ValueError("Input and output dimensions must match, got "
-        #                    "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -186,8 +183,7 @@ class ProMPBehavior(BlackBoxBehavior):
             setattr(self, key, meta_parameter)
             
             if key == "x0":
-                for i in range(len(meta_parameter)):
-                    
+                for i in range(len(meta_parameter)):                    
                     conditionPoints += [[0,i,0,meta_parameter[i],0.0001]]
 
             elif key == "g":
@@ -226,20 +222,21 @@ class ProMPBehavior(BlackBoxBehavior):
             Contains positions, velocities in that order.
             Each type is stored contiguously, i.e. for n_task_dims=2 the order
             would be: xxvv (x: position, v: velocity).
+            If the covariance is used, the output becomes: xxvvc (c: covariance xvxv).
         """
         i = int(self.t/self.dt)
-        outputs[:self.n_task_dims] = self.y[i]#self.valueMeans[::2]#self.y[:]
-        outputs[self.n_task_dims:2*self.n_task_dims] = self.yd[i]#self.valueMeans[1::2]#self.yd[:]
+        outputs[:self.n_task_dims] = self.y[i]
+        outputs[self.n_task_dims:2*self.n_task_dims] = self.yd[i]
         if self.useCovar:
             outputs[2*self.n_task_dims:] = self.covars[i].flatten()
 
     def step(self):
         """Compute desired position, velocity and acceleration."""
+        
+        # for computational reasons the step function just updates the time. the trajectory is calculated beforehand.
         if self.n_task_dims == 0:
             return
-
-        #self.data.step(self.t,self.valueMeans)#,self.valueCovs)
-
+            
         if self.t == self.last_t:
             self.last_t = -1.0
         else:
@@ -475,13 +472,13 @@ class ProMPBehavior(BlackBoxBehavior):
         self.gd = np.array(config["promp_endVelocity"], dtype=np.float)
 
     @staticmethod
-    def plotCovariance(ax,means,covariances):
+    def plotCovariance(ax,means,covariances,nstd=2):
         from matplotlib.patches import Ellipse 
         def eigsorted(cov):
             vals, vecs = np.linalg.eigh(cov)
             order = vals.argsort()[::-1]
             return vals[order], vecs[:,order]
-        nstd = 2
+        
         cov = np.empty((2,2))
         for k in range(0,len(means)):            
             cov[0,0] = covariances[k,0,0]

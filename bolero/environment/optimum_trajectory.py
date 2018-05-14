@@ -261,8 +261,7 @@ class OptimumTrajectory(Environment):
             obstacles = np.asarray(self.obstacles)[obstacle_filter, :]
         distances = cdist(self.X, obstacles)
         self.logger.info("Distances to obstacles: %r" % distances)
-        collision_penalties = np.maximum(0., 1.0 - distances /
-                                         self.obstacle_dist)
+        collision_penalties = np.maximum(0., distances <= self.obstacle_dist)
         collisions = collision_penalties.sum(axis=1)
         return collisions
 

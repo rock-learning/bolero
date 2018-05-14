@@ -88,7 +88,7 @@ namespace promp {
 
     void setBF();
 
-    void condition(VectorXd weightMean,MatrixXd weightCovars) const;
+    void condition(VectorXd& weightMean,MatrixXd& weightCovars) const;
 
     VectorXd weightMean_;
     MatrixXd weightCovars_;
