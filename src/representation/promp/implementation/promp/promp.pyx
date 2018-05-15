@@ -31,7 +31,6 @@ cdef class TrajectoryData:
         cdef vector[double] result = self.thisptr.mean_
         return result
 
-
     cpdef __set_mean_(TrajectoryData self, object mean_):
         cdef vector[double] cpp_mean_ = mean_
         self.thisptr.mean_ = cpp_mean_
@@ -41,7 +40,6 @@ cdef class TrajectoryData:
     cpdef __get_covariance_(TrajectoryData self):
         cdef vector[double] result = self.thisptr.covariance_
         return result
-
 
     cpdef __set_covariance_(TrajectoryData self, object covariance_):
         cdef vector[double] cpp_covariance_ = covariance_
@@ -53,7 +51,6 @@ cdef class TrajectoryData:
         cdef vector[double] result = self.thisptr.conditions_
         return result
 
-
     cpdef __set_conditions_(TrajectoryData self, object conditions_):
         cdef vector[double] cpp_conditions_ = conditions_
         self.thisptr.conditions_ = cpp_conditions_
@@ -63,7 +60,6 @@ cdef class TrajectoryData:
     cpdef __get_num_b_f_(TrajectoryData self):
         cdef int result = self.thisptr.numBF_
         return result
-
 
     cpdef __set_num_b_f_(TrajectoryData self, int numBF_):
         cdef int cpp_numBF_ = numBF_
@@ -75,7 +71,6 @@ cdef class TrajectoryData:
         cdef int result = self.thisptr.numDim_
         return result
 
-
     cpdef __set_num_dim_(TrajectoryData self, int numDim_):
         cdef int cpp_numDim_ = numDim_
         self.thisptr.numDim_ = cpp_numDim_
@@ -86,7 +81,6 @@ cdef class TrajectoryData:
         cdef bool result = self.thisptr.isStroke_
         return result
 
-
     cpdef __set_is_stroke_(TrajectoryData self, bool isStroke_):
         cdef bool cpp_isStroke_ = isStroke_
         self.thisptr.isStroke_ = cpp_isStroke_
@@ -96,7 +90,6 @@ cdef class TrajectoryData:
     cpdef __get_overlap_(TrajectoryData self):
         cdef double result = self.thisptr.overlap_
         return result
-
 
     cpdef __set_overlap_(TrajectoryData self, double overlap_):
         cdef double cpp_overlap_ = overlap_
@@ -147,7 +140,6 @@ cdef class CombinedTrajectoryData:
         cdef vector[vector[double] ] result = self.thisptr.means_
         return result
 
-
     cpdef __set_means_(CombinedTrajectoryData self, object means_):
         cdef vector[vector[double] ] cpp_means_ = means_
         self.thisptr.means_ = cpp_means_
@@ -157,7 +149,6 @@ cdef class CombinedTrajectoryData:
     cpdef __get_covariances_(CombinedTrajectoryData self):
         cdef vector[vector[double] ] result = self.thisptr.covariances_
         return result
-
 
     cpdef __set_covariances_(CombinedTrajectoryData self, object covariances_):
         cdef vector[vector[double] ] cpp_covariances_ = covariances_
@@ -169,7 +160,6 @@ cdef class CombinedTrajectoryData:
         cdef vector[vector[double] ] result = self.thisptr.activations_
         return result
 
-
     cpdef __set_activations_(CombinedTrajectoryData self, object activations_):
         cdef vector[vector[double] ] cpp_activations_ = activations_
         self.thisptr.activations_ = cpp_activations_
@@ -179,7 +169,6 @@ cdef class CombinedTrajectoryData:
     cpdef __get_num_b_f_(CombinedTrajectoryData self):
         cdef int result = self.thisptr.numBF_
         return result
-
 
     cpdef __set_num_b_f_(CombinedTrajectoryData self, int numBF_):
         cdef int cpp_numBF_ = numBF_
@@ -191,7 +180,6 @@ cdef class CombinedTrajectoryData:
         cdef int result = self.thisptr.numDim_
         return result
 
-
     cpdef __set_num_dim_(CombinedTrajectoryData self, int numDim_):
         cdef int cpp_numDim_ = numDim_
         self.thisptr.numDim_ = cpp_numDim_
@@ -202,7 +190,6 @@ cdef class CombinedTrajectoryData:
         cdef bool result = self.thisptr.isStroke_
         return result
 
-
     cpdef __set_is_stroke_(CombinedTrajectoryData self, bool isStroke_):
         cdef bool cpp_isStroke_ = isStroke_
         self.thisptr.isStroke_ = cpp_isStroke_
@@ -212,7 +199,6 @@ cdef class CombinedTrajectoryData:
     cpdef __get_overlap_(CombinedTrajectoryData self):
         cdef double result = self.thisptr.overlap_
         return result
-
 
     cpdef __set_overlap_(CombinedTrajectoryData self, double overlap_):
         cdef double cpp_overlap_ = overlap_
