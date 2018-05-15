@@ -60,7 +60,7 @@ Trajectory::Trajectory(const std::vector<VectorXd> &timestamps, const std::vecto
 
 void Trajectory::imitate(const std::vector<VectorXd> &timestamps, const std::vector<MatrixXd> &values) {
 
-  beginTimeMeasure();
+  //beginTimeMeasure();
 
   weightMean_ = VectorXd::Zero(numDim_ * numWeights_);
   weightCovars_ = MatrixXd::Identity(numDim_ * numWeights_, numDim_ * numWeights_);
@@ -137,10 +137,10 @@ void Trajectory::imitate(const std::vector<VectorXd> &timestamps, const std::vec
     sampleCount += values[i].rows();
   }
 
-  std::cout << "Preparation Duration: " << endTimeMeasure() << "s" << std::endl;
+  //std::cout << "Preparation Duration: " << endTimeMeasure() << "s" << std::endl;
 
   int counter = 0;
-  beginTimeMeasure();
+  //beginTimeMeasure();
   VectorXd weightMean_old;
   MatrixXd weightCovars_old;
   do {
@@ -159,7 +159,7 @@ void Trajectory::imitate(const std::vector<VectorXd> &timestamps, const std::vec
   } while (counter < 100 &&
   ((weightMean_old - weightMean_).norm() + (weightCovars_old - weightCovars_).norm()) > 0.000001);
 
-  std::cout << "Duration: " << endTimeMeasure() << "s" << std::endl;;
+  //std::cout << "Duration: " << endTimeMeasure() << "s" << std::endl;;
   //std::cout << "Iterations: " << counter << std::endl << std::endl;
 
 }
@@ -241,7 +241,7 @@ void Trajectory::condition(VectorXd& weightMean,MatrixXd& weightCovars) const{
 
   for (size_t i = 0; i < conditionPoints_.size(); i++) {
     const ConditionPoint &point = conditionPoints_[i];
-    std::cout << point.timestamp << ", " << point.dimension << ", " << point.derivative << ", " << point.mean << ", " << point.variance <<  std::endl;
+    //std::cout << point.timestamp << ", " << point.dimension << ", " << point.derivative << ", " << point.mean << ", " << point.variance <<  std::endl;
     
     if (point.derivative == 0) {
       basisFunc_tmp.block(i, numWeights_ * point.dimension, 1, numWeights_).row(0) = basisFunctions_->getValue(

@@ -4,7 +4,6 @@ from .objective_functions import ObjectiveFunctionBase, ObjectiveFunction
 from .contextual_objective_functions import ContextualObjectiveFunction
 from .optimum_trajectory import OptimumTrajectory
 from .catapult import Catapult
-from .external import External
 
 
 __all__ = [
