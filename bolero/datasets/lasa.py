@@ -3,6 +3,7 @@ import os
 import scipy.io
 from git import Repo
 
+
 def load_lasa(shape_idx):
     """Load demonstrations from LASA dataset.
 
@@ -52,10 +53,12 @@ def load_lasa(shape_idx):
     dataset_path = os.sep.join(__file__.split(os.sep)[:-1])
     if dataset_path != "":
         dataset_path += os.sep
-    dataset_path += "lasa_data" 
-    
+    dataset_path += "lasa_data"
+
     if not os.path.isdir(dataset_path):
-        Repo.clone_from("https://bitbucket.org/khansari/lasahandwritingdataset.git", dataset_path)
+        Repo.clone_from(
+            "https://bitbucket.org/khansari/lasahandwritingdataset.git", 
+            dataset_path)
 
     dataset_path += os.sep + "DataSet" + os.sep
     demos, shape_name = _load_from_matlab_file(dataset_path, shape_idx)
