@@ -1,3 +1,11 @@
+"""
+=========================
+Obstacle Avoidance ProMPs
+=========================
+
+We use CMA-ES to optimize a ProMP so that it avoids point obstacles.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from bolero.environment import OptimumTrajectory
@@ -6,13 +14,6 @@ from bolero.optimizer import CMAESOptimizer
 from bolero.representation import ProMPBehavior
 from bolero.controller import Controller
 
-"""
-==================
-Obstacle Avoidance
-==================
-
-We use CMA-ES to optimize a ProMP so that it avoids point obstacles.
-"""
 print(__doc__)
 
 
@@ -24,10 +25,10 @@ execution_time = 1.0
 dt = 0.01
 n_features = 5
 n_episodes = 500
-useCovar = True
+use_covar = True
 
 beh = ProMPBehavior(execution_time, dt, n_features,
-                    learnCovariance=True, useCovar=True)
+                    learn_covariance=True, use_covar=True)
 
 # init linear to have a guess
 beh.init(4, 4)
@@ -36,8 +37,8 @@ beh.imitate(np.tile(np.linspace(0, 1, 101), 2).reshape((2, 101, -1)))
 
 env = OptimumTrajectory(x0, g, execution_time, dt, obstacles,
                         penalty_goal_dist=10000.0, penalty_start_dist=10000.0, 
-                        penalty_obstacle=1000.0, penalty_length=0.1,
-                        penalty_acc=1.0, calcAcc=True, useCovar=True)
+                        penalty_obstacle=1000.0, penalty_length=10.,
+                        calc_acc=True, use_covar=True)
 opt = CMAESOptimizer(variance=0.1 ** 2, random_state=0,
                      initial_params=beh.get_params())
 bs = BlackBoxSearch(beh, opt)

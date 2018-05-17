@@ -35,7 +35,7 @@ class OptimumTrajectory(Environment):
 
     penalty_goal_dist : float, optional (default: 0)
         Penalty weight for distance to goal at the end
-    
+
     penalty_length : float, optional (default: 0)
         Penalty weight for length of the trajectory
 
@@ -53,12 +53,20 @@ class OptimumTrajectory(Environment):
 
     log_to_stdout: optional, boolean (default: False)
         Log to standard output
+
+    use_covar: optional, boolean (default: False)
+        Is covariance of the trajectory used, too?
+
+    calc_acc: optional, boolean (default: False)
+        Shall the accelerations be calculated or is it provided?
+
     """
     def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
                  dt=0.01, obstacles=None, obstacle_dist=0.1,
-                 penalty_start_dist=0.0, penalty_goal_dist=0.0, penalty_length=0.0,
-                 penalty_vel=0.0, penalty_acc=0.0, penalty_obstacle=0.0,
-                 log_to_file=False, log_to_stdout=False, useCovar=False, calcAcc=False):
+                 penalty_start_dist=0.0, penalty_goal_dist=0.0,
+                 penalty_length=0.0, penalty_vel=0.0, penalty_acc=0.0,
+                 penalty_obstacle=0.0, log_to_file=False, log_to_stdout=False,
+                 use_covar=False, calc_acc=False):
         self.x0 = x0
         self.g = g
         self.execution_time = execution_time
@@ -73,8 +81,8 @@ class OptimumTrajectory(Environment):
         self.penalty_obstacle = penalty_obstacle
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
-        self.useCovar = useCovar
-        self.calcAcc = calcAcc
+        self.use_covar = use_covar
+        self.calc_acc = calc_acc
 
     def init(self):
         """Initialize environment."""
@@ -84,9 +92,9 @@ class OptimumTrajectory(Environment):
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
         n_steps = 1 + int(self.execution_time / self.dt)
-        self.X = np.zeros((n_steps, self.n_task_dims))
-        self.Xd = np.zeros((n_steps, self.n_task_dims))
-        self.Xdd = np.zeros((n_steps, self.n_task_dims))
+        self.X = np.empty((n_steps, self.n_task_dims))
+        self.Xd = np.empty((n_steps, self.n_task_dims))
+        self.Xdd = np.empty((n_steps, self.n_task_dims))
 
     def reset(self):
         """Reset state of the environment."""
@@ -101,9 +109,9 @@ class OptimumTrajectory(Environment):
             number of environment inputs
         """
         num_inputs = self.n_task_dims
-        num_inputs *= 2 if self.calcAcc else 3 
-        if self.useCovar:
-            num_inputs += num_inputs**2 
+        num_inputs *= 2 if self.calc_acc else 3
+        if self.use_covar:
+            num_inputs += num_inputs**2
         return num_inputs
 
     def get_num_outputs(self):
@@ -114,7 +122,7 @@ class OptimumTrajectory(Environment):
         n : int
             number of environment outputs
         """
-        if self.calcAcc:
+        if self.calc_acc:
             return 2 * self.n_task_dims
         else:
             return 3 * self.n_task_dims
@@ -130,13 +138,14 @@ class OptimumTrajectory(Environment):
         """
         if self.t == 0:
             values[:self.n_task_dims] = np.copy(self.x0)
-            values[self.n_task_dims:2*self.n_task_dims] = np.zeros(self.n_task_dims)
-            if not self.calcAcc:
+            values[self.n_task_dims:2*self.n_task_dims] = \
+                np.zeros(self.n_task_dims)
+            if not self.calc_acc:
                 values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
         else:
             values[:self.n_task_dims] = self.X[self.t - 1]
             values[self.n_task_dims:2*self.n_task_dims] = self.Xd[self.t - 1]
-            if not self.calcAcc:
+            if not self.calc_acc:
                 values[-self.n_task_dims:] = self.Xdd[self.t - 1]
 
     def set_inputs(self, values):
@@ -149,10 +158,12 @@ class OptimumTrajectory(Environment):
             in that order, e.g. for n_task_dims=2 the order would be xxvvaa
         """
         self.X[self.t, :] = values[:self.n_task_dims]
-        oldVelocity = self.Xd[self.t, :] - values[self.n_task_dims:2*self.n_task_dims]
         self.Xd[self.t, :] = values[self.n_task_dims:2*self.n_task_dims]
-        if self.calcAcc:
-            self.Xdd[self.t, :] = oldVelocity
+        if self.calc_acc:
+            if self.t == 0:
+                self.Xdd[self.t, :] = 0
+            else:
+                self.Xdd[self.t, :] = self.Xd[self.t, :] - self.Xd[self.t-1, :]
         else:
             self.Xdd[self.t, :] = values[-self.n_task_dims:]
 
@@ -182,7 +193,7 @@ class OptimumTrajectory(Environment):
         self.logger.info("Distance to start: %.3f (* %.2f)"
                          % (start_dist, self.penalty_start_dist))
         return start_dist
-    
+
     def get_length(self):
         """Get length of the trajectory.
 
@@ -244,14 +255,14 @@ class OptimumTrajectory(Environment):
         Parameters
         ----------
         obstacle_filter : array-like, shape (n_desired_obstacles, 1)
-            specify which obstacles cause collisions, e.g. set (0, 2) to exclude
-            the second of three obstacles
+            specify which obstacles cause collisions, e.g. set (0, 2) to
+            exclude the second of three obstacles
         Returns
         -------
         collisions : array-like, shape (n_steps,)
-            vector of values in range [0, 1] where distances above self.obstacle_dist
-            result in 0 (no collision), and distance below are scaled linearly, so that
-            1 corresponds to an intersection.
+            vector of values in range [0, 1] where distances above
+            self.obstacle_dist result in 0 (no collision), and distance below
+            are scaled linearly, so that 1 corresponds to an intersection.
         """
         if self.obstacles is None:
             return np.zeros(self.t)
@@ -298,7 +309,7 @@ class OptimumTrajectory(Environment):
             rewards -= self.get_acceleration() * self.penalty_acc
         if self.obstacles is not None and self.penalty_obstacle > 0.0:
             rewards -= self.penalty_obstacle * self.get_collision()
-        
+
         return rewards
 
     def is_behavior_learning_done(self):
@@ -328,11 +339,12 @@ class OptimumTrajectory(Environment):
 
         from matplotlib.patches import Circle
 
-        ax.add_patch(Circle([self.x0[0], self.x0[1]], 0.02, ec="black", color="r"))
-        ax.add_patch(Circle([self.g[0], self.g[1]], 0.02, ec="black", color="g"))
-        
+        ax.add_patch(Circle([self.x0[0], self.x0[1]], 0.02, ec="black",
+                            color="r"))
+        ax.add_patch(Circle([self.g[0], self.g[1]], 0.02, ec="black",
+                            color="g"))
+
         if self.obstacles is not None:
-            #from matplotlib.patches import Circle
             for obstacle in self.obstacles:
                 ax.add_patch(Circle(obstacle, self.obstacle_dist, ec="none",
                                     color="r"))

@@ -1,8 +1,3 @@
-import numpy as np
-from bolero.datasets import load_lasa
-from bolero.representation import ProMPBehavior
-import matplotlib.pyplot as plt
-
 """
 ================================
 LASA Handwriting with ProMPs
@@ -10,6 +5,12 @@ LASA Handwriting with ProMPs
 
 The LASA Handwriting dataset learned with ProMPs. 
 """
+
+import numpy as np
+from bolero.datasets import load_lasa
+from bolero.representation import ProMPBehavior
+import matplotlib.pyplot as plt
+
 print(__doc__)
 
 
@@ -21,8 +22,8 @@ def load(idx):
 
 
 def learn(x, y):
-    traj = ProMPBehavior(1.0, 1.0/999.0, num_weights,
-                         learnCovariance=True, useCovar=True)
+    traj = ProMPBehavior(1.0, 1.0/999.0, n_features,
+                         learn_covariance=True, use_covar=True)
     traj.init(4, 4)
     traj.imitate(y.transpose(2, 1, 0))
     return traj
@@ -45,7 +46,7 @@ def draw(x, y, traj, idx, axs):
     axs[h, w+1].get_xaxis().set_visible(False)
 
 
-num_weights = 30  # how many weights shall be used
+n_features = 30  # how many weights shall be used
 num_shapes = 10
 width = 2
 height = 5

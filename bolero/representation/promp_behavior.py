@@ -100,10 +100,10 @@ class ProMPBehavior(BlackBoxBehavior):
     """
 
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50, overlap=0.7,
-                 configuration_file=None, learnCovariance=False,
-                 useCovar=False):
-        self.learnCovariance = learnCovariance
-        self.useCovar = useCovar
+                 configuration_file=None, learn_covariance=False,
+                 use_covar=False):
+        self.learn_covariance = learn_covariance
+        self.use_covar = use_covar
         if configuration_file is None:
             self.execution_time = execution_time
             self.dt = dt
@@ -231,7 +231,7 @@ class ProMPBehavior(BlackBoxBehavior):
         i = int(self.t/self.dt)
         outputs[:self.n_task_dims] = self.y[i]
         outputs[self.n_task_dims:2*self.n_task_dims] = self.yd[i]
-        if self.useCovar:
+        if self.use_covar:
             outputs[2*self.n_task_dims:] = self.covars[i].flatten()
 
     def step(self):
@@ -271,7 +271,7 @@ class ProMPBehavior(BlackBoxBehavior):
             Number of promp weights
         """
         random_variables = len(self.data.mean_)
-        if self.learnCovariance:
+        if self.learn_covariance:
             correlation_coefficients = (
                 len(self.data.covariance_)-random_variables)/2
             return 2*random_variables + correlation_coefficients
@@ -287,15 +287,15 @@ class ProMPBehavior(BlackBoxBehavior):
             Current weights
         """
         random_variables = self.data.mean_
-        if self.learnCovariance:
+        if self.learn_covariance:
             cov = np.array(self.data.covariance_).reshape(
                 len(random_variables), len(random_variables))
             Dinv = np.linalg.inv(np.sqrt(np.diag(np.diag(cov))))
             cor = Dinv.dot(cov.dot(Dinv))
 
-            return random_variables + np.sqrt(np.diag(cov)).tolist() +
-            np.arctanh(cor[np.tril_indices(len(random_variables), k=-1)])
-            .tolist()
+            return random_variables + np.sqrt(np.diag(cov)).tolist() + \
+                np.arctanh(cor[np.tril_indices(len(random_variables), k=-1)]) \
+                .tolist()
         else:
             return random_variables
 
@@ -307,12 +307,11 @@ class ProMPBehavior(BlackBoxBehavior):
         params : array-like, shape = (n_params,)
             New weights
         """
-        old_cov = self.data.covariance_[:]
-        old_means = self.data.mean_[:]
         self.data.mean_ = params[:len(self.data.mean_)]
-        if self.learnCovariance:
+        if self.learn_covariance:
             D = np.diag(
-                np.square(np.array(params[len(self.data.mean_):2*len(self.data.mean_)])))
+                np.square(np.array(params[len(self.data.mean_):2 *
+                          len(self.data.mean_)])))
             cor = np.identity(len(self.data.mean_))
             cor[np.tril_indices(len(self.data.mean_), k=-1)
                 ] = np.tanh(params[2*len(self.data.mean_):])
@@ -382,7 +381,8 @@ class ProMPBehavior(BlackBoxBehavior):
 
         """
 
-        # ret = promp.TrajectoryData(self.n_features,self.n_task_dims,True,self.overlap) #TODO make params
+        # ret = promp.TrajectoryData(self.n_features,self.n_task_dims,True,
+        # self.overlap) #TODO make params
         # self.data.sample_trajectory_data(ret)
 
         x = np.arange(0, self.execution_time + self.dt*0.1, self.dt)
@@ -496,5 +496,6 @@ class ProMPBehavior(BlackBoxBehavior):
             width, height = 2 * nstd * np.sqrt(vals)
 
             ell = Ellipse(xy=means[k], width=width, height=height,
-                          angle=theta, alpha=1, edgecolor="none", facecolor="grey")
+                          angle=theta, alpha=1, edgecolor="none", 
+                          facecolor="grey")
             ax.add_patch(ell)
