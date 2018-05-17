@@ -1,7 +1,7 @@
 """
-==================
-Obstacle Avoidance
-==================
+======================
+Obstacle Avoidance DMP
+======================
 
 We use CMA-ES to optimize a DMP so that it avoids point obstacles.
 """
