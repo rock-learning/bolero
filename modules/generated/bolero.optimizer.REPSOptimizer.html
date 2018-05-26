@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>bolero.optimizer.REPSOptimizer &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="bolero.optimizer.CREPSOptimizer" href="bolero.optimizer.CREPSOptimizer.html" />
+    <link rel="prev" title="bolero.optimizer.CCMAESOptimizer" href="bolero.optimizer.CCMAESOptimizer.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">bolero.optimizer</span></code>.REPSOptimizer</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="bolero-optimizer-repsoptimizer">
+<h1><a class="reference internal" href="../../api_py.html#module-bolero.optimizer" title="bolero.optimizer"><code class="xref py py-mod docutils literal"><span class="pre">bolero.optimizer</span></code></a>.REPSOptimizer<a class="headerlink" href="#bolero-optimizer-repsoptimizer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bolero.optimizer.REPSOptimizer">
+<em class="property">class </em><code class="descclassname">bolero.optimizer.</code><code class="descname">REPSOptimizer</code><span class="sig-paren">(</span><em>initial_params=None</em>, <em>variance=1.0</em>, <em>covariance=None</em>, <em>epsilon=2.0</em>, <em>min_eta=1e-08</em>, <em>train_freq=25</em>, <em>n_samples_per_update=100</em>, <em>bounds=None</em>, <em>log_to_file=False</em>, <em>log_to_stdout=False</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relative Entropy Policy Search (REPS) as Optimizer.</p>
+<p>Use REPS as a black-box optimizer: learn an upper-level distribution
+<span class="math">\(\pi(\boldsymbol{\theta})\)</span> which selects weights
+<span class="math">\(\boldsymbol{\theta}\)</span> for the objective function. At the moment,
+<span class="math">\(\pi(\boldsymbol{\theta})\)</span> is assumed to be a multivariate
+gaussian distribution whose mean and covariance (governing exploration)
+are learned. REPS constrains the learning updates such that the KL
+divergence between the old and the new distribution is below a threshold
+epsilon. More details can be found in the original publication <a class="reference internal" href="#rcc7e7603b201-1" id="id1">[1]</a>.</p>
+<p>Abdolmaleki et al. <a class="reference internal" href="#rcc7e7603b201-2" id="id2">[2]</a> state that
+“the episodic REPS algorithm uses a sample based approximation of the
+KL-bound, which needs a lot of samples in order to be accurate. Moreover,
+a typical problem of REPS is that the entropy of the search distribution
+decreases too quickly, resulting in premature convergence.”</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>initial_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape = (num_params,), optional (default: zeros)</span></dt>
+<dd><p class="first last">Initial parameter vector.</p>
+</dd>
+<dt><strong>variance</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1)</span></dt>
+<dd><p class="first last">Initial exploration variance.</p>
+</dd>
+<dt><strong>covariance</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, optional (default: None), optional (default: I)</span></dt>
+<dd><p class="first last">Either a diagonal (with shape (n_params,)) or a full covariance matrix
+(with shape (n_params, n_params)). A full covariance can contain
+information about the correlation of variables.</p>
+</dd>
+<dt><strong>epsilon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0.0, optional (default: 2)</span></dt>
+<dd><p class="first last">The maximum the KL divergence between old and new “data” distribution
+might take on</p>
+</dd>
+<dt><strong>train_freq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, optional (default: 25)</span></dt>
+<dd><p class="first last">The frequency (the number of rollouts) of training, i.e., using REPS
+for updating the policies parameters. Defaults to 25 rollouts.</p>
+</dd>
+<dt><strong>min_eta</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1e-8)</span></dt>
+<dd><p class="first last">Minimum eta, 0 would result in numerical problems</p>
+</dd>
+<dt><strong>n_samples_per_update</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 100)</span></dt>
+<dd><p class="first last">Number of samples that will be used to update a policy.</p>
+</dd>
+<dt><strong>bounds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, 2), optional (default: None)</span></dt>
+<dd><p class="first last">Upper and lower bounds for each parameter.</p>
+</dd>
+<dt><strong>log_to_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional, boolean or string (default: False)</span></dt>
+<dd><p class="first last">Log results to given file, it will be located in the $BL_LOG_PATH</p>
+</dd>
+<dt><strong>log_to_stdout</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional, boolean (default: False)</span></dt>
+<dd><p class="first last">Log to standard output</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional, int</span></dt>
+<dd><p class="first last">Seed for the random number generator.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="rcc7e7603b201-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Peters, J.; Muelling, K.; Altuen, Y. Relative Entropy Policy Search.
+Proceedings of the Twenty-Fourth AAAI Conference on Artificial
+Intelligence, 2010.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="rcc7e7603b201-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> Abdolmaleki, A.; Lioutikov, R.; Lau, N; Paulo Reis, L.; Peters, J.;
+Neumann, G. Model-Based Relative Entropy Stochastic Search.
+Advances in Neural Information Processing Systems 28, 2015.</td></tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>initial_params=None</em>, <em>variance=1.0</em>, <em>covariance=None</em>, <em>epsilon=2.0</em>, <em>min_eta=1e-08</em>, <em>train_freq=25</em>, <em>n_samples_per_update=100</em>, <em>bounds=None</em>, <em>log_to_file=False</em>, <em>log_to_stdout=False</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.get_args">
+<code class="descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.get_best_parameters">
+<code class="descname">get_best_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.get_best_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.get_best_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the best parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>best_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_params,)</span></dt>
+<dd><p class="first last">Best parameters</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.get_next_parameters">
+<code class="descname">get_next_parameters</code><span class="sig-paren">(</span><em>params</em>, <em>explore=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.get_next_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.get_next_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return parameter vector that shall be evaluated next.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_params,)</span></dt>
+<dd><p class="first last">The selected parameters will be written into this as a side-effect.</p>
+</dd>
+<dt><strong>explore</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Whether exploration in parameter selection is enabled</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>n_params</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize optimizer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of parameters</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.is_behavior_learning_done">
+<code class="descname">is_behavior_learning_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.is_behavior_learning_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.is_behavior_learning_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the optimization is finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Is the learning of a behavior finished?</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.optimizer.REPSOptimizer.set_evaluation_feedback">
+<code class="descname">set_evaluation_feedback</code><span class="sig-paren">(</span><em>feedbacks</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/optimizer/reps.html#REPSOptimizer.set_evaluation_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.optimizer.REPSOptimizer.set_evaluation_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inform optimizer of outcome of a rollout with current weights.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

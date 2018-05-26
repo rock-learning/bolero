@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.environment.Catapult &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.environment.Catapult &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="bolero.environment.OpenAiGym" href="bolero.environment.OpenAiGym.html" />
     <link rel="prev" title="bolero.environment.OptimumTrajectory" href="bolero.environment.OptimumTrajectory.html" />
 <meta charset='utf-8'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -163,16 +161,16 @@ shoot and velocity_penalty is configurable. Thus, this environment defines
 a contextual policy search problem.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">Bruno Castro da Silva, George Konidaris, Andrew Barto, &#8220;Active Learning
-of Parameterized Skills&#8221;, ICML 2014</p>
+<p class="last">Bruno Castro da Silva, George Konidaris, Andrew Barto, “Active Learning
+of Parameterized Skills”, ICML 2014</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>segments</strong> : sequence of tuples or int, optional (default: 10)</p>
-<blockquote>
-<div><p>Definition of the surface onto which the catapult throws. If an
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>segments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sequence of tuples or int, optional (default: 10)</span></dt>
+<dd><p class="first last">Definition of the surface onto which the catapult throws. If an
 integer is passed, a surface consisting of the given number of segments
 is created randomly. Alternatively, the segments can be explicitly
 provided as a sequence of pairs, e.g.
@@ -181,34 +179,29 @@ Each element of the sequence defines one point of the surface.
 It is assumed that the elements of the sequence are ordered
 according to their first component. The surface is created by
 linearly connecting all points of the segments sequence.</p>
-</div></blockquote>
-<p><strong>catapult_pos</strong> : array-like, shape (2,), optional (default: (0, 0))</p>
-<blockquote>
-<div><p>The x and y positions at which the catapult is placed.</p>
-</div></blockquote>
-<p><strong>velocity_penality</strong> : float&gt;=0, optional (default: 0.1)</p>
-<blockquote>
-<div><p>A factor which controls how strongly large velocities are penalized in
+</dd>
+<dt><strong>catapult_pos</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (2,), optional (default: (0, 0))</span></dt>
+<dd><p class="first last">The x and y positions at which the catapult is placed.</p>
+</dd>
+<dt><strong>velocity_penality</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float&gt;=0, optional (default: 0.1)</span></dt>
+<dd><p class="first last">A factor which controls how strongly large velocities are penalized in
 the cost function. Larger values correspond to stronger penalties.</p>
-</div></blockquote>
-<p><strong>context_distribution</strong> : distribution from scipy.stats, optional (default: None)</p>
-<blockquote>
-<div><p>The distribution from which the contexts (goal positions for the
+</dd>
+<dt><strong>context_distribution</strong> <span class="classifier-delimiter">:</span> <span class="classifier">distribution from scipy.stats, optional (default: None)</span></dt>
+<dd><p class="first last">The distribution from which the contexts (goal positions for the
 catapult) are drawn. If None is given, a uniform distribution on the
 interval [2, 10] based on the random_state is used.</p>
-</div></blockquote>
-<p><strong>context_interval</strong> : tuple, optional (default: (2, 10))</p>
-<blockquote>
-<div><p>Interval of the target position</p>
-</div></blockquote>
-<p><strong>random_state</strong> : RandomState or int, optional (default: None)</p>
-<blockquote>
-<div><p>Random number generator or seed</p>
-</div></blockquote>
-<p><strong>verbose</strong> : int, optional (default: 0)</p>
-<blockquote class="last">
-<div><p>Verbosity level</p>
-</div></blockquote>
+</dd>
+<dt><strong>context_interval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple, optional (default: (2, 10))</span></dt>
+<dd><p class="first last">Interval of the target position</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState or int, optional (default: None)</span></dt>
+<dd><p class="first last">Random number generator or seed</p>
+</dd>
+<dt><strong>verbose</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 0)</span></dt>
+<dd><p class="first last">Verbosity level</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -226,10 +219,11 @@ interval [2, 10] based on the random_state is used.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -286,19 +280,21 @@ interval [2, 10] based on the random_state is used.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>context</strong> : ndarray, default=None</p>
-<blockquote>
-<div><p>The requested context that shall be used in the next rollout.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>context</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, default=None</span></dt>
+<dd><p class="first last">The requested context that shall be used in the next rollout.
 Defaults to None. In that case, the environment selects the next
 context</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">context: ndarray</p>
-<blockquote class="last">
-<div><p>The actual context used in the next rollout. This environment
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>context: ndarray</strong></dt>
+<dd><p class="first last">The actual context used in the next rollout. This environment
 accepts all external requests.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -339,8 +335,8 @@ accepts all external requests.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

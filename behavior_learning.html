@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Behavior Learning &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>Behavior Learning &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Representation" href="modules/representation.html" />
-    <link rel="prev" title="Quick Start with Python" href="quickstart.html" />
+    <link rel="prev" title="Contributing" href="contributing.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -155,12 +154,16 @@ are easy to apply in a robotic application.</p>
 BOLeRo. An <strong>environment</strong> defines the learning problem. It can execute the
 <strong>behavior</strong> and generates the feedback for the <strong>behavior search</strong> algorithm.
 The behavior search algorithm generates a new behavior for each episode and
-receives the feedback from the environment after each episode.</p>
-<div align="center" class="align-center"><img alt="Control flow" src="_images/control_flow.svg" /></div>
+receives the feedback from the environment after each episode. During an
+episode (or rollout or trial), the <strong>behavior</strong> is executed in the
+<strong>environment</strong>. A behavior measures the state of the environment and
+generates an action based on the current state in each step.</p>
+<a class="reference internal image-reference" href="_images/control_flow.svg"><div align="center" class="align-center"><img alt="Control flow" src="_images/control_flow.svg" width="80%" /></div>
+</a>
 <p>Black-box optimization can be regarded as a special form of policy search in
 which the optimizer does not know anything about the behavior representation.
 In this case, the behavior is part of the objective function from the behavior
-learning algorithm&#8217;s perspective.</p>
+learning algorithm’s perspective.</p>
 <p>Other behavior learning methods that are supported by BOLeRo are</p>
 <ul class="simple">
 <li>contextual policy search: learns a behavior template that generalizes a
@@ -181,8 +184,8 @@ behavior over a set of contexts or task parameters</li>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

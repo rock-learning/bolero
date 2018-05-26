@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>bolero.optimizer.reps &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.optimizer.reps</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Authors: Jan Hendrik Metzen &lt;jhm@informatik.uni-bremen.de&gt;</span>
+<span class="c1">#          Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">fmin_l_bfgs_b</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">.optimizer</span> <span class="k">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span> <span class="nn">..utils.scaling</span> <span class="k">import</span> <span class="n">Scaling</span>
+<span class="kn">from</span> <span class="nn">..utils.mathext</span> <span class="k">import</span> <span class="n">logsumexp</span>
+<span class="kn">from</span> <span class="nn">..representation.ul_policies</span> <span class="k">import</span> <span class="n">BoundedScalingPolicy</span>
+<span class="kn">from</span> <span class="nn">..representation.ul_policies</span> <span class="k">import</span> <span class="n">ConstantGaussianPolicy</span>
+<span class="kn">from</span> <span class="nn">..utils.validation</span> <span class="k">import</span> <span class="n">check_random_state</span><span class="p">,</span> <span class="n">check_feedback</span>
+<span class="kn">from</span> <span class="nn">..utils.log</span> <span class="k">import</span> <span class="n">get_logger</span>
+
+
+<span class="k">def</span> <span class="nf">solve_dual_reps</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">min_eta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Solve dual function for REPS.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array, shape (n_samples_per_update,)</span>
+<span class="sd">        Corresponding obtained rewards</span>
+
+<span class="sd">    epsilon : float</span>
+<span class="sd">        Maximum Kullback-Leibler divergence of two successive policy</span>
+<span class="sd">        distributions.</span>
+
+<span class="sd">    min_eta : float</span>
+<span class="sd">        Minimum eta, 0 would result in numerical problems</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : array, shape (n_samples_per_update,)</span>
+<span class="sd">        Weights for training samples</span>
+
+<span class="sd">    eta : float</span>
+<span class="sd">        Temperature</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">R</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Returns must be passed in a flat array!&quot;</span><span class="p">)</span>
+
+    <span class="n">R_max</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">R_min</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">R_max</span> <span class="o">==</span> <span class="n">R_min</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># eta not known</span>
+    <span class="c1"># Normalize returns into range [0, 1] such that eta (and min_eta)</span>
+    <span class="c1"># always lives on the same scale</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">-</span> <span class="n">R_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">R_max</span> <span class="o">-</span> <span class="n">R_min</span><span class="p">)</span>
+
+    <span class="c1"># Definition of the dual function</span>
+    <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">eta</span><span class="p">):</span>  <span class="c1"># Objective function</span>
+        <span class="k">return</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">epsilon</span> <span class="o">+</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">eta</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">))</span>
+
+    <span class="c1"># Lower bound for Lagrangian eta</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">min_eta</span><span class="p">,</span> <span class="kc">None</span><span class="p">]])</span>
+    <span class="c1"># Start point of optimization</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Perform the actual optimization of the dual function</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">fmin_l_bfgs_b</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">approx_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+
+    <span class="c1"># Fetch optimal Lagrangian parameter eta. Corresponds to a temperature</span>
+    <span class="c1"># of a softmax distribution</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Determine weights of individual samples based on the their return and</span>
+    <span class="c1"># the &quot;temperature&quot; eta</span>
+    <span class="n">log_d</span> <span class="o">=</span> <span class="n">R</span> <span class="o">/</span> <span class="n">eta</span>
+    <span class="c1"># Numerically stable softmax version of the weights. Note that</span>
+    <span class="c1"># this does neither changes the solution of the weighted least</span>
+    <span class="c1"># squares nor the estimation of the covariance.</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_d</span> <span class="o">-</span> <span class="n">log_d</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">d</span> <span class="o">/=</span> <span class="n">d</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="REPSOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer">[docs]</a><span class="k">class</span> <span class="nc">REPSOptimizer</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Relative Entropy Policy Search (REPS) as Optimizer.</span>
+
+<span class="sd">    Use REPS as a black-box optimizer: learn an upper-level distribution</span>
+<span class="sd">    :math:`\pi(\\boldsymbol{\\theta})` which selects weights</span>
+<span class="sd">    :math:`\\boldsymbol{\\theta}` for the objective function. At the moment,</span>
+<span class="sd">    :math:`\pi(\\boldsymbol{\\theta})` is assumed to be a multivariate</span>
+<span class="sd">    gaussian distribution whose mean and covariance (governing exploration)</span>
+<span class="sd">    are learned. REPS constrains the learning updates such that the KL</span>
+<span class="sd">    divergence between the old and the new distribution is below a threshold</span>
+<span class="sd">    epsilon. More details can be found in the original publication [1]_.</span>
+
+<span class="sd">    Abdolmaleki et al. [2]_ state that</span>
+<span class="sd">    &quot;the episodic REPS algorithm uses a sample based approximation of the</span>
+<span class="sd">    KL-bound, which needs a lot of samples in order to be accurate. Moreover,</span>
+<span class="sd">    a typical problem of REPS is that the entropy of the search distribution</span>
+<span class="sd">    decreases too quickly, resulting in premature convergence.&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array, shape = (num_params,), optional (default: zeros)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None), optional (default: I)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    epsilon : float &gt; 0.0, optional (default: 2)</span>
+<span class="sd">        The maximum the KL divergence between old and new &quot;data&quot; distribution</span>
+<span class="sd">        might take on</span>
+
+<span class="sd">    train_freq : int &gt; 0, optional (default: 25)</span>
+<span class="sd">        The frequency (the number of rollouts) of training, i.e., using REPS</span>
+<span class="sd">        for updating the policies parameters. Defaults to 25 rollouts.</span>
+
+<span class="sd">    min_eta : float, optional (default: 1e-8)</span>
+<span class="sd">        Minimum eta, 0 would result in numerical problems</span>
+
+<span class="sd">    n_samples_per_update : int, optional (default: 100)</span>
+<span class="sd">        Number of samples that will be used to update a policy.</span>
+
+<span class="sd">    bounds : array-like, shape (n_samples, 2), optional (default: None)</span>
+<span class="sd">        Upper and lower bounds for each parameter.</span>
+
+<span class="sd">    log_to_file : optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout : optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Peters, J.; Muelling, K.; Altuen, Y. Relative Entropy Policy Search.</span>
+<span class="sd">        Proceedings of the Twenty-Fourth AAAI Conference on Artificial</span>
+<span class="sd">        Intelligence, 2010.</span>
+
+<span class="sd">    .. [2] Abdolmaleki, A.; Lioutikov, R.; Lau, N; Paulo Reis, L.; Peters, J.;</span>
+<span class="sd">        Neumann, G. Model-Based Relative Entropy Stochastic Search.</span>
+<span class="sd">        Advances in Neural Information Processing Systems 28, 2015.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="REPSOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">min_eta</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">train_freq</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                 <span class="n">n_samples_per_update</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">log_to_stdout</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">initial_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="n">variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_eta</span> <span class="o">=</span> <span class="n">min_eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_freq</span> <span class="o">=</span> <span class="n">train_freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="n">n_samples_per_update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span> <span class="o">=</span> <span class="n">log_to_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="o">=</span> <span class="n">log_to_stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+<div class="viewcode-block" id="REPSOptimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize optimizer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_params : int</span>
+<span class="sd">            number of parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_params</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions (</span><span class="si">%d</span><span class="s2">) does not match &quot;</span>
+                             <span class="s2">&quot;number of initial parameters (</span><span class="si">%d</span><span class="s2">).&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="n">n_params</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">scaling</span> <span class="o">=</span> <span class="n">Scaling</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span>
+                          <span class="n">compute_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span> <span class="o">=</span> <span class="n">BoundedScalingPolicy</span><span class="p">(</span><span class="n">ConstantGaussianPolicy</span><span class="p">(</span>
+            <span class="n">n_params</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">scaling</span><span class="o">.</span><span class="n">inv_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">),</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">),</span> <span class="n">scaling</span><span class="o">=</span><span class="n">scaling</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+        <span class="c1"># Maximum return obtained</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_return</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="c1"># Best parameters found so far</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_R</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="REPSOptimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.get_next_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return parameter vector that shall be evaluated next.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : array-like, shape = (n_params,)</span>
+<span class="sd">            The selected parameters will be written into this as a side-effect.</span>
+
+<span class="sd">        explore : bool</span>
+<span class="sd">            Whether exploration in parameter selection is enabled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="n">explore</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div>
+
+<div class="viewcode-block" id="REPSOptimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Inform optimizer of outcome of a rollout with current weights.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="n">check_feedback</span><span class="p">(</span><span class="n">feedbacks</span><span class="p">,</span> <span class="n">compute_sum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span><span class="p">)</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_R</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">solve_dual_reps</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_eta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reward </span><span class="si">%.6f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_return</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_return</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div>
+
+<div class="viewcode-block" id="REPSOptimizer.get_best_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.get_best_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the best parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        best_params : array-like, shape (n_params,)</span>
+<span class="sd">            Best parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span></div>
+
+<div class="viewcode-block" id="REPSOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the optimization is finished.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the learning of a behavior finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

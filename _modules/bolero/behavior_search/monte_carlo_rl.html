@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>bolero.behavior_search.monte_carlo_rl &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.behavior_search.monte_carlo_rl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">.behavior_search</span> <span class="k">import</span> <span class="n">BehaviorSearch</span><span class="p">,</span> <span class="n">PickableMixin</span>
+<span class="kn">from</span> <span class="nn">..representation</span> <span class="k">import</span> <span class="n">Behavior</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">check_random_state</span>
+
+
+<span class="k">class</span> <span class="nc">EpsilonGreedyPolicy</span><span class="p">(</span><span class="n">Behavior</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Epsilon-greedy policy.</span>
+
+<span class="sd">    A random action is selected with probability &#39;epsilon&#39;. Otherwise</span>
+<span class="sd">    the optimum action based on the current estimate of Q is selected.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : dict</span>
+<span class="sd">        State-action value function</span>
+
+<span class="sd">    action_space : list</span>
+<span class="sd">        Actions that the agent can select from</span>
+
+<span class="sd">    epsilon : float, optional (default: 0.1)</span>
+<span class="sd">        Probability of selecting a random action</span>
+
+<span class="sd">    random_state : int or RandomState, optional (default: None)</span>
+<span class="sd">        Seed for the random number generator or RandomState object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">action_space</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">action_space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the behavior.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_inputs : int</span>
+<span class="sd">            number of inputs</span>
+
+<span class="sd">        n_outputs : int</span>
+<span class="sd">            number of outputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">n_inputs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;discrete state space required&quot;</span>
+        <span class="k">assert</span> <span class="n">n_outputs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;discrete action space required&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visited_states</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions_taken</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">set_meta_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set meta-parameters.</span>
+
+<span class="sd">        Meta-parameters could be the goal, obstacles, ...</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        keys : list of string</span>
+<span class="sd">            names of meta-parameters</span>
+<span class="sd">        meta_parameters : list of lists of float values</span>
+<span class="sd">            One list of floats for each parameter          </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set input for the next step.</span>
+
+<span class="sd">        If the input vector consists of positions and derivatives of these,</span>
+<span class="sd">        by convention all positions and all derivatives should be stored</span>
+<span class="sd">        contiguously.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : array-like, shape = (n_inputs,)</span>
+<span class="sd">            inputs, e.g. current state of the system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visited_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get outputs of the last step.</span>
+
+<span class="sd">        If the output vector consists of positions and derivatives of these,</span>
+<span class="sd">        by convention all positions and all derivatives should be stored</span>
+<span class="sd">        contiguously.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        outputs : array-like, shape = (n_outputs,)</span>
+<span class="sd">            outputs, e.g. next action, will be updated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions_taken</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute output for the received input.</span>
+
+<span class="sd">        Uses the inputs and meta-parameters to compute the outputs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_select_best_action</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_select_best_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">])</span>
+        <span class="n">best_actions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Qs</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">Qs</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">best_actions</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">can_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns if step() can be called again.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        can_step : bool</span>
+<span class="sd">            Can we call step() again?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<div class="viewcode-block" id="MonteCarloRL"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL">[docs]</a><span class="k">class</span> <span class="nc">MonteCarloRL</span><span class="p">(</span><span class="n">BehaviorSearch</span><span class="p">,</span> <span class="n">PickableMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tabular Monte Carlo is a model-free reinforcement learning method.</span>
+
+<span class="sd">    This implements the epsilon-soft on-policy Monte Carlo control algorithm</span>
+<span class="sd">    shown at page 120 of &quot;Reinforcement Learning: An Introduction&quot;</span>
+<span class="sd">    (Sutton and Barto, 2nd edition,</span>
+<span class="sd">    http://people.inf.elte.hu/lorincz/Files/RL_2006/SuttonBook.pdf).</span>
+<span class="sd">    The action space and the state space must be discrete for this</span>
+<span class="sd">    implementation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    action_space : list</span>
+<span class="sd">        Actions that the agent can select from</span>
+
+<span class="sd">    gamma : float, optional (default: 0.9)</span>
+<span class="sd">        Discount factor for the discounted infinite horizon model</span>
+
+<span class="sd">    epsilon : float, optional (default: 0.1)</span>
+<span class="sd">        Exploration probability for epsilon-greedy policy</span>
+
+<span class="sd">    convergence_threshold : float, optional (default: 1e-3)</span>
+<span class="sd">        Learning will be stopped if the maximum difference of the value</span>
+<span class="sd">        function between iterations is below this threshold</span>
+
+<span class="sd">    random_state : int or RandomState, optional (default: None)</span>
+<span class="sd">        Seed for the random number generator or RandomState object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MonteCarloRL.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_space</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">action_space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+<div class="viewcode-block" id="MonteCarloRL.init"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the behavior search.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_inputs : int</span>
+<span class="sd">            number of inputs of the behavior</span>
+
+<span class="sd">        n_outputs : int</span>
+<span class="sd">            number of outputs of the behavior</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">n_inputs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;discrete state space required&quot;</span>
+        <span class="k">assert</span> <span class="n">n_outputs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;discrete action space required&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">dict</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy</span> <span class="o">=</span> <span class="n">EpsilonGreedyPolicy</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">returns</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="MonteCarloRL.get_next_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.get_next_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Obtain next behavior for evaluation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        behavior : Behavior</span>
+<span class="sd">            mapping from input to output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy</span></div>
+
+<div class="viewcode-block" id="MonteCarloRL.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set feedback for the last behavior.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        feedbacks : list of float</span>
+<span class="sd">            feedback for each step or for the episode, depends on the problem</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">visited_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">visited_states</span>
+        <span class="n">actions_taken</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">actions_taken</span>
+        <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">visited_states</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">n_steps</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">feedbacks</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">n_steps</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">actions_taken</span><span class="p">)</span>
+        <span class="n">gammas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+            <span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">np</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)))</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">visited_states</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">actions_taken</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">feedbacks</span><span class="p">[</span><span class="n">t</span><span class="p">:]</span> <span class="o">*</span> <span class="n">gammas</span><span class="p">[:</span><span class="n">n_steps</span> <span class="o">-</span> <span class="n">t</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+            <span class="n">last_Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">])</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">last_Q</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">feedbacks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="mf">1e-3</span></div>
+
+<div class="viewcode-block" id="MonteCarloRL.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the value function converged.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the learning of a behavior finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span></div>
+
+<div class="viewcode-block" id="MonteCarloRL.get_best_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL.get_best_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the best behavior found so far.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        behavior : Behavior</span>
+<span class="sd">            mapping from input to output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">EpsilonGreedyPolicy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">policy</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">policy</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

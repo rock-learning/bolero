@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Quick Start with Python &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>Quick Start with Python &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
-    <link rel="next" title="Behavior Learning" href="behavior_learning.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
     <link rel="prev" title="Quick Start with the Controller" href="quickstart-controller.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -39,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -156,7 +155,7 @@ interface of BOLeRo.</p>
 <h2>Using a Controller<a class="headerlink" href="#using-a-controller" title="Permalink to this headline">¶</a></h2>
 <p>A <a class="reference internal" href="modules/controller.html#controller"><span class="std std-ref">Controller</span></a> provides a simple tool to organize the whole
 behavior learning process. Let us start with a simple example. We need an
-environment that specifies a learning problem. Let&#8217;s say, we want to avoid
+environment that specifies a learning problem. Let’s say, we want to avoid
 obstacles in a two-dimensional space and minimize the accelerations at the
 same time.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bolero.environment</span> <span class="k">import</span> <span class="n">OptimumTrajectory</span>
@@ -236,7 +235,7 @@ check what are the best parameters so far.</p>
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>Take a look at the <span class="xref std std-ref">examples-index</span> to see more complex
+<p>Take a look at the <a class="reference internal" href="auto_examples/index.html#general-examples"><span class="std std-ref">examples</span></a> to see more complex
 use cases.</p>
 </div>
 </div>
@@ -253,8 +252,8 @@ use cases.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>bolero.utils.ranking_svm &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.utils.ranking_svm</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">check_array</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">euclidean_distances</span>
+<span class="kn">from</span> <span class="nn">.validation</span> <span class="k">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">._ranking_svm</span> <span class="k">import</span> <span class="n">optimize</span>
+
+
+<span class="n">MACHINE_EPSILON</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<div class="viewcode-block" id="RankingSVM"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.ranking_svm.RankingSVM.html#bolero.utils.ranking_svm.RankingSVM">[docs]</a><span class="k">class</span> <span class="nc">RankingSVM</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ranking Support Vector Machine.</span>
+
+<span class="sd">    A trained ranking SVM model will predict rank-preserving values for each</span>
+<span class="sd">    sample.</span>
+
+<span class="sd">    The constraint violation cost will be computed according to</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        C_i = 10^{C_{base}} (N_{training} - i)^{C_{pow}},</span>
+<span class="sd">        \\text{ for} i = 1, \\ldots, N_{training}</span>
+
+<span class="sd">    so that top-ranked samples have higher violation costs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_iter : int, optional (default: 50000 * sqrt(n_features))</span>
+<span class="sd">        Number of training iterations</span>
+
+<span class="sd">    epsilon : float, optional (default: 1.0)</span>
+<span class="sd">        Tolerance ranking value error</span>
+
+<span class="sd">    c_base : float, optional (default: 6)</span>
+<span class="sd">        Base for constraint violation cost</span>
+
+<span class="sd">    c_pow : float, optional (default: 2)</span>
+<span class="sd">        Exponent for constraint violation cost</span>
+
+<span class="sd">    c_sigma : float, optional (default: 1)</span>
+<span class="sd">        The sigma of the RBF kernel will be set to c_sigma times the average</span>
+<span class="sd">        distance of training samples</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RankingSVM.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.ranking_svm.RankingSVM.html#bolero.utils.ranking_svm.RankingSVM.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c_base</span><span class="o">=</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">c_pow</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                 <span class="n">c_sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">=</span> <span class="n">n_iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_base</span> <span class="o">=</span> <span class="n">c_base</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_pow</span> <span class="o">=</span> <span class="n">c_pow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span> <span class="o">=</span> <span class="n">c_sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+<div class="viewcode-block" id="RankingSVM.fit"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.ranking_svm.RankingSVM.html#bolero.utils.ranking_svm.RankingSVM.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit ranking SVM.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array, shape (n_samples, n_features)</span>
+<span class="sd">            Training data, sorted, highest rank first</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected at least 2 training samples, got </span><span class="si">%d</span><span class="s2">&quot;</span>
+                             <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
+
+        <span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">n_iter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span>
+        <span class="k">if</span> <span class="n">n_iter</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">n_iter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">50000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">))</span>
+
+        <span class="n">K</span> <span class="o">=</span> <span class="n">euclidean_distances</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Average distance between training data</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denom</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MACHINE_EPSILON</span><span class="p">)</span>
+
+        <span class="n">K</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">denom</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+        <span class="c1"># Constraint violation cost</span>
+        <span class="n">Ci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_alpha</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_alpha</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_pow</span>
+        <span class="n">Ci</span> <span class="o">*=</span> <span class="mi">10</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_base</span>
+
+        <span class="c1"># Optimize alpha parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">optimize</span><span class="p">(</span><span class="n">Ci</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="RankingSVM.predict"><a class="viewcode-back" href="../../../modules/generated/bolero.utils.ranking_svm.RankingSVM.html#bolero.utils.ranking_svm.RankingSVM.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict ranking values for new data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array, shape (n_test, n_features)</span>
+<span class="sd">            Test data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        y : array, shape (n_test,)</span>
+<span class="sd">            Ranking values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">!=</span> <span class="n">n_features</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected </span><span class="si">%d</span><span class="s2"> dimensions, got </span><span class="si">%d</span><span class="s2">&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_features</span><span class="p">,</span> <span class="n">n_features</span><span class="p">))</span>
+
+        <span class="n">K</span> <span class="o">=</span> <span class="n">euclidean_distances</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">K</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">denom</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">K</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

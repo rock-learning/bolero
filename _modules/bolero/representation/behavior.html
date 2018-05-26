@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.representation.behavior &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.representation.behavior &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -51,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
@@ -94,9 +92,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -141,8 +139,8 @@
       
   <h1>Source code for bolero.representation.behavior</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Behavior interface.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">Base</span>
 
 
 <div class="viewcode-block" id="Behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior">[docs]</a><span class="k">class</span> <span class="nc">Behavior</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -152,8 +150,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Behavior.init"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+<div class="viewcode-block" id="Behavior.init"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.init">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the behavior.</span>
 
 <span class="sd">        Parameters</span>
@@ -165,8 +163,8 @@
 <span class="sd">            number of outputs</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Behavior.set_meta_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.set_meta_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_meta_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
+<div class="viewcode-block" id="Behavior.set_meta_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.set_meta_parameters">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_meta_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set meta-parameters.</span>
 
 <span class="sd">        Meta-parameters could be the goal, obstacles, ...</span>
@@ -179,8 +177,8 @@
 <span class="sd">            One list of floats for each parameter          </span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Behavior.set_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.set_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<div class="viewcode-block" id="Behavior.set_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.set_inputs">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set input for the next step.</span>
 
 <span class="sd">        If the input vector consists of positions and derivatives of these,</span>
@@ -193,8 +191,8 @@
 <span class="sd">            inputs, e.g. current state of the system</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Behavior.get_outputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.get_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+<div class="viewcode-block" id="Behavior.get_outputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.get_outputs">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get outputs of the last step.</span>
 
 <span class="sd">        If the output vector consists of positions and derivatives of these,</span>
@@ -207,8 +205,8 @@
 <span class="sd">            outputs, e.g. next action, will be updated</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Behavior.step"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Behavior.step"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.Behavior.html#bolero.representation.Behavior.step">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute output for the received input.</span>
 
 <span class="sd">        Uses the inputs and meta-parameters to compute the outputs.</span>
@@ -222,15 +220,15 @@
 <span class="sd">        can_step : bool</span>
 <span class="sd">            Can we call step() again?</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">True</span></div></div>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
 
 
 <div class="viewcode-block" id="BehaviorTemplate"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BehaviorTemplate.html#bolero.representation.BehaviorTemplate">[docs]</a><span class="k">class</span> <span class="nc">BehaviorTemplate</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Behavior template interface.&quot;&quot;&quot;</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorTemplate.get_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BehaviorTemplate.html#bolero.representation.BehaviorTemplate.get_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorTemplate.get_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BehaviorTemplate.html#bolero.representation.BehaviorTemplate.get_behavior">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get behavior for a given context.</span>
 
 <span class="sd">        Parameters</span>
@@ -256,8 +254,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BlackBoxBehavior.get_n_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.get_n_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_n_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BlackBoxBehavior.get_n_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.get_n_params">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_n_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get number of parameters.</span>
 
 <span class="sd">        Returns</span>
@@ -266,8 +264,8 @@
 <span class="sd">            Number of parameters that will be optimized.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BlackBoxBehavior.get_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BlackBoxBehavior.get_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.get_params">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get current parameters.</span>
 
 <span class="sd">        Returns</span>
@@ -276,8 +274,8 @@
 <span class="sd">            Current parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BlackBoxBehavior.set_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<div class="viewcode-block" id="BlackBoxBehavior.set_params"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.set_params">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set new parameter values.</span>
 
 <span class="sd">        Parameters</span>
@@ -286,8 +284,8 @@
 <span class="sd">            New parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BlackBoxBehavior.reset"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BlackBoxBehavior.reset"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.BlackBoxBehavior.html#bolero.representation.BlackBoxBehavior.reset">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset behavior.</span>
 
 <span class="sd">        This method is usually called after setting the parameters to reuse</span>
@@ -306,8 +304,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

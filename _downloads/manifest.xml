@@ -1,8 +1,0 @@
-<package>
-  <description brief="example_environment"></description>
-  <depend package="bolero" />
-  <depend package="mars_environment" />
-  <depend package="lib_manager" />
-  <depend package="mars_utils" />
-  <depend package="configmaps" />
-</package>

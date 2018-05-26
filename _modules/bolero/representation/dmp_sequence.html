@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.representation.dmp_sequence &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.representation.dmp_sequence &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -51,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
@@ -94,9 +92,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -142,8 +140,8 @@
   <h1>Source code for bolero.representation.dmp_sequence</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.behavior</span> <span class="kn">import</span> <span class="n">BlackBoxBehavior</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.behavior</span> <span class="k">import</span> <span class="n">BlackBoxBehavior</span>
 <span class="kn">import</span> <span class="nn">dmp</span>
 
 
@@ -171,17 +169,18 @@
 <span class="sd">        Subgoals of the DMPs including the final goal and the</span>
 <span class="sd">        initial state.</span>
 
-<span class="sd">    learn_goal_velocities : bool, optional (default: True)</span>
+<span class="sd">    learn_goal_velocities : bool, optional (default: False)</span>
 <span class="sd">        Defines whether the parameter vector will include the velocities</span>
 <span class="sd">        at the goals of the DMPs.</span>
 
 <span class="sd">    initial_weights : list</span>
-<span class="sd">        List of initial weight vectors for the DMPs</span>
+<span class="sd">        List of initial weight vectors for the DMPs.</span>
+<span class="sd">        Each entry initial_weights[i] has the shape n_features[i] * n_task_dims</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DMPSequence.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_dmps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">execution_times</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">subgoals</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">learn_goal_velocities</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">initial_weights</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">DMPSequence</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+<div class="viewcode-block" id="DMPSequence.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_dmps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">execution_times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">subgoals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">learn_goal_velocities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">initial_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DMPSequence</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span> <span class="o">=</span> <span class="n">n_dmps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span> <span class="o">=</span> <span class="n">execution_times</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
@@ -207,12 +206,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span> <span class="o">=</span> <span class="n">n_inputs</span> <span class="o">/</span> <span class="mi">3</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
                              <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -243,7 +242,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span> <span class="o">=</span> <span class="mf">25.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span> <span class="o">/</span> <span class="mf">4.0</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_weights</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_weights_per_dmp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">))</span>
                             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">)]</span>
@@ -252,8 +251,8 @@
                                       <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
                             <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_weights</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
 
@@ -277,9 +276,9 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">meta_parameter</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">meta_parameters</span><span class="p">):</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">meta_parameter</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span></div>
 
 <div class="viewcode-block" id="DMPSequence.set_inputs"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.set_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">set_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
@@ -367,14 +366,15 @@
                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_weights_per_dmp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-                            <span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_weights</span><span class="p">)[:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">])]</span>
+                            <span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_weights</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)[</span>
+                                <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">])]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">learn_goal_velocities</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
                 <span class="n">goal_vels</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="p">)])</span></div>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dmps</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span></div>
 
 <div class="viewcode-block" id="DMPSequence.set_subgoal"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.set_subgoal">[docs]</a>    <span class="k">def</span> <span class="nf">set_subgoal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">subgoal</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set subgoal manually.</span>
@@ -442,10 +442,9 @@
         <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
 
-
 <div class="viewcode-block" id="DMPSequence.reset"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset DMP.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -462,8 +461,71 @@
 
 <div class="viewcode-block" id="DMPSequence.can_step"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.can_step">[docs]</a>    <span class="k">def</span> <span class="nf">can_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns true if step() can be called again, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_steps</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span></div></div>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_steps</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
+<div class="viewcode-block" id="DMPSequence.trajectory"><a class="viewcode-back" href="../../../modules/generated/bolero.representation.DMPSequence.html#bolero.representation.DMPSequence.trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate trajectory represented by the sequence of DMPs in open loop.</span>
+
+<span class="sd">        The function can be used for debugging purposes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : array, shape (n_steps, n_task_dims)</span>
+<span class="sd">            Positions</span>
+
+<span class="sd">        Xd : array, shape (n_steps, n_task_dims)</span>
+<span class="sd">            Velocities</span>
+
+<span class="sd">        Xdd : array, shape (n_steps, n_task_dims)</span>
+<span class="sd">            Accelerations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">last_t</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">last_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">last_yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">last_ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+        <span class="n">yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+        <span class="n">ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">)</span>
+
+        <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">])</span>
+        <span class="n">Yd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">])</span>
+        <span class="n">Ydd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">n_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">])</span>
+
+        <span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">):</span>
+            <span class="n">dmp_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">steps</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_steps</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">dmp</span><span class="o">.</span><span class="n">dmp_step</span><span class="p">(</span>
+                <span class="n">last_t</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span>
+                <span class="n">last_y</span><span class="p">,</span> <span class="n">last_yd</span><span class="p">,</span> <span class="n">last_ydd</span><span class="p">,</span>
+                <span class="n">y</span><span class="p">,</span> <span class="n">yd</span><span class="p">,</span> <span class="n">ydd</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="n">dmp_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span><span class="p">[</span><span class="n">dmp_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">subgoals</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">subgoal_velocities</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_task_dims</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span><span class="p">[:</span><span class="n">dmp_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">execution_times</span><span class="p">[:</span><span class="n">dmp_idx</span><span class="p">]),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alpha_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_z</span><span class="p">[</span><span class="n">dmp_idx</span><span class="p">],</span>
+                <span class="mf">0.001</span>
+            <span class="p">)</span>
+
+            <span class="n">last_t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">last_y</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">last_yd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">yd</span>
+            <span class="n">last_ydd</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">ydd</span>
+            <span class="n">Y</span><span class="p">[</span><span class="n">steps</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">Yd</span><span class="p">[</span><span class="n">steps</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">yd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">Ydd</span><span class="p">[</span><span class="n">steps</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">ydd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Yd</span><span class="p">,</span> <span class="n">Ydd</span></div></div>
 </pre></div>
 
     </div>
@@ -477,8 +539,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

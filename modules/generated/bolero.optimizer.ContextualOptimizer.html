@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.optimizer.ContextualOptimizer &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.optimizer.ContextualOptimizer &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
-    <link rel="next" title="bolero.optimizer.CMAESOptimizer" href="bolero.optimizer.CMAESOptimizer.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="bolero.optimizer.NoOptimizer" href="bolero.optimizer.NoOptimizer.html" />
     <link rel="prev" title="bolero.optimizer.Optimizer" href="bolero.optimizer.Optimizer.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -154,7 +152,7 @@
 <dl class="method">
 <dt id="bolero.optimizer.ContextualOptimizer.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bolero.optimizer.ContextualOptimizer.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+<dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
 
 <dl class="method">
@@ -165,10 +163,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>policy</strong> : UpperLevelPolicy</p>
-<blockquote class="last">
-<div><p>Best estimate of upper-level policy</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>policy</strong> <span class="classifier-delimiter">:</span> <span class="classifier">UpperLevelPolicy</span></dt>
+<dd><p class="first last">Best estimate of upper-level policy</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -183,10 +182,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -201,11 +201,12 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>context</strong> : ndarray-like, default=None</p>
-<blockquote class="last">
-<div><p>The context in which the next rollout shall be performed. If None,
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>context</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray-like, default=None</span></dt>
+<dd><p class="first last">The context in which the next rollout shall be performed. If None,
 the environment may select the next context without any preferences.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -220,10 +221,11 @@ the environment may select the next context without any preferences.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array_like, shape (n_params,)</p>
-<blockquote class="last">
-<div><p>Parameter vector, will be modified</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (n_params,)</span></dt>
+<dd><p class="first last">Parameter vector, will be modified</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -238,14 +240,14 @@ the environment may select the next context without any preferences.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
-<blockquote>
-<div><p>dimension of the parameter vector</p>
-</div></blockquote>
-<p><strong>n_context_dims</strong> : int</p>
-<blockquote class="last">
-<div><p>number of dimensions of the context space</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">dimension of the parameter vector</p>
+</dd>
+<dt><strong>n_context_dims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of dimensions of the context space</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -260,10 +262,11 @@ the environment may select the next context without any preferences.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
-<blockquote class="last">
-<div><p>Is the learning of a behavior finished?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Is the learning of a behavior finished?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -280,10 +283,11 @@ requested by get_desired_context().</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>context</strong> : array-like, shape (n_context_dims,)</p>
-<blockquote class="last">
-<div><p>The context in which the next rollout will be performed</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>context</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_context_dims,)</span></dt>
+<dd><p class="first last">The context in which the next rollout will be performed</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -298,10 +302,11 @@ requested by get_desired_context().</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rewards</strong> : list of float</p>
-<blockquote class="last">
-<div><p>Feedbacks for each step or for the episode, depends on the problem</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>rewards</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of float</span></dt>
+<dd><p class="first last">Feedbacks for each step or for the episode, depends on the problem</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -324,8 +329,8 @@ requested by get_desired_context().</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.optimizer.optimizer &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.optimizer.optimizer &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -51,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
@@ -94,9 +92,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -141,9 +139,9 @@
       
   <h1>Source code for bolero.optimizer.optimizer</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Optimizer interface.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">NonContextualException</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">NonContextualException</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">Base</span>
 
 
 <div class="viewcode-block" id="ContextualOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer">[docs]</a><span class="k">class</span> <span class="nc">ContextualOptimizer</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
@@ -153,8 +151,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.init">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize optimizer.</span>
 
 <span class="sd">        Parameters</span>
@@ -166,8 +164,8 @@
 <span class="sd">            number of dimensions of the context space</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.get_next_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.get_next_parameters">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get next individual/parameter vector for evaluation.</span>
 
 <span class="sd">        Parameters</span>
@@ -176,8 +174,8 @@
 <span class="sd">            Parameter vector, will be modified</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.set_evaluation_feedback">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set feedbacks for the parameter vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -186,8 +184,8 @@
 <span class="sd">            Feedbacks for each step or for the episode, depends on the problem</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.is_behavior_learning_done">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the optimization is finished.</span>
 
 <span class="sd">        Returns</span>
@@ -196,8 +194,8 @@
 <span class="sd">            Is the learning of a behavior finished?</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.get_desired_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.get_desired_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_desired_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.get_desired_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.get_desired_context">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_desired_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Chooses desired context for next evaluation.</span>
 
 <span class="sd">        Returns</span>
@@ -207,8 +205,8 @@
 <span class="sd">            the environment may select the next context without any preferences.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.set_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.set_context">[docs]</a>    <span class="k">def</span> <span class="nf">set_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.set_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.set_context">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set context of next evaluation.</span>
 
 <span class="sd">        Note that the set context need not necessarily be the same that was</span>
@@ -220,8 +218,8 @@
 <span class="sd">            The context in which the next rollout will be performed</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualOptimizer.best_policy"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.best_policy">[docs]</a>    <span class="k">def</span> <span class="nf">best_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualOptimizer.best_policy"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.ContextualOptimizer.html#bolero.optimizer.ContextualOptimizer.best_policy">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">best_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return current best estimate of contextual policy.</span>
 
 <span class="sd">        Returns</span>
@@ -234,8 +232,8 @@
 <div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Common interface for (non-contextual) optimizers.&quot;&quot;&quot;</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Optimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
+<div class="viewcode-block" id="Optimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.init">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the behavior search.</span>
 
 <span class="sd">        Parameters</span>
@@ -244,8 +242,8 @@
 <span class="sd">            dimension of the parameter vector</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Optimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.get_next_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<div class="viewcode-block" id="Optimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.get_next_parameters">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get next individual/parameter vector for evaluation.</span>
 
 <span class="sd">        Parameters</span>
@@ -254,8 +252,8 @@
 <span class="sd">            Parameter vector, will be modified</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Optimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+<div class="viewcode-block" id="Optimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.set_evaluation_feedback">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set feedbacks for the parameter vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -264,8 +262,8 @@
 <span class="sd">            feedbacks for each step or for the episode, depends on the problem</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Optimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Optimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.is_behavior_learning_done">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the optimization is finished.</span>
 
 <span class="sd">        Returns</span>
@@ -274,8 +272,8 @@
 <span class="sd">            Is the learning of a behavior finished?</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Optimizer.get_best_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.get_best_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Optimizer.get_best_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.Optimizer.html#bolero.optimizer.Optimizer.get_best_parameters">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_best_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get best individual/parameter vector so far.</span>
 
 <span class="sd">        Returns</span>
@@ -296,8 +294,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

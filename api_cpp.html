@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>C++ API &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>C++ API (Summary) &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
-    <link rel="next" title="MARS Environment" href="mars_environment.html" />
-    <link rel="prev" title="bolero.utils.log.HideExtern" href="modules/generated/bolero.utils.log.HideExtern.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="All C++ Modules" href="modules/cpp_modules.html" />
+    <link rel="prev" title="bolero.utils.ranking_svm.RankingSVM" href="modules/generated/bolero.utils.ranking_svm.RankingSVM.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -111,7 +110,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">C++ API</a><ul>
+<li><a class="reference internal" href="#">C++ API (Summary)</a><ul>
 <li><a class="reference internal" href="#bolero-include-interfaces">bolero/include: Interfaces</a></li>
 <li><a class="reference internal" href="#src-bl-loader-blloader">src/bl_loader: BLLoader</a></li>
 <li><a class="reference internal" href="#environments">Environments</a><ul>
@@ -160,8 +159,8 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="c-api">
-<span id="api-cpp"></span><h1>C++ API<a class="headerlink" href="#c-api" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="c-api-summary">
+<span id="api-cpp"></span><h1>C++ API (Summary)<a class="headerlink" href="#c-api-summary" title="Permalink to this headline">¶</a></h1>
 <p>You can either use the <a class="reference external" href="../_doxygen/html/index.html">Doxygen HTML output</a> or
 this summary that has been generated with Breathe based on the XML output of
 Doxygen.</p>
@@ -170,8 +169,8 @@ Doxygen.</p>
 <ul class="simple">
 <li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero8BehaviorE" title="bolero::Behavior"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::Behavior</span></code></a></li>
 <li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero14BehaviorSearchE" title="bolero::BehaviorSearch"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::BehaviorSearch</span></code></a></li>
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero11EnvironmentE" title="bolero::Environment"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::Environment</span></code></a></li>
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero9OptimizerE" title="bolero::Optimizer"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::Optimizer</span></code></a></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::Environment</span></code></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::Optimizer</span></code></li>
 </ul>
 </div>
 <div class="section" id="src-bl-loader-blloader">
@@ -185,13 +184,13 @@ Doxygen.</p>
 <div class="section" id="src-environment-mountain-car-mountain-car">
 <h3>src/environment/mountain_car: Mountain Car<a class="headerlink" href="#src-environment-mountain-car-mountain-car" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero12mountain_car11MountainCarE" title="bolero::mountain_car::MountainCar"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::mountain_car::MountainCar</span></code></a></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::mountain_car::MountainCar</span></code></li>
 </ul>
 </div>
 <div class="section" id="src-environment-mars-environment-mars-environment">
 <h3>src/environment/mars_environment: MARS Environment<a class="headerlink" href="#src-environment-mars-environment-mars-environment" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero16mars_environment15MARSEnvironmentE" title="bolero::mars_environment::MARSEnvironment"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::mars_environment::MARSEnvironment</span></code></a></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::mars_environment::MARSEnvironment</span></code></li>
 </ul>
 </div>
 </div>
@@ -200,7 +199,7 @@ Doxygen.</p>
 <div class="section" id="src-optimizer-pso-optimizer-particle-swarm-optimizer">
 <h3>src/optimizer/pso_optimizer: Particle Swarm Optimizer<a class="headerlink" href="#src-optimizer-pso-optimizer-particle-swarm-optimizer" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N6bolero13pso_optimizer12PSOOptimizerE" title="bolero::pso_optimizer::PSOOptimizer"><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::pso_optimizer::PSOOptimizer</span></code></a></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">bolero::pso_optimizer::PSOOptimizer</span></code></li>
 </ul>
 </div>
 </div>
@@ -210,8 +209,8 @@ Doxygen.</p>
 <h3>src/representation/dmp: Dynamical Movement Primitive<a class="headerlink" href="#src-representation-dmp-dynamical-movement-primitive" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N3dmp11DmpBehaviorE" title="dmp::DmpBehavior"><code class="xref cpp cpp-class docutils literal"><span class="pre">dmp::DmpBehavior</span></code></a></li>
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N3dmp13QuaternionDmpE" title="dmp::QuaternionDmp"><code class="xref cpp cpp-class docutils literal"><span class="pre">dmp::QuaternionDmp</span></code></a></li>
-<li><a class="reference internal" href="modules/cpp_modules.html#_CPPv2N3dmp12RigidBodyDmpE" title="dmp::RigidBodyDmp"><code class="xref cpp cpp-class docutils literal"><span class="pre">dmp::RigidBodyDmp</span></code></a></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">dmp::QuaternionDmp</span></code></li>
+<li><code class="xref cpp cpp-class docutils literal"><span class="pre">dmp::RigidBodyDmp</span></code></li>
 </ul>
 </div>
 </div>
@@ -229,8 +228,8 @@ Doxygen.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

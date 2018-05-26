@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.environment.OptimumTrajectory &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.environment.OptimumTrajectory &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="bolero.environment.Catapult" href="bolero.environment.Catapult.html" />
     <link rel="prev" title="bolero.environment.ContextualObjectiveFunction" href="bolero.environment.ContextualObjectiveFunction.html" />
 <meta charset='utf-8'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -154,59 +152,48 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x0</strong> : array-like, shape = (n_task_dims,), optional (default: [0, 0])</p>
-<blockquote>
-<div><p>Initial position.</p>
-</div></blockquote>
-<p><strong>g</strong> : array-like, shape = (n_task_dims,), optional (default: [1, 1])</p>
-<blockquote>
-<div><p>Goal position.</p>
-</div></blockquote>
-<p><strong>execution_time</strong> : float, optional (default: 1.0)</p>
-<blockquote>
-<div><p>Execution time in seconds</p>
-</div></blockquote>
-<p><strong>dt</strong> : float, optional (default: 0.01)</p>
-<blockquote>
-<div><p>Time between successive steps in seconds.</p>
-</div></blockquote>
-<p><strong>obstacles</strong> : array-like, shape (n_obstacles, n_task_dims) (default: None)</p>
-<blockquote>
-<div><p>List of obstacles.</p>
-</div></blockquote>
-<p><strong>obstacle_dist</strong> : float, optional (default: 0.1)</p>
-<blockquote>
-<div><p>Distance that should be kept to the obstacles (penalty is zero outside
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>x0</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_task_dims,), optional (default: [0, 0])</span></dt>
+<dd><p class="first last">Initial position.</p>
+</dd>
+<dt><strong>g</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_task_dims,), optional (default: [1, 1])</span></dt>
+<dd><p class="first last">Goal position.</p>
+</dd>
+<dt><strong>execution_time</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1.0)</span></dt>
+<dd><p class="first last">Execution time in seconds</p>
+</dd>
+<dt><strong>dt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0.01)</span></dt>
+<dd><p class="first last">Time between successive steps in seconds.</p>
+</dd>
+<dt><strong>obstacles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_obstacles, n_task_dims) (default: None)</span></dt>
+<dd><p class="first last">List of obstacles.</p>
+</dd>
+<dt><strong>obstacle_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0.1)</span></dt>
+<dd><p class="first last">Distance that should be kept to the obstacles (penalty is zero outside
 of this area)</p>
-</div></blockquote>
-<p><strong>penalty_start_dist</strong> : float, optional (default: 0)</p>
-<blockquote>
-<div><p>Penalty weight for distance to start at the beginning</p>
-</div></blockquote>
-<p><strong>penalty_goal_dist</strong> : float, optional (default: 0)</p>
-<blockquote>
-<div><p>Penalty weight for distance to goal at the end</p>
-</div></blockquote>
-<p><strong>penalty_vel</strong> : float, optional (default: 0)</p>
-<blockquote>
-<div><p>Penalty weight for velocities</p>
-</div></blockquote>
-<p><strong>penalty_acc</strong> : float, optional (default: 0)</p>
-<blockquote>
-<div><p>Penalty weight for accelerations</p>
-</div></blockquote>
-<p><strong>penalty_obstacle</strong> : float, optional (default: 0)</p>
-<blockquote>
-<div><p>Penalty weight for obstacle avoidance</p>
-</div></blockquote>
-<p><strong>log_to_file: optional, boolean or string (default: False)</strong></p>
-<blockquote>
-<div><p>Log results to given file, it will be located in the $BL_LOG_PATH</p>
-</div></blockquote>
-<p><strong>log_to_stdout: optional, boolean (default: False)</strong></p>
-<blockquote class="last">
-<div><p>Log to standard output</p>
-</div></blockquote>
+</dd>
+<dt><strong>penalty_start_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0)</span></dt>
+<dd><p class="first last">Penalty weight for distance to start at the beginning</p>
+</dd>
+<dt><strong>penalty_goal_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0)</span></dt>
+<dd><p class="first last">Penalty weight for distance to goal at the end</p>
+</dd>
+<dt><strong>penalty_vel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0)</span></dt>
+<dd><p class="first last">Penalty weight for velocities</p>
+</dd>
+<dt><strong>penalty_acc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0)</span></dt>
+<dd><p class="first last">Penalty weight for accelerations</p>
+</dd>
+<dt><strong>penalty_obstacle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0)</span></dt>
+<dd><p class="first last">Penalty weight for obstacle avoidance</p>
+</dd>
+<dt><strong>log_to_file: optional, boolean or string (default: False)</strong></dt>
+<dd><p class="first last">Log results to given file, it will be located in the $BL_LOG_PATH</p>
+</dd>
+<dt><strong>log_to_stdout: optional, boolean (default: False)</strong></dt>
+<dd><p class="first last">Log to standard output</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -224,10 +211,11 @@ of this area)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>acceleration</strong> : array-like, shape (n_steps,)</p>
-<blockquote class="last">
-<div><p>the total acceleration (scalar) at all previous timestamps</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>acceleration</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_steps,)</span></dt>
+<dd><p class="first last">the total acceleration (scalar) at all previous timestamps</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -242,10 +230,11 @@ of this area)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -260,19 +249,21 @@ of this area)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obstacle_filter</strong> : array-like, shape (n_desired_obstacles, 1)</p>
-<blockquote>
-<div><p>specify which obstacles cause collisions, e.g. set (0, 2) to exclude
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>obstacle_filter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_desired_obstacles, 1)</span></dt>
+<dd><p class="first last">specify which obstacles cause collisions, e.g. set (0, 2) to exclude
 the second of three obstacles</p>
-</div></blockquote>
-<p><strong>Returns</strong></p>
-<p><strong>&#8212;&#8212;-</strong></p>
-<p><strong>collisions</strong> : array-like, shape (n_steps,)</p>
-<blockquote class="last">
-<div><p>vector of values in range [0, 1] where distances above self.obstacle_dist
+</dd>
+<dt><strong>Returns</strong></dt>
+<dd></dd>
+<dt><strong>——-</strong></dt>
+<dd></dd>
+<dt><strong>collisions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_steps,)</span></dt>
+<dd><p class="first last">vector of values in range [0, 1] where distances above self.obstacle_dist
 result in 0 (no collision), and distance below are scaled linearly, so that
 1 corresponds to an intersection.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -287,10 +278,11 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rewards</strong> : array-like, shape (n_steps,)</p>
-<blockquote class="last">
-<div><p>reward for every timestamp; non-positive values</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>rewards</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_steps,)</span></dt>
+<dd><p class="first last">reward for every timestamp; non-positive values</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -305,10 +297,11 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>goal_dist</strong> : float</p>
-<blockquote class="last">
-<div><p>goal distance</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>goal_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">goal distance</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -329,10 +322,11 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
-<blockquote class="last">
-<div><p>number of environment inputs</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of environment inputs</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -347,10 +341,11 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
-<blockquote class="last">
-<div><p>number of obstacles</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of obstacles</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -365,10 +360,11 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
-<blockquote class="last">
-<div><p>number of environment outputs</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of environment outputs</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -383,11 +379,12 @@ result in 0 (no collision), and distance below are scaled linearly, so that
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : array</p>
-<blockquote class="last">
-<div><p>Outputs of the environment: positions, velocities and accelerations
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>values</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd><p class="first last">Outputs of the environment: positions, velocities and accelerations
 in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -402,10 +399,11 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>speed</strong> : array-like, shape (n_steps,)</p>
-<blockquote class="last">
-<div><p>the speed (scalar) at all previous timestamps</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>speed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_steps,)</span></dt>
+<dd><p class="first last">the speed (scalar) at all previous timestamps</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -420,10 +418,11 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>start_dist</strong> : float</p>
-<blockquote class="last">
-<div><p>start distance</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>start_dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">start distance</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -444,10 +443,11 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
-<blockquote class="last">
-<div><p>Always false</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Always false</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -462,10 +462,11 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
-<blockquote class="last">
-<div><p>Is the episode finished?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Is the episode finished?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -480,10 +481,11 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ax</strong> : Axis</p>
-<blockquote class="last">
-<div><p>Matplotlib axis</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Axis</span></dt>
+<dd><p class="first last">Matplotlib axis</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -504,11 +506,12 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : array,</p>
-<blockquote class="last">
-<div><p>Inputs for the environment: positions, velocities and accelerations
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>values</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array,</span></dt>
+<dd><p class="first last">Inputs for the environment: positions, velocities and accelerations
 in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -537,8 +540,8 @@ in that order, e.g. for n_task_dims=2 the order would be xxvvaa</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

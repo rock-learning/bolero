@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Contextual Optimization &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Cartesian Space DMP" href="../representation/plot_cartesian_dmp.html" />
+    <link rel="prev" title="Covariance Matrix Adaption Evolution Strategy" href="plot_cmaes.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Contextual Optimization</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="contextual-optimization">
+<span id="sphx-glr-auto-examples-optimizer-plot-contextual-optimization-py"></span><h1>Contextual Optimization<a class="headerlink" href="#contextual-optimization" title="Permalink to this headline">¶</a></h1>
+<p>Contextual optimization algorithms optimize</p>
+<div class="math">
+\[\max_{\omega} \int\int \mathcal{R(\theta, s)}\pi_{\omega}(\theta|s) p(s) ds d\theta\]</div>
+<p>Conventual optimization algorithms optimize just a single scalar, contextual
+optimization optimizes a parametric function or conditional probability
+distribution. Two instances of contextual optimization algorithms are
+Contextual Relative Entropy Policy Search (C-REPS) and Contextual Covariance
+Matrix Adaptation Evolution Strategy (C-CMA-ES). Both use linear models with
+quadratic features and Gaussian exploration as a search distribution.
+Differences are in the update of the covariance matrix. In this example, we
+use a very simple objective function to illustrate samples from the search
+distribution and the current mean of the search distribution. Each sample is
+weighted based on the reward to update the search distribution. Weights are
+indicated by the color of displayed samples.</p>
+<p>We initialize the search distribution with an intentionally low variance.
+C-CMA-ES adapts quite fast, C-REPS is slower because it bounds the
+Kullback-Leibler divergence between successive search distributions.</p>
+<ul class="sphx-glr-horizontal">
+<li><a class="first reference internal image-reference" href="../../_images/sphx_glr_plot_contextual_optimization_001.png"><img alt="../../_images/sphx_glr_plot_contextual_optimization_001.png" src="../../_images/sphx_glr_plot_contextual_optimization_001.png" style="width: 564.0px; height: 564.0px;" /></a>
+</li>
+<li><a class="first reference internal image-reference" href="../../_images/sphx_glr_plot_contextual_optimization_002.png"><img alt="../../_images/sphx_glr_plot_contextual_optimization_002.png" src="../../_images/sphx_glr_plot_contextual_optimization_002.png" style="width: 376.0px; height: 282.0px;" /></a>
+</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Ellipse</span>
+<span class="kn">from</span> <span class="nn">bolero.optimizer</span> <span class="kn">import</span> <span class="n">CCMAESOptimizer</span><span class="p">,</span> <span class="n">CREPSOptimizer</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">x_offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.2</span><span class="p">]]))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_offset</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_offset</span><span class="p">)])</span>
+
+
+<span class="k">def</span> <span class="nf">plot_objective</span><span class="p">():</span>
+    <span class="n">contexts</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+    <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span>
+        <span class="n">objective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">contexts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">contexts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">contexts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">contexts</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">,</span>
+                 <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">rewards</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">rewards</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="n">xticks</span><span class="o">=</span><span class="p">(),</span> <span class="n">yticks</span><span class="o">=</span><span class="p">(),</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+
+<span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">initial_params</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">context_features</span> <span class="o">=</span> <span class="s2">&quot;quadratic&quot;</span>
+<span class="n">ccmaes</span> <span class="o">=</span> <span class="n">CCMAESOptimizer</span><span class="p">(</span>
+    <span class="n">initial_params</span><span class="o">=</span><span class="n">initial_params</span><span class="p">,</span> <span class="n">n_samples_per_update</span><span class="o">=</span><span class="n">n_samples_per_update</span><span class="p">,</span>
+    <span class="n">variance</span><span class="o">=</span><span class="n">variance</span><span class="p">,</span> <span class="n">context_features</span><span class="o">=</span><span class="n">context_features</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">creps</span> <span class="o">=</span> <span class="n">CREPSOptimizer</span><span class="p">(</span>
+    <span class="n">initial_params</span><span class="o">=</span><span class="n">initial_params</span><span class="p">,</span> <span class="n">n_samples_per_update</span><span class="o">=</span><span class="n">n_samples_per_update</span><span class="p">,</span>
+    <span class="n">train_freq</span><span class="o">=</span><span class="n">n_samples_per_update</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="n">variance</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">context_features</span><span class="o">=</span><span class="n">context_features</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">opts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;C-CMA-ES&quot;</span><span class="p">:</span> <span class="n">ccmaes</span><span class="p">,</span> <span class="s2">&quot;C-REPS&quot;</span><span class="p">:</span> <span class="n">creps</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">opts</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">n_generations</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">n_rows</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">opts</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+<span class="n">test_contexts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;C-CMA-ES&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;C-REPS&quot;</span><span class="p">:</span> <span class="s2">&quot;g&quot;</span><span class="p">}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n_generations</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">n_rows</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_generations</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_generations</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">,</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plot_objective</span><span class="p">()</span>
+
+    <span class="n">contexts</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_samples_per_update</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">10.0</span> <span class="o">-</span> <span class="mf">5.0</span>
+    <span class="k">for</span> <span class="n">opt_name</span><span class="p">,</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">opts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">last_policy</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">best_policy</span><span class="p">()</span>
+        <span class="n">test_last_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">last_policy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="p">]),</span> <span class="n">explore</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">test_contexts</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples_per_update</span><span class="p">):</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="n">contexts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">get_next_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">contexts</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">set_evaluation_feedback</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">best_policy</span><span class="p">()</span>
+        <span class="n">test_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">policy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="p">]),</span> <span class="n">explore</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">test_contexts</span><span class="p">])</span>
+        <span class="n">mean_reward</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">objective</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+                      <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_params</span><span class="p">,</span> <span class="n">test_contexts</span><span class="p">)]))</span>
+        <span class="n">rewards</span><span class="p">[</span><span class="n">opt_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_reward</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_contexts</span><span class="p">,</span> <span class="n">test_last_params</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">opt_name</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_contexts</span><span class="p">,</span> <span class="n">test_params</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">opt_name</span> <span class="o">+</span> <span class="s2">&quot; estimate&quot;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">opt_name</span><span class="p">])</span>
+
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">weights</span>
+        <span class="k">if</span> <span class="n">opt_name</span> <span class="o">==</span> <span class="s2">&quot;C-CMA-ES&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">contexts</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">opt</span><span class="o">.</span><span class="n">history_theta</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
+                    <span class="n">c</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">opt_name</span> <span class="o">+</span> <span class="s2">&quot; samples&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower left&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">opt_name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">rewards</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">opt_name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">opt_name</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Generation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean reward&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  6.362 seconds)</p>
+<div class="sphx-glr-footer docutils container">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/plot_contextual_optimization.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_contextual_optimization.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/plot_contextual_optimization.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_contextual_optimization.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

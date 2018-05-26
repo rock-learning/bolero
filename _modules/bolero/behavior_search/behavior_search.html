@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.behavior_search.behavior_search &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.behavior_search.behavior_search &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -51,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
@@ -94,9 +92,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -142,9 +140,9 @@
   <h1>Source code for bolero.behavior_search.behavior_search</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;BehaviorSearch interface.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">NonContextualException</span>
-<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">NonContextualException</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="k">import</span> <span class="n">Base</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 
 
@@ -152,8 +150,8 @@
     <span class="sd">&quot;&quot;&quot;Common interface for (contextual) behavior search.&quot;&quot;&quot;</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.init"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.init"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.init">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the behavior search.</span>
 
 <span class="sd">        Parameters</span>
@@ -168,8 +166,8 @@
 <span class="sd">            number of context dimensions</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.get_next_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_next_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.get_next_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_next_behavior">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_next_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain next behavior for evaluation.</span>
 
 <span class="sd">        Returns</span>
@@ -178,8 +176,8 @@
 <span class="sd">            mapping from input to output</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.set_evaluation_feedback">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set feedback for the last behavior.</span>
 
 <span class="sd">        Parameters</span>
@@ -188,8 +186,8 @@
 <span class="sd">            feedback for each step or for the episode, depends on the problem</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.write_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.write_results">[docs]</a>    <span class="k">def</span> <span class="nf">write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.write_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.write_results">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Store current search state.</span>
 
 <span class="sd">        Parameters</span>
@@ -198,8 +196,8 @@
 <span class="sd">            path in which the state should be stored</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.get_behavior_from_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_behavior_from_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_behavior_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.get_behavior_from_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_behavior_from_results">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_behavior_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Recover search state from file.</span>
 
 <span class="sd">        Parameters</span>
@@ -208,8 +206,8 @@
 <span class="sd">            path in which we search for the file</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.is_behavior_learning_done">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the behavior learning is finished, e.g. it converged.</span>
 
 <span class="sd">        Returns</span>
@@ -218,8 +216,8 @@
 <span class="sd">            Is the learning of a behavior finished?</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.get_desired_context"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_desired_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_desired_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.get_desired_context"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_desired_context">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_desired_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Chooses desired context for next evaluation.</span>
 
 <span class="sd">        Returns</span>
@@ -230,8 +228,8 @@
 <span class="sd">            preferences.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.set_context"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.set_context">[docs]</a>    <span class="k">def</span> <span class="nf">set_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.set_context"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.set_context">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set context of next evaluation.</span>
 
 <span class="sd">        Note that the set context need not necessarily be the same that was</span>
@@ -243,16 +241,16 @@
 <span class="sd">            The context in which the next rollout will be performed</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="ContextualBehaviorSearch.get_best_behavior_template"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_best_behavior_template">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_behavior_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ContextualBehaviorSearch.get_best_behavior_template"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.ContextualBehaviorSearch.html#bolero.behavior_search.ContextualBehaviorSearch.get_best_behavior_template">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_best_behavior_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return current best estimate of contextual policy.&quot;&quot;&quot;</span></div></div>
 
 
 <div class="viewcode-block" id="BehaviorSearch"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch">[docs]</a><span class="k">class</span> <span class="nc">BehaviorSearch</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;BehaviorSearch (learning algorithm) interface.&quot;&quot;&quot;</span>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.init"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.init"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.init">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the behavior search.</span>
 
 <span class="sd">        Parameters</span>
@@ -264,8 +262,8 @@
 <span class="sd">            number of outputs of the behavior</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.get_next_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_next_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.get_next_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_next_behavior">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_next_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain next behavior for evaluation.</span>
 
 <span class="sd">        Returns</span>
@@ -274,8 +272,8 @@
 <span class="sd">            mapping from input to output</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.set_evaluation_feedback">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feedbacks</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set feedback for the last behavior.</span>
 
 <span class="sd">        Parameters</span>
@@ -284,8 +282,8 @@
 <span class="sd">            feedback for each step or for the episode, depends on the problem</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.write_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.write_results">[docs]</a>    <span class="k">def</span> <span class="nf">write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.write_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.write_results">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Store current search state.</span>
 
 <span class="sd">        Parameters</span>
@@ -294,8 +292,8 @@
 <span class="sd">            path in which the state should be stored</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.get_behavior_from_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_behavior_from_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_behavior_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.get_behavior_from_results"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_behavior_from_results">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_behavior_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Recover search state from file.</span>
 
 <span class="sd">        Parameters</span>
@@ -304,8 +302,8 @@
 <span class="sd">            path in which we search for the file</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.is_behavior_learning_done">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the behavior learning is finished, e.g. it converged.</span>
 
 <span class="sd">        Returns</span>
@@ -314,8 +312,8 @@
 <span class="sd">            Is the learning of a behavior finished?</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BehaviorSearch.get_best_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_best_behavior">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BehaviorSearch.get_best_behavior"><a class="viewcode-back" href="../../../modules/generated/bolero.behavior_search.BehaviorSearch.html#bolero.behavior_search.BehaviorSearch.get_best_behavior">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_best_behavior</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the best behavior found so far.</span>
 
 <span class="sd">        Returns</span>
@@ -328,11 +326,11 @@
 <span class="k">class</span> <span class="nc">PickableMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Use pickle to save and load behavior search states.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.pickle&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.pickle&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">get_behavior_from_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_path</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.pickle&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">.pickle&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
         <span class="bp">self</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
 </pre></div>
 
@@ -347,8 +345,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

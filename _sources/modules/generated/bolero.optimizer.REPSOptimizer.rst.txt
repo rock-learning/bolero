@@ -1,0 +1,10 @@
+:mod:`bolero.optimizer`.REPSOptimizer
+============================================
+
+.. currentmodule:: bolero.optimizer
+
+.. autoclass:: REPSOptimizer
+
+   
+   .. automethod:: __init__
+   

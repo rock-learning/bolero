@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.representation.DMPSequence &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.representation.DMPSequence &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="bolero.representation.LinearBehavior" href="bolero.representation.LinearBehavior.html" />
     <link rel="prev" title="bolero.representation.CartesianDMPBehavior" href="bolero.representation.CartesianDMPBehavior.html" />
 <meta charset='utf-8'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -156,36 +154,32 @@ smooth transitions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_dmps</strong> : int, optional (default: 1)</p>
-<blockquote>
-<div><p>Number of DMPs in this sequence</p>
-</div></blockquote>
-<p><strong>execution_times</strong> : array-like, shape (n_dmps,), optional (default: ones)</p>
-<blockquote>
-<div><p>Execution times of the DMPs</p>
-</div></blockquote>
-<p><strong>n_features</strong> : array-like, shape (n_dmps,), optional (default: 50s)</p>
-<blockquote>
-<div><p>Number of RBF features for each dimension of each DMP.</p>
-</div></blockquote>
-<p><strong>dt</strong> : float, optional (default: 0.01)</p>
-<blockquote>
-<div><p>Time between successive steps in seconds.</p>
-</div></blockquote>
-<p><strong>subgoals</strong> : array-like, shape (n_dmps + 1, n_task_dims)</p>
-<blockquote>
-<div><p>Subgoals of the DMPs including the final goal and the
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_dmps</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 1)</span></dt>
+<dd><p class="first last">Number of DMPs in this sequence</p>
+</dd>
+<dt><strong>execution_times</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_dmps,), optional (default: ones)</span></dt>
+<dd><p class="first last">Execution times of the DMPs</p>
+</dd>
+<dt><strong>n_features</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_dmps,), optional (default: 50s)</span></dt>
+<dd><p class="first last">Number of RBF features for each dimension of each DMP.</p>
+</dd>
+<dt><strong>dt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0.01)</span></dt>
+<dd><p class="first last">Time between successive steps in seconds.</p>
+</dd>
+<dt><strong>subgoals</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_dmps + 1, n_task_dims)</span></dt>
+<dd><p class="first last">Subgoals of the DMPs including the final goal and the
 initial state.</p>
-</div></blockquote>
-<p><strong>learn_goal_velocities</strong> : bool, optional (default: True)</p>
-<blockquote>
-<div><p>Defines whether the parameter vector will include the velocities
+</dd>
+<dt><strong>learn_goal_velocities</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional (default: False)</span></dt>
+<dd><p class="first last">Defines whether the parameter vector will include the velocities
 at the goals of the DMPs.</p>
-</div></blockquote>
-<p><strong>initial_weights</strong> : list</p>
-<blockquote class="last">
-<div><p>List of initial weight vectors for the DMPs</p>
-</div></blockquote>
+</dd>
+<dt><strong>initial_weights</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of initial weight vectors for the DMPs.
+Each entry initial_weights[i] has the shape n_features[i] * n_task_dims</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -209,10 +203,11 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -233,10 +228,11 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputs</strong> : array-like, shape (n_task_dims * 3)</p>
-<blockquote class="last">
-<div><p>Position, velocitie and rotation of each dimension</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>outputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_task_dims * 3)</span></dt>
+<dd><p class="first last">Position, velocitie and rotation of each dimension</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -257,17 +253,19 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
-<blockquote>
-<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>idx: int</strong></dt>
+<dd><p class="first last">index of the subgoal: 0 is the start of the DMP sequence,
 -1 would be the goal of the sequence</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">subgoal: array-like, shape (n_task_dims,)</p>
-<blockquote class="last">
-<div><p>subgoal at index &#8216;idx&#8217;</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>subgoal: array-like, shape (n_task_dims,)</strong></dt>
+<dd><p class="first last">subgoal at index ‘idx’</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -282,17 +280,19 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
-<blockquote>
-<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>idx: int</strong></dt>
+<dd><p class="first last">index of the subgoal: 0 is the start of the DMP sequence,
 -1 would be the goal of the sequence</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">subgoal: array-like, shape (n_task_dims,)</p>
-<blockquote class="last">
-<div><p>velocity at subgoal with index &#8216;idx&#8217;</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>subgoal: array-like, shape (n_task_dims,)</strong></dt>
+<dd><p class="first last">velocity at subgoal with index ‘idx’</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -307,14 +307,14 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
-<blockquote>
-<div><p>number of inputs</p>
-</div></blockquote>
-<p><strong>n_outputs</strong> : int</p>
-<blockquote class="last">
-<div><p>number of outputs</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of inputs</p>
+</dd>
+<dt><strong>n_outputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of outputs</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -335,10 +335,11 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array-like, shape (n_task_dims * 3)</p>
-<blockquote class="last">
-<div><p>Position, velocitie and rotation of each dimension</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_task_dims * 3)</span></dt>
+<dd><p class="first last">Position, velocitie and rotation of each dimension</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -351,23 +352,23 @@ at the goals of the DMPs.</p>
 <dd><p>Set DMP meta parameters.</p>
 <p>Required meta-parameters</p>
 <dl class="docutils">
-<dt>x0</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>initial position</dd>
-<dt>g</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>goal</dd>
+<dt>x0 <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>initial position</dd>
+<dt>g <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>goal</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>keys</strong> : list of string</p>
-<blockquote>
-<div><p>names of meta-parameters</p>
-</div></blockquote>
-<p><strong>meta_parameters</strong> : list of float</p>
-<blockquote class="last">
-<div><p>values of meta-parameters</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>keys</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of string</span></dt>
+<dd><p class="first last">names of meta-parameters</p>
+</dd>
+<dt><strong>meta_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of float</span></dt>
+<dd><p class="first last">values of meta-parameters</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -388,15 +389,15 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
-<blockquote>
-<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>idx: int</strong></dt>
+<dd><p class="first last">index of the subgoal: 0 is the start of the DMP sequence,
 -1 would be the goal of the sequence</p>
-</div></blockquote>
-<p><strong>subgoal: array-like, shape (n_task_dims,)</strong></p>
-<blockquote class="last">
-<div><p>subgoal at index &#8216;idx&#8217;</p>
-</div></blockquote>
+</dd>
+<dt><strong>subgoal: array-like, shape (n_task_dims,)</strong></dt>
+<dd><p class="first last">subgoal at index ‘idx’</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -411,15 +412,15 @@ at the goals of the DMPs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx: int</strong></p>
-<blockquote>
-<div><p>index of the subgoal: 0 is the start of the DMP sequence,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>idx: int</strong></dt>
+<dd><p class="first last">index of the subgoal: 0 is the start of the DMP sequence,
 -1 would be the goal of the sequence</p>
-</div></blockquote>
-<p><strong>subgoal_vel: array-like, shape (n_task_dims,)</strong></p>
-<blockquote class="last">
-<div><p>velocity at subgoal with index &#8216;idx&#8217;</p>
-</div></blockquote>
+</dd>
+<dt><strong>subgoal_vel: array-like, shape (n_task_dims,)</strong></dt>
+<dd><p class="first last">velocity at subgoal with index ‘idx’</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -430,6 +431,32 @@ at the goals of the DMPs.</p>
 <dt id="bolero.representation.DMPSequence.step">
 <code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute next step.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bolero.representation.DMPSequence.trajectory">
+<code class="descname">trajectory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/bolero/representation/dmp_sequence.html#DMPSequence.trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bolero.representation.DMPSequence.trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate trajectory represented by the sequence of DMPs in open loop.</p>
+<p>The function can be used for debugging purposes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape (n_steps, n_task_dims)</span></dt>
+<dd><p class="first last">Positions</p>
+</dd>
+<dt><strong>Xd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape (n_steps, n_task_dims)</span></dt>
+<dd><p class="first last">Velocities</p>
+</dd>
+<dt><strong>Xdd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape (n_steps, n_task_dims)</span></dt>
+<dd><p class="first last">Accelerations</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -448,8 +475,8 @@ at the goals of the DMPs.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

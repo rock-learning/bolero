@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>MARS Environment &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>MARS Environment &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
-    <link rel="next" title="Contributing" href="contributing.html" />
-    <link rel="prev" title="C++ API" href="api_cpp.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="All C++ Modules" href="modules/cpp_modules.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +93,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -115,9 +113,9 @@
 <li><a class="reference internal" href="#folder-and-file-structure-of-an-environment">Folder and File Structure of an Environment</a></li>
 <li><a class="reference internal" href="#building-an-environment">Building an Environment</a></li>
 <li><a class="reference internal" href="#creating-your-own-environment">Creating Your Own Environment</a><ul>
-<li><a class="reference internal" href="#changes-in-the-folder-names-and-filenames">Changes in the folder names and filenames</a></li>
-<li><a class="reference internal" href="#changes-in-the-source">Changes in the source</a></li>
-<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#cmakelists-txt">CMakeLists.txt</a></li>
+<li><a class="reference internal" href="#throwingenvironment-h">ThrowingEnvironment.h</a></li>
+<li><a class="reference internal" href="#throwingenvironment-cpp">ThrowingEnvironment.cpp</a></li>
 </ul>
 </li>
 </ul>
@@ -155,34 +153,45 @@
       
   <div class="section" id="mars-environment">
 <span id="id1"></span><h1>MARS Environment<a class="headerlink" href="#mars-environment" title="Permalink to this headline">¶</a></h1>
-<p>This guide will explain how to set up a MARS-based environment for BOLeRo.</p>
-<div class="section" id="folder-and-file-structure-of-an-environment">
+<p>This guide will explain how to set up a MARS-based environment for BOLeRo.
+We published an example for a MARS environment in a
+<a class="reference external" href="https://github.com/rock-learning/throwing_environment">separate project</a>.
+We will go through this example step by step here. In the end you will see
+something like this:</p>
+<center><img src="_static/throwing_environment.png" width=500px /></center><div class="section" id="folder-and-file-structure-of-an-environment">
 <h2>Folder and File Structure of an Environment<a class="headerlink" href="#folder-and-file-structure-of-an-environment" title="Permalink to this headline">¶</a></h2>
 <p>The structure of a project that provides a MARS-based environment always looks
-very similar to this one. You can download files from an example project by
-clicking on the links.</p>
-<p><strong>example_environment/</strong></p>
+very similar to this one.</p>
+<p><strong>throwing_environment/</strong></p>
 <ul class="simple">
-<li><a class="reference download internal" href="_downloads/README.md" download=""><code class="xref download docutils literal"><span class="pre">README.md</span></code></a> - provides
-information for the user</li>
-<li><a class="reference download internal" href="_downloads/CMakeLists.txt" download=""><code class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></code></a>
-- defines how we can build this project with <a class="reference external" href="http://www.cmake.org/">CMake</a></li>
-<li><a class="reference download internal" href="_downloads/manifest.xml" download=""><code class="xref download docutils literal"><span class="pre">manifest.xml</span></code></a> -
-defines dependencies for <a class="reference external" href="http://rock-robotics.org">Rock</a> or <a class="reference external" href="http://www.ros.org/">ROS</a></li>
-<li><a class="reference download internal" href="_downloads/example_environment.pc.in" download=""><code class="xref download docutils literal"><span class="pre">example_environment.pc.in</span></code></a> - defines package
-information like the location of the library, compiler flags etc.</li>
-<li><strong>configuration/</strong> - contains MARS scenes and config files which are used by
-the environemnt<ul>
-<li><a class="reference download internal" href="_downloads/example.scn" download=""><code class="xref download docutils literal"><span class="pre">example.scn</span></code></a></li>
-<li><a class="reference download internal" href="_downloads/example_vc.scn" download=""><code class="xref download docutils literal"><span class="pre">example_vc.scn</span></code></a></li>
-</ul>
-</li>
-<li><strong>src/</strong> - contains source files for the environment implementation<ul>
-<li><a class="reference download internal" href="_downloads/ExampleEnvironment.h" download=""><code class="xref download docutils literal"><span class="pre">ExampleEnvironment.h</span></code></a></li>
-<li><a class="reference download internal" href="_downloads/ExampleEnvironment.cpp" download=""><code class="xref download docutils literal"><span class="pre">ExampleEnvironment.cpp</span></code></a></li>
+<li>README.md - provides information for the user (installation, license, …)</li>
+<li>CMakeLists.txt - defines how we can build this project with
+<a class="reference external" href="http://www.cmake.org/">CMake</a></li>
+<li>manifest.xml - defines dependencies for <a class="reference external" href="http://rock-robotics.org">Rock</a> or
+<a class="reference external" href="http://www.ros.org/">ROS</a></li>
+<li>throwing_environment.pc.in - defines package information like the location of
+the library, compiler flags etc.</li>
+<li>configuration/ - contains configuration files for the environmet<ul>
+<li>throwing.smurfs - description of the scene, tells MARS which objects it
+should load and how they are connected</li>
+<li>robot - contains configuration files for the object with the name ‘robot’<ul>
+<li>urdf - contains the URDF file of the object</li>
+<li>smurf - contains specific configuration files for the simulation, for
+example, motor configuration and collision configuration</li>
 </ul>
 </li>
 </ul>
+</li>
+<li>src/ - contains source files for the environment implementation</li>
+</ul>
+<p>The hardest part of creating a new simulation environment is usually to define
+the scene (everything that is located in configuration/). We cannot solve this
+problem here. Instead, we can refer to
+<a class="reference external" href="https://github.com/rock-simulation/phobos">Phobos</a>. Phobos is a plugin for
+<a class="reference external" href="https://www.blender.org/">Blender</a>. It enables the creation and modification
+of WYSIWYG robot models and those can be exported to MARS scenes (and other
+formats). We will take a closer look at the implementation of the scene with
+existing configuration files (everything that is located in src/).</p>
 </div>
 <div class="section" id="building-an-environment">
 <h2>Building an Environment<a class="headerlink" href="#building-an-environment" title="Permalink to this headline">¶</a></h2>
@@ -190,7 +199,7 @@ the environemnt<ul>
 to the standard CMake-based build process:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build
 <span class="nb">cd</span> build
-cmake_debug
+cmake_debug ..  <span class="c1"># this is different, &#39;cmake_debug&#39; knows where bolero-dev is</span>
 make install
 </pre></div>
 </div>
@@ -200,222 +209,272 @@ set the correct <cite>CMAKE_INSTALL_PREFIX</cite>.</p>
 </div>
 <div class="section" id="creating-your-own-environment">
 <h2>Creating Your Own Environment<a class="headerlink" href="#creating-your-own-environment" title="Permalink to this headline">¶</a></h2>
-<p>Starting from the example environment, to create a new simple environment you
-have to do the following steps.</p>
-<div class="section" id="changes-in-the-folder-names-and-filenames">
-<h3>Changes in the folder names and filenames<a class="headerlink" href="#changes-in-the-folder-names-and-filenames" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li>copy the example folder and rename it</li>
-<li>delete all scene files in the configuration folder and put the new ones in
-it (the names of the new scene don&#8217;t have to be like the environment name
-but it would make things easier)</li>
-<li>rename the <a class="reference download internal" href="_downloads/example_environment.pc.in" download=""><code class="xref download docutils literal"><span class="pre">example_environment.pc.in</span></code></a> and put your
-environment name in front</li>
-<li>go in the <strong>src/</strong> folder and rename the source files</li>
-<li>go back to the main folder and edit the <a class="reference download internal" href="_downloads/CMakeLists.txt" download=""><code class="xref download docutils literal"><span class="pre">CMakeLists.txt</span></code></a><ul>
-<li>change the project name to your environment name</li>
-<li>go to the section where the source files are set and correct the names to
-the right ones</li>
-<li>go to the end of the file where the scene files are installed and change
-the name of the files to your scene files</li>
-</ul>
-</li>
-</ul>
-</div></blockquote>
+<p>We will show and explain important parts of
+<a class="reference external" href="https://github.com/rock-learning/throwing_environment">this environment</a>.
+For further details, please take a look at the full source code.</p>
+<div class="section" id="cmakelists-txt">
+<h3>CMakeLists.txt<a class="headerlink" href="#cmakelists-txt" title="Permalink to this headline">¶</a></h3>
+<p>A MARS environment depends on BOLeRo and the base class for MARS environments.</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">pkg_check_modules</span><span class="p">(</span><span class="s">BOLERO</span> <span class="s2">&quot;bolero&quot;</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">BOLERO_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+
+<span class="nb">pkg_check_modules</span><span class="p">(</span><span class="s">MARS_ENV</span> <span class="s2">&quot;mars_environment&quot;</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">MARS_ENV_INCLUDE_DIRS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">link_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">MARS_ENV_LIBRARY_DIRS</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="changes-in-the-source">
-<h3>Changes in the source<a class="headerlink" href="#changes-in-the-source" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><a class="reference download internal" href="_downloads/ExampleEnvironment.h" download=""><code class="xref download docutils literal"><span class="pre">src/ExampleEnvironment.h</span></code></a>:
-In the header file you search for every spot with the word <em>example</em> and
-exchange it with the name of your environment.</li>
-<li><a class="reference download internal" href="_downloads/ExampleEnvironment.cpp" download=""><code class="xref download docutils literal"><span class="pre">src/ExampleEnvironment.cpp</span></code></a>:
-First do the same as in the header file (exchange alle <em>example</em> with
-your environment name).</li>
-</ul>
-</div></blockquote>
+<p>The environment will be compiled to a library.</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">SOURCES</span> <span class="s">src/ThrowingEnvironment.cpp</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">HEADERS</span> <span class="s">src/ThrowingEnvironment.h</span><span class="p">)</span>
+
+<span class="nb">add_library</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span> <span class="s">SHARED</span> <span class="o">${</span><span class="nv">SOURCES</span><span class="o">}</span><span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+    <span class="o">${</span><span class="nv">MARS_ENV_LIBRARIES</span><span class="o">}</span>
+    <span class="o">${</span><span class="nv">MARS_UTILS_LIBRARIES</span><span class="o">}</span>
+    <span class="o">${</span><span class="nv">CONFIGMAPS_LIBRARIES</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="methods">
-<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
-<p>In the following we give a brief description of the methods and what changes
-have to be done.</p>
-<p><strong>constructor</strong>:</p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Constructor method of your environment class</li>
-<li>calls the parent constructor (Environment and MARSEnvironment)</li>
-<li>initialize constants:<ul>
-<li>MAX_TIME     : maximum time after which the evaluation is considerd as done</li>
-<li>numJoints    : the number of joints which are used by the environment</li>
-<li>numAllJoints : the total number of joint of the scene</li>
-</ul>
-</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>change <em>numJoints</em> and <em>numAllJoints</em> to the right values</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>initMARSEnvironment()</strong>:</p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Initialise you environment:</li>
-<li>looks in the <em>learning_config.yml</em> wether the velocity or position controlled scene should be loaded</li>
-<li>loads the scene in MARS</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>change the name of the normal scene and the velocity controlled scene to your scene file name.</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>resetMARSEnvironment()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>resets the environment to the start state</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>: None</p>
-</div></blockquote>
-<p><strong>handleMARSError()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Set the evaluation_done variable to <em>True</em> and the fitness to &#8220;DBL_MAX&#8221;</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>: None</p>
-</div></blockquote>
-<p><strong>getSensorIDs()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>This Method should search for the id&#8217;s of the motors you want to use in the environment.</li>
-<li>The id&#8217;s are saved in a vector called <em>sensorIDs</em>.</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>In this example the method seaches for the id&#8217;s of the sensors with the names: &#8220;Motor_Angles&#8221;, &#8220;Endeffector_position&#8221;, &#8220;Endeffector_rotation&#8221;, &#8220;Endeffector_velocity&#8221;.</li>
-<li>You have to change these names with the names of the sensors in your scene.</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>getMotorIDs()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>This Method should search for the id&#8217;s of the motors you want to use in the environment.</li>
-<li>The id&#8217;s are saved in a vector called <em>motorIDs</em>.</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>In this example we go through all motors and save their id&#8217;s in the vector.</li>
-<li>If you dont want all of your motors to be changed by the environment you have to change this here.</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>getNumInputs()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>This Method returns the number of inputs this environment can handle</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Change the return value to the number of motors you want to control with your environment</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>getNumOutputs()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>This Method returns the number of outputs your environment creates</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Change the return to the number of outputs you want to give</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>createOutputValues()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>In this method we create the output values and fill them into the array <em>outputs</em>.</li>
-<li>The <em>outputs</em> array is part of the mars_environment class. The length of this array depends on the number your <em>getNumOutputs()</em> function returns.</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<ul class="simple">
-<li>You have to go through your sensorID&#8217;s you got from <em>getSensorIDs()</em>, read the sensor data from each sensor and write them into the <em>outputs</em> array</li>
-</ul>
-</div></blockquote>
-<p><strong>handleInputValues()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>This method is called with every step and should handle the new inputs.</li>
-<li>The input data is in the <em>inputs</em> array which is also part of the mars_environment class.</li>
-<li>The length of this array depends on the number your <em>getNumInputs()</em> function returns.</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>In this method we simply go through the <em>inputs</em> array and pass the values to the motors of the loaded scene.</li>
-<li>If you want to do something different with the inputs you ahve to do this here.</li>
-</ul>
-</div></blockquote>
-</div></blockquote>
-<p><strong>isEvaluationDone()</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li><em>True</em> if the MAX_TIME is reached or an event sets the evaluation_done to <em>True</em></li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>: None</p>
-</div></blockquote>
-<p><strong>getFeedback(double *feedback)</strong></p>
-<blockquote>
-<div><p><em>description</em>:</p>
-<blockquote>
-<div><ul class="simple">
-<li>returns the feedback generated by the evaluation</li>
-</ul>
-</div></blockquote>
-<p><em>changes</em>: None</p>
-</div></blockquote>
+<p>The following files have to be installed: the library, headers, pkg-config
+information, and scene configuration files.</p>
+<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="c"># Install the library into the lib folder</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span> <span class="o">${</span><span class="nv">_INSTALL_DESTINATIONS</span><span class="o">}</span><span class="p">)</span>
+
+<span class="c"># Install headers into mars include directory</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="o">${</span><span class="nv">HEADERS</span><span class="o">}</span> <span class="s">DESTINATION</span> <span class="s">include/bolero/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+
+<span class="c"># Prepare and install necessary files to support finding of the library</span>
+<span class="c"># using pkg-config</span>
+<span class="nb">configure_file</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="s">.pc.in</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="s">.pc</span> <span class="s">@ONLY</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="o">${</span><span class="nv">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="s">/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="s">.pc</span> <span class="s">DESTINATION</span> <span class="s">lib/pkgconfig</span><span class="p">)</span>
+
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="s">configuration/throwing.smurfs</span>
+        <span class="s">DESTINATION</span> <span class="s">configuration/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="s">/</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span> <span class="s">configuration/robot</span>
+        <span class="s">DESTINATION</span> <span class="s">configuration/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">DIRECTORY</span> <span class="s">configuration/target</span>
+        <span class="s">DESTINATION</span> <span class="s">configuration/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="throwingenvironment-h">
+<h3>ThrowingEnvironment.h<a class="headerlink" href="#throwingenvironment-h" title="Permalink to this headline">¶</a></h3>
+<p>Our <cite>ThrowingEnvironment</cite> is a subclass of <cite>mars_environment::MARSEnvironment</cite>
+and, in this case, BOLeRo’s <cite>ContextualEnvironment</cite>. A contextual environment
+defines a problem that can be parameterized by a context vector.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">bolero</span> <span class="p">{</span>
+  <span class="k">namespace</span> <span class="n">throwing_environment</span> <span class="p">{</span>
+
+    <span class="k">class</span> <span class="nc">ThrowingEnvironment</span> <span class="o">:</span> <span class="k">public</span> <span class="n">mars_environment</span><span class="o">::</span><span class="n">MARSEnvironment</span><span class="p">,</span>
+                                <span class="k">public</span> <span class="n">ContextualEnvironment</span> <span class="p">{</span>
+</pre></div>
+</div>
+<p>The following functions have to be implemented.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">initMARSEnvironment</span><span class="p">();</span>
+<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">resetMARSEnvironment</span><span class="p">();</span>
+<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">handleMARSError</span><span class="p">();</span>
+
+<span class="k">virtual</span> <span class="kt">int</span> <span class="nf">getNumInputs</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="k">virtual</span> <span class="kt">int</span> <span class="nf">getNumOutputs</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">createOutputValues</span><span class="p">();</span>
+<span class="k">virtual</span> <span class="kt">void</span> <span class="nf">handleInputValues</span><span class="p">();</span>
+
+<span class="k">virtual</span> <span class="kt">int</span> <span class="nf">getFeedback</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">feedback</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="nf">isEvaluationDone</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="nf">isBehaviorLearningDone</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="k">virtual</span> <span class="kt">double</span><span class="o">*</span> <span class="nf">request_context</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">context</span><span class="p">,</span><span class="kt">int</span> <span class="n">size</span><span class="p">);</span>
+<span class="k">virtual</span> <span class="kt">int</span> <span class="nf">get_num_context_dims</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="throwingenvironment-cpp">
+<h3>ThrowingEnvironment.cpp<a class="headerlink" href="#throwingenvironment-cpp" title="Permalink to this headline">¶</a></h3>
+<p>In <cite>ThrowingEnvironment::initMARSEnvironment()</cite> we load the configuration of
+the environment.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">initMARSEnvironment</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">readConfig</span><span class="p">();</span>
+  <span class="n">request_context</span><span class="p">(</span><span class="n">targetPos</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="mi">2</span><span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isSceneLoaded</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">sceneFile</span> <span class="o">=</span> <span class="n">getConfigPath</span><span class="p">()</span> <span class="o">+</span>
+        <span class="s">&quot;/throwing_environment/throwing.smurfs&quot;</span><span class="p">;</span>
+    <span class="n">control</span><span class="o">-&gt;</span><span class="n">sim</span><span class="o">-&gt;</span><span class="n">loadScene</span><span class="p">(</span><span class="n">sceneFile</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="n">isSceneLoaded</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">getMotorIDs</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">readConfig</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Parameters of the environment are in the file &quot;learning_config.yml&quot;.</span>
+  <span class="c1">// It should be located in the current working directory. This</span>
+  <span class="c1">// environment accepts the additional parameters</span>
+  <span class="c1">// - ballThrowTime: after this has been reached (number of time steps),</span>
+  <span class="c1">//   the ball will be detached from the robot</span>
+  <span class="c1">// - armHeight: simulates that the arm is mounted on a table, this is the</span>
+  <span class="c1">//   height of the table, the simulation stops when the ball hits the</span>
+  <span class="c1">//   virtual ground</span>
+  <span class="c1">// - verbose - verbosity level</span>
+  <span class="n">ConfigMap</span> <span class="n">learningConfigMap</span> <span class="o">=</span> <span class="n">ConfigMap</span><span class="o">::</span><span class="n">fromYamlFile</span><span class="p">(</span><span class="s">&quot;learning_config.yml&quot;</span><span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">learningConfigMap</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;Environment&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">learningConfigMap</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+  <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;ballThrowTime&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">endMap</span><span class="p">())</span>
+      <span class="n">ballThrowTime</span> <span class="o">=</span> <span class="p">(</span><span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])[</span><span class="s">&quot;ballThrowTime&quot;</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;armHeight&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">endMap</span><span class="p">())</span>
+      <span class="n">armHeight</span> <span class="o">=</span> <span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">][</span><span class="s">&quot;armHeight&quot;</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;verbose&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">].</span><span class="n">endMap</span><span class="p">())</span>
+      <span class="n">verbose</span> <span class="o">=</span> <span class="p">(</span><span class="n">learningConfigMap</span><span class="p">[</span><span class="s">&quot;Environment&quot;</span><span class="p">])[</span><span class="s">&quot;verbose&quot;</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">getConfigPath</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Here we use the environment variable &quot;ROCK_CONFIGURATION_PATH&quot; in</span>
+  <span class="c1">// order to &quot;find&quot; the smurf file to be loaded. During installation it</span>
+  <span class="c1">// should be put in &quot;$ROCK_CONFIGURATION_PATH/spacebot_throw_environment&quot;.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">configPath</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s">&quot;ROCK_CONFIGURATION_PATH&quot;</span><span class="p">));</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">configPath</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;WARNING: The ROCK_CONFIGURATION_PATH is not &quot;</span>
+                             <span class="s">&quot;set! Did you </span><span class="se">\&quot;</span><span class="s">source env.sh</span><span class="se">\&quot;</span><span class="s">?</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">configPath</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">getMotorIDs</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">motorIDs</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">mars</span><span class="o">::</span><span class="n">interfaces</span><span class="o">::</span><span class="n">core_objects_exchange</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">it</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">mars</span><span class="o">::</span><span class="n">interfaces</span><span class="o">::</span><span class="n">core_objects_exchange</span><span class="o">&gt;</span> <span class="n">motorList</span><span class="p">;</span>
+  <span class="n">control</span><span class="o">-&gt;</span><span class="n">motors</span><span class="o">-&gt;</span><span class="n">getListMotors</span><span class="p">(</span><span class="o">&amp;</span><span class="n">motorList</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="n">it</span> <span class="o">=</span> <span class="n">motorList</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">motorList</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">motorIDs</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To reset the environment, we usually have to set the joint angles to the
+initial state.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">resetMARSEnvironment</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">fitness</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+  <span class="n">evaluation_done</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="n">setStartAngles</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">setStartAngles</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">motorIDs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">startAnglePos</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">control</span><span class="o">-&gt;</span><span class="n">motors</span><span class="o">-&gt;</span><span class="n">setMotorValue</span><span class="p">(</span><span class="n">motorIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">startAnglePos</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="n">dataMutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+  <span class="n">handleInputValues</span><span class="p">();</span>
+  <span class="n">createOutputValues</span><span class="p">();</span>
+  <span class="n">dataMutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><cite>ThrowingEnvironment::handleMARSError()</cite> will be called when an exception
+occurs during simulation. We should set a very bad fitness and finish the
+evaluation in the environment.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">handleMARSError</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="n">DBL_MAX</span><span class="p">;</span>
+  <span class="n">evaluation_done</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>After each simulation step, this function will be called. Usually we
+want to output joint states. We could also output sensor measurements.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">createOutputValues</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">setPositionOfVisualTarget</span><span class="p">();</span> <span class="c1">// must always be done, falls down otherwise</span>
+  <span class="n">outputMotorPositions</span><span class="p">();</span>
+  <span class="n">checkBallPosition</span><span class="p">();</span>
+  <span class="n">checkMaxTime</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">setPositionOfVisualTarget</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">mars</span><span class="o">::</span><span class="n">interfaces</span><span class="o">::</span><span class="n">NodeId</span> <span class="n">targetId</span> <span class="o">=</span> <span class="n">control</span><span class="o">-&gt;</span><span class="n">nodes</span><span class="o">-&gt;</span><span class="n">getID</span><span class="p">(</span><span class="s">&quot;target_link&quot;</span><span class="p">);</span>
+  <span class="n">control</span><span class="o">-&gt;</span><span class="n">nodes</span><span class="o">-&gt;</span><span class="n">setPosition</span><span class="p">(</span><span class="n">targetId</span><span class="p">,</span> <span class="n">targetPos</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">outputMotorPositions</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">motorIDs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">control</span><span class="o">-&gt;</span><span class="n">motors</span><span class="o">-&gt;</span><span class="n">getActualPosition</span><span class="p">(</span><span class="n">motorIDs</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">checkBallPosition</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">mars</span><span class="o">::</span><span class="n">interfaces</span><span class="o">::</span><span class="n">NodeId</span> <span class="n">ballId</span> <span class="o">=</span> <span class="n">control</span><span class="o">-&gt;</span><span class="n">nodes</span><span class="o">-&gt;</span><span class="n">getID</span><span class="p">(</span><span class="s">&quot;ball_link&quot;</span><span class="p">);</span>
+  <span class="n">mars</span><span class="o">::</span><span class="n">utils</span><span class="o">::</span><span class="n">Vector</span> <span class="n">ballPos</span> <span class="o">=</span> <span class="n">control</span><span class="o">-&gt;</span><span class="n">nodes</span><span class="o">-&gt;</span><span class="n">getPosition</span><span class="p">(</span><span class="n">ballId</span><span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">ballPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">armHeight</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">ballHitX</span> <span class="o">=</span> <span class="n">ballPos</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="n">ballHitY</span> <span class="o">=</span> <span class="n">ballPos</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">diffX</span> <span class="o">=</span> <span class="n">ballPos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">targetPos</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">diffY</span> <span class="o">=</span> <span class="n">ballPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">targetPos</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="k">const</span> <span class="kt">double</span> <span class="n">squaredDist</span> <span class="o">=</span> <span class="n">diffX</span> <span class="o">*</span> <span class="n">diffX</span> <span class="o">+</span> <span class="n">diffY</span> <span class="o">*</span> <span class="n">diffY</span><span class="p">;</span>
+    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="n">squaredDist</span><span class="p">;</span>
+    <span class="n">evaluation_done</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">checkMaxTime</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">leftTime</span> <span class="o">&gt;</span> <span class="n">MAX_SIMULATION_TIME</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fitness</span> <span class="o">=</span> <span class="n">DBL_MAX</span><span class="p">;</span>
+    <span class="n">evaluation_done</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Before a simulation step is computed, we at least should write the motor
+commands.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">handleInputValues</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">setMotorValues</span><span class="p">();</span>
+  <span class="n">checkBallThrowTime</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">setMotorValues</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">motorIDs</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">control</span><span class="o">-&gt;</span><span class="n">motors</span><span class="o">-&gt;</span><span class="n">setMotorValue</span><span class="p">(</span><span class="n">motorIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">checkBallThrowTime</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">leftTime</span> <span class="o">&gt;</span> <span class="n">ballThrowTime</span><span class="p">)</span>
+    <span class="n">control</span><span class="o">-&gt;</span><span class="n">joints</span><span class="o">-&gt;</span><span class="n">removeJoint</span><span class="p">(</span><span class="n">control</span><span class="o">-&gt;</span><span class="n">joints</span><span class="o">-&gt;</span><span class="n">getID</span><span class="p">(</span><span class="s">&quot;ball_joint&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In a contextual environment, we have to set the context on request.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">double</span><span class="o">*</span> <span class="n">ThrowingEnvironment</span><span class="o">::</span><span class="n">request_context</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">context</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+  <span class="n">targetPos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">targetPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">targetPos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">armHeight</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="n">targetPos</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -432,8 +491,8 @@ have to be done.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

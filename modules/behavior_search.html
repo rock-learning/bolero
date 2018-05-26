@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Behavior Search &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>Behavior Search &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Environment" href="environment.html" />
     <link rel="prev" title="Optimization" href="optimizer.html" />
 <meta charset='utf-8'>
@@ -39,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -113,7 +112,14 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Behavior Search</a><ul>
 <li><a class="reference internal" href="#id2">Behavior Search</a><ul>
-<li><a class="reference internal" href="#black-box-search">Black-box Search</a></li>
+<li><a class="reference internal" href="#black-box-search">Black-box Search</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-behavior-search-blackboxsearch">Examples using <code class="docutils literal"><span class="pre">bolero.behavior_search.BlackBoxSearch</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monte-carlo-reinforcement-learning">Monte Carlo Reinforcement Learning</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-behavior-search-montecarlorl">Examples using <code class="docutils literal"><span class="pre">bolero.behavior_search.MonteCarloRL</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#contextual-behavior-search">Contextual Behavior Search</a><ul>
@@ -161,7 +167,7 @@ environments and learn from the feedback.</p>
 <h2>Behavior Search<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>The following table gives an overview of the behavior search methods that are
 provided by BOLeRo.</p>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -175,6 +181,9 @@ provided by BOLeRo.</p>
 <tr class="row-even"><td><a class="reference internal" href="#black-box-search"><span class="std std-ref">Black-box Search</span></a></td>
 <td>Policy search, behavior is considered to be a black box</td>
 </tr>
+<tr class="row-odd"><td><a class="reference internal" href="#monte-carlo-rl"><span class="std std-ref">Monte Carlo Reinforcement Learning</span></a></td>
+<td>Reinforcement learning, uses a behavior derived from the value function</td>
+</tr>
 </tbody>
 </table>
 <div class="section" id="black-box-search">
@@ -184,13 +193,40 @@ provided by BOLeRo.</p>
 The optimizer does not need to know anything about the behavior except its
 number of parameters and the performance in the environment to do direct policy
 search.</p>
+<div class="section" id="examples-using-bolero-behavior-search-blackboxsearch">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.behavior_search.BlackBoxSearch</span></code><a class="headerlink" href="#examples-using-bolero-behavior-search-blackboxsearch" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="This is an example of how to use the Cart Pole environment from OpenAI Gym via the wrapper that..."><div class="figure" id="id5">
+<img alt="../_images/sphx_glr_plot_cart_pole_thumb.png" src="../_images/sphx_glr_plot_cart_pole_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_cart_pole.html#sphx-glr-auto-examples-behavior-search-plot-cart-pole-py"><span class="std std-ref">Cart Pole</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We use CMA-ES to optimize a DMP so that it avoids point obstacles. "><div class="figure" id="id6">
+<img alt="../_images/sphx_glr_plot_obstacle_avoidance_thumb.png" src="../_images/sphx_glr_plot_obstacle_avoidance_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_obstacle_avoidance.html#sphx-glr-auto-examples-behavior-search-plot-obstacle-avoidance-py"><span class="std std-ref">Obstacle Avoidance</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
+</div>
+<div class="section" id="monte-carlo-reinforcement-learning">
+<span id="monte-carlo-rl"></span><h3>Monte Carlo Reinforcement Learning<a class="headerlink" href="#monte-carlo-reinforcement-learning" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="generated/bolero.behavior_search.MonteCarloRL.html#bolero.behavior_search.MonteCarloRL" title="bolero.behavior_search.MonteCarloRL"><code class="xref py py-class docutils literal"><span class="pre">MonteCarloRL</span></code></a> is a epsilon-soft on-policy Monte Carlo control
+algorithm. It is a model-free reinforcement learning method. The
+epsilon-greedy policy that is used during the learning process is derived
+from the state-action value function Q. Q is estimated from the experience of
+previous episodes. This implementation can only handle discrete state and
+action spaces.</p>
+<div class="section" id="examples-using-bolero-behavior-search-montecarlorl">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.behavior_search.MonteCarloRL</span></code><a class="headerlink" href="#examples-using-bolero-behavior-search-montecarlorl" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="A simple problem with a discrete state and action space is solved with a tabular reinforcement ..."><div class="figure" id="id7">
+<img alt="../_images/sphx_glr_plot_discrete_problem_thumb.png" src="../_images/sphx_glr_plot_discrete_problem_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_discrete_problem.html#sphx-glr-auto-examples-behavior-search-plot-discrete-problem-py"><span class="std std-ref">Discrete Problem</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
 </div>
 </div>
 <div class="section" id="contextual-behavior-search">
 <h2>Contextual Behavior Search<a class="headerlink" href="#contextual-behavior-search" title="Permalink to this headline">¶</a></h2>
 <p>The following table gives an overview of the contextual behavior search methods
 that are provided by BOLeRo.</p>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -230,8 +266,8 @@ contextual policy search.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

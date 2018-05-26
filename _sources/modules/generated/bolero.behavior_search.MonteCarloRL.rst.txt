@@ -1,0 +1,10 @@
+:mod:`bolero.behavior_search`.MonteCarloRL
+=================================================
+
+.. currentmodule:: bolero.behavior_search
+
+.. autoclass:: MonteCarloRL
+
+   
+   .. automethod:: __init__
+   

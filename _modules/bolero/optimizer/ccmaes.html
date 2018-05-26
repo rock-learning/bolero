@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>bolero.optimizer.ccmaes &#8212; bolero 1.0.1-dev documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.1-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          bolero</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/representation.html">Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/optimizer.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/behavior_search.html">Behavior Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/wrapper.html">Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../imitation_learning.html">Imitation Learning</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#behavior-search-examples">Behavior search examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#dataset-examples">Dataset examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#environment-examples">Environment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#optimizer-examples">Optimizer examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#representation-examples">Representation examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/index.html">Notebooks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for bolero.optimizer.ccmaes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Alexander Fabisch &lt;afabisch@informatik.uni-bremen.de&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">..optimizer</span> <span class="k">import</span> <span class="n">ContextualOptimizer</span>
+<span class="kn">from</span> <span class="nn">..representation.ul_policies</span> <span class="k">import</span> <span class="p">(</span><span class="n">ContextTransformationPolicy</span><span class="p">,</span>
+                                          <span class="n">LinearGaussianPolicy</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..utils.validation</span> <span class="k">import</span> <span class="n">check_random_state</span><span class="p">,</span> <span class="n">check_feedback</span><span class="p">,</span> <span class="n">check_context</span>
+<span class="kn">from</span> <span class="nn">..utils.log</span> <span class="k">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">.cmaes</span> <span class="k">import</span> <span class="n">inv_sqrt</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">Ridge</span>
+
+
+<div class="viewcode-block" id="CCMAESOptimizer"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer">[docs]</a><span class="k">class</span> <span class="nc">CCMAESOptimizer</span><span class="p">(</span><span class="n">ContextualOptimizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Contextual Covariance Matrix Adaptation Evolution Strategy.</span>
+
+<span class="sd">    This contextual version of :class:`~bolero.optimizer.CMAESOptimizer`</span>
+<span class="sd">    inherits the properties from the original algorithm. More information</span>
+<span class="sd">    on the algorithm can be found in the original publication [1]_. A major</span>
+<span class="sd">    advantage over C-REPS is that it quickly adapts the step size.</span>
+
+<span class="sd">    C-CMA-ES internally models the context-dependent baseline with polynomial</span>
+<span class="sd">    ridge regression. The degree of the polynomial can be configured. The</span>
+<span class="sd">    regularization coefficient is shared with the upper-level policy.</span>
+<span class="sd">    Context features are only used for the upper-level policy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_params : array-like, shape (n_params,)</span>
+<span class="sd">        Initial parameter vector.</span>
+
+<span class="sd">    variance : float, optional (default: 1.0)</span>
+<span class="sd">        Initial exploration variance.</span>
+
+<span class="sd">    covariance : array-like, optional (default: None)</span>
+<span class="sd">        Either a diagonal (with shape (n_params,)) or a full covariance matrix</span>
+<span class="sd">        (with shape (n_params, n_params)). A full covariance can contain</span>
+<span class="sd">        information about the correlation of variables.</span>
+
+<span class="sd">    n_samples_per_update : int, optional</span>
+<span class="sd">        Number of samples that will be used to update a policy.</span>
+<span class="sd">        default: 4 + int(3*log(n_params + n_context_dims)) *</span>
+<span class="sd">        (1 + 2 * n_context_dims)</span>
+
+<span class="sd">    context_features : string or callable, optional (default: None)</span>
+<span class="sd">        (Nonlinear) feature transformation for the context, which will be used</span>
+<span class="sd">        to learn the upper-level policy.</span>
+
+<span class="sd">    baseline_degree : int, optional (default: 2)</span>
+<span class="sd">        Degree of the polynomial features that will be used to estimate the</span>
+<span class="sd">        context-dependent reward baseline.</span>
+
+<span class="sd">    gamma : float, optional (default: 1e-4)</span>
+<span class="sd">        Regularization parameter for baseline and upper-level policy.</span>
+
+<span class="sd">    log_to_file: optional, boolean or string (default: False)</span>
+<span class="sd">        Log results to given file, it will be located in the $BL_LOG_PATH</span>
+
+<span class="sd">    log_to_stdout: optional, boolean (default: False)</span>
+<span class="sd">        Log to standard output</span>
+
+<span class="sd">    random_state : optional, int</span>
+<span class="sd">        Seed for the random number generator.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Abdolmaleki, A.; Price, B.; Lau, N.; Paulo Reis, L.; Neumann, G.</span>
+<span class="sd">        Contextual Covariance Matrix Adaptation Evolution Strategies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CCMAESOptimizer.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">covariance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_samples_per_update</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">baseline_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">log_to_stdout</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">initial_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">=</span> <span class="n">variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="n">n_samples_per_update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context_features</span> <span class="o">=</span> <span class="n">context_features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_degree</span> <span class="o">=</span> <span class="n">baseline_degree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span> <span class="o">=</span> <span class="n">log_to_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="o">=</span> <span class="n">log_to_stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.init"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_params</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize optimizer.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_params : int</span>
+<span class="sd">            number of parameters</span>
+
+<span class="sd">        n_context_dims : int</span>
+<span class="sd">            number of dimensions of the context space</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_params</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions (</span><span class="si">%d</span><span class="s2">) does not match &quot;</span>
+                             <span class="s2">&quot;number of initial parameters (</span><span class="si">%d</span><span class="s2">).&quot;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="n">n_params</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">=</span> <span class="n">n_params</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span> <span class="o">=</span> <span class="n">ContextTransformationPolicy</span><span class="p">(</span>
+            <span class="n">LinearGaussianPolicy</span><span class="p">,</span> <span class="n">n_params</span><span class="p">,</span> <span class="n">n_context_dims</span><span class="p">,</span>
+            <span class="n">context_transformation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context_features</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">,</span> <span class="n">covariance_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">Sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">=</span> <span class="n">n_params</span> <span class="o">+</span> <span class="n">n_context_dims</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mi">4</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span><span class="p">))</span> <span class="o">*</span>
+                <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_context_dims</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hsig_threshold</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_R</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_s</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_phi_s</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+
+        <span class="c1"># Evolution path for covariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+        <span class="c1"># Evolution path for sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">+</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span><span class="p">,</span>
+            <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span> <span class="o">/</span>
+            <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">=</span> <span class="p">((</span><span class="mf">4.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span><span class="p">)</span> <span class="o">/</span>
+                   <span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">+</span>
+                    <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">+</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_sigma</span> <span class="o">=</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mueff</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span>
+                         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_total_dims</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n_context_dims</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_norm_snorm_vector</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+                                      <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">21.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_model_features</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span>
+            <span class="n">degree</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline_degree</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_model</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">inv_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eigen_update_freq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">/</span>
+                                  <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.get_desired_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.get_desired_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_desired_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;C-CMA-ES does not actively select the context.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        context : None</span>
+<span class="sd">            C-CMA-ES does not have any preference</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.set_context"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.set_context">[docs]</a>    <span class="k">def</span> <span class="nf">set_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set context of next evaluation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        context : array-like, shape (n_context_dims,)</span>
+<span class="sd">            The context in which the next rollout will be performed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">check_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.get_next_parameters"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.get_next_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get next individual/parameter vector for evaluation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        params : array_like, shape (n_params,)</span>
+<span class="sd">            Parameter vector, will be modified</span>
+
+<span class="sd">        explore : bool, optional (default: True)</span>
+<span class="sd">            Whether we want to turn exploration on for the next evaluation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="n">explore</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.set_evaluation_feedback"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.set_evaluation_feedback">[docs]</a>    <span class="k">def</span> <span class="nf">set_evaluation_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set feedbacks for the parameter vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rewards : list of float</span>
+<span class="sd">            Feedbacks for each step or for the episode, depending on the</span>
+<span class="sd">            problem</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_sample</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_s</span><span class="p">)</span>
+            <span class="n">phi_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_phi_s</span><span class="p">)</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span><span class="p">)</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history_R</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">phi_s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="n">check_feedback</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">compute_sum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[CCMAES] Reward </span><span class="si">%.6f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
+
+        <span class="n">phi_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">transform_context</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_theta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_phi_s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phi_s</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">phi_s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+        <span class="n">advantages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_baseline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">advantages</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered_weights</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigen_update_freq</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">inv_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eigen_decomp_updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span>
+
+        <span class="n">mean_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">phi_s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">last_mean_theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">policy</span><span class="p">(</span><span class="n">mean_phi</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">last_mean_thetas</span> <span class="o">=</span> <span class="n">phi_s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">phi_s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">context_transform</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">mean_theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">policy</span><span class="p">(</span><span class="n">mean_phi</span><span class="p">,</span> <span class="n">explore</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">mean_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean_theta</span> <span class="o">-</span> <span class="n">last_mean_theta</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_step_size_evolution_path</span><span class="p">(</span><span class="n">mean_diff</span><span class="p">)</span>
+
+        <span class="n">ps_norm_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># Temporary constant</span>
+        <span class="n">generation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">it</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_per_update</span>
+        <span class="n">hsig</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ps_norm_2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_params</span> <span class="o">/</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">generation</span><span class="p">))</span>
+                <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">hsig_threshold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_covariance_evolution_path</span><span class="p">(</span><span class="n">mean_diff</span><span class="p">,</span> <span class="n">hsig</span><span class="p">)</span>
+
+        <span class="c1"># Rank-1 update</span>
+        <span class="n">rank_one_update</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pc</span><span class="p">)</span>
+
+        <span class="c1"># Rank-mu update</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">last_mean_thetas</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+        <span class="n">rank_mu_update</span> <span class="o">=</span> <span class="n">noise</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+        <span class="c1"># Correct variance loss by hsig</span>
+        <span class="n">c1a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">c1a</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmu</span> <span class="o">*</span> <span class="n">rank_mu_update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">*</span> <span class="n">rank_one_update</span>
+
+        <span class="n">log_step_size_update</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_sigma</span><span class="p">)</span> <span class="o">*</span>
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ps_norm_2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_norm_snorm_vector</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span>
+        <span class="c1"># Adapt step size with factor &lt;= exp(0.6)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">log_step_size_update</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">Sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span>
+
+    <span class="k">def</span> <span class="nf">_estimate_baseline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+        <span class="n">baseline_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_model_features</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">baseline_features</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">R</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">baseline_features</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_step_size_evolution_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean_diff</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">*=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">+=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_sigma</span><span class="p">)</span> <span class="o">*</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">invsqrtC</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mean_diff</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_update_covariance_evolution_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean_diff</span><span class="p">,</span> <span class="n">hsig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">*=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">+=</span> <span class="p">(</span><span class="n">hsig</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mueff</span><span class="p">)</span> <span class="o">*</span>
+                    <span class="n">mean_diff</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CCMAESOptimizer.best_policy"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.best_policy">[docs]</a>    <span class="k">def</span> <span class="nf">best_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return current best estimate of contextual policy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        policy : UpperLevelPolicy</span>
+<span class="sd">            Best estimate of upper-level policy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">policy_</span></div>
+
+<div class="viewcode-block" id="CCMAESOptimizer.is_behavior_learning_done"><a class="viewcode-back" href="../../../modules/generated/bolero.optimizer.CCMAESOptimizer.html#bolero.optimizer.CCMAESOptimizer.is_behavior_learning_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if the optimization is finished.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        finished : bool</span>
+<span class="sd">            Is the learning of a behavior finished?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;logger&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

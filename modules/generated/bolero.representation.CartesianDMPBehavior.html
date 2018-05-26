@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.representation.CartesianDMPBehavior &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.representation.CartesianDMPBehavior &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="bolero.representation.DMPSequence" href="bolero.representation.DMPSequence.html" />
     <link rel="prev" title="bolero.representation.DMPBehavior" href="bolero.representation.DMPBehavior.html" />
 <meta charset='utf-8'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -169,23 +167,21 @@ result in completely different trajectories.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>execution_time</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Execution time of the DMP in seconds.</p>
-</div></blockquote>
-<p><strong>dt</strong> : float, optional (default: 0.01)</p>
-<blockquote>
-<div><p>Time between successive steps in seconds.</p>
-</div></blockquote>
-<p><strong>n_features</strong> : int, optional (default: 50)</p>
-<blockquote>
-<div><p>Number of RBF features for each dimension of the DMP.</p>
-</div></blockquote>
-<p><strong>configuration_file</strong> : string, optional (default: None)</p>
-<blockquote class="last">
-<div><p>Name of a configuration file that should be used to initialize the DMP.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>execution_time</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1)</span></dt>
+<dd><p class="first last">Execution time of the DMP in seconds.</p>
+</dd>
+<dt><strong>dt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0.01)</span></dt>
+<dd><p class="first last">Time between successive steps in seconds.</p>
+</dd>
+<dt><strong>n_features</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 50)</span></dt>
+<dd><p class="first last">Number of RBF features for each dimension of the DMP.</p>
+</dd>
+<dt><strong>configuration_file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default: None)</span></dt>
+<dd><p class="first last">Name of a configuration file that should be used to initialize the DMP.
 If it is set all other arguments will be ignored.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -206,10 +202,11 @@ and we hold the last position instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>can_step</strong> : bool</p>
-<blockquote class="last">
-<div><p>Can we call step() again?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>can_step</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Can we call step() again?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -224,10 +221,11 @@ and we hold the last position instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -242,10 +240,11 @@ and we hold the last position instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
-<blockquote class="last">
-<div><p>Number of DMP weights</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of DMP weights</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -260,11 +259,12 @@ and we hold the last position instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputs</strong> : array-like, shape = (7,)</p>
-<blockquote class="last">
-<div><p>Contains positions and rotations represented by quaternions,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>outputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (7,)</span></dt>
+<dd><p class="first last">Contains positions and rotations represented by quaternions,
 order (order: x, y, z, w, rx, ry, rz)</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -279,10 +279,11 @@ order (order: x, y, z, w, rx, ry, rz)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
-<blockquote class="last">
-<div><p>Current weights</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_params,)</span></dt>
+<dd><p class="first last">Current weights</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -297,21 +298,20 @@ order (order: x, y, z, w, rx, ry, rz)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape (7, n_steps)</p>
-<blockquote>
-<div><p>The demonstrated trajectory (order: x, y, z, w, rx, ry, rz) to be
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape (7, n_steps)</span></dt>
+<dd><p class="first last">The demonstrated trajectory (order: x, y, z, w, rx, ry, rz) to be
 imitated.</p>
-</div></blockquote>
-<p><strong>alpha</strong> : float &gt;= 0, optional (default: 0)</p>
-<blockquote>
-<div><p>The ridge parameter of linear regression. Small positive values of
+</dd>
+<dt><strong>alpha</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt;= 0, optional (default: 0)</span></dt>
+<dd><p class="first last">The ridge parameter of linear regression. Small positive values of
 alpha improve the conditioning of the problem and reduce the
 variance of the estimates.</p>
-</div></blockquote>
-<p><strong>allow_final_velocity</strong> : bool, optional (default: True)</p>
-<blockquote class="last">
-<div><p>Allow the final velocity to be greater than 0</p>
-</div></blockquote>
+</dd>
+<dt><strong>allow_final_velocity</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional (default: True)</span></dt>
+<dd><p class="first last">Allow the final velocity to be greater than 0</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -326,14 +326,14 @@ variance of the estimates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_inputs</strong> : int</p>
-<blockquote>
-<div><p>number of inputs</p>
-</div></blockquote>
-<p><strong>n_outputs</strong> : int</p>
-<blockquote class="last">
-<div><p>number of outputs</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of inputs</p>
+</dd>
+<dt><strong>n_outputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of outputs</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -348,10 +348,11 @@ variance of the estimates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
-<blockquote class="last">
-<div><p>Name of YAML file</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Name of YAML file</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -372,14 +373,14 @@ variance of the estimates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dmp</strong> : object</p>
-<blockquote>
-<div><p>DMP</p>
-</div></blockquote>
-<p><strong>filename</strong> : string</p>
-<blockquote class="last">
-<div><p>Name of YAML file</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dmp</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd><p class="first last">DMP</p>
+</dd>
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Name of YAML file</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -394,10 +395,11 @@ variance of the estimates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
-<blockquote class="last">
-<div><p>Name of YAML file</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Name of YAML file</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -412,11 +414,12 @@ variance of the estimates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inputs</strong> : array-like, shape = (7,)</p>
-<blockquote class="last">
-<div><p>Contains positions and rotations represented by quaternions,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inputs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (7,)</span></dt>
+<dd><p class="first last">Contains positions and rotations represented by quaternions,
 order (order: x, y, z, w, rx, ry, rz)</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -429,31 +432,31 @@ order (order: x, y, z, w, rx, ry, rz)</p>
 <dd><p>Set DMP meta parameters.</p>
 <p>Permitted meta-parameters:</p>
 <dl class="docutils">
-<dt>x0</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Initial position</dd>
-<dt>g</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Goal</dd>
-<dt>gd</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Velocity at the goal</dd>
-<dt>q0</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Initial rotation</dd>
-<dt>qg</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">array</span><dd>Final rotation</dd>
-<dt>execution_time</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">float</span><dd>New execution time</dd>
+<dt>x0 <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Initial position</dd>
+<dt>g <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Goal</dd>
+<dt>gd <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Velocity at the goal</dd>
+<dt>q0 <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Initial rotation</dd>
+<dt>qg <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Final rotation</dd>
+<dt>execution_time <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>New execution time</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>keys</strong> : list of string</p>
-<blockquote>
-<div><p>names of meta-parameters</p>
-</div></blockquote>
-<p><strong>meta_parameters</strong> : list of float</p>
-<blockquote class="last">
-<div><p>values of meta-parameters</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>keys</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of string</span></dt>
+<dd><p class="first last">names of meta-parameters</p>
+</dd>
+<dt><strong>meta_parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of float</span></dt>
+<dd><p class="first last">values of meta-parameters</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -468,10 +471,11 @@ order (order: x, y, z, w, rx, ry, rz)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array-like, shape = (n_params,)</p>
-<blockquote class="last">
-<div><p>New weights</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape = (n_params,)</span></dt>
+<dd><p class="first last">New weights</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -493,10 +497,11 @@ order (order: x, y, z, w, rx, ry, rz)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array, shape (n_steps, 7)</p>
-<blockquote class="last">
-<div><p>Positions and rotations (order: x, y, z, w, rx, ry, rz)</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape (n_steps, 7)</span></dt>
+<dd><p class="first last">Positions and rotations (order: x, y, z, w, rx, ry, rz)</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -519,8 +524,8 @@ order (order: x, y, z, w, rx, ry, rz)</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

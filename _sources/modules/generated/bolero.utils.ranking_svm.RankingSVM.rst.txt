@@ -1,0 +1,10 @@
+:mod:`bolero.utils.ranking_svm`.RankingSVM
+=================================================
+
+.. currentmodule:: bolero.utils.ranking_svm
+
+.. autoclass:: RankingSVM
+
+   
+   .. automethod:: __init__
+   

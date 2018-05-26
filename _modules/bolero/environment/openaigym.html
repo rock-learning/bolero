@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.environment.openaigym &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.environment.openaigym &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -51,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../behavior_learning.html">Behavior Learning</a></li>
@@ -94,9 +92,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -141,9 +139,14 @@
       
   <h1>Source code for bolero.environment.openaigym</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
-<span class="kn">from</span> <span class="nn">..utils.log</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.environment</span> <span class="k">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">..utils.log</span> <span class="k">import</span> <span class="n">get_logger</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">gym</span>
+    <span class="n">gym_available</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">gym_available</span> <span class="o">=</span> <span class="kc">False</span>
 
 
 <span class="k">class</span> <span class="nc">BoxClipHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -178,14 +181,18 @@
 <div class="viewcode-block" id="OpenAiGym"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym">[docs]</a><span class="k">class</span> <span class="nc">OpenAiGym</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wrapper for OpenAI Gym environments.</span>
 
+<span class="sd">    gym is a dependency and it is not installed with BOLeRo by default.</span>
+<span class="sd">    You have to install it manually with &quot;sudo pip install gym&quot;.</span>
+
 <span class="sd">    OpenAI Gym is a toolkit for developing and comparing reinforcement</span>
-<span class="sd">    learning algorithms. See `here &lt;https://gym.openai.com/&gt;`_ for details.</span>
+<span class="sd">    learning algorithms. See `OpenAI gym&#39;s documentation</span>
+<span class="sd">    &lt;https://gym.openai.com/&gt;`_ for details.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    env_name : string, optional (default: &#39;CartPole-v0&#39;)</span>
-<span class="sd">        Name of the environment. See `here &lt;https://gym.openai.com/envs&gt;`_ for</span>
-<span class="sd">        an overview.</span>
+<span class="sd">        Name of the environment. See `OpenAI gym&#39;s environments</span>
+<span class="sd">        &lt;https://gym.openai.com/envs&gt;`_ for an overview.</span>
 
 <span class="sd">    render : bool, optional (default: False)</span>
 <span class="sd">        Visualize the environment</span>
@@ -199,8 +206,11 @@
 <span class="sd">    seed : int, optional (default: None)</span>
 <span class="sd">        Seed for the environment</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="OpenAiGym.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_name</span><span class="o">=</span><span class="s2">&quot;CartPole-v0&quot;</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">log_to_stdout</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAiGym.__init__"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_name</span><span class="o">=</span><span class="s2">&quot;CartPole-v0&quot;</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">log_to_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">log_to_stdout</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">gym_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;OpenAiGym environment requires the Python package &#39;gym&#39;.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env_name</span> <span class="o">=</span> <span class="n">env_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">render</span> <span class="o">=</span> <span class="n">render</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span> <span class="o">=</span> <span class="n">log_to_file</span>
@@ -208,21 +218,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span></div>
 
     <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">gym</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;gym&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">undo_logger_setup</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;OpenAiGym environment requires the Python &quot;</span>
-                              <span class="s2">&quot;package &#39;gym&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gym</span><span class="p">,</span> <span class="s2">&quot;configuration&quot;</span><span class="p">):</span>
+            <span class="n">gym</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">undo_logger_setup</span><span class="p">()</span>
+        <span class="c1"># do nothing otherwise, gym no longer modifies global logging config</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_space</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_space</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span><span class="p">)</span>
@@ -232,18 +239,18 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of outputs: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_init_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">Space</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">Space</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown space, type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Box</span><span class="p">):</span>
             <span class="n">n_dims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">handler</span> <span class="o">=</span> <span class="n">BoxClipHandler</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="n">space</span><span class="o">.</span><span class="n">high</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">):</span>
             <span class="n">n_dims</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">handler</span> <span class="o">=</span> <span class="n">IntHandler</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">HighLow</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">HighLow</span><span class="p">):</span>
             <span class="n">n_dims</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">num_rows</span>
             <span class="n">handler</span> <span class="o">=</span> <span class="n">HighLowHandler</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">matrix</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Tuple</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Tuple</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Space of type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not supported&quot;</span>
                                       <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">n_dims</span><span class="p">,</span> <span class="n">handler</span>
@@ -251,7 +258,7 @@
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
@@ -271,13 +278,13 @@
     <span class="k">def</span> <span class="nf">step_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
         <span class="n">observations</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">observations</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="ow">or</span> <span class="n">done</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">timestep_limit</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_stdout</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">info</span><span class="p">))</span>
@@ -291,13 +298,30 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">is_behavior_learning_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">get_maximum_feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">reward_threshold</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">reward_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">reward_threshold</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">reward_threshold</span>
+
+<div class="viewcode-block" id="OpenAiGym.get_discrete_action_space"><a class="viewcode-back" href="../../../modules/generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym.get_discrete_action_space">[docs]</a>    <span class="k">def</span> <span class="nf">get_discrete_action_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get list of possible actions.</span>
+
+<span class="sd">        An error will be raised if the action space of the problem is not</span>
+<span class="sd">        discrete. The environment must be initialized before this method can</span>
+<span class="sd">        be called.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        action_space : iterable</span>
+<span class="sd">            Actions that the agent can take</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;gym environment &#39;</span><span class="si">%d</span><span class="s2">&#39; does not have a discrete &quot;</span>
+                            <span class="s2">&quot;action space&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span><span class="p">))</span></div></div>
 </pre></div>
 
     </div>
@@ -311,8 +335,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

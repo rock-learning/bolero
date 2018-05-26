@@ -13,7 +13,10 @@ functions will only have two parameters that have to be optimized in this
 example.
 
 aCMA-ES is a little bit faster than CMA-ES in this example and both are
-significantly better than random exploration.
+significantly better than random exploration. A very aggressive version of
+REPS is similarly efficient as aCMA-ES. Another variante of CMA-ES, ACM-ES,
+outperforms all other optimizers. ACM-ES uses a ranking SVM as a surrogate
+model.
 
 We compare several multimodal variants of CMA-ES on the Katsuura function.
 IPOP (increasing population size) and BIPOP (Bi-population) refer to different
@@ -25,7 +28,8 @@ print(__doc__)
 
 import numpy as np
 from bolero.optimizer import (NoOptimizer, RandomOptimizer, CMAESOptimizer,
-                              IPOPCMAESOptimizer, BIPOPCMAESOptimizer)
+                              IPOPCMAESOptimizer, BIPOPCMAESOptimizer,
+                              REPSOptimizer, ACMESOptimizer)
 from bolero.environment.objective_functions import Rosenbrock, Katsuura
 import matplotlib.pyplot as plt
 
@@ -52,6 +56,8 @@ optimizers = {
     "CMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), random_state=0),
     "aCMA-ES": CMAESOptimizer(x, bounds=np.array([[-5, 5]]), active=True,
                               random_state=0),
+    "REPS": REPSOptimizer(x, random_state=0),
+    "ACM-ES": ACMESOptimizer(x, random_state=0)
     }
 
 plt.figure(figsize=(12, 8))

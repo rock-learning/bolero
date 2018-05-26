@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Quick Start with the Controller &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>Quick Start with the Controller &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start with Python" href="quickstart.html" />
     <link rel="prev" title="Installation" href="installation.html" />
 <meta charset='utf-8'>
@@ -39,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -112,7 +111,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Quick Start with the Controller</a><ul>
-<li><a class="reference internal" href="#what-is-it">What is it?</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -150,12 +149,54 @@
 <h1>Quick Start with the Controller<a class="headerlink" href="#quick-start-with-the-controller" title="Permalink to this headline">¶</a></h1>
 <p>In this section, we will give you a brief introduction how to use the C++
 implementation of a controller to run experiments with BOLeRo.</p>
-<div class="section" id="what-is-it">
-<h2>What is it?<a class="headerlink" href="#what-is-it" title="Permalink to this headline">¶</a></h2>
-<p>We call the application that runs experiments in BOLeRo &#8220;controller&#8221;. It reads
-configuration files and connects learning algorithms and problems through
-organizing their communication. An experiment in BOLeRo can be specified with
-only one YAML file.</p>
+<p>We call the application that runs experiments in BOLeRo “controller”. It reads
+configuration files and connects learning algorithms and problems.
+An experiment in BOLeRo can be specified with only one YAML file.</p>
+<p>You can run the controller with</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bolero_controller
+</pre></div>
+</div>
+<p>You can configure it with two environment variables:</p>
+<ul class="simple">
+<li>BL_LOG_PATH - the path in which results will be logged, default: “.”</li>
+<li>BL_CONF_PATH - the path from which we load the configuration file, default: “.”</li>
+</ul>
+<p>The configuration file is called learning_config.yml. It will have the
+following form:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Environment</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="l l-Scalar l-Scalar-Plain">BehaviorSearch</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="l l-Scalar l-Scalar-Plain">Controller</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">MaxEvaluations</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000</span>
+    <span class="l l-Scalar l-Scalar-Plain">LogAllBehaviors</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">GenerateFitnessLog</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="l l-Scalar l-Scalar-Plain">LogResults</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">EvaluateExperiment</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">TestEveryXRun</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+<p>Results will be stored in a directory that you specified. That includes
+fitness values and intermediate results.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>The following configuration will run Monte Carlo Reinforcement Learning on
+the environment FrozenLake-v0 from OpenAI Gym.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Controller</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">MaxEvaluations</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000</span>
+    <span class="l l-Scalar l-Scalar-Plain">GenerateFitnessLog</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="l l-Scalar l-Scalar-Plain">LogResults</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="l l-Scalar l-Scalar-Plain">TestEveryXRun</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="l l-Scalar l-Scalar-Plain">Environment</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">bolero.environment.OpenAiGym</span>
+    <span class="l l-Scalar l-Scalar-Plain">env_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">FrozenLake-v0</span>
+<span class="l l-Scalar l-Scalar-Plain">BehaviorSearch</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">bolero.behavior_search.MonteCarloRL</span>
+    <span class="l l-Scalar l-Scalar-Plain">action_space</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">1</span><span class="p p-Indicator">,</span> <span class="nv">2</span><span class="p p-Indicator">,</span> <span class="nv">3</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -171,8 +212,8 @@ only one YAML file.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

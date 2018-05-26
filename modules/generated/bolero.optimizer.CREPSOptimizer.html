@@ -1,46 +1,43 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.optimizer.CREPSOptimizer &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.optimizer.CREPSOptimizer &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="bolero.optimizer.SkOptOptimizer" href="bolero.optimizer.SkOptOptimizer.html" />
-    <link rel="prev" title="bolero.optimizer.RandomOptimizer" href="bolero.optimizer.RandomOptimizer.html" />
+    <link rel="prev" title="bolero.optimizer.REPSOptimizer" href="bolero.optimizer.REPSOptimizer.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -158,67 +156,73 @@ assumed to be a multivariate Gaussian distribution whose mean is a linear
 function of nonlinear features from the context. C-REPS constrains the
 learning updates such that the KL divergence between successive
 distribution is below the threshold <span class="math">\(\epsilon\)</span>.</p>
+<p>This contextual version of <a class="reference internal" href="bolero.optimizer.REPSOptimizer.html#bolero.optimizer.REPSOptimizer" title="bolero.optimizer.REPSOptimizer"><code class="xref py py-class docutils literal"><span class="pre">REPSOptimizer</span></code></a>
+inherits the properties from the original algorithm. More information
+on the algorithm can be found in the original publication <a class="reference internal" href="#r9c0c9844ada7-1" id="id1">[1]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>initial_params</strong> : array-like, shape (n_params,)</p>
-<blockquote>
-<div><p>Initial parameter vector.</p>
-</div></blockquote>
-<p><strong>variance</strong> : float, optional (default: 1.0)</p>
-<blockquote>
-<div><p>Initial exploration variance.</p>
-</div></blockquote>
-<p><strong>covariance</strong> : array-like, optional (default: None)</p>
-<blockquote>
-<div><p>Either a diagonal (with shape (n_params,)) or a full covariance matrix
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>initial_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_params,)</span></dt>
+<dd><p class="first last">Initial parameter vector.</p>
+</dd>
+<dt><strong>variance</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1.0)</span></dt>
+<dd><p class="first last">Initial exploration variance.</p>
+</dd>
+<dt><strong>covariance</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, optional (default: None)</span></dt>
+<dd><p class="first last">Either a diagonal (with shape (n_params,)) or a full covariance matrix
 (with shape (n_params, n_params)). A full covariance can contain
 information about the correlation of variables.</p>
-</div></blockquote>
-<p><strong>epsilon</strong> : float, optional (default: 2.0)</p>
-<blockquote>
-<div><p>Maximum Kullback-Leibler divergence of two successive policy
+</dd>
+<dt><strong>epsilon</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 2.0)</span></dt>
+<dd><p class="first last">Maximum Kullback-Leibler divergence of two successive policy
 distributions.</p>
-</div></blockquote>
-<p><strong>min_eta</strong> : float, optional (default: 1e-8)</p>
-<blockquote>
-<div><p>Minimum eta, 0 would result in numerical problems</p>
-</div></blockquote>
-<p><strong>train_freq</strong> : int, optional (default: 25)</p>
-<blockquote>
-<div><p>Number of rollouts between policy updates.</p>
-</div></blockquote>
-<p><strong>n_samples_per_update</strong> : int, optional (default: 100)</p>
-<blockquote>
-<div><p>Number of samples that will be used to update a policy.</p>
-</div></blockquote>
-<p><strong>context_features</strong> : string or callable, optional (default: None)</p>
-<blockquote>
-<div><p>(Nonlinear) feature transformation for the context.</p>
-</div></blockquote>
-<p><strong>gamma</strong> : float, optional (default: 1e-4)</p>
-<blockquote>
-<div><p>Regularization parameter. Should be removed in the future.</p>
-</div></blockquote>
-<p><strong>bounds</strong> : array-like, shape (n_samples, 2), optional (default: None)</p>
-<blockquote>
-<div><p>Upper and lower bounds for each parameter.</p>
-</div></blockquote>
-<p><strong>log_to_file: optional, boolean or string (default: False)</strong></p>
-<blockquote>
-<div><p>Log results to given file, it will be located in the $BL_LOG_PATH</p>
-</div></blockquote>
-<p><strong>log_to_stdout: optional, boolean (default: False)</strong></p>
-<blockquote>
-<div><p>Log to standard output</p>
-</div></blockquote>
-<p><strong>random_state</strong> : optional, int</p>
-<blockquote class="last">
-<div><p>Seed for the random number generator.</p>
-</div></blockquote>
+</dd>
+<dt><strong>min_eta</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1e-8)</span></dt>
+<dd><p class="first last">Minimum eta, 0 would result in numerical problems</p>
+</dd>
+<dt><strong>train_freq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 25)</span></dt>
+<dd><p class="first last">Number of rollouts between policy updates.</p>
+</dd>
+<dt><strong>n_samples_per_update</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 100)</span></dt>
+<dd><p class="first last">Number of samples that will be used to update a policy.</p>
+</dd>
+<dt><strong>context_features</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string or callable, optional (default: None)</span></dt>
+<dd><p class="first last">(Nonlinear) feature transformation for the context. Possible options
+are ‘constant’, ‘linear’, ‘affine’, ‘quadratic’, ‘cubic’, or you can
+write a custom function that computes a transformation of the context.
+This will make a linear upper level policy capable of representing
+nonlinear functions.</p>
+</dd>
+<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1e-4)</span></dt>
+<dd><p class="first last">Regularization parameter. Should be removed in the future.</p>
+</dd>
+<dt><strong>bounds</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, 2), optional (default: None)</span></dt>
+<dd><p class="first last">Upper and lower bounds for each parameter.</p>
+</dd>
+<dt><strong>log_to_file: optional, boolean or string (default: False)</strong></dt>
+<dd><p class="first last">Log results to given file, it will be located in the $BL_LOG_PATH</p>
+</dd>
+<dt><strong>log_to_stdout: optional, boolean (default: False)</strong></dt>
+<dd><p class="first last">Log to standard output</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">optional, int</span></dt>
+<dd><p class="first last">Seed for the random number generator.</p>
+</dd>
+</dl>
 </td>
 </tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r9c0c9844ada7-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Kupcsik, A.; Deisenroth, M.P.; Peters, J.; Loh, A.P.;
+Vadakkepat, P.; Neumann, G. Model-based contextual policy search for
+data-efficient generalization of robot skills.
+Artificial Intelligence 247, 2017.</td></tr>
 </tbody>
 </table>
 <dl class="method">
@@ -234,10 +238,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>policy</strong> : UpperLevelPolicy</p>
-<blockquote class="last">
-<div><p>Best estimate of upper-level policy</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>policy</strong> <span class="classifier-delimiter">:</span> <span class="classifier">UpperLevelPolicy</span></dt>
+<dd><p class="first last">Best estimate of upper-level policy</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -252,10 +257,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -270,10 +276,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>context</strong> : None</p>
-<blockquote class="last">
-<div><p>C-REPS does not have any preference</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>context</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
+<dd><p class="first last">C-REPS does not have any preference</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -288,14 +295,14 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array_like, shape (n_params,)</p>
-<blockquote>
-<div><p>Parameter vector, will be modified</p>
-</div></blockquote>
-<p><strong>explore</strong> : bool, optional (default: True)</p>
-<blockquote class="last">
-<div><p>Whether we want to turn exploration on for the next evaluation</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (n_params,)</span></dt>
+<dd><p class="first last">Parameter vector, will be modified</p>
+</dd>
+<dt><strong>explore</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional (default: True)</span></dt>
+<dd><p class="first last">Whether we want to turn exploration on for the next evaluation</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -310,14 +317,14 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
-<blockquote>
-<div><p>dimension of the parameter vector</p>
-</div></blockquote>
-<p><strong>n_context_dims</strong> : int</p>
-<blockquote class="last">
-<div><p>number of dimensions of the context space</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of parameters</p>
+</dd>
+<dt><strong>n_context_dims</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">number of dimensions of the context space</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -332,10 +339,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
-<blockquote class="last">
-<div><p>Is the learning of a behavior finished?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Is the learning of a behavior finished?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -350,10 +358,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>context</strong> : array-like, shape (n_context_dims,)</p>
-<blockquote class="last">
-<div><p>The context in which the next rollout will be performed</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>context</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_context_dims,)</span></dt>
+<dd><p class="first last">The context in which the next rollout will be performed</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -368,10 +377,11 @@ distributions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rewards</strong> : list of float</p>
-<blockquote class="last">
-<div><p>Feedbacks for each step or for the episode, depends on the problem</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>rewards</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of float</span></dt>
+<dd><p class="first last">Feedbacks for each step or for the episode, depends on the problem</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -394,8 +404,8 @@ distributions.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

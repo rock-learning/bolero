@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Environment &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>Environment &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Controller" href="controller.html" />
     <link rel="prev" title="Behavior Search" href="behavior_search.html" />
 <meta charset='utf-8'>
@@ -39,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../behavior_learning.html">Behavior Learning</a></li>
@@ -95,9 +94,9 @@
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -113,14 +112,26 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Environment</a><ul>
 <li><a class="reference internal" href="#id2">Environment</a><ul>
-<li><a class="reference internal" href="#objective-function">Objective Function</a></li>
-<li><a class="reference internal" href="#openai-gym">OpenAI Gym</a></li>
-<li><a class="reference internal" href="#optimum-trajectory">Optimum Trajectory</a></li>
+<li><a class="reference internal" href="#objective-function">Objective Function</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-environment-objectivefunction">Examples using <code class="docutils literal"><span class="pre">bolero.environment.ObjectiveFunction</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openai-gym">OpenAI Gym</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-environment-openaigym">Examples using <code class="docutils literal"><span class="pre">bolero.environment.OpenAiGym</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimum-trajectory">Optimum Trajectory</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-environment-optimumtrajectory">Examples using <code class="docutils literal"><span class="pre">bolero.environment.OptimumTrajectory</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#contextual-environment">Contextual Environment</a><ul>
 <li><a class="reference internal" href="#contextual-objective-function">Contextual Objective Function</a></li>
-<li><a class="reference internal" href="#catapult">Catapult</a></li>
+<li><a class="reference internal" href="#catapult">Catapult</a><ul>
+<li><a class="reference internal" href="#examples-using-bolero-environment-catapult">Examples using <code class="docutils literal"><span class="pre">bolero.environment.Catapult</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -164,7 +175,7 @@ and measure their performance.</p>
 <h2>Environment<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>The following table gives an overview of the environments that are provided by
 BOLeRo.</p>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -191,11 +202,29 @@ BOLeRo.</p>
 <p>Several benchmark functions to compare continuous black-box optimizers are
 provided by the environment <a class="reference internal" href="generated/bolero.environment.ObjectiveFunction.html#bolero.environment.ObjectiveFunction" title="bolero.environment.ObjectiveFunction"><code class="xref py py-class docutils literal"><span class="pre">ObjectiveFunction</span></code></a>. The objective
 functions are the same as in the software <a class="reference external" href="http://coco.gforge.inria.fr/doku.php">COCO</a>.</p>
+<div class="section" id="examples-using-bolero-environment-objectivefunction">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.environment.ObjectiveFunction</span></code><a class="headerlink" href="#examples-using-bolero-environment-objectivefunction" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="Plot an artificial objective function that can be used as a benchmark for black-box optimizatio..."><div class="figure" id="id8">
+<img alt="../_images/sphx_glr_plot_objective_function_thumb.png" src="../_images/sphx_glr_plot_objective_function_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/environment/plot_objective_function.html#sphx-glr-auto-examples-environment-plot-objective-function-py"><span class="std std-ref">Objective Function</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
 </div>
 <div class="section" id="openai-gym">
 <span id="openaigym"></span><h3>OpenAI Gym<a class="headerlink" href="#openai-gym" title="Permalink to this headline">¶</a></h3>
 <p>The environment <a class="reference internal" href="generated/bolero.environment.OpenAiGym.html#bolero.environment.OpenAiGym" title="bolero.environment.OpenAiGym"><code class="xref py py-class docutils literal"><span class="pre">OpenAiGym</span></code></a> is a wrapper for
 <a class="reference external" href="https://gym.openai.com">OpenAI Gym</a> environments.</p>
+<div class="section" id="examples-using-bolero-environment-openaigym">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.environment.OpenAiGym</span></code><a class="headerlink" href="#examples-using-bolero-environment-openaigym" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="A simple problem with a discrete state and action space is solved with a tabular reinforcement ..."><div class="figure" id="id9">
+<img alt="../_images/sphx_glr_plot_discrete_problem_thumb.png" src="../_images/sphx_glr_plot_discrete_problem_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_discrete_problem.html#sphx-glr-auto-examples-behavior-search-plot-discrete-problem-py"><span class="std std-ref">Discrete Problem</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This is an example of how to use the Cart Pole environment from OpenAI Gym via the wrapper that..."><div class="figure" id="id10">
+<img alt="../_images/sphx_glr_plot_cart_pole_thumb.png" src="../_images/sphx_glr_plot_cart_pole_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_cart_pole.html#sphx-glr-auto-examples-behavior-search-plot-cart-pole-py"><span class="std std-ref">Cart Pole</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
 </div>
 <div class="section" id="optimum-trajectory">
 <span id="id5"></span><h3>Optimum Trajectory<a class="headerlink" href="#optimum-trajectory" title="Permalink to this headline">¶</a></h3>
@@ -203,13 +232,20 @@ functions are the same as in the software <a class="reference external" href="ht
 algorithms for simple planning problems. The goal is to avoid obstacles and
 minimize the effort used for the trajectory, e.g. by minimizing the velocities
 or accelerations.</p>
+<div class="section" id="examples-using-bolero-environment-optimumtrajectory">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.environment.OptimumTrajectory</span></code><a class="headerlink" href="#examples-using-bolero-environment-optimumtrajectory" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="We use CMA-ES to optimize a DMP so that it avoids point obstacles. "><div class="figure" id="id11">
+<img alt="../_images/sphx_glr_plot_obstacle_avoidance_thumb.png" src="../_images/sphx_glr_plot_obstacle_avoidance_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/behavior_search/plot_obstacle_avoidance.html#sphx-glr-auto-examples-behavior-search-plot-obstacle-avoidance-py"><span class="std std-ref">Obstacle Avoidance</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
 </div>
 </div>
 <div class="section" id="contextual-environment">
 <h2>Contextual Environment<a class="headerlink" href="#contextual-environment" title="Permalink to this headline">¶</a></h2>
 <p>The following table gives an overview of the contextual environments that are
 provided by BOLeRo.</p>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="20%" />
 <col width="80%" />
@@ -237,10 +273,17 @@ based on the functions that are provided with <a class="reference external" href
 </div>
 <div class="section" id="catapult">
 <span id="catapult-env"></span><h3>Catapult<a class="headerlink" href="#catapult" title="Permalink to this headline">¶</a></h3>
-<p>The catapult environment is a benchmark problem for contextual policy search.
+<p>The <a class="reference internal" href="generated/bolero.environment.Catapult.html#bolero.environment.Catapult" title="bolero.environment.Catapult"><code class="xref py py-class docutils literal"><span class="pre">Catapult</span></code></a> environment is a benchmark problem for contextual policy search.
 It is a two-dimensional environment like the one displayed in the figur below.
 The goal is to hit the ground at a target specified on the x-axis. The target
 is given by the context vector.</p>
+<div class="section" id="examples-using-bolero-environment-catapult">
+<h4>Examples using <code class="docutils literal"><span class="pre">bolero.environment.Catapult</span></code><a class="headerlink" href="#examples-using-bolero-environment-catapult" title="Permalink to this headline">¶</a></h4>
+<div class="sphx-glr-thumbcontainer" tooltip="Illustration of the catapult environment for example surface. "><div class="figure" id="id12">
+<img alt="../_images/sphx_glr_plot_catapult_thumb.png" src="../_images/sphx_glr_plot_catapult_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/environment/plot_catapult.html#sphx-glr-auto-examples-environment-plot-catapult-py"><span class="std std-ref">Catapult Environment</span></a></span></p>
+</div>
+</div><div style='clear:both'></div></div>
 </div>
 </div>
 </div>
@@ -257,8 +300,8 @@ is given by the context vector.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>

@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>bolero.optimizer.SkOptOptimizer &mdash; bolero 0.0.1 documentation</title>
-    
+    <title>bolero.optimizer.SkOptOptimizer &#8212; bolero 1.0.1-dev documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/flatly/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '1.0.1-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="bolero 0.0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Python API" href="../../api_py.html" />
-    <link rel="next" title="bolero.representation.Behavior" href="bolero.representation.Behavior.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="bolero.optimizer.ACMESOptimizer" href="bolero.optimizer.ACMESOptimizer.html" />
     <link rel="prev" title="bolero.optimizer.CREPSOptimizer" href="bolero.optimizer.CREPSOptimizer.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -40,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -53,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           bolero</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.0.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.1-dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -73,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart-controller.html">Quick Start with the Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../behavior_learning.html">Behavior Learning</a></li>
@@ -96,9 +94,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../api_py.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_cpp.html">C++ API (Summary)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_modules.html">All C++ Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mars_environment.html">MARS Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 </ul>
 </li>
@@ -156,69 +154,63 @@ for details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dimensions</strong> : list, shape=(n_dims,)</p>
-<blockquote>
-<div><p>List of search space dimensions.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dimensions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list, shape=(n_dims,)</span></dt>
+<dd><p class="first">List of search space dimensions.
 Each search dimension can be defined either as</p>
-<ul class="simple">
+<ul class="last simple">
 <li>a <cite>(upper_bound, lower_bound)</cite> tuple (for <cite>Real</cite> or <cite>Integer</cite>
 dimensions),</li>
-<li>a <cite>(upper_bound, lower_bound, &#8220;prior&#8221;)</cite> tuple (for <cite>Real</cite>
+<li>a <cite>(upper_bound, lower_bound, “prior”)</cite> tuple (for <cite>Real</cite>
 dimensions),</li>
 <li>as a list of categories (for <cite>Categorical</cite> dimensions), or</li>
 <li>an instance of a <cite>Dimension</cite> object (<cite>Real</cite>, <cite>Integer</cite> or
 <cite>Categorical</cite>).</li>
 </ul>
-</div></blockquote>
-<p><strong>base_estimator</strong> : string or Regressor, optional (default: &#8216;ET&#8217;)</p>
-<blockquote>
-<div><p>The regressor to use as surrogate model. Can be either</p>
+</dd>
+<dt><strong>base_estimator</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string or Regressor, optional (default: ‘ET’)</span></dt>
+<dd><p class="first">The regressor to use as surrogate model. Can be either</p>
 <ul class="simple">
-<li><cite>&#8220;RF&#8221;</cite> for random forest regressor</li>
-<li><cite>&#8220;ET&#8221;</cite> for extra trees regressor</li>
-<li><cite>&#8220;GP&#8221;</cite> for Gaussian process estimator with Matern kernel</li>
-<li><cite>&#8220;GBRT&#8221;</cite> for gradient boosted trees</li>
+<li><cite>“RF”</cite> for random forest regressor</li>
+<li><cite>“ET”</cite> for extra trees regressor</li>
+<li><cite>“GP”</cite> for Gaussian process estimator with Matern kernel</li>
+<li><cite>“GBRT”</cite> for gradient boosted trees</li>
 <li>instance of regressor with support for <cite>return_std</cite> in its predict
 method</li>
 </ul>
-<p>The predefined models are initilized with good defaults. If you
+<p class="last">The predefined models are initilized with good defaults. If you
 want to adjust the model parameters pass your own instance of
 a regressor which returns the mean and standard deviation when
 making predictions.</p>
-</div></blockquote>
-<p><strong>maximize</strong> : boolean, optional (default: True)</p>
-<blockquote>
-<div><p>Maximize return or minimize cost?</p>
-</div></blockquote>
-<p><strong>n_random_starts</strong> : int, optional (default: 10)</p>
-<blockquote>
-<div><p>Number of evaluations of <cite>func</cite> with random initialization points
+</dd>
+<dt><strong>maximize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional (default: True)</span></dt>
+<dd><p class="first last">Maximize return or minimize cost?</p>
+</dd>
+<dt><strong>n_random_starts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 10)</span></dt>
+<dd><p class="first last">Number of evaluations of <cite>func</cite> with random initialization points
 before approximating the <cite>func</cite> with <cite>base_estimator</cite>. While random
 points are being suggested no model will be fit to the observations.</p>
-</div></blockquote>
-<p><strong>acq_func</strong> : string, optional (default=&#8217;EI&#8217;)</p>
-<blockquote>
-<div><p>Function to minimize over the posterior distribution. Can be either</p>
-<ul class="simple">
-<li><cite>&#8220;LCB&#8221;</cite> for lower confidence bound,</li>
-<li><cite>&#8220;EI&#8221;</cite> for negative expected improvement,</li>
-<li><cite>&#8220;PI&#8221;</cite> for negative probability of improvement.</li>
+</dd>
+<dt><strong>acq_func</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default=’EI’)</span></dt>
+<dd><p class="first">Function to minimize over the posterior distribution. Can be either</p>
+<ul class="last simple">
+<li><cite>“LCB”</cite> for lower confidence bound,</li>
+<li><cite>“EI”</cite> for negative expected improvement,</li>
+<li><cite>“PI”</cite> for negative probability of improvement.</li>
 </ul>
-</div></blockquote>
-<p><strong>acq_optimizer</strong> : string, &#8216;sampling&#8217; or &#8216;lbfgs&#8217;, optional (default:&#8217;lbfgs&#8217;)</p>
-<blockquote>
-<div><p>Method to minimize the acquistion function. The fit model
+</dd>
+<dt><strong>acq_optimizer</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, ‘sampling’ or ‘lbfgs’, optional (default:’lbfgs’)</span></dt>
+<dd><p class="first">Method to minimize the acquistion function. The fit model
 is updated with the optimal value obtained by optimizing <cite>acq_func</cite>
 with <cite>acq_optimizer</cite>.</p>
-<ul>
-<li><p class="first">If set to <cite>&#8220;sampling&#8221;</cite>, then <cite>acq_func</cite> is optimized by computing
-<cite>acq_func</cite> at <cite>n_points</cite> sampled randomly.</p>
-</li>
+<ul class="last simple">
+<li>If set to <cite>“sampling”</cite>, then <cite>acq_func</cite> is optimized by computing
+<cite>acq_func</cite> at <cite>n_points</cite> sampled randomly.</li>
 <li><dl class="first docutils">
-<dt>If set to <cite>&#8220;lbfgs&#8221;</cite>, then <cite>acq_func</cite> is optimized by</dt>
-<dd><ul class="first last simple">
+<dt>If set to <cite>“lbfgs”</cite>, then <cite>acq_func</cite> is optimized by</dt>
+<dd><ul class="first last">
 <li>Sampling <cite>n_restarts_optimizer</cite> points randomly.</li>
-<li><cite>&#8220;lbfgs&#8221;</cite> is run for 20 iterations with these points as initial
+<li><cite>“lbfgs”</cite> is run for 20 iterations with these points as initial
 points to find local minima.</li>
 <li>The optimal of these local minima is used to update the prior.</li>
 </ul>
@@ -226,42 +218,37 @@ points to find local minima.</li>
 </dl>
 </li>
 </ul>
-</div></blockquote>
-<p><strong>random_state</strong> : int, RandomState instance, or None, optional (default: None)</p>
-<blockquote>
-<div><p>Set random state to something other than None for reproducible
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, RandomState instance, or None, optional (default: None)</span></dt>
+<dd><p class="first last">Set random state to something other than None for reproducible
 results.</p>
-</div></blockquote>
-<p><strong>n_points</strong> : int, optional (default: 500)</p>
-<blockquote>
-<div><p>Number of points to sample to determine the next &#8220;best&#8221; point.
-Useless if acq_optimizer is set to <cite>&#8220;lbfgs&#8221;</cite>.</p>
-</div></blockquote>
-<p><strong>n_restarts_optimizer</strong> : int, optional (default: 5)</p>
-<blockquote>
-<div><p>The number of restarts of the optimizer when <cite>acq_optimizer</cite>
-is <cite>&#8220;lbfgs&#8221;</cite>.</p>
-</div></blockquote>
-<p><strong>xi</strong> : float, optional (default: 0.01)</p>
-<blockquote>
-<div><p>Controls how much improvement one wants over the previous best
-values. Used when the acquisition is either <cite>&#8220;EI&#8221;</cite> or <cite>&#8220;PI&#8221;</cite>.</p>
-</div></blockquote>
-<p><strong>kappa</strong> : float, optional (default: 1.96)</p>
-<blockquote>
-<div><p>Controls how much of the variance in the predicted values should be
+</dd>
+<dt><strong>n_points</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 500)</span></dt>
+<dd><p class="first last">Number of points to sample to determine the next “best” point.
+Useless if acq_optimizer is set to <cite>“lbfgs”</cite>.</p>
+</dd>
+<dt><strong>n_restarts_optimizer</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 5)</span></dt>
+<dd><p class="first last">The number of restarts of the optimizer when <cite>acq_optimizer</cite>
+is <cite>“lbfgs”</cite>.</p>
+</dd>
+<dt><strong>xi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 0.01)</span></dt>
+<dd><p class="first last">Controls how much improvement one wants over the previous best
+values. Used when the acquisition is either <cite>“EI”</cite> or <cite>“PI”</cite>.</p>
+</dd>
+<dt><strong>kappa</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional (default: 1.96)</span></dt>
+<dd><p class="first last">Controls how much of the variance in the predicted values should be
 taken into account. If set to be very high, then we are favouring
 exploration over exploitation and vice versa.
-Used when the acquisition is <cite>&#8220;LCB&#8221;</cite>.</p>
-</div></blockquote>
-<p><strong>n_jobs</strong> : int, optional (default: 1)</p>
-<blockquote class="last">
-<div><p>Number of cores to run in parallel while running the lbfgs
+Used when the acquisition is <cite>“LCB”</cite>.</p>
+</dd>
+<dt><strong>n_jobs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional (default: 1)</span></dt>
+<dd><p class="first last">Number of cores to run in parallel while running the lbfgs
 optimizations over the acquisition function. Valid only when
-<cite>acq_optimizer</cite> is set to &#8220;lbfgs.&#8221;
+<cite>acq_optimizer</cite> is set to “lbfgs.”
 Defaults to 1 core. If <cite>n_jobs=-1</cite>, then number of jobs is set
 to number of cores.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -279,10 +266,11 @@ to number of cores.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
-<blockquote class="last">
-<div><p>Parameter names mapped to their values.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -297,13 +285,14 @@ to number of cores.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>best_fitness</strong> : float</p>
-<blockquote class="last">
-<div><p>Best fitness (sum of feedbacks) so far. Corresponds to the
-parameters obtained by get_best_parameters(method=&#8217;best&#8217;). For
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>best_fitness</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Best fitness (sum of feedbacks) so far. Corresponds to the
+parameters obtained by get_best_parameters(method=’best’). For
 maximize=True, this is the highest observed fitness, and for
 maximize=False, this is the lowest observed fitness.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -318,16 +307,18 @@ maximize=False, this is the lowest observed fitness.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : string, optional (default: &#8216;best&#8217;)</p>
-<blockquote>
-<div><p>Either &#8216;best&#8217; or &#8216;mean&#8217;</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>method</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default: ‘best’)</span></dt>
+<dd><p class="first last">Either ‘best’ or ‘mean’</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>best_params</strong> : array-like, shape (n_params,)</p>
-<blockquote class="last">
-<div><p>Best parameters</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>best_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_params,)</span></dt>
+<dd><p class="first last">Best parameters</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -342,10 +333,11 @@ maximize=False, this is the lowest observed fitness.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>params</strong> : array_like, shape (n_params,)</p>
-<blockquote class="last">
-<div><p>Parameter vector, will be modified</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like, shape (n_params,)</span></dt>
+<dd><p class="first last">Parameter vector, will be modified</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -360,10 +352,11 @@ maximize=False, this is the lowest observed fitness.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n_params</strong> : int</p>
-<blockquote class="last">
-<div><p>dimension of the parameter vector</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>n_params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">dimension of the parameter vector</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -378,10 +371,11 @@ maximize=False, this is the lowest observed fitness.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finished</strong> : bool</p>
-<blockquote class="last">
-<div><p>Is the learning of a behavior finished?</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>finished</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Is the learning of a behavior finished?</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -396,10 +390,11 @@ maximize=False, this is the lowest observed fitness.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>feedback</strong> : list of float</p>
-<blockquote class="last">
-<div><p>feedbacks for each step or for the episode, depends on the problem</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>feedback</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list of float</span></dt>
+<dd><p class="first last">feedbacks for each step or for the episode, depends on the problem</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -422,8 +417,8 @@ maximize=False, this is the lowest observed fitness.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, DFKI RIC, University of Bremen.<br/>
-      Last updated on May 21, 2017.<br/>
+        &copy; Copyright 2014-2018, DFKI GmbH / Robotics Innovation Center, University of Bremen / Robotics Group.<br/>
+      Last updated on May 26, 2018.<br/>
     </p>
   </div>
 </footer>
