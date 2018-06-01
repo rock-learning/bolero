@@ -45,6 +45,7 @@ namespace bolero {
         simulation->needQApp = true;
       } else {
         simulation->needQApp = false;
+        simulation->noGUI = true;
       }
       simulation->readArguments(argc, argv);
       simulation->init();
