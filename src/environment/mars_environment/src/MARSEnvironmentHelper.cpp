@@ -65,24 +65,17 @@ namespace bolero {
       if(config != "")
       {
         ConfigMap map = ConfigMap::fromYamlString(config);
-        ConfigMap *map2;
 
-        if(map.hasKey("Environment")) {
-            map2 = map["Environment"];
-        } else {
-            map2 = &map;
-        }
+        if(map.hasKey("enableGUI"))
+            enableGUI = map["enableGUI"];
 
-        if(map2->hasKey("enableGUI"))
-            enableGUI = (*map2)["enableGUI"];
-
-        if(map2->hasKey("graphicsUpdateTime"))
-            graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
+        if(map.hasKey("graphicsUpdateTime"))
+            graphicsUpdateTime = map["graphicsUpdateTime"];
         else
             graphicsUpdateTime = 0u;
 
-        if(map2->hasKey("graphicsStepSkip"))
-            graphicsStepSkip = (*map2)["graphicsStepSkip"];
+        if(map.hasKey("graphicsStepSkip"))
+            graphicsStepSkip = map["graphicsStepSkip"];
         else
             graphicsStepSkip = 0u;
       }
