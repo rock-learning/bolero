@@ -254,3 +254,12 @@ class REPSOptimizer(Optimizer):
             Is the learning of a behavior finished?
         """
         return False
+
+    def __getstate__(self):
+        d = dict(self.__dict__)
+        del d["logger"]
+        return d
+
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+        self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
