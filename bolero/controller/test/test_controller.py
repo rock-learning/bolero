@@ -5,7 +5,8 @@ from bolero.controller import Controller
 from bolero.environment import ObjectiveFunction
 from bolero.behavior_search import JustOptimizer
 from bolero.representation import DummyBehavior
-from bolero.optimizer import CMAESOptimizer
+from bolero.optimizer import CMAESOptimizer, REPSOptimizer
+from bolero.utils.testing import assert_pickle
 from numpy.testing import assert_array_equal
 
 
@@ -117,3 +118,13 @@ def test_learn_controller_cmaes_sphere():
     returns = ctrl.learn()
     dist_to_maximum = returns.max() - ctrl.environment.get_maximum_feedback()
     assert_greater(dist_to_maximum, -1e-5)
+
+
+def test_pickle_controller():
+    names = ["CMAESOptimizer", "REPSOptimizer"]
+    optimizers = [CMAESOptimizer, REPSOptimizer]
+    for name, Optimizer in zip(names, optimizers):
+        opt = Optimizer(initial_params=np.zeros(2))
+        ctrl = Controller(environment=ObjectiveFunction(),
+                          behavior_search=JustOptimizer(opt))
+        assert_pickle(name, ctrl)
