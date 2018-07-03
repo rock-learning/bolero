@@ -44,13 +44,12 @@ public:
     /**
      * \return true if the model is consistent, false otherwise
      */
-    virtual bool is_valid() const;
+    bool is_valid() const;
 
     void to_yaml_file(std::string filepath);
 
     friend std::ostream& operator << (std::ostream& os, DMPModel& val);
 
-PRIVATE:
     /**
      * \return true if the vector contains at least one number that is NaN or Inf
      */

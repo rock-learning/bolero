@@ -31,7 +31,6 @@ public:
   void toYamlFile(std::string filepath);
   bool isValid() const;
 
-PRIVATE:
   bool fullyInitialized;
 };
 }
