@@ -43,7 +43,7 @@ bool QuaternionDmp::initialize(const std::string &initialConfigPath)
 
 bool QuaternionDmp::initialize(const QuaternionDmpModel &model)
 {
-  if(model.is_valid())
+  if(model.is_valid() && model.ft_weights.size() == 3)
   {
     name = model.model_name;
 
