@@ -1,8 +1,5 @@
 #ifndef DMPMODEL_H
 #define DMPMODEL_H
-#ifndef PRIVATE
-#define PRIVATE private
-#endif
 
 #include <vector>
 #include <string>
@@ -86,4 +83,3 @@ inline std::ostream& operator << (std::ostream& os, dmp_cpp::DMPModel& op)
 }
 }
 #endif
-
