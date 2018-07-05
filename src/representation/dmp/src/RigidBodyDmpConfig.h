@@ -1,7 +1,4 @@
 #pragma once
-#ifndef PRIVATE
-#define PRIVATE private
-#endif
 #include <string>
 #include "QuaternionDmpConfig.h"
 #include "DMPConfig.h"
