@@ -15,11 +15,5 @@ public:
 
   QuaternionDmpModel(const DMPModel& other) : DMPModel(other)
   {  }
-
-  bool is_valid() const
-  {
-    return dmp_cpp::DMPModel::is_valid() &&
-           ft_weights.size() == 3;
-  }
 };
 }
