@@ -134,7 +134,7 @@ bool RigidBodyDmp::initialize(const dmp_cpp::DMPModel &model)
   rotationModel.ft_weights[1] = model.ft_weights[4];
   rotationModel.ft_weights[2] = model.ft_weights[5];
 
-  if(translationModel.is_valid() && rotationModel.is_valid())
+  if(translationModel.is_valid() && rotationModel.is_valid() && rotationModel.ft_weights.size() == 3)
   {
     translationDmp.reset(new DmpBehavior(manager));
     rotationDmp.reset(new QuaternionDmp(manager));
