@@ -50,10 +50,9 @@ def load_lasa(shape_idx):
         (without suffix)
     """
 
-    dataset_path = os.sep.join(__file__.split(os.sep)[:-1])
-    if dataset_path != "":
-        dataset_path += os.sep
-    dataset_path += "lasa_data"
+    dataset_path = os.path.expanduser("~")
+    dataset_path += os.sep + "bolero_data" 
+    dataset_path += os.sep + "lasa_data"
 
     if not os.path.isdir(dataset_path):
         Repo.clone_from(
