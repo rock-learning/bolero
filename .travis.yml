@@ -10,7 +10,7 @@ before_script:
   - sudo apt-get install -qq python-dev python-pip python-matplotlib python-tk libboost-all-dev libeigen3-dev libqt4-dev libtinyxml-dev pkg-config libyaml-cpp-dev libblas-dev liblapack-dev gfortran
   - sudo apt-get remove python-numpy
   - sudo pip install --upgrade pip
-  - sudo pip install numpy pyyaml cython joblib pandas bs4 nose
+  - sudo pip install numpy pyyaml cython joblib pandas bs4 nose gitpython
   - export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
   - mkdir -p ../build; cd ../build; cp ../bolero/bootstrap_bolero.sh .; ./bootstrap_bolero.sh; rm -rf bolero-dev/learning/bolero/; mv ../bolero bolero-dev/learning; cd bolero-dev; source env.sh; pybob/pybob.py install
