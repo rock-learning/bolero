@@ -46,9 +46,9 @@ namespace promp {
                const TrajectoryType type = Stroke);
 
     Trajectory(const std::vector<VectorXd> &timestamps, const std::vector<MatrixXd> &values, const double overlap, int numWeights = 30,
-               const TrajectoryType type = Stroke);
+               const int iterationLimit = 100,const TrajectoryType type = Stroke);
 
-    void imitate(const std::vector<VectorXd> &timestamps, const std::vector<MatrixXd> &values);
+    void imitate(const std::vector<VectorXd> &timestamps, const std::vector<MatrixXd> &values, const int imitationLimit = 100);
 
     MatrixXd getWeightMean() const;
 
@@ -68,22 +68,18 @@ namespace promp {
 
     void getData(TrajectoryData &data) const;
 
+    Trajectory sampleTrajectoty(unsigned& seed) const;
     Trajectory sampleTrajectoty() const;
 
     const int numWeights_;
     const int numDim_;
     const double overlap_;
     static constexpr int numFunc_ = 2; // position and acceleration
-    void beginTimeMeasure() const;
 
-    double endTimeMeasure() const;
   private:
-    //TrajectoryData data;
     void E_Step(const MatrixXd &mean_eStep, const MatrixXd &cov_eStep, Ref<VectorXd, 0, InnerStride<>> mean, MatrixXd &cov);
 
-    void M_Step(const MatrixXd &mean, const std::vector<MatrixXd> &cov);
-
-    void M_Step2(const MatrixXd &mean, const std::vector<MatrixXd> &cov, const std::vector<MatrixXd> &RR,
+    void M_Step(const MatrixXd &mean, const std::vector<MatrixXd> &cov, const std::vector<MatrixXd> &RR,
                  const std::vector<MatrixXd> &RH, const std::vector<MatrixXd> &HH, const int sampleCount);
 
     void setBF();
@@ -99,26 +95,4 @@ namespace promp {
     std::shared_ptr<BasisFunctions> basisFunctions_ = nullptr;
     mutable std::chrono::high_resolution_clock::time_point start;
   };
-
-  class CombinedTrajectory{
-  public:
-    CombinedTrajectory(const CombinedTrajectoryData &data);
-
-    CombinedTrajectory(const std::vector<Trajectory> &trajectories, const std::vector<MatrixXd> &activations);
-
-    MatrixXd getValueMean(const VectorXd &time) const;
-
-    VectorXd getValueMean(const double time) const;
-
-    std::vector<MatrixXd> getValueCovars(const VectorXd &time) const;
-
-    MatrixXd getValueCovars(const double time) const;
-
-  private:
-    std::vector<Trajectory> trajectories_;
-    std::vector<MatrixXd> activations_;
-
-    double getActivation(const double time, const int index) const;
-  };
-
 }

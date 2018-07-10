@@ -9,7 +9,7 @@ from .behavior import BlackBoxBehavior
 import promp
 
 
-PERMITTED_promp_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
+PERMITTED_PROMP_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
 
 
 def load_promp_model(promp, filename):
@@ -135,6 +135,7 @@ class ProMPBehavior(BlackBoxBehavior):
             self.name = "Python promp"
             self.data = promp.TrajectoryData(
                 self.n_features, self.n_task_dims, True, self.overlap)
+            self.random_state_ = np.random.randint(100000000) # some big number for random state
 
         if not hasattr(self, "x0"):
             self.x0 = None
@@ -179,10 +180,10 @@ class ProMPBehavior(BlackBoxBehavior):
 
         conditionPoints = []
         for key, meta_parameter in zip(keys, meta_parameters):
-            if key not in PERMITTED_promp_METAPARAMETERS:
+            if key not in PERMITTED_PROMP_METAPARAMETERS:
                 raise ValueError(
                     "Meta parameter '%s' is not allowed, use one of %r"
-                    % (key, PERMITTED_promp_METAPARAMETERS))
+                    % (key, PERMITTED_PROMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
 
             if key == "x0":
