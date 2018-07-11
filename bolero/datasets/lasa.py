@@ -1,8 +1,9 @@
 import numpy as np
 import os
 import scipy.io
-from git import Repo
-
+import zipfile
+import io
+import urllib2
 
 def load_lasa(shape_idx):
     """Load demonstrations from LASA dataset.
@@ -51,15 +52,15 @@ def load_lasa(shape_idx):
     """
 
     dataset_path = os.path.expanduser("~")
-    dataset_path += os.sep + "bolero_data" 
-    dataset_path += os.sep + "lasa_data"
+    dataset_path += os.sep + "bolero_data" + os.sep
 
     if not os.path.isdir(dataset_path):
-        Repo.clone_from(
-            "https://bitbucket.org/khansari/lasahandwritingdataset.git", 
-            dataset_path)
+        url = urllib2.urlopen("http://bitbucket.org/khansari/lasahandwritingdataset/get/38304f7c0ac4.zip")
+        z = zipfile.ZipFile(io.BytesIO(url.read()))
+        z.extractall(dataset_path)
+        os.rename(dataset_path+z.namelist()[0], dataset_path+"lasa_data"+os.sep)
 
-    dataset_path += os.sep + "DataSet" + os.sep
+    dataset_path += "lasa_data" + os.sep + "DataSet" + os.sep
     demos, shape_name = _load_from_matlab_file(dataset_path, shape_idx)
     X, Xd, Xdd, dt = _convert_demonstrations(demos)
     return X, Xd, Xdd, dt, shape_name
