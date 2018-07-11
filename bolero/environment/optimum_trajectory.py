@@ -144,9 +144,9 @@ class OptimumTrajectory(Environment):
                 values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
         else:
             values[:self.n_task_dims] = self.X[self.t - 1]
-            values[self.n_task_dims:2*self.n_task_dims] = self.Xd[self.t - 1]
+            values[self.n_task_dims : 2*self.n_task_dims] = self.Xd[self.t - 1]
             if not self.calc_acc:
-                values[-self.n_task_dims:] = self.Xdd[self.t - 1]
+                values[-self.n_task_dims :] = self.Xdd[self.t - 1]
 
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
@@ -244,7 +244,6 @@ class OptimumTrajectory(Environment):
         acceleration : array-like, shape (n_steps,)
             the total acceleration (scalar) at all previous timestamps
         """
-
         acceleration = np.sqrt(np.sum(self.Xdd ** 2, axis=1))
         self.logger.info("Accelerations: %r" % acceleration)
         return acceleration
