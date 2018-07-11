@@ -32,4 +32,6 @@
   <rosdep name="python-matplotlib" />
   <rosdep name="python-sklearn" />
   <depend package="learning/bolero/bolero/wrapper" />
+  <depend package="learning/bolero/src/representation/promp" />
+  
 </package>
