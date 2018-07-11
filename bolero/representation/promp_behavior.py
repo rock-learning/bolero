@@ -69,7 +69,7 @@ def save_promp_model(promp, filename):
 
 
 class ProMPBehavior(BlackBoxBehavior):
-    """Dynamical Movement Primitive.
+    """Probabilistic Movement Primitive.
 
     Can be used to optimize the weights of a promp with a black box optimizer.
     This is a wrapper for the optional promp module of bolero. Only the weights
@@ -97,6 +97,10 @@ class ProMPBehavior(BlackBoxBehavior):
     configuration_file : string, optional (default: None)
         Name of a configuration file that should be used to initialize the
         promp. If it is set all other arguments will be ignored.
+    n_features: int, optional (default: 50)
+        How many features are to be used
+    overlap: float, optional (default: 0.7)
+        How much shall the gaussians which are used for approximation overlap
     """
 
     def __init__(self, execution_time=1.0, dt=0.01, n_features=50, overlap=0.7,
@@ -216,6 +220,7 @@ class ProMPBehavior(BlackBoxBehavior):
             would be: xxvv (x: position, v: velocity).
         """
         # just open loop by now
+        # TODO change that
 
     def get_outputs(self, outputs):
         """Get outputs of the last step.
@@ -383,7 +388,7 @@ class ProMPBehavior(BlackBoxBehavior):
         """
 
         # ret = promp.TrajectoryData(self.n_features,self.n_task_dims,True,
-        # self.overlap) #TODO make params
+        # self.overlap) #TODO make param
         # self.data.sample_trajectory_data(ret)
 
         x = np.arange(0, self.execution_time + self.dt*0.1, self.dt)
