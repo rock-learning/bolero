@@ -54,21 +54,39 @@ namespace promp {
 
     MatrixXd getWeightCovars() const;
 
+    /**
+     * Calculates the mean values (e.g. angles/coordinates) and their derivatives for a given vector of timestamps
+     */
     MatrixXd getValueMean(const VectorXd &time) const;
 
+    /**
+     * Calculates the mean values (e.g. angles/coordinates) and their derivatives for a given timestamp
+     */
     VectorXd getValueMean(const double time) const;
 
+    /**
+     * Calculates the covariance of the values (e.g. angles/coordinates) and their derivatives for a given vector of timestamps
+     */
     MatrixXd getValueCovars(const VectorXd &time) const;
 
+    /**
+     * Calculates the covariance of the values (e.g. angles/coordinates) and their derivatives for a given timestamp
+     */
     VectorXd getValueCovars(const double time) const;
 
-    void setConditions(const std::vector<ConditionPoint>& conditionPoints){
-      conditionPoints_ = conditionPoints;
-    };
+    inline void setConditions(const std::vector<ConditionPoint>& conditionPoints){ conditionPoints_ = conditionPoints; };
 
     void getData(TrajectoryData &data) const;
 
+    /**
+     * Samples a Trajectory from the current distribution with given seed
+     * seed is only used through this very run. however its adjusted to keep track of it 
+     */ 
     Trajectory sampleTrajectoty(unsigned& seed) const;
+
+    /**
+     * Samples a Trajectory from the current distribution with random seed
+     */ 
     Trajectory sampleTrajectoty() const;
 
     const int numWeights_; 
