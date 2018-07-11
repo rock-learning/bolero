@@ -71,14 +71,22 @@ namespace promp {
     Trajectory sampleTrajectoty(unsigned& seed) const;
     Trajectory sampleTrajectoty() const;
 
-    const int numWeights_;
-    const int numDim_;
+    const int numWeights_; 
+    const int numDim_; // num of dim per function (pos/acc)
     const double overlap_;
     static constexpr int numFunc_ = 2; // position and acceleration
 
   private:
+    /**
+     * Runs the E-Step from the ProMBayesian Multi-Task Reinforcement Learning Paper
+     * see https://hal.inria.fr/inria-00475214/document
+     */
     void E_Step(const MatrixXd &mean_eStep, const MatrixXd &cov_eStep, Ref<VectorXd, 0, InnerStride<>> mean, MatrixXd &cov);
-
+    
+    /**
+     * Runs the M-Step from the ProMBayesian Multi-Task Reinforcement Learning Paper
+     * see https://hal.inria.fr/inria-00475214/document
+     */
     void M_Step(const MatrixXd &mean, const std::vector<MatrixXd> &cov, const std::vector<MatrixXd> &RR,
                  const std::vector<MatrixXd> &RH, const std::vector<MatrixXd> &HH, const int sampleCount);
 

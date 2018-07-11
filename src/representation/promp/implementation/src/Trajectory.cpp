@@ -304,7 +304,7 @@ void Trajectory::M_Step(const MatrixXd &mean, const std::vector<MatrixXd> &cov, 
     standardDev_ += (mean.row(i) * HH[i] * mean.row(i).transpose())(0, 0);
   }
 
-  standardDev_ /= mean.norm() * mean.rows() * numDim_ * sampleCount + 2;
+  standardDev_ /= mean.norm() * mean.rows() * numDim_ * sampleCount + 2; // magic number from the paper
 }
 
 void Trajectory::setBF() {
