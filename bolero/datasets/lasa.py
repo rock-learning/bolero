@@ -52,10 +52,8 @@ def load_lasa(shape_idx):
         (without suffix)
     """
 
-    dataset_path = os.path.expanduser("~")
-    dataset_path += os.sep + "bolero_data" + os.sep
-
-    if not os.path.isdir(dataset_path):
+    dataset_path = get_common_dataset_path()
+    if not os.path.isdir(dataset_path + "lasa_data"):
         url = urllib2.urlopen(
             "http://bitbucket.org/khansari/lasahandwritingdataset/get/38304f7c0ac4.zip"
         )
@@ -93,3 +91,11 @@ def _convert_demonstrations(demos):
     dt = float(demos[0][0, 0][4])
 
     return X, Xd, Xdd, dt
+
+
+def get_common_dataset_path():
+    """Returns the path where all external datasets are stored."""
+
+    dataset_path = os.path.expanduser("~")
+    dataset_path += os.sep + "bolero_data" + os.sep
+    return dataset_path
