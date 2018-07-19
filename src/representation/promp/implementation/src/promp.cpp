@@ -15,11 +15,11 @@ TrajectoryData::TrajectoryData(const int numBF, const int numDim, const bool isS
     : mean_(
           std::vector<double>(numBF * numDim)),
       covariance_(std::vector<double>(numBF * numDim * numBF * numDim)),
-      iterationLimit_(100),numBF_(numBF), numDim_(numDim), isStroke_(isStroke), overlap_(overlap),
-      randomState_(time(0))  {}
+      iterationLimit_(100), numBF_(numBF), numDim_(numDim), isStroke_(isStroke), overlap_(overlap),
+      randomState_(time(0)) {}
 
 void TrajectoryData::sampleTrajectoryData(TrajectoryData &traj)
-{  
+{
   Trajectory(*this).sampleTrajectoty(randomState_).getData(traj);
 }
 
@@ -52,7 +52,7 @@ void TrajectoryData::imitate(const double *sizes, const int numSizes, const doub
                     numDim_));
     counter += sizes_(i);
   }
-  Trajectory(timestampsVector, valueVector, overlap_, numBF_,iterationLimit_).getData(*this);
+  Trajectory(timestampsVector, valueVector, overlap_, numBF_, iterationLimit_).getData(*this);
 }
 
 void TrajectoryData::getValues(const double *timestamps, const int numTimestamps, double *means, int numMeans,
@@ -60,7 +60,7 @@ void TrajectoryData::getValues(const double *timestamps, const int numTimestamps
 {
   const VectorXd timestamps_ = constVector(timestamps, numTimestamps);
   Matrix means_(means, 2 * numDim_, numTimestamps);
-  Matrix covars_(covars,numTimestamps,2 * numDim_*2*numDim_);
+  Matrix covars_(covars, numTimestamps, 2 * numDim_ * 2 * numDim_);
   Trajectory trajectory(*this);
 
   covars_ = trajectory.getValueCovars(timestamps_);
@@ -70,7 +70,7 @@ void TrajectoryData::getValues(const double *timestamps, const int numTimestamps
 void TrajectoryData::condition(const int count, const double *points, const int numPoints)
 {
   conditions_ = std::vector<double>(numPoints);
-  memcpy(conditions_.data(),points,sizeof(double)*numPoints);
+  memcpy(conditions_.data(), points, sizeof(double) * numPoints);
 }
 
-}
+} // namespace promp
