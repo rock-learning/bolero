@@ -61,12 +61,24 @@ class OptimumTrajectory(Environment):
         Shall the accelerations be calculated or is it provided?
 
     """
-    def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
-                 dt=0.01, obstacles=None, obstacle_dist=0.1,
-                 penalty_start_dist=0.0, penalty_goal_dist=0.0,
-                 penalty_length=0.0, penalty_vel=0.0, penalty_acc=0.0,
-                 penalty_obstacle=0.0, log_to_file=False, log_to_stdout=False,
-                 use_covar=False, calc_acc=False):
+
+    def __init__(self,
+                 x0=np.zeros(2),
+                 g=np.ones(2),
+                 execution_time=1.0,
+                 dt=0.01,
+                 obstacles=None,
+                 obstacle_dist=0.1,
+                 penalty_start_dist=0.0,
+                 penalty_goal_dist=0.0,
+                 penalty_length=0.0,
+                 penalty_vel=0.0,
+                 penalty_acc=0.0,
+                 penalty_obstacle=0.0,
+                 log_to_file=False,
+                 log_to_stdout=False,
+                 use_covar=False,
+                 calc_acc=False):
         self.x0 = x0
         self.g = g
         self.execution_time = execution_time
@@ -144,9 +156,9 @@ class OptimumTrajectory(Environment):
                 values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
         else:
             values[:self.n_task_dims] = self.X[self.t - 1]
-            values[self.n_task_dims : 2*self.n_task_dims] = self.Xd[self.t - 1]
+            values[self.n_task_dims:2 * self.n_task_dims] = self.Xd[self.t - 1]
             if not self.calc_acc:
-                values[-self.n_task_dims :] = self.Xdd[self.t - 1]
+                values[-self.n_task_dims:] = self.Xdd[self.t - 1]
 
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
@@ -158,12 +170,13 @@ class OptimumTrajectory(Environment):
             in that order, e.g. for n_task_dims=2 the order would be xxvvaa
         """
         self.X[self.t, :] = values[:self.n_task_dims]
-        self.Xd[self.t, :] = values[self.n_task_dims:2*self.n_task_dims]
+        self.Xd[self.t, :] = values[self.n_task_dims:2 * self.n_task_dims]
         if self.calc_acc:
             if self.t == 0:
                 self.Xdd[self.t, :] = 0
             else:
-                self.Xdd[self.t, :] = self.Xd[self.t, :] - self.Xd[self.t-1, :]
+                self.Xdd[
+                    self.t, :] = self.Xd[self.t, :] - self.Xd[self.t - 1, :]
         else:
             self.Xdd[self.t, :] = values[-self.n_task_dims:]
 
@@ -190,8 +203,8 @@ class OptimumTrajectory(Environment):
             start distance
         """
         start_dist = np.linalg.norm(self.x0 - self.X[0])
-        self.logger.info("Distance to start: %.3f (* %.2f)"
-                         % (start_dist, self.penalty_start_dist))
+        self.logger.info("Distance to start: %.3f (* %.2f)" %
+                         (start_dist, self.penalty_start_dist))
         return start_dist
 
     def get_length(self):
@@ -203,11 +216,11 @@ class OptimumTrajectory(Environment):
             length
         """
         length = 0
-        for i in range(len(self.X)-1):
-            length += np.linalg.norm(self.X[i+1]-self.X[i])
+        for i in range(len(self.X) - 1):
+            length += np.linalg.norm(self.X[i + 1] - self.X[i])
 
-        self.logger.info("Length of trajectory: %.3f (* %.2f)"
-                         % (length, self.penalty_length))
+        self.logger.info("Length of trajectory: %.3f (* %.2f)" %
+                         (length, self.penalty_length))
         return length
 
     def get_goal_dist(self):
@@ -219,8 +232,8 @@ class OptimumTrajectory(Environment):
             goal distance
         """
         goal_dist = np.linalg.norm(self.g - self.X[-1])
-        self.logger.info("Distance to goal: %.3f (* %.2f)"
-                         % (goal_dist, self.penalty_goal_dist))
+        self.logger.info("Distance to goal: %.3f (* %.2f)" %
+                         (goal_dist, self.penalty_goal_dist))
         self.logger.info("Goal: %s, last position: %s" % (self.g, self.X[-1]))
         return goal_dist
 
@@ -232,7 +245,7 @@ class OptimumTrajectory(Environment):
         speed : array-like, shape (n_steps,)
             the speed (scalar) at all previous timestamps
         """
-        speed = np.sqrt(np.sum(self.Xd ** 2, axis=1))
+        speed = np.sqrt(np.sum(self.Xd**2, axis=1))
         self.logger.info("Speed: %r" % speed)
         return speed
 
@@ -244,7 +257,7 @@ class OptimumTrajectory(Environment):
         acceleration : array-like, shape (n_steps,)
             the total acceleration (scalar) at all previous timestamps
         """
-        acceleration = np.sqrt(np.sum(self.Xdd ** 2, axis=1))
+        acceleration = np.sqrt(np.sum(self.Xdd**2, axis=1))
         self.logger.info("Accelerations: %r" % acceleration)
         return acceleration
 
@@ -338,12 +351,12 @@ class OptimumTrajectory(Environment):
 
         from matplotlib.patches import Circle
 
-        ax.add_patch(Circle([self.x0[0], self.x0[1]], 0.02, ec="black",
-                            color="r"))
-        ax.add_patch(Circle([self.g[0], self.g[1]], 0.02, ec="black",
-                            color="g"))
+        ax.add_patch(
+            Circle([self.x0[0], self.x0[1]], 0.02, ec="black", color="r"))
+        ax.add_patch(
+            Circle([self.g[0], self.g[1]], 0.02, ec="black", color="g"))
 
         if self.obstacles is not None:
             for obstacle in self.obstacles:
-                ax.add_patch(Circle(obstacle, self.obstacle_dist, ec="none",
-                                    color="r"))
+                ax.add_patch(
+                    Circle(obstacle, self.obstacle_dist, ec="none", color="r"))

@@ -8,7 +8,6 @@ import numpy as np
 from .behavior import BlackBoxBehavior
 import promp
 
-
 PERMITTED_PROMP_METAPARAMETERS = ["x0", "g", "gd", "execution_time"]
 
 
@@ -30,16 +29,16 @@ def load_promp_model(promp, filename):
     promp.dt = model["ts_dt"]
     promp.overlap = model["overlap"]
     promp.n_features = promp.widths.shape[0]
-    promp.weights = np.array(model["ft_weights"], dtype=np.float).reshape(
-        promp.n_task_dims, promp.n_features).T
+    promp.weights = np.array(
+        model["ft_weights"], dtype=np.float).reshape(promp.n_task_dims,
+                                                     promp.n_features).T
 
     if promp.execution_time != model["cs_execution_time"]:
-        raise ValueError("Inconsistent execution times: %g != %g"
-                         % (model["ts_tau"],
-                            model["cs_execution_time"]))
+        raise ValueError("Inconsistent execution times: %g != %g" %
+                         (model["ts_tau"], model["cs_execution_time"]))
     if promp.dt != model["cs_dt"]:
-        raise ValueError("Inconsistent execution times: %g != %g"
-                         % (model["ts_dt"], model["cs_dt"]))
+        raise ValueError("Inconsistent execution times: %g != %g" %
+                         (model["ts_dt"], model["cs_dt"]))
 
 
 def save_promp_model(promp, filename):
@@ -103,8 +102,13 @@ class ProMPBehavior(BlackBoxBehavior):
         How much shall the gaussians which are used for approximation overlap
     """
 
-    def __init__(self, execution_time=1.0, dt=0.01, n_features=50, overlap=0.7,
-                 configuration_file=None, learn_covariance=False,
+    def __init__(self,
+                 execution_time=1.0,
+                 dt=0.01,
+                 n_features=50,
+                 overlap=0.7,
+                 configuration_file=None,
+                 learn_covariance=False,
                  use_covar=False):
         self.learn_covariance = learn_covariance
         self.use_covar = use_covar
@@ -131,15 +135,16 @@ class ProMPBehavior(BlackBoxBehavior):
         self.n_outputs = n_outputs
         self.n_task_dims = self.n_inputs / 2
         self.overlap = 0.7
-        self.valueMeans = np.empty(self.n_task_dims*2)
-        self.valueCovs = np.empty((self.n_task_dims*2)**2)
+        self.valueMeans = np.empty(self.n_task_dims * 2)
+        self.valueCovs = np.empty((self.n_task_dims * 2)**2)
         if hasattr(self, "configuration_file"):
             load_promp_model(self, self.configuration_file)
         else:
             self.name = "Python promp"
-            self.data = promp.TrajectoryData(
-                self.n_features, self.n_task_dims, True, self.overlap)
-            self.random_state_ = np.random.randint(100000000) # some big number for random state
+            self.data = promp.TrajectoryData(self.n_features, self.n_task_dims,
+                                             True, self.overlap)
+            self.random_state_ = np.random.randint(
+                100000000)  # some big number for random state
 
         if not hasattr(self, "x0"):
             self.x0 = None
@@ -186,8 +191,8 @@ class ProMPBehavior(BlackBoxBehavior):
         for key, meta_parameter in zip(keys, meta_parameters):
             if key not in PERMITTED_PROMP_METAPARAMETERS:
                 raise ValueError(
-                    "Meta parameter '%s' is not allowed, use one of %r"
-                    % (key, PERMITTED_PROMP_METAPARAMETERS))
+                    "Meta parameter '%s' is not allowed, use one of %r" %
+                    (key, PERMITTED_PROMP_METAPARAMETERS))
             setattr(self, key, meta_parameter)
 
             if key == "x0":
@@ -234,11 +239,11 @@ class ProMPBehavior(BlackBoxBehavior):
             If the covariance is used, the output becomes: xxvvc
             (c: covariance xvxv).
         """
-        i = int(self.t/self.dt)
+        i = int(self.t / self.dt)
         outputs[:self.n_task_dims] = self.y[i]
-        outputs[self.n_task_dims:2*self.n_task_dims] = self.yd[i]
+        outputs[self.n_task_dims:2 * self.n_task_dims] = self.yd[i]
         if self.use_covar:
-            outputs[2*self.n_task_dims:] = self.covars[i].flatten()
+            outputs[2 * self.n_task_dims:] = self.covars[i].flatten()
 
     def step(self):
         """Compute desired position, velocity and acceleration."""
@@ -279,8 +284,8 @@ class ProMPBehavior(BlackBoxBehavior):
         random_variables = len(self.data.mean_)
         if self.learn_covariance:
             correlation_coefficients = (
-                len(self.data.covariance_)-random_variables)/2
-            return 2*random_variables + correlation_coefficients
+                len(self.data.covariance_) - random_variables) / 2
+            return 2 * random_variables + correlation_coefficients
         else:
             return random_variables
 
@@ -316,13 +321,14 @@ class ProMPBehavior(BlackBoxBehavior):
         self.data.mean_ = params[:len(self.data.mean_)]
         if self.learn_covariance:
             D = np.diag(
-                np.square(np.array(params[len(self.data.mean_):2 *
-                          len(self.data.mean_)])))
+                np.square(
+                    np.array(params[len(self.data.mean_):2 *
+                                    len(self.data.mean_)])))
             cor = np.identity(len(self.data.mean_))
-            cor[np.tril_indices(len(self.data.mean_), k=-1)
-                ] = np.tanh(params[2*len(self.data.mean_):])
+            cor[np.tril_indices(len(self.data.mean_), k=-1)] = np.tanh(
+                params[2 * len(self.data.mean_):])
             cor[np.triu_indices(len(self.data.mean_), k=1)] = np.tanh(
-                params[2*len(self.data.mean_):][::-1])
+                params[2 * len(self.data.mean_):][::-1])
             self.data.covariance_ = D.dot(cor.dot(D)).flatten().tolist()
         self.y, self.yd, self.covars = self.trajectory()
 
@@ -334,14 +340,17 @@ class ProMPBehavior(BlackBoxBehavior):
             self.last_y = np.copy(self.x0)
         self.last_yd = np.copy(self.x0d)
         self.last_ydd = np.copy(self.x0dd)
-
         """ self.y = np.empty(self.n_task_dims)
         self.yd = np.empty(self.n_task_dims) """
 
         self.last_t = 0.0
         self.t = 0.0
 
-    def imitate(self, X, Xd=None, Xdd=None, alpha=0.0,
+    def imitate(self,
+                X,
+                Xd=None,
+                Xdd=None,
+                alpha=0.0,
                 allow_final_velocity=True):
         """Learn weights of the promp from demonstrations.
 
@@ -364,8 +373,8 @@ class ProMPBehavior(BlackBoxBehavior):
             warnings.warn("allow_final_velocity is deprecated")
 
         y = X.transpose(2, 1, 0)
-        x = np.arange(0, self.execution_time + self.dt*0.1, self.dt)
-        assert(x.shape[0] == y.shape[1])
+        x = np.arange(0, self.execution_time + self.dt * 0.1, self.dt)
+        assert (x.shape[0] == y.shape[1])
         sizes_ = np.array([x.shape[0]], float).repeat(y.shape[0]).flatten()
         x_ = np.tile(x, y.shape[0]).flatten()
         y_ = y.flatten()
@@ -391,15 +400,16 @@ class ProMPBehavior(BlackBoxBehavior):
         # self.overlap) #TODO make param
         # self.data.sample_trajectory_data(ret)
 
-        x = np.arange(0, self.execution_time + self.dt*0.1, self.dt)
+        x = np.arange(0, self.execution_time + self.dt * 0.1, self.dt)
 
-        means = np.empty((self.n_task_dims*2*len(x)))
-        covars = np.empty(((self.n_task_dims*2)**2)*len(x))
+        means = np.empty((self.n_task_dims * 2 * len(x)))
+        covars = np.empty(((self.n_task_dims * 2)**2) * len(x))
 
         self.data.get_values(x, means, covars)
 
-        means = means.reshape((self.n_task_dims*2, -1)).transpose(1, 0)
-        covars = covars.reshape((-1, self.n_task_dims*2, self.n_task_dims*2))
+        means = means.reshape((self.n_task_dims * 2, -1)).transpose(1, 0)
+        covars = covars.reshape((-1, self.n_task_dims * 2,
+                                 self.n_task_dims * 2))
 
         Y = means[:, ::2]
         Yd = means[:, 1::2]
@@ -432,8 +442,8 @@ class ProMPBehavior(BlackBoxBehavior):
 
         x = np.arange(0, self.execution_time + 0.000001, self.dt)
 
-        means = np.empty((self.n_inputs*len(x)))
-        covars = np.empty((self.n_inputs**2)*len(x))
+        means = np.empty((self.n_inputs * len(x)))
+        covars = np.empty((self.n_inputs**2) * len(x))
         self.data.get_values(x, means, covars)
         means = means.reshape((self.n_inputs, -1)).transpose(1, 0)
         covars = covars.reshape((-1, self.n_inputs, self.n_inputs))
@@ -501,7 +511,12 @@ class ProMPBehavior(BlackBoxBehavior):
             theta = np.degrees(np.arctan2(*vecs[:, 0][::-1]))
             width, height = 2 * nstd * np.sqrt(vals)
 
-            ell = Ellipse(xy=means[k], width=width, height=height,
-                          angle=theta, alpha=1, edgecolor="none", 
-                          facecolor="grey")
+            ell = Ellipse(
+                xy=means[k],
+                width=width,
+                height=height,
+                angle=theta,
+                alpha=1,
+                edgecolor="none",
+                facecolor="grey")
             ax.add_patch(ell)
