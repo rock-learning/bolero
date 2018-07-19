@@ -5,6 +5,7 @@ import zipfile
 import io
 import urllib2
 
+
 def load_lasa(shape_idx):
     """Load demonstrations from LASA dataset.
 
@@ -55,10 +56,13 @@ def load_lasa(shape_idx):
     dataset_path += os.sep + "bolero_data" + os.sep
 
     if not os.path.isdir(dataset_path):
-        url = urllib2.urlopen("http://bitbucket.org/khansari/lasahandwritingdataset/get/38304f7c0ac4.zip")
+        url = urllib2.urlopen(
+            "http://bitbucket.org/khansari/lasahandwritingdataset/get/38304f7c0ac4.zip"
+        )
         z = zipfile.ZipFile(io.BytesIO(url.read()))
         z.extractall(dataset_path)
-        os.rename(dataset_path+z.namelist()[0], dataset_path+"lasa_data"+os.sep)
+        os.rename(dataset_path + z.namelist()[0],
+                  dataset_path + "lasa_data" + os.sep)
 
     dataset_path += "lasa_data" + os.sep + "DataSet" + os.sep
     demos, shape_name = _load_from_matlab_file(dataset_path, shape_idx)
