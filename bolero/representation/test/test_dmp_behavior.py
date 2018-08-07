@@ -29,6 +29,7 @@ def test_dmp_dimensions_do_not_match():
     assert_raises_regexp(ValueError, "Input and output dimensions must match",
                          beh.init, 1, 2)
 
+
 def test_dmp_default_dmp():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
@@ -213,6 +214,7 @@ def test_dmp_more_steps_than_allowed():
     assert_array_equal(xva[n_task_dims:-n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
 
+
 def test_dmp_imitate():
     x0, g, execution_time, dt = np.zeros(1), np.ones(1), 1.0, 0.001
 
@@ -236,6 +238,7 @@ def test_dmp_imitate():
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()[0]
     assert_array_almost_equal(X2, X, decimal=3)
+
 
 def test_dmp_imitate_2d():
     x0, g, execution_time, dt = np.zeros(2), np.ones(2), 1.0, 0.001

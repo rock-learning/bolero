@@ -159,6 +159,8 @@ class ProMPBehavior(BlackBoxBehavior):
         if not hasattr(self, "gdd"):
             self.gdd = np.zeros(self.n_task_dims)
 
+        self._params_set = False
+
         self.reset()
 
     def set_meta_parameters(self, keys, meta_parameters):
@@ -186,7 +188,6 @@ class ProMPBehavior(BlackBoxBehavior):
         meta_parameters : list of float
             values of meta-parameters
         """
-
         conditionPoints = []
         for key, meta_parameter in zip(keys, meta_parameters):
             if key not in PERMITTED_PROMP_METAPARAMETERS:
@@ -258,6 +259,9 @@ class ProMPBehavior(BlackBoxBehavior):
         else:
             self.last_t = self.t
             self.t += self.dt
+
+        if not self._params_set:
+            raise Exception("ProMP weights not set")
 
     def can_step(self):
         """Returns if step() can be called again.
@@ -331,6 +335,7 @@ class ProMPBehavior(BlackBoxBehavior):
                 params[2 * len(self.data.mean_):][::-1])
             self.data.covariance_ = D.dot(cor.dot(D)).flatten().tolist()
         self.y, self.yd, self.covars = self.trajectory()
+        self._params_set = True
 
     def reset(self):
         """Reset promp."""
@@ -340,8 +345,6 @@ class ProMPBehavior(BlackBoxBehavior):
             self.last_y = np.copy(self.x0)
         self.last_yd = np.copy(self.x0d)
         self.last_ydd = np.copy(self.x0dd)
-        """ self.y = np.empty(self.n_task_dims)
-        self.yd = np.empty(self.n_task_dims) """
 
         self.last_t = 0.0
         self.t = 0.0
@@ -380,6 +383,7 @@ class ProMPBehavior(BlackBoxBehavior):
         y_ = y.flatten()
         self.data.imitate(sizes_, x_, y_)
         self.y, self.yd, self.covars = self.trajectory()
+        self._params_set = True
 
     def trajectory(self):
         """Generate trajectory represented by the promp in open loop.
