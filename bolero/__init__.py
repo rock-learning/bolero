@@ -1,4 +1,4 @@
-__version__ = "1.0.1-dev"
+__version__ = "1.1.0-dev"
 
 
 __all__ = ["environment", "optimizer", "representation", "utils", "wrapper"]

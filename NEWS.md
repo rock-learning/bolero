@@ -1,5 +1,13 @@
 # Release History
 
+## Version 1.1
+
+Not released yet.
+
+### Features
+
+* New representation: ProMPBehavior
+
 ## Version 1.0
 
 2018/02/11
