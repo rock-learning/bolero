@@ -150,7 +150,7 @@ A variant of DMPs that works in Cartesian space is
 .. _dmp_beh:
 
 Probabilistic Movement Primitive
-----------------------------
+--------------------------------
 
 Probabilistic movement primitives represent trajectories :class:`ProMPBehavior`, e.g.
 in joint space. They can generalize over several meta-parameters (goal,

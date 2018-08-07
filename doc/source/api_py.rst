@@ -127,6 +127,7 @@ Behavior classes
    CartesianDMPBehavior
    DMPSequence
    LinearBehavior
+   ProMPBehavior
 
 Policy classes
 --------------
