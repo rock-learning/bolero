@@ -3,12 +3,14 @@
 LASA Handwriting with ProMPs
 ================================
 
-The LASA Handwriting dataset learned with ProMPs. 
+The LASA Handwriting dataset learned with ProMPs. The dataset consists of
+2D handwriting motions.
 """
 
 import numpy as np
 from bolero.datasets import load_lasa
 from bolero.representation import ProMPBehavior
+from bolero.representation.promp_behavior import plot_covariance
 import matplotlib.pyplot as plt
 
 print(__doc__)
@@ -36,7 +38,7 @@ def draw(x, y, traj, idx, axs):
 
     mean, _, covar = traj.trajectory()
     axs[h, w + 1].plot(mean[:, 0], mean[:, 1])
-    traj.plotCovariance(axs[h, w + 1], mean, covar.reshape(-1, 4, 4))
+    plot_covariance(axs[h, w + 1], mean, covar.reshape(-1, 4, 4))
 
     axs[h, w + 1].set_xlim(axs[h, w].get_xlim())
     axs[h, w + 1].set_ylim(axs[h, w].get_ylim())

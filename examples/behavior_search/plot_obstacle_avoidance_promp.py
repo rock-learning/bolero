@@ -13,6 +13,7 @@ from bolero.behavior_search import BlackBoxSearch
 from bolero.optimizer import CMAESOptimizer
 from bolero.representation import ProMPBehavior
 from bolero.controller import Controller
+from bolero.representation.promp_behavior import plot_covariance
 
 print(__doc__)
 
@@ -69,8 +70,7 @@ ax.set_ylabel("Reward")
 
 ax = plt.subplot(122, aspect="equal")
 ax.set_title("Learned trajectory")
-ProMPBehavior.plotCovariance(ax, X[:, :2],
-                             np.array(X[:, 4:]).reshape(-1, 4, 4))
+plot_covariance(ax, X[:, :2], np.array(X[:, 4:]).reshape(-1, 4, 4))
 
 env.plot(ax)
 ax.plot(X[:, 0], X[:, 1], lw=5, label="Final trajectory")
