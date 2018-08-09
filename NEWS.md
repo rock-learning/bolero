@@ -10,8 +10,9 @@ Not released yet.
 
 ### Bugfixes
 
-* Use pseudo inverse in imitation learning for DMPs. Imitating trajectories
-  with less points than DMP weights is now possible.
+* DMPBehavior: Use pseudo inverse in imitation learning for DMPs. Imitating
+  trajectories with less points than DMP weights is now possible.
+* DMPBehavior: Fix issue with many decimal places in dt.
 
 ## Version 1.0
 
