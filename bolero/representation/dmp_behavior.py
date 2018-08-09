@@ -346,10 +346,12 @@ class DMPBehavior(BlackBoxBehavior):
             warnings.warn("Xdd is deprecated")
 
         X = X[:, :, 0].T.copy()
-        dmp.imitate(np.arange(0, self.execution_time + self.dt, self.dt),
-                    X, self.weights, self.widths, self.centers,
-                    alpha, self.alpha_y, self.beta_y, self.alpha_z,
-                    allow_final_velocity)
+        dmp.imitate(
+            np.linspace(0, self.execution_time + self.dt,
+                        round((self.execution_time + self.dt) / self.dt)),
+            X, self.weights, self.widths, self.centers,
+            alpha, self.alpha_y, self.beta_y, self.alpha_z,
+            allow_final_velocity)
 
     def trajectory(self):
         """Generate trajectory represented by the DMP in open loop.
@@ -379,7 +381,8 @@ class DMPBehavior(BlackBoxBehavior):
         Y = []
         Yd = []
         Ydd = []
-        for t in np.arange(0, self.execution_time + self.dt, self.dt):
+        for t in np.linspace(0, self.execution_time + self.dt,
+                             round((self.execution_time + self.dt) / self.dt)):
             dmp.dmp_step(
                 last_t, t,
                 last_y, last_yd, last_ydd,
