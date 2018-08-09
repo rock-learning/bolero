@@ -347,7 +347,7 @@ class DMPBehavior(BlackBoxBehavior):
 
         X = X[:, :, 0].T.copy()
         dmp.imitate(
-            np.linspace(0, self.execution_time + self.dt,
+            np.linspace(0, self.execution_time,
                         round((self.execution_time + self.dt) / self.dt)),
             X, self.weights, self.widths, self.centers,
             alpha, self.alpha_y, self.beta_y, self.alpha_z,
@@ -381,7 +381,7 @@ class DMPBehavior(BlackBoxBehavior):
         Y = []
         Yd = []
         Ydd = []
-        for t in np.linspace(0, self.execution_time + self.dt,
+        for t in np.linspace(0, self.execution_time,
                              round((self.execution_time + self.dt) / self.dt)):
             dmp.dmp_step(
                 last_t, t,

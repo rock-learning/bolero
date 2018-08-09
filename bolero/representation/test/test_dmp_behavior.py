@@ -49,7 +49,6 @@ def test_shape_trajectory_imitate():
         X, Xd, Xdd = beh.trajectory()
 
         assert_equal(X_demo[0, :].shape, X.shape)
-        print("Assertion True for %d" % n_steps)
 
 
 def test_dmp_default_dmp():
