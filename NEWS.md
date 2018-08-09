@@ -13,6 +13,7 @@ Not released yet.
 * DMPBehavior: Use pseudo inverse in imitation learning for DMPs. Imitating
   trajectories with less points than DMP weights is now possible.
 * DMPBehavior: Fix issue with many decimal places in dt.
+* Optimizer: Is now an abstract base class as it should have been.
 
 ## Version 1.0
 
