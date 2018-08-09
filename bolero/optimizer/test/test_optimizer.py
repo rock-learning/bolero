@@ -7,7 +7,7 @@ from nose.tools import (assert_false, assert_true, assert_equal,
 from numpy.testing import assert_array_equal
 
 
-ALL_OPTIMIZERS = all_subclasses(Optimizer)
+ALL_OPTIMIZERS = all_subclasses(Optimizer, exclude_classes="SkOptOptimizer")
 ALL_CONTEXTUALOPTIMIZERS = all_subclasses(ContextualOptimizer)
 
 
