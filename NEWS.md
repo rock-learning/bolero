@@ -8,6 +8,11 @@ Not released yet.
 
 * New representation: ProMPBehavior
 
+### Bugfixes
+
+* Use pseudo inverse in imitation learning for DMPs. Imitating trajectories
+  with less points than DMP weights is now possible.
+
 ## Version 1.0
 
 2018/02/11
