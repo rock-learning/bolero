@@ -54,7 +54,7 @@ def solve_dual_reps(R, epsilon, min_eta):
         log_sum_exp = logsumexp(R_over_eta, b=1.0 / len(R))
 
         f = eta * (epsilon + log_sum_exp)
-        d_eta = epsilon + log_sum_exp - (Z.dot(R_over_eta) / Z.sum())
+        d_eta = epsilon + log_sum_exp - Z.dot(R_over_eta) / Z.sum()
         return f, np.array([d_eta])
 
     # Lower bound for Lagrangian eta
@@ -63,7 +63,7 @@ def solve_dual_reps(R, epsilon, min_eta):
     x0 = [1]
 
     # Perform the actual optimization of the dual function
-    r = fmin_l_bfgs_b(g, x0, approx_grad=None, bounds=bounds)
+    r = fmin_l_bfgs_b(g, x0, bounds=bounds)
 
     # Fetch optimal Lagrangian parameter eta. Corresponds to a temperature
     # of a softmax distribution
