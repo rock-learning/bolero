@@ -14,6 +14,9 @@ Not released yet.
   trajectories with less points than DMP weights is now possible.
 * DMPBehavior: Fix issue with many decimal places in dt.
 * Optimizer: Is now an abstract base class as it should have been.
+* REPSOptimizer / CREPSOptimizer: Use analytical gradient for optimization.
+  This improves the computational efficiency and gives slightly better
+  results.
 
 ## Version 1.0
 
