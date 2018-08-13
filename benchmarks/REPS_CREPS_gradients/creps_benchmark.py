@@ -1,5 +1,5 @@
 """
-C-REPS
+C-REPS benchmark
 
 Validates the implementation of the analytical computation of the gradient by
 comparing it to the previous implementation using numerical approximation.
@@ -29,7 +29,7 @@ creps_numerical = CREPSOptimizer( # Numerical computation
 creps_analytical = CREPSOptimizer( # Analytical computation
     initial_params=initial_params, n_samples_per_update=n_samples_per_update,
     train_freq=n_samples_per_update, variance=variance, epsilon=2.0,
-    context_features=context_features, random_state=0, approx_grad = False)
+    context_features=context_features, random_state=0)
 opts = {"Numerical gradient": creps_numerical, "Analytical gradient": creps_analytical}
 
 n_generations = 16
