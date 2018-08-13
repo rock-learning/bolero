@@ -68,7 +68,7 @@ def solve_dual_contextual_reps(S, R, epsilon, min_eta, approx_grad = True):
         Z_sum = Z.sum()
 
         f = eta * (epsilon + log_sum_exp) + nu.T.dot(s_mean)
-        d_eta = epsilon + log_sum_exp - (Z.dot(R_over_eta) / Z_sum)
+        d_eta = epsilon + log_sum_exp - Z.dot(R_over_eta) / Z_sum
         d_nu = s_mean - Z.dot(S) / Z_sum
 
         return f, np.append(d_eta, d_nu)
@@ -83,7 +83,7 @@ def solve_dual_contextual_reps(S, R, epsilon, min_eta, approx_grad = True):
     if approx_grad:
         r = fmin_l_bfgs_b(g, x0, approx_grad=True, bounds=bounds)
     else:
-        r = fmin_l_bfgs_b(g_grad, x0, approx_grad=None, bounds=bounds)
+        r = fmin_l_bfgs_b(g_grad, x0, bounds=bounds)
 
     # Fetch optimal lagrangian parameter eta. Corresponds to a temperature
     # of a softmax distribution
