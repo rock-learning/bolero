@@ -83,8 +83,8 @@ def benchmark():
                 for run_idx, seed in enumerate(seeds))
             results[objective_name][algorithm_name] = feedbacks
             completion_time = time.time() - start_time
-            print 'Algorithm', algorithm_name, 'and objective function ', \
-                objective_name, 'took', completion_time, 'seconds to complete'
+            print("%s (objective function %s): completed in average time of "
+                  "%.3f seconds." % (algorithm_name, objective_name, completion_time))
     return results
 
 def optimize(objective_name, algorithm_name, seed):
