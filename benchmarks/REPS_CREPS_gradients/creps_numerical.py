@@ -7,7 +7,7 @@ from bolero.optimizer import CREPSOptimizer
 from bolero.utils.mathext import logsumexp
 
 
-def solve_dual_contextual_reps(S, R, epsilon, min_eta, approx_grad = True):
+def solve_dual_contextual_reps(S, R, epsilon, min_eta):
     """Solve dual function for C-REPS.
 
     Parameters
@@ -102,7 +102,7 @@ class CREPSOptimizerNumerical(CREPSOptimizer):
             R = np.asarray(self.history_R)
 
             self.weights = solve_dual_contextual_reps(
-                phi_s, R, self.epsilon, self.min_eta, approx_grad = self.approx_grad)[0]
+                phi_s, R, self.epsilon, self.min_eta)[0]
             # NOTE the context have already been transformed
             self.policy_.fit(phi_s, theta, self.weights,
                              context_transform=False)

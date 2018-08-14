@@ -8,11 +8,12 @@ Compares the runtime performance of both implementations.
 """
 
 import numpy as np
-from reps import REPSOptimizer
-from bolero.environment.objective_functions import Rosenbrock
 import matplotlib.pyplot as plt
 import time
-import pdb
+
+from bolero.environment.objective_functions import Rosenbrock
+from bolero.optimizer import REPSOptimizer
+from reps_numerical import REPSOptimizerNumerical
 
 def eval_loop(Opt, opt, n_dims, n_iter):
     x = np.empty(n_dims)
@@ -32,7 +33,7 @@ n_trials = 5
 x = np.zeros(n_dims)
 
 optimizers = {
-    "Numerical gradient": REPSOptimizer(x, random_state=0, approx_grad = True),
+    "Numerical gradient": REPSOptimizerNumerical(x, random_state=0),
     "Analytical gradient": REPSOptimizer(x, random_state=0),
     }
 
