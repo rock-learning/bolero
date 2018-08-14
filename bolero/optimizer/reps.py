@@ -1,5 +1,6 @@
 # Authors: Jan Hendrik Metzen <jhm@informatik.uni-bremen.de>
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
+#          Ricardo Dominguez <riddoddo@gmail.com>
 
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
