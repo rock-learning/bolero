@@ -66,6 +66,10 @@ context_dims_per_objective = {
 n_episodes_per_objective = {
     "sphere": 15 * n_samples_per_update,
 }
+linestyles = {
+    "C-REPS-NUM": '-',
+    "C-REPS-AN": '--',
+}
 
 def benchmark():
     """Run benchmarks for all configurations of objective and algorithm."""
@@ -131,29 +135,17 @@ def show_results(results):
                 len(seeds), n_generations, n_samples_per_update)
             average_feedback_per_generation = grouped_feedbacks.mean(axis=2)
             mean_feedbacks = average_feedback_per_generation.mean(axis=0)
-            std_feedbacks = average_feedback_per_generation.std(axis=0)
+            print("%s (objective function %s): maximum found was %f."
+                  % (algorithm_name, objective_name, np.max(mean_feedbacks)))
             generation = np.arange(n_generations) + 1.0
-            m, l, u = _log_transform(mean_feedbacks, std_feedbacks)
-            plt.plot(generation, m, label=algorithm_name)
-            plt.fill_between(generation, l, u, alpha=0.5)
-            yticks_labels = map(lambda t: "$-10^{%d}$" % -t, range(-3, -1))
-            plt.yticks(range(-3, -1), yticks_labels)
+            plt.plot(generation, mean_feedbacks,
+                     linestyle=linestyles[algorithm_name],
+                     label=algorithm_name)
             plt.xlabel("Generation")
             plt.ylabel("Average Return")
             plt.xlim((0, n_generations))
             plt.legend()
-            # plt.savefig(objective_name + "_plot.png")
     plt.show()
-
-def _log_transform(mean_feedbacks, std_feedbacks):
-    m = mean_feedbacks
-    l = m - std_feedbacks
-    m_log = -np.log10(-m)
-    l_log = -np.log10(-l)
-    # this is a hack: mean + std usually does not have the same distance to
-    # the mean like mean - std in a log-scaled plot!
-    u_log = m_log + (m_log - l_log)
-    return m_log, l_log, u_log
 
 
 if __name__ == "__main__":
