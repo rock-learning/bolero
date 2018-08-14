@@ -39,14 +39,15 @@ optimizers = {
 
 plt.figure(figsize=(12, 8))
 for name, opt in optimizers.items():
-	start_time = time.time()
-	for i in range(n_trials):
-		r = eval_loop(Rosenbrock, opt, n_dims, n_iter)
-	total_time = time.time() - start_time
-	print name, 'completed in average time of', round(total_time / n_trials, 2), 'seconds'
-	rwds = -np.maximum.accumulate(r)
-	print name, 'minimum found', rwds[-1]
-	plt.plot(rwds, label = name)
+    start_time = time.time()
+    for i in range(n_trials):
+        r = eval_loop(Rosenbrock, opt, n_dims, n_iter)
+    total_time = time.time() - start_time
+    print("%s: completed in average time of %.3f seconds."
+          % (name, total_time / n_trials))
+    rwds = -np.maximum.accumulate(r)
+    print("%s: minimum found was %f." % (name, rwds[-1]))
+    plt.plot(rwds, label=name)
 plt.xlabel("Function evaluations")
 plt.ylabel("$f(x)$")
 plt.title("Rosenbrock function")

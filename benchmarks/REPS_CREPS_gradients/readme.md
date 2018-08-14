@@ -11,11 +11,11 @@ For both REPS and C-REPS the analytical gradient implementation leads to:
  ## Benchmarks results:
 
  ```
- $ python reps_benchmark.py
-Numerical gradient completed in average time of 0.69 seconds
-Numerical gradient minimum found 2252.77131734028
-Analytical gradient completed in average time of 0.62 seconds
-Analytical gradient minimum found 2252.7695580270843
+$ python reps_benchmark.py
+Numerical gradient: completed in average time of 0.69 seconds.
+Numerical gradient: minimum found was 2252.771314.
+Analytical gradient: completed in average time of 0.62 seconds.
+Analytical gradient: minimum found was 2252.769558.
  ```
 
 ![alt text](reps_benchmark_result.png)
@@ -23,9 +23,9 @@ Analytical gradient minimum found 2252.7695580270843
 ```
 $ python creps_benchmark.py
 ...
-Algorithm C-REPS-NUM and objective function sphere took 9.89173007011 seconds to complete
+C-REPS-NUM (objective function sphere): completed in average time of 9.892 seconds.
 ...
-Algorithm C-REPS-AN and objective function sphere took 7.18385887146 seconds to complete
+C-REPS-AN (objective function sphere): completed in average time of 7.184 seconds.
 ```
 
 ![alt text](creps_benchmark_result.png)
