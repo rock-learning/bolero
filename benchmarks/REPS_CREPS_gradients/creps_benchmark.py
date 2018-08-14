@@ -15,8 +15,8 @@ import time
 from bolero.environment.contextual_objective_functions import \
 ContextualObjectiveFunction
 from bolero.environment.objective_functions import rosenbrock
-
-from creps import CREPSOptimizer
+from bolero.optimizer import CREPSOptimizer
+from creps_numerical import CREPSOptimizerNumerical
 
 n_jobs = 4
 
@@ -41,7 +41,7 @@ objective_functions = {
     "sphere" : Sphere,
 }
 algorithms = {
-    "C-REPS-NUM": CREPSOptimizer,
+    "C-REPS-NUM": CREPSOptimizerNumerical,
     "C-REPS-AN": CREPSOptimizer
 }
 seeds = list(range(20))
@@ -52,7 +52,6 @@ additional_ctor_args = {
         "train_freq": n_samples_per_update,
         "epsilon": 1.0,
         "min_eta": 1e-10,  # 1e-20 in the original code
-        "approx_grad": True
     },
     "C-REPS-AN": {
         "train_freq": n_samples_per_update,
