@@ -8,84 +8,155 @@ Compares the runtime performance of both implementations.
 """
 
 import numpy as np
-from creps import CREPSOptimizer
 import matplotlib.pyplot as plt
+from joblib import Parallel, delayed
 import time
-import pdb
 
-def objective(x, s):
-    # pdb.set_trace()
-    x_offset = x + s.dot(np.array([[0.2], [0.1], [0.3]]))**2
-    return -np.array([x_offset.dot(x_offset)])
+from bolero.environment.contextual_objective_functions import \
+ContextualObjectiveFunction
+from bolero.environment.objective_functions import rosenbrock
 
-nx = 1 # State size
-nc = 3 # Context size
+from creps import CREPSOptimizer
 
-random_state = np.random.RandomState(0)
-initial_params = 4.0 * np.ones(nx)
-n_samples_per_update = 400
-variance = 0.01
-context_features = "quadratic"
+n_jobs = 4
 
-creps_numerical = CREPSOptimizer( # Numerical computation
-    initial_params=initial_params, n_samples_per_update=n_samples_per_update,
-    train_freq=n_samples_per_update, variance=variance, epsilon=2.0,
-    context_features=context_features, random_state=0, approx_grad = True)
-creps_analytical = CREPSOptimizer( # Analytical computation
-    initial_params=initial_params, n_samples_per_update=n_samples_per_update,
-    train_freq=n_samples_per_update, variance=variance, epsilon=2.0,
-    context_features=context_features, random_state=0)
-opts = {"Numerical gradient": creps_numerical, "Analytical gradient": creps_analytical}
+class Sphere(ContextualObjectiveFunction):
+    def __init__(self, random_state, n_dims, n_context_dims):
+        self.G = random_state.randn(n_dims, n_context_dims)
 
-n_generations = 20
-n_trials = 3 # Run time performance averaged over this number of trials
+    def feedback(self, theta, s):
+        x = theta + self.G.dot(s)
+        return -x.dot(x)
 
-params = np.empty(nx)
-rewards = dict([(k, []) for k in opts.keys()])
-times = dict([(k, 0) for k in opts.keys()])
-test_contexts = np.mgrid[-3:3:2, -3:3:2, -3:3:2].reshape(nc,-1).T
-colors = {"Numerical gradient": "r", "Analytical gradient": "g"}
 
-for trial in xrange(n_trials):
-    # Reset opt object
-    for opt in opts.values():
-        opt.init(nx, nc)
+class Rosenbrock(ContextualObjectiveFunction):
+    def __init__(self, random_state, n_dims, n_context_dims):
+        self.G = random_state.randn(n_dims, n_context_dims)
 
-    for it in range(n_generations):
-        print '.'
-        contexts = random_state.rand(n_samples_per_update, nc) * 10.0 - 5.0
-        for opt_name, opt in opts.items():
-            # Optimization...
-            for i in range(n_samples_per_update):
-                opt.set_context(contexts[i, :])
-                opt.get_next_parameters(params)
-                f = objective(params, contexts[i, :])
-                start_time = time.time()
-                opt.set_evaluation_feedback(f)
-                times[opt_name] += time.time() - start_time
+    def feedback(self, theta, s):
+        x = theta + self.G.dot(s)
+        return -rosenbrock(x)
 
-            # Only plot first trial
-            if trial == 0:
-                policy = opt.best_policy()
-                test_params = np.array([policy(test_contexts[i,:], explore=False)
-                                        for i in xrange(test_contexts.shape[0])])
-                mean_reward = np.mean(
-                    np.array([objective(p, s)[0]
-                              for p, s in zip(test_params, test_contexts)]))
-                rewards[opt_name].append(mean_reward)
+objective_functions = {
+    "sphere" : Sphere,
+}
+algorithms = {
+    "C-REPS-NUM": CREPSOptimizer,
+    "C-REPS-AN": CREPSOptimizer
+}
+seeds = list(range(20))
 
-                if it == n_generations - 1:
-                    print opt_name, 'maximum found', rewards[opt_name][-1]
+n_samples_per_update = 50
+additional_ctor_args = {
+    "C-REPS-NUM": {
+        "train_freq": n_samples_per_update,
+        "epsilon": 1.0,
+        "min_eta": 1e-10,  # 1e-20 in the original code
+        "approx_grad": True
+    },
+    "C-REPS-AN": {
+        "train_freq": n_samples_per_update,
+        "epsilon": 1.0,
+        "min_eta": 1e-10  # 1e-20 in the original code
+    }
+}
+n_params = 20
+context_dims_per_objective = {
+    "sphere": 2,
+}
+n_episodes_per_objective = {
+    "sphere": 15 * n_samples_per_update,
+}
 
-# Display computed runtime performance
-for opt_name, t in times.items():
-    print opt_name, 'average time', round(t / n_trials, 4), 'seconds'
+def benchmark():
+    """Run benchmarks for all configurations of objective and algorithm."""
+    results = dict(
+        (objective_name,
+         dict((algorithm_name, [])
+              for algorithm_name in algorithms.keys()))
+        for objective_name in objective_functions.keys()
+    )
+    for objective_name in objective_functions.keys():
+        for algorithm_name in algorithms.keys():
+            start_time = time.time()
+            feedbacks = Parallel(n_jobs=n_jobs, verbose=10)(
+                delayed(optimize)(objective_name, algorithm_name, seed)
+                for run_idx, seed in enumerate(seeds))
+            results[objective_name][algorithm_name] = feedbacks
+            completion_time = time.time() - start_time
+            print 'Algorithm', algorithm_name, 'and objective function ', \
+                objective_name, 'took', completion_time, 'seconds to complete'
+    return results
 
-# Plot results of both implementations
-plt.figure()
-for opt_name, values in rewards.items():
-    plt.plot(values, label=opt_name, color=colors[opt_name])
-plt.legend(loc="lower right")
-plt.xlabel("Generation")
-plt.ylabel("Mean reward")
-plt.show()
+def optimize(objective_name, algorithm_name, seed):
+    """Perform one benchmark run."""
+    n_context_dims = context_dims_per_objective[objective_name]
+    n_episodes = n_episodes_per_objective[objective_name]
+    random_state = np.random.RandomState(seed)
+    # contexts are sampled uniformly from 1 <= s <= 2 (here: < 2)
+    contexts = random_state.rand(n_episodes, n_context_dims) + 1.0
+    obj = objective_functions[objective_name](random_state, n_params, n_context_dims)
+    initial_params = random_state.randn(n_params)
+    opt = algorithms[algorithm_name](
+        initial_params=initial_params,
+        covariance=np.eye(n_params),
+        variance=1.0,
+        n_samples_per_update=n_samples_per_update,
+        context_features="affine",
+        random_state=random_state,
+        gamma=1e-10,
+        **additional_ctor_args[algorithm_name]
+    )
+    opt.init(n_params, n_context_dims)
+
+    feedbacks = np.empty(n_episodes)
+    params = np.empty(n_params)
+    for episode_idx in range(n_episodes):
+        opt.set_context(contexts[episode_idx])
+        opt.get_next_parameters(params)
+        feedbacks[episode_idx] = obj.feedback(
+            params, contexts[episode_idx])
+        opt.set_evaluation_feedback(feedbacks[episode_idx])
+
+    return feedbacks
+
+def show_results(results):
+    """Display results."""
+    for objective_name, objective_results in results.items():
+        plt.figure()
+        plt.title(objective_name)
+        for algorithm_name, algorithm_results in objective_results.items():
+            n_episodes = n_episodes_per_objective[objective_name]
+            n_generations = n_episodes / n_samples_per_update
+            grouped_feedbacks = np.array(algorithm_results).reshape(
+                len(seeds), n_generations, n_samples_per_update)
+            average_feedback_per_generation = grouped_feedbacks.mean(axis=2)
+            mean_feedbacks = average_feedback_per_generation.mean(axis=0)
+            std_feedbacks = average_feedback_per_generation.std(axis=0)
+            generation = np.arange(n_generations) + 1.0
+            m, l, u = _log_transform(mean_feedbacks, std_feedbacks)
+            plt.plot(generation, m, label=algorithm_name)
+            plt.fill_between(generation, l, u, alpha=0.5)
+            yticks_labels = map(lambda t: "$-10^{%d}$" % -t, range(-3, -1))
+            plt.yticks(range(-3, -1), yticks_labels)
+            plt.xlabel("Generation")
+            plt.ylabel("Average Return")
+            plt.xlim((0, n_generations))
+            plt.legend()
+            # plt.savefig(objective_name + "_plot.png")
+    plt.show()
+
+def _log_transform(mean_feedbacks, std_feedbacks):
+    m = mean_feedbacks
+    l = m - std_feedbacks
+    m_log = -np.log10(-m)
+    l_log = -np.log10(-l)
+    # this is a hack: mean + std usually does not have the same distance to
+    # the mean like mean - std in a log-scaled plot!
+    u_log = m_log + (m_log - l_log)
+    return m_log, l_log, u_log
+
+
+if __name__ == "__main__":
+    results = benchmark()
+    show_results(results)
