@@ -36,8 +36,12 @@ optimizers = {
     "Numerical gradient": REPSOptimizerNumerical(x, random_state=0),
     "Analytical gradient": REPSOptimizer(x, random_state=0),
     }
+linestyles = {
+    "Numerical gradient": '-',
+    "Analytical gradient": '--',
+}
 
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(8, 6))
 for name, opt in optimizers.items():
     start_time = time.time()
     for i in range(n_trials):
@@ -47,7 +51,7 @@ for name, opt in optimizers.items():
           % (name, total_time / n_trials))
     rwds = -np.maximum.accumulate(r)
     print("%s: minimum found was %f." % (name, rwds[-1]))
-    plt.plot(rwds, label=name)
+    plt.plot(rwds, linestyle=linestyles[name], label=name)
 plt.xlabel("Function evaluations")
 plt.ylabel("$f(x)$")
 plt.title("Rosenbrock function")

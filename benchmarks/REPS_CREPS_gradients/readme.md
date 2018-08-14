@@ -26,6 +26,8 @@ $ python creps_benchmark.py
 C-REPS-NUM (objective function sphere): completed in average time of 9.892 seconds.
 ...
 C-REPS-AN (objective function sphere): completed in average time of 7.184 seconds.
+C-REPS-NUM (objective function sphere): maximum found was -48.828993.
+C-REPS-AN (objective function sphere): maximum found was -48.828993.
 ```
 
 ![alt text](creps_benchmark_result.png)
