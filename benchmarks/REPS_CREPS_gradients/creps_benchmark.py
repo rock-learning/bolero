@@ -11,15 +11,20 @@ import numpy as np
 from creps import CREPSOptimizer
 import matplotlib.pyplot as plt
 import time
+import pdb
 
 def objective(x, s):
-    x_offset = x + s.dot(np.array([[0.2]])).dot(s)
+    # pdb.set_trace()
+    x_offset = x + s.dot(np.array([[0.2], [0.1], [0.3]]))**2
     return -np.array([x_offset.dot(x_offset)])
 
+nx = 1 # State size
+nc = 3 # Context size
+
 random_state = np.random.RandomState(0)
-initial_params = 4.0 * np.ones(1)
-n_samples_per_update = 30
-variance = 0.03
+initial_params = 4.0 * np.ones(nx)
+n_samples_per_update = 400
+variance = 0.01
 context_features = "quadratic"
 
 creps_numerical = CREPSOptimizer( # Numerical computation
@@ -32,48 +37,49 @@ creps_analytical = CREPSOptimizer( # Analytical computation
     context_features=context_features, random_state=0)
 opts = {"Numerical gradient": creps_numerical, "Analytical gradient": creps_analytical}
 
-n_generations = 16
-n_trials = 5 # Run time performance averaged over this number of trials
+n_generations = 20
+n_trials = 3 # Run time performance averaged over this number of trials
 
-params = np.empty(1)
+params = np.empty(nx)
 rewards = dict([(k, []) for k in opts.keys()])
 times = dict([(k, 0) for k in opts.keys()])
-test_contexts = np.arange(-6, 6, 0.1)
+test_contexts = np.mgrid[-3:3:2, -3:3:2, -3:3:2].reshape(nc,-1).T
 colors = {"Numerical gradient": "r", "Analytical gradient": "g"}
 
 for trial in xrange(n_trials):
     # Reset opt object
     for opt in opts.values():
-        opt.init(1, 1)
+        opt.init(nx, nc)
 
     for it in range(n_generations):
-        contexts = random_state.rand(n_samples_per_update, 1) * 10.0 - 5.0
+        print '.'
+        contexts = random_state.rand(n_samples_per_update, nc) * 10.0 - 5.0
         for opt_name, opt in opts.items():
-            start_time = time.time()
-
             # Optimization...
             for i in range(n_samples_per_update):
-                opt.set_context(contexts[i])
+                opt.set_context(contexts[i, :])
                 opt.get_next_parameters(params)
-                f = objective(params, contexts[i])
+                f = objective(params, contexts[i, :])
+                start_time = time.time()
                 opt.set_evaluation_feedback(f)
-
-            # Log time
-            times[opt_name] += time.time() - start_time
+                times[opt_name] += time.time() - start_time
 
             # Only plot first trial
             if trial == 0:
                 policy = opt.best_policy()
-                test_params = np.array([policy(np.array([s]), explore=False)
-                                        for s in test_contexts])
+                test_params = np.array([policy(test_contexts[i,:], explore=False)
+                                        for i in xrange(test_contexts.shape[0])])
                 mean_reward = np.mean(
-                    np.array([objective(p, np.array([s]))[0]
+                    np.array([objective(p, s)[0]
                               for p, s in zip(test_params, test_contexts)]))
                 rewards[opt_name].append(mean_reward)
 
+                if it == n_generations - 1:
+                    print opt_name, 'maximum found', rewards[opt_name][-1]
+
 # Display computed runtime performance
 for opt_name, t in times.items():
-    print opt_name, 'average time', round(t / n_trials, 2), 'seconds'
+    print opt_name, 'average time', round(t / n_trials, 4), 'seconds'
 
 # Plot results of both implementations
 plt.figure()
