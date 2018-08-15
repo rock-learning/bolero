@@ -15,6 +15,7 @@ from bolero.environment.objective_functions import Rosenbrock
 from bolero.optimizer import REPSOptimizer
 from reps_numerical import REPSOptimizerNumerical
 
+
 def eval_loop(Opt, opt, n_dims, n_iter):
     x = np.empty(n_dims)
     opt.init(n_dims)
@@ -25,6 +26,7 @@ def eval_loop(Opt, opt, n_dims, n_iter):
         results[i] = objective.feedback(x)
         opt.set_evaluation_feedback(results[i])
     return results - objective.f_opt
+
 
 n_dims = 10
 n_iter = 1000
