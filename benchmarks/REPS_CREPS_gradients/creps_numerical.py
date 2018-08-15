@@ -48,7 +48,7 @@ def solve_dual_contextual_reps(S, R, epsilon, min_eta):
         nu = x[1:]
         return (eta * epsilon + nu.T.dot(S.mean(axis=0)) +
                 eta * logsumexp((R - nu.dot(S.T)) / eta,
-                    b=1.0 / n_samples_per_update))
+                b=1.0 / n_samples_per_update))
 
     # Lower bound for Lagrange parameters eta and nu
     bounds = np.vstack(([[min_eta, None]], np.tile(None, (S.shape[1], 2))))
@@ -56,7 +56,6 @@ def solve_dual_contextual_reps(S, R, epsilon, min_eta):
     x0 = [1] + [1] * S.shape[1]
 
     # Perform the actual optimization of the dual function
-    #r = NLP(g, x0, lb=lb).solve('ralg', iprint=-10)
     r = fmin_l_bfgs_b(g, x0, approx_grad=True, bounds=bounds)
 
     # Fetch optimal lagrangian parameter eta. Corresponds to a temperature

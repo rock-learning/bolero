@@ -44,7 +44,7 @@ def solve_dual_reps(R, epsilon, min_eta):
 
     # Definition of the dual function
     def g(eta):  # Objective function, no gradient
-		return eta * (epsilon + logsumexp(R / eta, b=1.0 / len(R)))
+        return eta * (epsilon + logsumexp(R / eta, b=1.0 / len(R)))
 
     # Lower bound for Lagrangian eta
     bounds = np.array([[min_eta, None]])

@@ -13,12 +13,13 @@ from joblib import Parallel, delayed
 import time
 
 from bolero.environment.contextual_objective_functions import \
-ContextualObjectiveFunction
+    ContextualObjectiveFunction
 from bolero.environment.objective_functions import rosenbrock
 from bolero.optimizer import CREPSOptimizer
 from creps_numerical import CREPSOptimizerNumerical
 
 n_jobs = 4
+
 
 class Sphere(ContextualObjectiveFunction):
     def __init__(self, random_state, n_dims, n_context_dims):
@@ -37,8 +38,9 @@ class Rosenbrock(ContextualObjectiveFunction):
         x = theta + self.G.dot(s)
         return -rosenbrock(x)
 
+
 objective_functions = {
-    "sphere" : Sphere,
+    "sphere": Sphere,
 }
 algorithms = {
     "C-REPS-NUM": CREPSOptimizerNumerical,
@@ -71,6 +73,7 @@ linestyles = {
     "C-REPS-AN": '--',
 }
 
+
 def benchmark():
     """Run benchmarks for all configurations of objective and algorithm."""
     results = dict(
@@ -88,8 +91,10 @@ def benchmark():
             results[objective_name][algorithm_name] = feedbacks
             completion_time = time.time() - start_time
             print("%s (objective function %s): completed in average time of "
-                  "%.3f seconds." % (algorithm_name, objective_name, completion_time))
+                  "%.3f seconds." % (algorithm_name, objective_name,
+                                     completion_time))
     return results
+
 
 def optimize(objective_name, algorithm_name, seed):
     """Perform one benchmark run."""
@@ -98,7 +103,8 @@ def optimize(objective_name, algorithm_name, seed):
     random_state = np.random.RandomState(seed)
     # contexts are sampled uniformly from 1 <= s <= 2 (here: < 2)
     contexts = random_state.rand(n_episodes, n_context_dims) + 1.0
-    obj = objective_functions[objective_name](random_state, n_params, n_context_dims)
+    obj = objective_functions[objective_name](random_state, n_params,
+                                              n_context_dims)
     initial_params = random_state.randn(n_params)
     opt = algorithms[algorithm_name](
         initial_params=initial_params,
@@ -122,6 +128,7 @@ def optimize(objective_name, algorithm_name, seed):
         opt.set_evaluation_feedback(feedbacks[episode_idx])
 
     return feedbacks
+
 
 def show_results(results):
     """Display results."""
