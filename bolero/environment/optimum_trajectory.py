@@ -294,5 +294,116 @@ class OptimumTrajectory(Environment):
         if self.obstacles is not None:
             from matplotlib.patches import Circle
             for obstacle in self.obstacles:
-                ax.add_patch(Circle(obstacle, self.obstacle_dist, ec="none",
+                ax.add_patch(Circle(np.asarray(obstacle).copy(), self.obstacle_dist, ec="none",
                                     color="r"))
+
+
+class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
+    """Optimize a trajectory according to some criteria. Passing by obstacles slows down or stops the movement
+
+    Parameters
+    ----------
+    x0 : array-like, shape = (n_task_dims,), optional (default: [0, 0])
+        Initial position.
+
+    g : array-like, shape = (n_task_dims,), optional (default: [1, 1])
+        Goal position.
+
+    execution_time : float, optional (default: 1.0)
+        Execution time in seconds
+
+    dt : float, optional (default: 0.01)
+        Time between successive steps in seconds.
+
+    obstacles : array-like, shape (n_obstacles, n_task_dims) (default: None)
+        List of obstacles.
+
+    obstacle_dist : float, optional (default: 0.1)
+        Distance that should be kept to the obstacles (penalty is zero outside
+        of this area)
+
+    curbing_obstacles : float, optional (default: 0)
+        Slow down the move if closer than *obstacle_dist* to an obstacle.
+        Multiple obstacles in the vicinity increase the effect.
+
+    penalty_start_dist : float, optional (default: 0)
+        Penalty weight for distance to start at the beginning
+
+    penalty_goal_dist : float, optional (default: 0)
+        Penalty weight for distance to goal at the end
+
+    penalty_vel : float, optional (default: 0)
+        Penalty weight for velocities
+
+    penalty_acc : float, optional (default: 0)
+        Penalty weight for accelerations
+
+    penalty_obstacle : float, optional (default: 0)
+        Penalty weight for obstacle avoidance
+
+    log_to_file: optional, boolean or string (default: False)
+        Log results to given file, it will be located in the $BL_LOG_PATH
+
+    log_to_stdout: optional, boolean (default: False)
+        Log to standard output
+    """
+    def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
+                 dt=0.01, obstacles=None, obstacle_dist=0.1, curbing_obstacles=0,
+                 penalty_start_dist=0.0, penalty_goal_dist=0.0,
+                 penalty_vel=0.0, penalty_acc=0.0, penalty_obstacle=0.0,
+                 log_to_file=False, log_to_stdout=False):
+        super(OptimumTrajectoryCurbingObstacles, self).__init__(
+            x0=x0, g=g, execution_time=execution_time, dt=dt, obstacles=obstacles,
+            obstacle_dist=obstacle_dist, penalty_start_dist=penalty_start_dist,
+            penalty_goal_dist=penalty_goal_dist, penalty_vel=penalty_vel, penalty_acc=penalty_acc,
+            penalty_obstacle=penalty_obstacle, log_to_file=log_to_file, log_to_stdout=log_to_stdout)
+        self.curbing_obstacles = curbing_obstacles
+        self.damping = 0
+
+    def init(self):
+        """Initialize environment."""
+        super(OptimumTrajectoryCurbingObstacles, self).init()
+        self.X *= np.nan
+        self.Xd *= np.nan
+        self.Xdd *= np.nan
+
+    def reset(self):
+        """Reset state of the environment."""
+        super(OptimumTrajectoryCurbingObstacles, self).reset()
+        self.damping = 0
+        self.X *= np.nan
+        self.Xd *= np.nan
+        self.Xdd *= np.nan
+
+    def set_inputs(self, values):
+        """Set environment inputs, e.g. next action.
+
+        Parameters
+        ----------
+        values : array,
+            Inputs for the environment: positions, velocities and accelerations
+            in that order, e.g. for n_task_dims=2 the order would be xxvvaa
+        """
+        if self.damping:
+            # can only occur after step action, thus self.t > 0
+            if self.t == 0:
+                raise ValueError
+            new_value_weight = max(0, (1-self.damping))
+            total_weight = self.damping + new_value_weight
+            self.X[self.t, :] = (self.damping * self.X[self.t - 1, :] +
+                                 new_value_weight * values[:self.n_task_dims]) / total_weight
+            self.Xd[self.t, :] = (self.damping * self.Xd[self.t - 1, :] +
+                                  new_value_weight * values[self.n_task_dims:-self.n_task_dims]) / total_weight
+            self.Xdd[self.t, :] = (self.damping * self.Xdd[self.t - 1, :] +
+                                   new_value_weight * values[-self.n_task_dims:]) / total_weight
+        else:
+            self.X[self.t, :] = values[:self.n_task_dims]
+            self.Xd[self.t, :] = values[self.n_task_dims:-self.n_task_dims]
+            self.Xdd[self.t, :] = values[-self.n_task_dims:]
+
+    def step_action(self):
+        """Execute step perfectly (unless obstacles are curbing)."""
+        if self.curbing_obstacles:
+            self.damping = (cdist(self.X[self.t:self.t+1, :], self.obstacles) < self.obstacle_dist).ravel().sum()
+            self.damping *= self.curbing_obstacles
+        super(OptimumTrajectoryCurbingObstacles, self).step_action()
