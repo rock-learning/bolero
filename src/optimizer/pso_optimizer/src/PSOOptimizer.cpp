@@ -118,9 +118,9 @@ namespace bolero {
           file += "/pso_best_params.dat";
           FILE *resFile = fopen(file.c_str(), "w");
           if(resFile) {
-            fprintf(resFile, "Generation %3d's best fitness: %12.6f\n",
+            /*fprintf(resFile, "Generation %3d's best fitness: %12.6f\n",
                     generation, gMinCost);
-            fprintf(resFile, "parameters:\n");
+            fprintf(resFile, "parameters:\n");*/
             for(int i=0;i<dimension;++i) {
               fprintf(resFile, "%g, ", gMin[i]);
             }
@@ -171,13 +171,13 @@ namespace bolero {
         updateParticles();
         individual = 0;
         generation++;
-        fprintf(stdout, "Generation %3d's best fitness: %12.6f\n",
+        /*fprintf(stdout, "Generation %3d's best fitness: %12.6f\n",
                 generation, gMinCost);
         fprintf(stdout, "parameters: ");
         for(int i = 0; i < dimension; ++i) {
           fprintf(stdout, "%g, ", gMin[i]);
         }
-        fprintf(stdout, "\n");
+        fprintf(stdout, "\n");*/
       }
     }
 
