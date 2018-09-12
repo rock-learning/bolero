@@ -27,7 +27,7 @@ namespace bolero {
       double *pMin;
       double pMinCost;
     };
-  
+
     class PSOOptimizer : public Optimizer {
 
     public:
@@ -50,7 +50,8 @@ namespace bolero {
 
     private:
       void updateParticles();
-  
+      void deinit();
+
       int individual;
       int generation;
       int particleCount;

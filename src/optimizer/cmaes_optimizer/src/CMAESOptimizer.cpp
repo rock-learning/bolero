@@ -17,6 +17,7 @@
 #include <float.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>     // get time elapsed
 
 using namespace configmaps;
 //#define DEBUG_FOO
@@ -32,7 +33,9 @@ namespace bolero {
     }
 
     void CMAESOptimizer::init(int dimension, std::string config) {
-      if(isInit) deinit();
+      if(isInit){
+        deinit();
+      }
 
       assert(dimension > 0);
       seed = 0;
@@ -41,7 +44,10 @@ namespace bolero {
         sscanf(seedChar, "%ld", &seed);
       }
       if(seed == 0) {
-        seed = time(NULL)+getpid()*1000;
+        timeval t;
+        gettimeofday(&t, NULL);
+        unsigned long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
+        seed = ms+getpid()*1000;
       }
       std::string seedFilename;
       char *logPath = getenv("BL_LOG_PATH");
