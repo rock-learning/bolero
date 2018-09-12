@@ -16,6 +16,7 @@
 #include <cstring> // for memcpy
 #include <cstdio>
 #include <cmath>
+#include <sys/time.h>     // get time elapsed
 
 using namespace configmaps;
 
@@ -55,6 +56,9 @@ namespace bolero {
     void PSOOptimizer::init(int dimension, std::string config) {
       assert(dimension > 0);
 
+      if(wasInit) {
+        deinit();
+      }
       long seed = 0;
       char *seedChar = getenv("BL_SEED");
       if(seedChar) {
@@ -62,8 +66,10 @@ namespace bolero {
         srand(seed);
       }
       if(seed == 0) {
-        seed = time(NULL);
-        srand(seed);
+        timeval t;
+        gettimeofday(&t, NULL);
+        long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
+        seed = ms+getpid()*1000;
       }
       std::string seedFilename = ".";
       char *logPath = getenv("BL_LOG_PATH");
@@ -110,6 +116,17 @@ namespace bolero {
       wasInit = true;
     }
 
+    void PSOOptimizer::deinit() {
+      if(wasInit) {
+        for(int i = 0; i < particleCount; ++i) {
+          delete particles[i];
+        }
+        delete[] particles;
+        delete[] gMin;
+        wasInit = false;
+      }
+    }
+
     PSOOptimizer::~PSOOptimizer() {
       if(wasInit) {
         char *logDir = getenv("BL_LOG_PATH");
@@ -127,11 +144,7 @@ namespace bolero {
             fclose(resFile);
           }
         }
-        for(int i = 0; i < particleCount; ++i) {
-          delete particles[i];
-        }
-        delete[] particles;
-        delete[] gMin;
+        deinit();
       }
     }
 
