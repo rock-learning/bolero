@@ -16,5 +16,8 @@ try:
     __all__.append("CartesianDMPBehavior")
     from .dmp_sequence import DMPSequence
     __all__.append("DMPSequence")
+    from .promp_behavior import ProMPBehavior
+    __all__.append("ProMPBehavior")
+    
 except ImportError:
     pass

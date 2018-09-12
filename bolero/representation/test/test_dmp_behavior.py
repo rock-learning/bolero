@@ -29,6 +29,28 @@ def test_dmp_dimensions_do_not_match():
     assert_raises_regexp(ValueError, "Input and output dimensions must match",
                          beh.init, 1, 2)
 
+def test_shape_trajectory_imitate():
+    n_step_evaluations = range(2,100)
+    for n_steps in n_step_evaluations:
+        n_task_dims = 1
+        dt = 1.0/60  # 60 Hertz
+        execution_time = dt * (n_steps - 1)  # -1 for shape(n_task_dims, n_steps)
+        x0, g = np.zeros(1), np.ones(1)
+
+        beh = DMPBehavior(execution_time, dt, 20)
+        beh.init(3, 3)
+        beh.set_meta_parameters(["x0", "g"], [x0, g])
+
+        X_demo = np.empty((1, n_steps, 1))
+        X_demo[0, :, 0] = np.linspace(0, 1, n_steps)
+        assert_equal(n_steps, X_demo.shape[1])
+
+        beh.imitate(X_demo, alpha=0.01)
+        X, Xd, Xdd = beh.trajectory()
+
+        assert_equal(X_demo[0, :].shape, X.shape)
+
+
 def test_dmp_default_dmp():
     beh = DMPBehavior()
     beh.init(3 * n_task_dims, 3 * n_task_dims)
@@ -213,6 +235,7 @@ def test_dmp_more_steps_than_allowed():
     assert_array_equal(xva[n_task_dims:-n_task_dims], np.zeros(n_task_dims))
     assert_array_equal(xva[-n_task_dims:], np.zeros(n_task_dims))
 
+
 def test_dmp_imitate():
     x0, g, execution_time, dt = np.zeros(1), np.ones(1), 1.0, 0.001
 
@@ -237,6 +260,7 @@ def test_dmp_imitate():
     X2 = beh.trajectory()[0]
     assert_array_almost_equal(X2, X, decimal=3)
 
+
 def test_dmp_imitate_2d():
     x0, g, execution_time, dt = np.zeros(2), np.ones(2), 1.0, 0.001
 
@@ -260,6 +284,20 @@ def test_dmp_imitate_2d():
     beh.imitate(X.T[:, :, np.newaxis])
     X2 = beh.trajectory()[0]
     assert_array_almost_equal(X2, X, decimal=3)
+
+
+def test_dmp_imitate_pseudoinverse():
+    x0, g, execution_time, dt = np.zeros(2), np.ones(2), 1.0, 0.01
+
+    beh = DMPBehavior(execution_time, dt, 200)
+    beh.init(6, 6)
+    beh.set_meta_parameters(["x0", "g"], [x0, g])
+
+    X_demo = make_minimum_jerk(x0, g, execution_time, dt)[0]
+
+    beh.imitate(X_demo)
+    X = beh.trajectory()[0]
+    assert_array_almost_equal(X_demo.T[0], X, decimal=2)
 
 
 def test_dmp_save_and_load():

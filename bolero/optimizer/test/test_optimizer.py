@@ -2,12 +2,25 @@ import numpy as np
 from bolero.utils.testing import all_subclasses
 from bolero.optimizer import Optimizer, ContextualOptimizer
 from bolero.utils.testing import assert_pickle
-from nose.tools import assert_false, assert_true, assert_equal
+from nose.tools import (assert_false, assert_true, assert_equal,
+                        assert_raises_regexp)
 from numpy.testing import assert_array_equal
 
 
-ALL_OPTIMIZERS = all_subclasses(Optimizer)
+ALL_OPTIMIZERS = all_subclasses(Optimizer, exclude_classes="SkOptOptimizer")
 ALL_CONTEXTUALOPTIMIZERS = all_subclasses(ContextualOptimizer)
+
+
+def test_abstract_optimizer():
+    class OptimizerSubclass(Optimizer):
+        pass
+    assert_raises_regexp(TypeError, "abstract class", OptimizerSubclass)
+
+
+def test_abstract_contextual_optimizer():
+    class OptimizerSubclass(ContextualOptimizer):
+        pass
+    assert_raises_regexp(TypeError, "abstract class", OptimizerSubclass)
 
 
 def test_optimizers_have_default_constructor():
