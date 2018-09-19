@@ -63,7 +63,6 @@ namespace bolero {
       char *seedChar = getenv("BL_SEED");
       if(seedChar) {
         sscanf(seedChar, "%ld", &seed);
-        srand(seed);
       }
       if(seed == 0) {
         timeval t;
@@ -79,10 +78,10 @@ namespace bolero {
       seedFilename += "/seed.txt";
       FILE *seedFile = fopen(seedFilename.c_str(), "w");
       if(seedFile) {
-        fprintf(seedFile, "seed: %ld\n", seed);
         fclose(seedFile);
       }
-
+      //fprintf(stderr, "seed %ld\n", seed);
+      srand(seed);
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
