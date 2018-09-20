@@ -388,7 +388,7 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
             # can only occur after step action, thus self.t > 0
             if self.t == 0:
                 raise ValueError
-            new_value_weight = max(0, (1-self.damping))
+            new_value_weight = max(0, (1 - self.damping))
             total_weight = self.damping + new_value_weight
             self.X[self.t, :] = (self.damping * self.X[self.t - 1, :] +
                                  new_value_weight * values[:self.n_task_dims]) / total_weight
