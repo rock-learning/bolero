@@ -85,6 +85,9 @@ class OptimumTrajectory(Environment):
     def reset(self):
         """Reset state of the environment."""
         self.t = 0
+        self.X *= np.nan
+        self.Xd *= np.nan
+        self.Xdd *= np.nan
 
     def get_num_inputs(self):
         """Get number of environment inputs.
@@ -358,11 +361,11 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
             penalty_goal_dist=penalty_goal_dist, penalty_vel=penalty_vel, penalty_acc=penalty_acc,
             penalty_obstacle=penalty_obstacle, log_to_file=log_to_file, log_to_stdout=log_to_stdout)
         self.curbing_obstacles = curbing_obstacles
-        self.damping = 0
 
     def init(self):
         """Initialize environment."""
         super(OptimumTrajectoryCurbingObstacles, self).init()
+        self.damping = 0
         self.X *= np.nan
         self.Xd *= np.nan
         self.Xdd *= np.nan
@@ -371,9 +374,6 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
         """Reset state of the environment."""
         super(OptimumTrajectoryCurbingObstacles, self).reset()
         self.damping = 0
-        self.X *= np.nan
-        self.Xd *= np.nan
-        self.Xdd *= np.nan
 
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
