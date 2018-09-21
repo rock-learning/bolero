@@ -76,6 +76,7 @@ class OptimumTrajectory(Environment):
         self.x0 = np.asarray(self.x0)
         self.g = np.asarray(self.g)
         self.n_task_dims = self.x0.shape[0]
+        self.recent_inputs = np.empty(self.n_task_dims * 3)
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
         n_steps = 1 + int(self.execution_time / self.dt)
@@ -86,6 +87,7 @@ class OptimumTrajectory(Environment):
     def reset(self):
         """Reset state of the environment."""
         self.t = 0
+        self.recent_inputs *= np.nan
         self.X *= np.nan
         self.Xd *= np.nan
         self.Xdd *= np.nan
@@ -138,12 +140,16 @@ class OptimumTrajectory(Environment):
             Inputs for the environment: positions, velocities and accelerations
             in that order, e.g. for n_task_dims=2 the order would be xxvvaa
         """
-        self.X[self.t, :] = values[:self.n_task_dims]
-        self.Xd[self.t, :] = values[self.n_task_dims:-self.n_task_dims]
-        self.Xdd[self.t, :] = values[-self.n_task_dims:]
+        self.recent_inputs[:] = values[:]
 
     def step_action(self):
         """Execute step perfectly."""
+        self.X[self.t, :] = self.recent_inputs[:self.n_task_dims]
+        self.Xd[self.t, :] = self.recent_inputs[self.n_task_dims:
+                                                -self.n_task_dims]
+        self.Xdd[self.t, :] = self.recent_inputs[-self.n_task_dims:]
+        # make sure inputs cannot be used more than once
+        self.recent_inputs *= np.nan
         self.t += 1
 
     def is_evaluation_done(self):
@@ -390,41 +396,36 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
         super(OptimumTrajectoryCurbingObstacles, self).reset()
         self.damping = 0
 
-    def set_inputs(self, values):
-        """Set environment inputs, e.g. next action.
-
-        Parameters
-        ----------
-        values : array,
-            Inputs for the environment: positions, velocities and accelerations
-            in that order, e.g. for n_task_dims=2 the order would be xxvvaa
-        """
+    def step_action(self):
+        """Execute step perfectly (unless obstacles are curbing)."""
         if self.damping:
             if self.t == 0:
                 raise RuntimeError("Damping can only occur after step action "
                                    "(self.t > 0) but self.t == 0")
             new_value_weight = max(0, (1 - self.damping))
             total_weight = self.damping + new_value_weight
-            self.X[self.t, :] = (self.damping * self.X[self.t - 1, :] +
-                                 new_value_weight * values[:self.n_task_dims])\
-                / total_weight
-            self.Xd[self.t, :] = (self.damping * self.Xd[self.t - 1, :] +
-                                  new_value_weight *
-                                  values[self.n_task_dims:-self.n_task_dims])\
-                / total_weight
-            self.Xdd[self.t, :] = (self.damping * self.Xdd[self.t - 1, :] +
-                                   new_value_weight *
-                                   values[-self.n_task_dims:])\
-                / total_weight
-        else:
-            self.X[self.t, :] = values[:self.n_task_dims]
-            self.Xd[self.t, :] = values[self.n_task_dims:-self.n_task_dims]
-            self.Xdd[self.t, :] = values[-self.n_task_dims:]
+            # dampen position
+            self.recent_inputs[:self.n_task_dims] = \
+                self.damping * self.X[self.t - 1, :] +\
+                new_value_weight * self.recent_inputs[:self.n_task_dims]
+            # dampen velocity
+            self.recent_inputs[self.n_task_dims:-self.n_task_dims] = \
+                self.damping * self.Xd[self.t - 1, :] +\
+                new_value_weight * self.recent_inputs[self.n_task_dims:
+                                                      -self.n_task_dims]
+            # dampen acceleration
+            self.recent_inputs[-self.n_task_dims:] = \
+                self.damping * self.Xdd[self.t - 1, :] +\
+                new_value_weight * self.recent_inputs[-self.n_task_dims:]
+            # normalize with sum of weighting
+            self.recent_inputs /= total_weight
 
-    def step_action(self):
-        """Execute step perfectly (unless obstacles are curbing)."""
-        if self.curbing_obstacles:
-            self.damping = (cdist(self.X[self.t:self.t+1, :], self.obstacles) <
-                            self.obstacle_dist).ravel().sum()
-            self.damping *= self.curbing_obstacles
+        # execute the step with (potentially damped) inputs
         super(OptimumTrajectoryCurbingObstacles, self).step_action()
+
+        if self.curbing_obstacles:
+            # determine how many obstacles are at the current position (X)
+            self.damping = (cdist(self.X[self.t-1:self.t, :], self.obstacles) <
+                            self.obstacle_dist).ravel().sum()
+            # compute the damping used in the next step
+            self.damping *= self.curbing_obstacles
