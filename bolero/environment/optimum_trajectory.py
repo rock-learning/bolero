@@ -144,6 +144,9 @@ class OptimumTrajectory(Environment):
 
     def step_action(self):
         """Execute step perfectly."""
+        if not all(np.isnan(self.X[self.t, :])):
+            raise RuntimeError("preallocated array is not reset to NaNs "
+                               "(check that the reset method is called)")
         self.X[self.t, :] = self.recent_inputs[:self.n_task_dims]
         self.Xd[self.t, :] = self.recent_inputs[self.n_task_dims:
                                                 -self.n_task_dims]
