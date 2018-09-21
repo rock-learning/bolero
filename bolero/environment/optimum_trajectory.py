@@ -402,8 +402,7 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
             if self.t == 0:
                 raise RuntimeError("Damping can only occur after step action "
                                    "(self.t > 0) but self.t == 0")
-            new_value_weight = max(0, (1 - self.damping))
-            total_weight = self.damping + new_value_weight
+            new_value_weight = 1 - self.damping
             # dampen position
             self.recent_inputs[:self.n_task_dims] = \
                 self.damping * self.X[self.t - 1, :] +\
@@ -417,8 +416,6 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
             self.recent_inputs[-self.n_task_dims:] = \
                 self.damping * self.Xdd[self.t - 1, :] +\
                 new_value_weight * self.recent_inputs[-self.n_task_dims:]
-            # normalize with sum of weighting
-            self.recent_inputs /= total_weight
 
         # execute the step with (potentially damped) inputs
         super(OptimumTrajectoryCurbingObstacles, self).step_action()
@@ -427,5 +424,5 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
             # determine how many obstacles are at the current position (X)
             self.damping = (cdist(self.X[self.t-1:self.t, :], self.obstacles) <
                             self.obstacle_dist).ravel().sum()
-            # compute the damping used in the next step
-            self.damping *= self.curbing_obstacles
+            # compute the damping used in the next step, value in [0, 1]
+            self.damping = min(1, self.damping * self.curbing_obstacles)
