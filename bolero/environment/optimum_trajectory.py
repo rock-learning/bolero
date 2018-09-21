@@ -1,4 +1,5 @@
 # Authors: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
+#          Marc Otto <maotto@uni-bremen.de>
 
 import numpy as np
 from scipy.spatial.distance import cdist
@@ -27,7 +28,7 @@ class OptimumTrajectory(Environment):
         List of obstacles.
 
     obstacle_dist : float, optional (default: 0.1)
-        Distance that should be kept to the obstacles (penalty is zero outside
+        Radius of the obstacles that should be avoided (penalty is zero outside
         of this area)
 
     penalty_start_dist : float, optional (default: 0)
@@ -304,6 +305,15 @@ class OptimumTrajectory(Environment):
 class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
     """Search trajectories with several criteria and curbing within obstacles.
 
+    The parameter curbing_obstacles controls how much the next movement is
+    slowed down, when the current position is within an obstacle. When several
+    obstacles overlap, damping effects increase with the number of obstacles
+    being hit. When the product of the number of obstacles being hit and the
+    value of curbing_obstacles reaches one, no further movement is possible.
+
+    Example: by default (curbing_obstacles = 0.5), hitting a single obstacles
+    reduces following movements by 50% (1 * 0.5) until the obstacle is left.
+
     Parameters
     ----------
     x0 : array-like, shape = (n_task_dims,), optional (default: [0, 0])
@@ -322,12 +332,15 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
         List of obstacles.
 
     obstacle_dist : float, optional (default: 0.1)
-        Distance that should be kept to the obstacles (penalty is zero outside
+        Radius of the obstacles that should be avoided (penalty is zero outside
         of this area)
 
     curbing_obstacles : float, optional (default: 0.5)
-        Slow down the move if closer than *obstacle_dist* to an obstacle.
-        Multiple obstacles in the vicinity increase the effect.
+        Slow down the move when passing trough an obstacle. Passing through
+        multiple obstacles at the same time increases the effect. Value should
+        be in c = [0, 1]. Hitting k obstacles at the same time, leads to an
+        inhibition of movement, if k * c >= 1, a slower movement if
+        0 < k * c < 1 and otherwise (k * c = 0) doesn't reduce the movement.
 
     penalty_start_dist : float, optional (default: 0)
         Penalty weight for distance to start at the beginning
