@@ -9,14 +9,6 @@ find_package(lib_manager)
 lib_defaults()
 define_module_info()
 
-if(WIN32)
-        # this fixes the error 998 from the LibManager
-        SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--enable-auto-import -Wall")
-        SET(CMAKE_MODULE_LINKER_FLAGS "-Wl,--enable-auto-import -Wall")
-else(WIN32)
-        SET(CMAKE_CXX_FLAGS "-fPIC -Wall")
-endif(WIN32)
-
 pkg_check_modules(LIB_MANAGER REQUIRED lib_manager)
 include_directories(${LIB_MANAGER_INCLUDE_DIRS})
 link_directories(${LIB_MANAGER_LIBRARY_DIRS})

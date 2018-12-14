@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cmath>
 #include <sys/time.h>     // get time elapsed
+#include <unistd.h>
 
 using namespace configmaps;
 
