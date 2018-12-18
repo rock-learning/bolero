@@ -2,34 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist
 from bolero.optimizer import Optimizer
+from bolero.optimizer.cmaes import _bound
 from bolero.utils.validation import check_random_state, check_feedback
-from bolero.environment import ObjectiveFunction
-from bolero.environment.objective_functions import *
-
-
-def _bound(bounds, samples):
-    """Apply boundaries to samples.
-
-    Parameters
-    ----------
-    bounds : array-like, shape (n_params, 2)
-        Boundaries, bounds[:, 0] are the lower boundaries and
-        bounds[:, 1] are the upper boundaries
-
-    samples : array-like, shape (n_samples, n_params)
-        Samples from the search distribution. Will be modified so that they
-        are within the boundaries.
-    """
-    if bounds is not None:
-        # TODO vectorize?
-        for k in range(len(samples)):
-            samples[k] = np.maximum(samples[k], bounds[:, 0])
-            samples[k] = np.minimum(samples[k], bounds[:, 1])
-
 
 class CEMOptimizer(Optimizer):
     """Cross entropy method.
-    see 'Wikipedia <https://en.wikipedia.org/wiki/Cross-entropy_method>'_ for details
+
+    See 'Wikipedia <https://en.wikipedia.org/wiki/Cross-entropy_method>'_ for details.
 
     Parameters
     ----------
@@ -48,8 +27,11 @@ class CEMOptimizer(Optimizer):
     maximize : boolean, optional (default: True)
         Maximize return or minimize cost?
 
-    elite_frac:float, optional (default:0.5(50 %))
+    elite_frac:float, optional (default: 0.5(50 %))
         Best candidate solutions for update
+
+    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+        Minimum variance as a stopping criteria for behaviour learning
 
     min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
         Minimum distance between fitness values
@@ -61,6 +43,7 @@ class CEMOptimizer(Optimizer):
     def __init__(self, initial_params=None, covariance=None,
                  n_samples_per_update=None, elite_frac=0.5,
                  bounds=None, min_fitness_dist=2 * np.finfo(np.float).eps,
+                 min_variance=2 * np.finfo(np.float).eps ** 2,
                  random_state=None, maximize=True,
                  **kwargs):
         self.initial_params = initial_params
@@ -69,8 +52,10 @@ class CEMOptimizer(Optimizer):
         self.maximize = maximize
         self.elite_frac = elite_frac
         self.bounds = bounds
+        self.min_variance = min_variance
         self.min_fitness_dist = min_fitness_dist
         self.random_state = random_state
+        
 
     def init(self, n_params):
         """Initialize the behavior search.
@@ -94,7 +79,8 @@ class CEMOptimizer(Optimizer):
             raise ValueError("Number of dimensions (%d) does not match "
                              "number of initial parameters (%d)."
                              % (n_params, len(self.initial_params)))
-
+        if self.elite_frac <= 0 or self.elite_frac >= 1:
+            raise ValueError("Elite fraction should be positive and in range (0.0,1.0)")
         if self.covariance is None:
             self.covariance = np.eye(self.n_params)
         else:
@@ -162,12 +148,11 @@ class CEMOptimizer(Optimizer):
         # -> Update sample distribution mean and cov
         self.last_mean = self.mean
         self.last_cov = self.cov
-        a = 1  # learn rate
         elite_sol = int(self.n_samples_per_update * self.elite_frac)
         ranking = np.argsort(fitness, axis=0)
         update_samples = samples[ranking[:elite_sol]]
-        self.mean = a * np.mean(update_samples, axis=0) + (1 - a) * self.last_mean
-        self.cov = a * np.cov(update_samples, rowvar=False) + (1 - a) * np.cov(update_samples, rowvar=False)
+        self.mean = np.mean(update_samples, axis=0) 
+        self.cov = np.cov(update_samples, rowvar=False)
         self.samples = self._sample(self.n_samples_per_update)
 
     def get_best_parameters(self, method="best"):
@@ -222,6 +207,11 @@ class CEMOptimizer(Optimizer):
         if not (np.all(np.isfinite(self.cov)) and
                 np.all(np.isfinite(self.mean))):
             return True
+        # check if variance <min_variance
+        if (self.min_variance is not None and
+                np.max(np.diag(self.cov)) <= self.min_variance):
+            return True
+        # check if distance between fitness values < min_fitness_dist
         max_dist = np.max(pdist(self.fitness[:, np.newaxis]))
         if max_dist < self.min_fitness_dist:
             return True
