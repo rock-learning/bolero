@@ -42,7 +42,7 @@ namespace bolero {
       virtual void setEvaluationFeedback(const double *feedbacks,
                                          int numFeedbacks);
 
-      bool isBehaviorLearningDone() const {return false;}
+      bool isBehaviorLearningDone() const;
 
       virtual std::vector<double*> getNextParameterSet() const;
       virtual void setParameterSetFeedback(const std::vector<double> feedback);
@@ -60,6 +60,8 @@ namespace bolero {
       double gMinCost;
       double r, wp, wl, wg;
       bool wasInit;
+      size_t velocityReinits;
+      size_t maxVelocityReinits;
 
     }; // end of class definition PSOOptimizer
 

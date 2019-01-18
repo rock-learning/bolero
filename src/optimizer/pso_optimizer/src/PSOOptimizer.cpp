@@ -85,6 +85,8 @@ namespace bolero {
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
+      maxVelocityReinits = 5;
+
       if(config != "")
       {
         ConfigMap map = ConfigMap::fromYamlString(config);
@@ -93,7 +95,11 @@ namespace bolero {
         if(map.hasKey("Optimizer")) {
             map2 = map["Optimizer"];
             if(map2->find("PopulationSize") != map2->end()) {
-            particleCount = (*map2)["PopulationSize"];
+              particleCount = (*map2)["PopulationSize"];
+            }
+            map2 = map["Optimizer"];
+            if(map2->find("MaxVelocityReinits") != map2->end()) {
+              maxVelocityReinits = (*map2)["MaxVelocityReinits"];
             }
         }
       }
@@ -113,6 +119,7 @@ namespace bolero {
       generation = 0;
       individual = 0;
       wasInit = true;
+      velocityReinits = 0;
     }
 
     void PSOOptimizer::deinit() {
@@ -183,6 +190,14 @@ namespace bolero {
       }
     }
 
+    bool PSOOptimizer::isBehaviorLearningDone() const {
+      if (velocityReinits > maxVelocityReinits) {
+          return true;
+      }
+      return false;
+    }
+
+
     std::vector<double*> PSOOptimizer::getNextParameterSet() const {
       std::vector<double*> parameterSet;
       double *p;
@@ -225,6 +240,7 @@ namespace bolero {
           for(int j = 0; j < dimension; ++j) {
             p->velocity[j] = double(rand()) / RAND_MAX;
           }
+          ++velocityReinits;
         }
       }
     }
