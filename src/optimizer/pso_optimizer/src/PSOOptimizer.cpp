@@ -33,6 +33,7 @@ namespace bolero {
       velocity = new double[dimension];
       pMin = new double[dimension];
       pMinCost = std::numeric_limits<double>::max();
+      nr_reinits = 0;
 
       for(size_t i = 0; i < dimension; ++i) {
         position[i] = double(rand()) / RAND_MAX;
@@ -85,7 +86,7 @@ namespace bolero {
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
 
-      maxVelocityReinits = 5;
+      maxReinits = -1;
 
       if(config != "")
       {
@@ -98,8 +99,8 @@ namespace bolero {
               particleCount = (*map2)["PopulationSize"];
             }
             map2 = map["Optimizer"];
-            if(map2->find("MaxVelocityReinits") != map2->end()) {
-              maxVelocityReinits = (*map2)["MaxVelocityReinits"];
+            if(map2->find("MaxReinits") != map2->end()) {
+              maxReinits = (*map2)["MaxReinits"];
             }
         }
       }
@@ -119,7 +120,7 @@ namespace bolero {
       generation = 0;
       individual = 0;
       wasInit = true;
-      velocityReinits = 0;
+      minReinitsPerParticle = 0;
     }
 
     void PSOOptimizer::deinit() {
@@ -191,7 +192,7 @@ namespace bolero {
     }
 
     bool PSOOptimizer::isBehaviorLearningDone() const {
-      if (velocityReinits > maxVelocityReinits) {
+      if (minReinitsPerParticle >= maxReinits && maxReinits >= 0) {
           return true;
       }
       return false;
@@ -219,6 +220,7 @@ namespace bolero {
     }
 
     void PSOOptimizer::updateParticles() {
+      minReinitsPerParticle = std::numeric_limits<int>::max();
       for(int i = 0; i < particleCount; ++i) {
         Particle *p = particles[i];
         // update position
@@ -240,8 +242,9 @@ namespace bolero {
           for(int j = 0; j < dimension; ++j) {
             p->velocity[j] = double(rand()) / RAND_MAX;
           }
-          ++velocityReinits;
+          ++p->nr_reinits;
         }
+        minReinitsPerParticle = std::min(minReinitsPerParticle, p->nr_reinits);
       }
     }
 

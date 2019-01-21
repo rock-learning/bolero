@@ -26,6 +26,7 @@ namespace bolero {
       double *velocity;
       double *pMin;
       double pMinCost;
+      int nr_reinits;
     };
 
     class PSOOptimizer : public Optimizer {
@@ -60,8 +61,8 @@ namespace bolero {
       double gMinCost;
       double r, wp, wl, wg;
       bool wasInit;
-      size_t velocityReinits;
-      size_t maxVelocityReinits;
+      int minReinitsPerParticle;
+      int maxReinits;
 
     }; // end of class definition PSOOptimizer
 

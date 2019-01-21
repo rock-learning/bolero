@@ -93,7 +93,7 @@ namespace bolero {
 
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
-      sigmaThreshold = 0.0001;
+      sigmaThreshold = -1.;
 
       if(config != "")
       {
@@ -108,7 +108,7 @@ namespace bolero {
             logGeneration = m.get("LogGeneration", false);
             logBest = m.get("LogBest", false);
             reinitSigma = m.get("ReinitSigma", -1.);
-            sigmaThreshold = m.get("SigmaThreshold", 0.0001);
+            sigmaThreshold = m.get("SigmaThreshold", -1.);
         }
       }
 
