@@ -50,4 +50,4 @@ def compatible_version(actual_version_info, operation):
         raise ValueError("Unknown comparison operator '%s'" % op)
     version = map(int, version.split("."))
 
-    return eval("%s %s %s" % (actual_version, op, version))
+    return eval("%s %s %s" % (tuple(actual_version), op, tuple(version)))

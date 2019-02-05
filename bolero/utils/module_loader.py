@@ -4,7 +4,10 @@ import os
 import yaml
 import warnings
 import inspect
-import StringIO
+try:  # Python 2
+    from StringIO import StringIO
+except:  # Python 3
+    from io import StringIO
 
 
 def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
