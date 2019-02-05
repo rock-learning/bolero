@@ -1,6 +1,7 @@
 #! /bin/bash
 
 export PYTHON="${PYTHON:-python}"
+echo -e "\e[31mUsing Python: $PYTHON (located at `which $PYTHON`)\e[0m"
 
 # checking minimal dependencies on Ubuntu systems...
 if [ -f /etc/lsb-release ]; then
@@ -45,27 +46,42 @@ DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
 if [ -f /mingw64.exe ]; then
   DEV_DIR="$(cmd //c echo $DEV_DIR)"
 fi
+echo -e "\e[31mBOLeRo development directory: $DEV_DIR\e[0m"
+
+echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
 git clone https://github.com/rock-simulation/pybob.git
+echo -e "\e[31mDone.\e[0m"
 cd pybob
 
 # create default config for bolero
 echo "autoprojEnv: false" > pybob.yml
 echo "buildconfAddress: https://github.com/rock-learning/bolero_buildconf.git" >> pybob.yml
-echo "buildconfBranch: 'fix/python3'" >> pybob.yml
+echo "buildconfBranch: ''" >> pybob.yml
 echo "defBuildType: debug" >> pybob.yml
 echo "devDir: ${DEV_DIR}" >> pybob.yml
 echo "pyScriptDir: ${DEV_DIR}/pybob" >> pybob.yml
 echo "rockFlavor: master" >> pybob.yml
 
 # clone build configuration
+echo -e "\e[31mDownloading sources...\e[0m"
 $PYTHON pybob.py buildconf
+echo -e "\e[31mDone.\e[0m"
 
 cd ..
+
+# TODO remove this before merging the branch
+echo -e "\e[31mSwitching branch of BOLeRo to fix/python3...\e[0m"
+echo "  - learning/bolero:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo -e "\e[31mDone.\e[0m"
+
 source env.sh
 
 # build default packages
 cd pybob
+echo -e "\e[31mBuilding...\e[0m"
 $PYTHON pybob.py bootstrap
+echo -e "\e[31mDone.\e[0m"
 
 echo ""
 echo "To continue working with bolero in this terminal perform:"
