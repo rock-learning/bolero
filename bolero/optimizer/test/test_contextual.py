@@ -11,7 +11,7 @@ def eval_loop(x, opt, n_evals=300, fixed_set=True, baseline_fct=lambda x: 0):
     results = np.ndarray(n_evals)
     if fixed_set:
         contexts = np.linspace(-1.0, 1.0, 10)[:, np.newaxis]
-    for i in xrange(n_evals):
+    for i in range(n_evals):
         c = opt.get_desired_context()
         if c is None:
             c = (contexts[i % contexts.shape[0]] if fixed_set else

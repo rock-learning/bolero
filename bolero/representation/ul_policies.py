@@ -309,7 +309,7 @@ class ContextTransformationPolicy(UpperLevelPolicy):
         self.context_transformation = context_transformation
         if self.context_transformation is None:
             self.ct = CONTEXT_TRANSFORMATIONS["affine"]
-        elif (isinstance(self.context_transformation, basestring) and
+        elif (isinstance(self.context_transformation, str) and
               self.context_transformation in CONTEXT_TRANSFORMATIONS):
             self.ct = CONTEXT_TRANSFORMATIONS[self.context_transformation]
         else:

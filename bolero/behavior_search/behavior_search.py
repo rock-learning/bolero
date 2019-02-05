@@ -187,8 +187,10 @@ class PickableMixin(object):
     """Use pickle to save and load behavior search states."""
     def write_results(self, result_path):
         filename = "%s/%s.pickle" % (result_path, self.__class__.__name__)
-        pickle.dump(self, open(filename, "w"))
+        with open(filename, "wb") as outf:
+            pickle.dump(self, outf)
 
     def get_behavior_from_results(self, result_path):
         filename = "%s/%s.pickle" % (result_path, self.__class__.__name__)
-        self = pickle.load(open(filename, "r"))
+        with open(filename, "rb") as inf:
+            self = pickle.load(inf)

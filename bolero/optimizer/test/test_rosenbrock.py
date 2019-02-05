@@ -12,7 +12,7 @@ n_dims = 2
 def eval_loop(x, opt, n_dims, n_evals=1000):
     objective = Rosenbrock(0, n_dims)
     results = np.empty(n_evals)
-    for i in xrange(n_evals):
+    for i in range(n_evals):
         opt.get_next_parameters(x)
         results[i] = objective.feedback(x)
         opt.set_evaluation_feedback(results[i])
