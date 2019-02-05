@@ -3,7 +3,10 @@
 
 import yaml
 import warnings
-import StringIO
+try:  # Python 2
+    from StringIO import StringIO
+except:  # Python 3
+    from io import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
 import promp
@@ -58,7 +61,7 @@ def save_promp_model(promp, filename):
     model["ts_tau"] = promp.execution_time
     model["ts_dt"] = promp.dt
 
-    model_content = StringIO.StringIO()
+    model_content = StringIO()
     yaml.dump(model, model_content)
     with open(filename, "w") as f:
         f.write("---\n")
@@ -472,7 +475,7 @@ class ProMPBehavior(BlackBoxBehavior):
         config["promp_endPosition"] = self.g.tolist()
         config["promp_endVelocity"] = self.gd.tolist()
 
-        config_content = StringIO.StringIO()
+        config_content = StringIO()
         yaml.dump(config, config_content)
         with open(filename, "w") as f:
             f.write("---\n")

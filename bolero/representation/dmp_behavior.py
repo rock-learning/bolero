@@ -3,7 +3,10 @@
 
 import yaml
 import warnings
-import StringIO
+try:  # Python 2
+    from StringIO import StringIO
+except:  # Python 3
+    from io import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
 import dmp
@@ -69,7 +72,7 @@ def save_dmp_model(dmp, filename):
     model["ts_dt"] = dmp.dt
     model["ft_weights"] = dmp.weights.T.tolist()
 
-    model_content = StringIO.StringIO()
+    model_content = StringIO()
     yaml.dump(model, model_content)
     with open(filename, "w") as f:
         f.write("---\n")
@@ -426,7 +429,7 @@ class DMPBehavior(BlackBoxBehavior):
         config["dmp_endVelocity"] = self.gd.tolist()
         config["dmp_endAcceleration"] = self.gdd.tolist()
 
-        config_content = StringIO.StringIO()
+        config_content = StringIO()
         yaml.dump(config, config_content)
         with open(filename, "w") as f:
             f.write("---\n")

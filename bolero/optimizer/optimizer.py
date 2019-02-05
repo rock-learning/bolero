@@ -4,12 +4,14 @@ from ..utils import NonContextualException
 from ..base import Base
 
 
-class ContextualOptimizer(Base):
+ABC = ABCMeta('ABC', (object,), {'__slots__': ()})
+
+
+class ContextualOptimizer(Base, ABC):
     """Common interface for (contextual) optimizers.
 
     This is a simple derivative-free parameter optimizer.
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def init(self, n_params, n_context_dims):
@@ -89,9 +91,8 @@ class ContextualOptimizer(Base):
         """
 
 
-class Optimizer(Base):
+class Optimizer(Base, ABC):
     """Common interface for (non-contextual) optimizers."""
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def init(self, n_params):

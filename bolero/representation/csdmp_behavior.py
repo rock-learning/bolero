@@ -2,7 +2,10 @@
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import yaml
-import StringIO
+try:  # Python 2
+    from StringIO import StringIO
+except:  # Python 3
+    from io import StringIO
 import numpy as np
 from .behavior import BlackBoxBehavior
 from .dmp_behavior import load_dmp_model, save_dmp_model
@@ -427,7 +430,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         config["endAcceleration"] = self.gdd.tolist()
         config["endRotation"] = self.qg.tolist()
 
-        config_content = StringIO.StringIO()
+        config_content = StringIO()
         yaml.dump(config, config_content)
         with open(filename, "w") as f:
             f.write("---\n")
