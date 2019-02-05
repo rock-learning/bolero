@@ -153,13 +153,13 @@ def test_smoke():
 def test_trajectory_generation():
     dmp_seq, _ = create_dmp_seq(n_task_dims=1)
     traj = dmp_seq.trajectory()[0]
-    subgoal = dmp_seq.get_subgoal(0)
+    subgoal = dmp_seq.get_subgoal(0)[0]
     assert_almost_equal(traj[0, 0], subgoal)
-    subgoal = dmp_seq.get_subgoal(1)
+    subgoal = dmp_seq.get_subgoal(1)[0]
     assert_almost_equal(traj[20, 0], subgoal, places=2)
-    subgoal = dmp_seq.get_subgoal(2)
+    subgoal = dmp_seq.get_subgoal(2)[0]
     assert_almost_equal(traj[50, 0], subgoal, places=2)
-    subgoal = dmp_seq.get_subgoal(3)
+    subgoal = dmp_seq.get_subgoal(3)[0]
     assert_almost_equal(traj[100, 0], subgoal, places=2)
 
 

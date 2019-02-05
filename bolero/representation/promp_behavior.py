@@ -99,12 +99,13 @@ class ProMPBehavior(BlackBoxBehavior):
     configuration_file : string, optional (default: None)
         Name of a configuration file that should be used to initialize the
         promp. If it is set all other arguments will be ignored.
+
     n_features: int, optional (default: 50)
         How many features are to be used
+
     overlap: float, optional (default: 0.7)
         How much shall the gaussians which are used for approximation overlap
     """
-
     def __init__(self,
                  execution_time=1.0,
                  dt=0.01,
@@ -133,10 +134,9 @@ class ProMPBehavior(BlackBoxBehavior):
         n_outputs : int
             number of outputs
         """
-
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
-        self.n_task_dims = self.n_inputs / 2
+        self.n_task_dims = self.n_inputs // 2
         self.overlap = 0.7
         self.valueMeans = np.empty(self.n_task_dims * 2)
         self.valueCovs = np.empty((self.n_task_dims * 2)**2)
@@ -146,8 +146,6 @@ class ProMPBehavior(BlackBoxBehavior):
             self.name = "Python promp"
             self.data = promp.TrajectoryData(self.n_features, self.n_task_dims,
                                              True, self.overlap)
-            self.random_state_ = np.random.randint(
-                100000000)  # some big number for random state
 
         if not hasattr(self, "x0"):
             self.x0 = None

@@ -136,7 +136,7 @@ class DMPBehavior(BlackBoxBehavior):
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
-        self.n_task_dims = self.n_inputs / 3
+        self.n_task_dims = self.n_inputs // 3
 
         if hasattr(self, "configuration_file"):
             load_dmp_model(self, self.configuration_file)
