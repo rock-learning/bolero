@@ -55,6 +55,31 @@ PyObjectPtr makePyObjectPtr(PyObject* p)
 //////////////////////// Helper functions //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string getString(PyObjectPtr object)
+{
+#if PYTHON_VERSION == 2
+  return PyString_AsString(object.get())
+#else
+  std::string result;
+  if(PyUnicode_Check(object.get())) {
+    PyObject* temp_bytes = PyUnicode_AsEncodedString(object.get(), "UTF-8", "strict"); // Owned reference
+    if (temp_bytes != NULL) {
+        result = PyBytes_AS_STRING(temp_bytes); // Borrowed pointer
+        Py_DECREF(temp_bytes);
+    } else {
+      throw std::runtime_error("Decoding string failed");
+    }
+  }
+  else if(PyBytes_Check(object.get())) {
+    result = PyBytes_AS_STRING(object.get()); // Borrowed pointer
+  }
+  else {
+    throw std::runtime_error("Unknown string format");
+  }
+  return result;
+#endif
+}
+
 void throwPythonException()
 {
   PyObject* error = PyErr_Occurred(); // Borrowed reference
@@ -66,11 +91,11 @@ void throwPythonException()
     // Exception type
     PyObjectPtr pyexception = makePyObjectPtr(PyObject_GetAttrString(
         ptype, (char*)"__name__"));
-    std::string type = PyString_AsString(pyexception.get());
+    std::string type = getString(pyexception);
 
     // Message
     PyObjectPtr pymessage = makePyObjectPtr(PyObject_Str(pvalue));
-    std::string message = PyString_AsString(pymessage.get());
+    std::string message = getString(pymessage);
 
     // Traceback
     PyObjectPtr tracebackModule = makePyObjectPtr(PyImport_ImportModule("traceback"));
@@ -87,7 +112,7 @@ void throwPythonException()
             PyObject_CallMethod(emptyString.get(), (char*)"join", (char*)"O",
                                 tbList.get()));
 
-        traceback = PyString_AsString(strRetval.get());
+        traceback = getString(strRetval);
     }
     else
     {
