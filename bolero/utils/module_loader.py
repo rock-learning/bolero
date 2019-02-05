@@ -214,7 +214,7 @@ def _from_dict(name, config):
                 "Empty module name. Either you tried to load a C++ library "
                 "that cannot be found or you forgot to specify the Python "
                 "package where the class '%s' is located." % type_name)
-        config_string = StringIO.StringIO()
+        config_string = StringIO()
         yaml.dump(c, config_string)
         cpp_lib.initialize_yaml(config_string.getvalue())
         config_string.close()
