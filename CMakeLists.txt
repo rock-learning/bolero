@@ -43,7 +43,6 @@ add_custom_command(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
 install(
   CODE "execute_process(
     COMMAND ${PYTHON} ${SETUP_PY} install --prefix=${CMAKE_INSTALL_PREFIX}
