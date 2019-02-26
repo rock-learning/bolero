@@ -60,7 +60,7 @@ PyObjectPtr makePyObjectPtr(PyObject* p)
 std::string getString(PyObjectPtr object)
 {
 #if PYTHON_VERSION == 2
-  return PyString_AsString(object.get())
+  return PyString_AsString(object.get());
 #else
   std::string result;
   if(PyUnicode_Check(object.get())) {
@@ -443,13 +443,17 @@ void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::ve
  *   from a constructor
  * #define NUMPY_IMPORT_ARRAY_RETVAL NULL
  */
+#if PYTHON_VERSION == 2
+void dummy_import_array()
+{
+    import_array();
+}
+#else
 int dummy_import_array()
 {
     import_array();
-#if PYTHON_VERSION == 2
-    return 0;
-#endif
 }
+#endif
 
 PythonInterpreter::PythonInterpreter()
 {
