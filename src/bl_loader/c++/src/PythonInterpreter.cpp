@@ -11,6 +11,8 @@
 #include <cstdarg>
 #include <sstream>
 
+#warning PYTHON_VERSION
+
 
 namespace bolero { namespace bl_loader {
 
@@ -80,6 +82,15 @@ std::string getString(PyObjectPtr object)
 #endif
 }
 
+PyObjectPtr makeString(std::string str)
+{
+#if PYTHON_VERSION == 2
+  return makePyObjectPtr(PyString_FromString(str.c_str()));
+#else
+  return makePyObjectPtr(PyUnicode_FromString(str.c_str()));
+#endif
+}
+
 void throwPythonException()
 {
   PyObject* error = PyErr_Occurred(); // Borrowed reference
@@ -107,7 +118,7 @@ void throwPythonException()
                 (char*)"OOO", ptype, pvalue == NULL ? Py_None : pvalue,
                 ptraceback == NULL ? Py_None : ptraceback));
 
-        PyObjectPtr emptyString = makePyObjectPtr(PyString_FromString(""));
+        PyObjectPtr emptyString = makeString("");
         PyObjectPtr strRetval = makePyObjectPtr(
             PyObject_CallMethod(emptyString.get(), (char*)"join", (char*)"O",
                                 tbList.get()));
@@ -184,10 +195,21 @@ struct Int
     PyObjectPtr obj;
     static Int make(int i)
     {
+#if PYTHON_VERSION == 2
         Int result = {makePyObjectPtr(PyInt_FromLong((long) i))};
+#else
+        Int result = {makePyObjectPtr(PyLong_FromLong((long) i))};
+#endif
         return result;
     }
-    const double get() { return (int)PyInt_AsLong(obj.get()); }
+    const double get()
+    {
+#if PYTHON_VERSION == 2
+        return (int)PyInt_AsLong(obj.get());
+#else
+        return (int)PyLong_AsLong(obj.get());
+#endif
+    }
 };
 
 struct Double
@@ -217,10 +239,10 @@ struct String
     PyObjectPtr obj;
     static String make(const std::string& s)
     {
-        String result = {makePyObjectPtr(PyString_FromString(s.c_str()))};
+        String result = {makeString(s)};
         return result;
     }
-    const std::string get() { return PyString_AsString(obj.get()); }
+    const std::string get() { return getString(obj); }
 };
 
 bool toVector(PyObjectPtr obj, std::vector<double>& result)
@@ -415,11 +437,25 @@ void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::ve
 //////////////////////// Public interface //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/* HACK: dummy function to avoid the following error from macro expansion
+ * .../pythonX.Y/numpy/__multiarray_api.h:1527:35: error: returning a value
+ *   from a constructor
+ * #define NUMPY_IMPORT_ARRAY_RETVAL NULL
+ */
+int dummy_import_array()
+{
+    import_array();
+#if PYTHON_VERSION == 2
+    return 0;
+#endif
+}
+
 PythonInterpreter::PythonInterpreter()
 {
     if(!Py_IsInitialized())
         Py_Initialize();
-    import_array();
+    dummy_import_array();
 }
 
 PythonInterpreter::~PythonInterpreter()
