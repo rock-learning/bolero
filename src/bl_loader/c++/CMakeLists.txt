@@ -36,6 +36,7 @@ else()
     set(PYTHON $ENV{PYTHON})
     message(STATUS ${PYTHON})
 endif()
+message(STATUS "Python: ${PYTHON}")
 
 execute_process(
 COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
