@@ -61,6 +61,7 @@ if(PYTHON_SUPPORT)
       OUTPUT_VARIABLE PYTHON_VERSION
   )
   string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
+  message(STATUS "Python: ${PYTHON}")
   message(STATUS "Python version: ${PYTHON_VERSION}")
 
   add_definitions(-DPYTHON_VERSION=${PYTHON_VERSION})
