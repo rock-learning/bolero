@@ -29,23 +29,14 @@ endif()
 set(SOURCES src/BLLoader.cpp)
 set(HEADERS src/BLLoader.h)
 
-if("$ENV{PYTHON}" STREQUAL "")
-    set(PYTHON "python")
-    message(STATUS "Using default python.")
-else()
-    set(PYTHON $ENV{PYTHON})
-    message(STATUS ${PYTHON})
-endif()
-message(STATUS "Python: ${PYTHON}")
-
-execute_process(
-COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
-OUTPUT_VARIABLE PYTHON_VERSION
-)
-string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
-message(STATUS "Python version: ${PYTHON_VERSION}")
-
 if(PYTHON_SUPPORT)
+  if("$ENV{PYTHON}" STREQUAL "")
+      set(PYTHON "python")
+      message(STATUS "Using default python.")
+  else()
+      set(PYTHON $ENV{PYTHON})
+  endif()
+
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   add_definitions(-DPYTHON_SUPPORT)
   add_definitions(-DUSE_MEMORYVIEWS)
@@ -64,14 +55,15 @@ if(PYTHON_SUPPORT)
   message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
   include_directories(${NUMPY_INCLUDE_DIRS})
   link_directories(${PYTHON_LIBRARY_DIRS})
-  # ugly hack: preprocessor compains if we pass ${PYTHON_VERSION} directly
-  if(${PYTHON_VERSION} EQUAL 2)
-    add_definitions(-DPYTHON_VERSION=2)
-  elseif(${PYTHON_VERSION} EQUAL 3)
-    add_definitions(-DPYTHON_VERSION=3)
-  else()
-    message(FATAL "Unknown Python version: ${PYTHON_VERSION}")
-  endif()
+
+  execute_process(
+      COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
+      OUTPUT_VARIABLE PYTHON_VERSION
+  )
+  string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
+  message(STATUS "Python version: ${PYTHON_VERSION}")
+
+  add_definitions(-DPYTHON_VERSION=${PYTHON_VERSION})
 
   set(SOURCES
     ${SOURCES}
