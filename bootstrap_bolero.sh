@@ -50,7 +50,7 @@ echo -e "\e[31mBOLeRo development directory: $DEV_DIR\e[0m"
 
 echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
 # TODO remove branch before merging
-git clone https://github.com/rock-simulation/pybob.git --branch fix/python3
+git clone https://github.com/rock-simulation/pybob.git
 echo -e "\e[31mDone.\e[0m"
 cd pybob
 
