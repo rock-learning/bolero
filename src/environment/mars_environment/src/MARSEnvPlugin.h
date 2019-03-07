@@ -45,6 +45,7 @@ namespace bolero {
       virtual void handleMARSError() = 0;
 
     protected:
+      std::string configString;
       MARSReceiver *r;
       mutable bool doNotContinue;
       mutable bool newOutputData;
