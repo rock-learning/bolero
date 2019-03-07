@@ -58,8 +58,10 @@ class OptimumTrajectory(Environment):
     use_covar: optional, boolean (default: False)
         Is covariance of the trajectory used, too?
 
-    calc_acc: optional, boolean (default: False)
-        Shall the accelerations be calculated or is it provided?
+    hide_acc_from_interface: optional, boolean (default: False)
+        Exclude accelerations from set_inputs and get_outputs interface.
+        If hidden, accelerations are computed by the environment, else the
+        given values are used.
 
     """
 
@@ -79,7 +81,7 @@ class OptimumTrajectory(Environment):
                  log_to_file=False,
                  log_to_stdout=False,
                  use_covar=False,
-                 calc_acc=False):
+                 hide_acc_from_interface=False):
         self.x0 = x0
         self.g = g
         self.execution_time = execution_time
@@ -95,7 +97,7 @@ class OptimumTrajectory(Environment):
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
         self.use_covar = use_covar
-        self.calc_acc = calc_acc
+        self.hide_acc_from_interface = hide_acc_from_interface
 
     def init(self):
         """Initialize environment."""
@@ -127,7 +129,7 @@ class OptimumTrajectory(Environment):
             number of environment inputs
         """
         num_inputs = self.n_task_dims
-        num_inputs *= 2 if self.calc_acc else 3
+        num_inputs *= 2 if self.hide_acc_from_interface else 3
         if self.use_covar:
             num_inputs += num_inputs**2
         return num_inputs
@@ -140,7 +142,7 @@ class OptimumTrajectory(Environment):
         n : int
             number of environment outputs
         """
-        if self.calc_acc:
+        if self.hide_acc_from_interface:
             return 2 * self.n_task_dims
         else:
             return 3 * self.n_task_dims
@@ -152,18 +154,19 @@ class OptimumTrajectory(Environment):
         ----------
         values : array
             Outputs of the environment: positions, velocities and accelerations
-            in that order, e.g. for n_task_dims=2 the order would be xxvvaa
+            in that order, e.g. for n_task_dims=2 the order would be xxvvaa.
+            With hide_acc_from_interface, the vector is shortened accordingly.
         """
         if self.t == 0:
             values[:self.n_task_dims] = np.copy(self.x0)
             values[self.n_task_dims:2*self.n_task_dims] = \
                 np.zeros(self.n_task_dims)
-            if not self.calc_acc:
+            if not self.hide_acc_from_interface:
                 values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
         else:
             values[:self.n_task_dims] = self.X[self.t - 1]
             values[self.n_task_dims:2 * self.n_task_dims] = self.Xd[self.t - 1]
-            if not self.calc_acc:
+            if not self.hide_acc_from_interface:
                 values[-self.n_task_dims:] = self.Xdd[self.t - 1]
 
     def set_inputs(self, values):
@@ -173,10 +176,11 @@ class OptimumTrajectory(Environment):
         ----------
         values : array,
             Inputs for the environment: positions, velocities and accelerations
-            in that order, e.g. for n_task_dims=2 the order would be xxvvaa
+            in that order, e.g. for n_task_dims=2 the order would be xxvvaa.
+            With hide_acc_from_interface, the vector is shortened accordingly.
         """
         self.recent_inputs[:2*self.n_task_dims] = values[:2*self.n_task_dims]
-        if self.calc_acc:
+        if self.hide_acc_from_interface:
             # actual movement needs to be considered to compute accelerations
             self.recent_inputs[-self.n_task_dims:] = np.nan
         else:
@@ -190,7 +194,7 @@ class OptimumTrajectory(Environment):
         self.X[self.t, :] = self.recent_inputs[:self.n_task_dims]
         self.Xd[self.t, :] = self.recent_inputs[self.n_task_dims:
                                                 -self.n_task_dims]
-        if self.calc_acc:
+        if self.hide_acc_from_interface:
             if self.t == 0:
                 self.Xdd[self.t, :] = 0
             else:
