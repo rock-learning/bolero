@@ -37,6 +37,9 @@ class OptimumTrajectory(Environment):
     penalty_goal_dist : float, optional (default: 0)
         Penalty weight for distance to goal at the end
 
+    penalty_length : float, optional (default: 0)
+        Penalty weight for length of the trajectory
+
     penalty_vel : float, optional (default: 0)
         Penalty weight for velocities
 
@@ -51,12 +54,32 @@ class OptimumTrajectory(Environment):
 
     log_to_stdout: optional, boolean (default: False)
         Log to standard output
+
+    use_covar: optional, boolean (default: False)
+        Is covariance of the trajectory used, too?
+
+    calc_acc: optional, boolean (default: False)
+        Shall the accelerations be calculated or is it provided?
+
     """
-    def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
-                 dt=0.01, obstacles=None, obstacle_dist=0.1,
-                 penalty_start_dist=0.0, penalty_goal_dist=0.0,
-                 penalty_vel=0.0, penalty_acc=0.0, penalty_obstacle=0.0,
-                 log_to_file=False, log_to_stdout=False):
+
+    def __init__(self,
+                 x0=np.zeros(2),
+                 g=np.ones(2),
+                 execution_time=1.0,
+                 dt=0.01,
+                 obstacles=None,
+                 obstacle_dist=0.1,
+                 penalty_start_dist=0.0,
+                 penalty_goal_dist=0.0,
+                 penalty_length=0.0,
+                 penalty_vel=0.0,
+                 penalty_acc=0.0,
+                 penalty_obstacle=0.0,
+                 log_to_file=False,
+                 log_to_stdout=False,
+                 use_covar=False,
+                 calc_acc=False):
         self.x0 = x0
         self.g = g
         self.execution_time = execution_time
@@ -65,11 +88,14 @@ class OptimumTrajectory(Environment):
         self.obstacle_dist = obstacle_dist
         self.penalty_start_dist = penalty_start_dist
         self.penalty_goal_dist = penalty_goal_dist
+        self.penalty_length = penalty_length
         self.penalty_vel = penalty_vel
         self.penalty_acc = penalty_acc
         self.penalty_obstacle = penalty_obstacle
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
+        self.use_covar = use_covar
+        self.calc_acc = calc_acc
 
     def init(self):
         """Initialize environment."""
@@ -100,7 +126,11 @@ class OptimumTrajectory(Environment):
         n : int
             number of environment inputs
         """
-        return 3 * self.n_task_dims
+        num_inputs = self.n_task_dims
+        num_inputs *= 2 if self.calc_acc else 3
+        if self.use_covar:
+            num_inputs += num_inputs**2
+        return num_inputs
 
     def get_num_outputs(self):
         """Get number of environment outputs.
@@ -110,7 +140,10 @@ class OptimumTrajectory(Environment):
         n : int
             number of environment outputs
         """
-        return 3 * self.n_task_dims
+        if self.calc_acc:
+            return 2 * self.n_task_dims
+        else:
+            return 3 * self.n_task_dims
 
     def get_outputs(self, values):
         """Get environment outputs.
@@ -123,13 +156,15 @@ class OptimumTrajectory(Environment):
         """
         if self.t == 0:
             values[:self.n_task_dims] = np.copy(self.x0)
-            values[self.n_task_dims:-self.n_task_dims] = np.zeros(
-                self.n_task_dims)
-            values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
+            values[self.n_task_dims:2*self.n_task_dims] = \
+                np.zeros(self.n_task_dims)
+            if not self.calc_acc:
+                values[-self.n_task_dims:] = np.zeros(self.n_task_dims)
         else:
             values[:self.n_task_dims] = self.X[self.t - 1]
-            values[self.n_task_dims:-self.n_task_dims] = self.Xd[self.t - 1]
-            values[-self.n_task_dims:] = self.Xdd[self.t - 1]
+            values[self.n_task_dims:2 * self.n_task_dims] = self.Xd[self.t - 1]
+            if not self.calc_acc:
+                values[-self.n_task_dims:] = self.Xdd[self.t - 1]
 
     def set_inputs(self, values):
         """Set environment inputs, e.g. next action.
@@ -140,7 +175,12 @@ class OptimumTrajectory(Environment):
             Inputs for the environment: positions, velocities and accelerations
             in that order, e.g. for n_task_dims=2 the order would be xxvvaa
         """
-        self.recent_inputs[:] = values[:]
+        self.recent_inputs[:2*self.n_task_dims] = values[:2*self.n_task_dims]
+        if self.calc_acc:
+            # actual movement needs to be considered to compute accelerations
+            self.recent_inputs[-self.n_task_dims:] = np.nan
+        else:
+            self.Xdd[self.t, :] = values[-self.n_task_dims:]
 
     def step_action(self):
         """Execute step perfectly."""
@@ -150,7 +190,11 @@ class OptimumTrajectory(Environment):
         self.X[self.t, :] = self.recent_inputs[:self.n_task_dims]
         self.Xd[self.t, :] = self.recent_inputs[self.n_task_dims:
                                                 -self.n_task_dims]
-        self.Xdd[self.t, :] = self.recent_inputs[-self.n_task_dims:]
+        if self.calc_acc:
+            if self.t == 0:
+                self.Xdd[self.t, :] = 0
+            else:
+                self.Xdd[self.t, :] = self.Xd[self.t, :] - self.Xd[self.t - 1, :]
         # make sure inputs cannot be used more than once
         self.recent_inputs *= np.nan
         self.t += 1
@@ -177,6 +221,22 @@ class OptimumTrajectory(Environment):
         self.logger.info("Distance to start: %.3f (* %.2f)"
                          % (start_dist, self.penalty_start_dist))
         return start_dist
+
+    def get_length(self):
+        """Get length of the trajectory.
+
+        Returns
+        -------
+        length : float
+            length
+        """
+        length = 0
+        for i in range(len(self.X) - 1):
+            length += np.linalg.norm(self.X[i + 1] - self.X[i])
+
+        self.logger.info("Length of trajectory: %.3f (* %.2f)" %
+                         (length, self.penalty_length))
+        return length
 
     def get_goal_dist(self):
         """Get distance of trajectory end and desired goal location.
@@ -269,6 +329,8 @@ class OptimumTrajectory(Environment):
             rewards[0] -= self.get_start_dist() * self.penalty_start_dist
         if self.penalty_goal_dist > 0.0:
             rewards[-1] -= self.get_goal_dist() * self.penalty_goal_dist
+        if self.penalty_length > 0.0:
+            rewards -= self.get_length() * self.penalty_length
         if self.penalty_vel > 0.0:
             rewards -= self.get_speed() * self.penalty_vel
         if self.penalty_acc > 0.0:
@@ -302,10 +364,14 @@ class OptimumTrajectory(Environment):
         if self.n_task_dims != 2:
             raise ValueError("Can only plot 2 dimensional environments")
 
-        ax.scatter(self.x0[0], self.x0[1], c="r", s=100)
-        ax.scatter(self.g[0], self.g[1], c="g", s=100)
+        from matplotlib.patches import Circle
+
+        ax.add_patch(
+            Circle([self.x0[0], self.x0[1]], 0.02, ec="black", color="r"))
+        ax.add_patch(
+            Circle([self.g[0], self.g[1]], 0.02, ec="black", color="g"))
+
         if self.obstacles is not None:
-            from matplotlib.patches import Circle
             for obstacle in self.obstacles:
                 ax.add_patch(Circle(np.copy(obstacle), self.obstacle_dist,
                                     ec="none", color="r"))

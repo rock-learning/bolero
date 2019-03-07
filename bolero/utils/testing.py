@@ -49,17 +49,23 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
 
     all_classes = []
     path = root.__path__
+    if verbose >= 2:
+        print("Root path: %s" % path)
     for importer, modname, ispkg in pkgutil.walk_packages(
             path=path, prefix=root.__name__+'.', onerror=lambda x: None):
+        if verbose >= 2:
+            print("Inspecting packages '%s'" % modname)
         if ".test." in modname:
             continue
         try:
             module = __import__(modname, fromlist="dummy")
+            classes = inspect.getmembers(module, inspect.isclass)
+            all_classes.extend(classes)
+            if verbose >= 2:
+                print("Found classes: %s" % classes)
         except ImportError:
             if verbose:
                 print("Module %s is skipped due to an import error" % modname)
-            classes = inspect.getmembers(module, inspect.isclass)
-            all_classes.extend(classes)
 
     all_classes = set(all_classes)
 

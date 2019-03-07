@@ -91,6 +91,7 @@ class ContextualOptimizer(Base):
 
 class Optimizer(Base):
     """Common interface for (non-contextual) optimizers."""
+    __metaclass__ = ABCMeta
 
     @abstractmethod
     def init(self, n_params):

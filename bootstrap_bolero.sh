@@ -17,6 +17,11 @@ if [ -f /etc/lsb-release ]; then
         echo "unzip not available, trying to install it with 'sudo apt-get install unzip'"
         sudo apt-get install unzip --yes
     fi
+    if [ -z `which cmake` ];
+    then
+        echo "cmake not available, trying to install it with 'sudo apt-get install cmake'"
+        sudo apt-get install cmake --yes
+    fi
     if [ -z `which python` ];
     then
         echo "python not available, trying to install it with 'sudo apt-get install python'"

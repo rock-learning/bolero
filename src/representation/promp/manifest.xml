@@ -1,0 +1,14 @@
+<package>
+  <description brief="wrapper">
+    Dynamical Movement Primitive
+  </description>
+  <depend package="learning/bolero/include" />
+  <depend package="learning/bolero/src/bl_loader" />
+  <depend package="simulation/lib_manager" />
+  <depend package="yaml-cpp" />
+  <depend package="eigen3" />
+  <rosdep name="python" />
+  <rosdep name="python-dev" />
+  <rosdep name="cython" />
+  <rosdep name="python-numpy" />
+</package>

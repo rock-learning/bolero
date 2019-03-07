@@ -37,7 +37,7 @@ namespace bolero {
       virtual void getBestParameters(double *p, int numP);
       virtual void setEvaluationFeedback(const double *feedbacks,
                                          int numFeedbacks);
-      bool isBehaviorLearningDone() const {return false;}
+      virtual bool isBehaviorLearningDone() const;
       virtual std::vector<double*> getNextParameterSet() const;
       virtual void setParameterSetFeedback(const std::vector<double> feedback);
       void reinit(int dimension, int lambda=0, double *start=NULL);
@@ -54,6 +54,7 @@ namespace bolero {
       double *bestParams;
       bool isInit, logIndividual, logGeneration, logBest;
       double reinitSigma;
+      double sigmaThreshold;
       unsigned long seed;
       std::string logFileInd, logFileGen, logFileBest;
 
