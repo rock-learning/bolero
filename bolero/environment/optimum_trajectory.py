@@ -86,10 +86,10 @@ class OptimumTrajectory(Environment):
         self.g = g
         self.execution_time = execution_time
         self.dt = dt
-        if obstacles:
-            self.obstacles = np.vstack(obstacles)
-        else:
+        if obstacles is None:
             self.obstacles = np.empty((0, len(x0)))
+        else:
+            self.obstacles = np.vstack(obstacles)
         self.obstacle_dist = obstacle_dist
         self.penalty_start_dist = penalty_start_dist
         self.penalty_goal_dist = penalty_goal_dist
