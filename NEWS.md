@@ -7,6 +7,7 @@ Not released yet.
 ### Features
 
 * New representation: ProMPBehavior
+* New environment: OptimumTrajectoryCurbingObstacles
 
 ### Bugfixes
 
