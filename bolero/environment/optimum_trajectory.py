@@ -86,7 +86,10 @@ class OptimumTrajectory(Environment):
         self.g = g
         self.execution_time = execution_time
         self.dt = dt
-        self.obstacles = obstacles
+        if obstacles:
+            self.obstacles = np.vstack(obstacles)
+        else:
+            self.obstacles = np.empty((0, len(x0)))
         self.obstacle_dist = obstacle_dist
         self.penalty_start_dist = penalty_start_dist
         self.penalty_goal_dist = penalty_goal_dist
@@ -295,12 +298,12 @@ class OptimumTrajectory(Environment):
             self.obstacle_dist result in 0 (no collision), and distance below
             are scaled linearly, so that 1 corresponds to an intersection.
         """
-        if self.obstacles is None:
+        if self.get_num_obstacles() == 0:
             return np.zeros(self.t)
         if obstacle_filter is None:
             obstacles = self.obstacles
         else:
-            obstacles = np.asarray(self.obstacles)[obstacle_filter, :]
+            obstacles = self.obstacles[obstacle_filter, :]
         distances = cdist(self.X, obstacles)
         self.logger.info("Distances to obstacles: %r" % distances)
         collision_penalties = np.maximum(0., 1.0 - distances /
@@ -316,8 +319,6 @@ class OptimumTrajectory(Environment):
         n : int
             number of obstacles
         """
-        if self.obstacles is None:
-            return 0
         return self.obstacles.shape[0]
 
     def get_feedback(self):
@@ -339,7 +340,7 @@ class OptimumTrajectory(Environment):
             rewards -= self.get_speed() * self.penalty_vel
         if self.penalty_acc > 0.0:
             rewards -= self.get_acceleration() * self.penalty_acc
-        if self.obstacles is not None and self.penalty_obstacle > 0.0:
+        if (self.get_num_obstacles() > 0) and self.penalty_obstacle > 0.0:
             rewards -= self.penalty_obstacle * self.get_collision()
         return rewards
 
@@ -375,7 +376,7 @@ class OptimumTrajectory(Environment):
         ax.add_patch(
             Circle([self.g[0], self.g[1]], 0.02, ec="black", color="g"))
 
-        if self.obstacles is not None:
+        if self.get_num_obstacles() > 0:
             for obstacle in self.obstacles:
                 ax.add_patch(Circle(np.copy(obstacle), self.obstacle_dist,
                                     ec="none", color="r"))
@@ -407,7 +408,8 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
     dt : float, optional (default: 0.01)
         Time between successive steps in seconds.
 
-    obstacles : array-like, shape (n_obstacles, n_task_dims) (default: None)
+    obstacles : array-like, shape (n_obstacles, n_task_dims) (default:
+        ([0.5, 0.5],))
         List of obstacles.
 
     obstacle_dist : float, optional (default: 0.1)
@@ -443,7 +445,7 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
         Log to standard output
     """
     def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
-                 dt=0.01, obstacles=None, obstacle_dist=0.1,
+                 dt=0.01, obstacles=([0.5, 0.5],), obstacle_dist=0.1,
                  curbing_obstacles=0.5, penalty_start_dist=0.0,
                  penalty_goal_dist=0.0, penalty_vel=0.0, penalty_acc=0.0,
                  penalty_obstacle=0.0, log_to_file=False, log_to_stdout=False):
