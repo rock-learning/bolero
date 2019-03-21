@@ -1,5 +1,6 @@
 # Author: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 #         Jan Hendrik Metzen <jhm@informatik.uni-bremen.de>
+#         Marc Otto <maotto@uni-bremen.de>
 
 import numpy as np
 import warnings
@@ -312,7 +313,65 @@ class AveragingEpisodesController(Controller):
     """Controller for non-deterministic problems.
 
     See base class "Controller" for details on usage.
+
+    Additional Parameters
+    ----------
+    num_repetitions_to_average : int, optional (default: 10)
+        Number of repetitions per episode. For one episode, several rollouts
+        are executed with the same behavior. Note that this only makes sense
+        if the environment is stochastic or specifically prepared via the
+        argument environment_preparation_function
+
+    feedback_averaging_function : function, optional (default: median_of_sums)
+        Function with signature: list of feedbacks -> single element list,
+        where the input list is as long as the number of repetitions.
+        Note that the number of feedbacks per rollout may vary.
+        See AveragingEpisodesController.median_of_sums (default) for an example
+
+    environment_preparation_function : function, optional (default: None)
+        function with signature: (environment, int repetition_index) -> None
+        Prepares the environment for a specific repetition.
     """
+    def __init__(self, config={}, environment=None, behavior_search=None,
+                 num_repetitions_to_average=10,
+                 feedback_averaging_function=None,
+                 environment_preparation_function=None,
+                 **kwargs):
+        super(AveragingEpisodesController, self).__init__(
+            config, environment, behavior_search, **kwargs)
+
+        self.record_inputs = False
+        self.record_outputs = False
+        self.record_feedbacks = False
+        self.accumulate_feedbacks = False  # see feedback_averaging_function
+
+        if feedback_averaging_function is None:
+            feedback_averaging_function = self.median_of_sums
+
+        self._set_attribute(config, "num_repetitions_to_average",
+                            num_repetitions_to_average)
+        self._set_attribute(config, "feedback_averaging_function",
+                            feedback_averaging_function)
+        self._set_attribute(config, "environment_preparation_function",
+                            environment_preparation_function)
+
+    @staticmethod
+    def median_of_sums(list_of_feedbacks):
+        """Accumulates feedbacks of each episode and returns median
+
+        Parameters
+        ----------
+        list_of_feedbacks : list
+            feedbacks per episode. Note that episode length may vary, while
+            the length of this list is equal to num_repetitions_to_average
+
+        Returns
+        -------
+        averaged_accumulated_feedback : list with one element
+            median of the accumulated feedbacks of all repetitions
+        """
+        return np.median([np.sum(feedbacks_)
+                          for feedbacks_ in list_of_feedbacks])
 
     def episode_with(self, behavior, meta_parameter_keys=[],
                      meta_parameters=[], record=False):
@@ -337,35 +396,31 @@ class AveragingEpisodesController(Controller):
         feedbacks : array, shape (n_steps,)
             Feedback for each step in the environment
         """
-        # TODO: move to constructor
-        NUM_REPETITIONS_TO_AVERAGE = 40
-        FEEDBACK_AVERAGING_FUNCTION = lambda list_of_feedbacks: \
-            np.median([np.sum(feedbacks_) for feedbacks_ in list_of_feedbacks])
 
-        if NUM_REPETITIONS_TO_AVERAGE == 1:
+        if self.num_repetitions_to_average == 1:
             return super(AveragingEpisodesController, self).episode_with(
                 behavior, meta_parameter_keys=meta_parameter_keys,
                 meta_parameters=meta_parameters, record=record
             )
-        if self.record_inputs or self.record_outputs or self.record_feedbacks\
-                or record:
+        if record:
             raise ValueError("Recording not supported when"
                              " averaging episodes' returns")
         feedbacks = []
-        for i in range(NUM_REPETITIONS_TO_AVERAGE):
+        for i in range(self.num_repetitions_to_average):
             if i > 0:
                 # for i==0 it is done already by behavior search
                 behavior.reset()
 
-            # TODO: this is a hack specific for openAIGyms:
-            self.environment.env.seed(i)
+            if self.environment_preparation_function:
+                self.environment_preparation_function(self.environment, i)
+
             feedbacks.append(
                 super(AveragingEpisodesController, self).episode_with(
                     behavior, meta_parameter_keys=meta_parameter_keys,
                     meta_parameters=meta_parameters, record=record
                 ))
 
-        return FEEDBACK_AVERAGING_FUNCTION(feedbacks)
+        return self.feedback_averaging_function(feedbacks)
 
 
 class ContextualController(Controller):
