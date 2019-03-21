@@ -237,8 +237,8 @@ class Controller(Base):
 
         return feedbacks
 
-    def episode_with(self, behavior, meta_parameter_keys=[],
-                     meta_parameters=[], record=True):
+    def episode_with(self, behavior, meta_parameter_keys=(),
+                     meta_parameters=(), record=True):
         """Execute a behavior in the environment.
 
         Parameters
@@ -319,7 +319,7 @@ class ContextualController(Controller):
     * test_contexts (array-like) - the upper-level policy will be evaluated in
       these contexts
     """
-    def __init__(self, config={}, environment=None, behavior_search=None,
+    def __init__(self, config=None, environment=None, behavior_search=None,
                  **kwargs):
         super(ContextualController, self).__init__(
             config, environment, behavior_search, **kwargs)
