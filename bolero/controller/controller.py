@@ -214,15 +214,8 @@ class Controller(Base):
             print("[Controller] Episode: #%d" % (self.episode_cnt + 1))
 
         behavior = self.behavior_search.get_next_behavior()
-
-        fb = []
-        # if True:  # self.repetitions
-        for i in range(10):
-            self.environment.env.seed(i)
-            fb.append(sum(self.episode_with(behavior, meta_parameter_keys,
-                                            meta_parameters)))
-        feedbacks = [np.median(np.array(fb))]
-
+        feedbacks = self.episode_with(behavior, meta_parameter_keys,
+                                      meta_parameters)
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
         if self.verbose >= 2:
@@ -313,6 +306,66 @@ class Controller(Base):
         if self.verbose >= 1:
             print("[Controller] Test feedback: %g" % (performance - optimum))
         return performance - optimum
+
+
+class AveragingEpisodesController(Controller):
+    """Controller for non-deterministic problems.
+
+    See base class "Controller" for details on usage.
+    """
+
+    def episode_with(self, behavior, meta_parameter_keys=[],
+                     meta_parameters=[], record=False):
+        """Execute a behavior in the environment.
+
+        Parameters
+        ----------
+        behavior : Behavior
+            Fix behavior
+
+        meta_parameter_keys : list, optional (default: [])
+            Meta parameter keys
+
+        meta_parameters : list, optional (default: [])
+            Meta parameter values
+
+        record : bool, optional (default: True)
+            Record feedbacks or trajectories if activated
+
+        Returns
+        -------
+        feedbacks : array, shape (n_steps,)
+            Feedback for each step in the environment
+        """
+        # TODO: move to constructor
+        NUM_REPETITIONS_TO_AVERAGE = 40
+        FEEDBACK_AVERAGING_FUNCTION = lambda list_of_feedbacks: \
+            np.median([np.sum(feedbacks_) for feedbacks_ in list_of_feedbacks])
+
+        if NUM_REPETITIONS_TO_AVERAGE == 1:
+            return super(AveragingEpisodesController, self).episode_with(
+                behavior, meta_parameter_keys=meta_parameter_keys,
+                meta_parameters=meta_parameters, record=record
+            )
+        if self.record_inputs or self.record_outputs or self.record_feedbacks\
+                or record:
+            raise ValueError("Recording not supported when"
+                             " averaging episodes' returns")
+        feedbacks = []
+        for i in range(NUM_REPETITIONS_TO_AVERAGE):
+            if i > 0:
+                # for i==0 it is done already by behavior search
+                behavior.reset()
+
+            # TODO: this is a hack specific for openAIGyms:
+            self.environment.env.seed(i)
+            feedbacks.append(
+                super(AveragingEpisodesController, self).episode_with(
+                    behavior, meta_parameter_keys=meta_parameter_keys,
+                    meta_parameters=meta_parameters, record=record
+                ))
+
+        return FEEDBACK_AVERAGING_FUNCTION(feedbacks)
 
 
 class ContextualController(Controller):
