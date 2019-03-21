@@ -214,8 +214,15 @@ class Controller(Base):
             print("[Controller] Episode: #%d" % (self.episode_cnt + 1))
 
         behavior = self.behavior_search.get_next_behavior()
-        feedbacks = self.episode_with(behavior, meta_parameter_keys,
-                                      meta_parameters)
+
+        fb = []
+        # if True:  # self.repetitions
+        for i in range(10):
+            self.environment.env.seed(i)
+            fb.append(sum(self.episode_with(behavior, meta_parameter_keys,
+                                            meta_parameters)))
+        feedbacks = [np.median(np.array(fb))]
+
         self.behavior_search.set_evaluation_feedback(feedbacks)
 
         if self.verbose >= 2:
