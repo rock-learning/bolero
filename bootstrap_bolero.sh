@@ -62,7 +62,7 @@ echo "defBuildType: debug" >> pybob.yml
 echo "devDir: ${DEV_DIR}" >> pybob.yml
 echo "pyScriptDir: ${DEV_DIR}/pybob" >> pybob.yml
 echo "rockFlavor: master" >> pybob.yml
-echo "multiprocessing: false" >> pybob.yml
+echo "numCores: 1" >> pybob.yml
 
 # clone build configuration
 echo -e "\e[31mDownloading sources...\e[0m"
