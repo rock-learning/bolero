@@ -22,6 +22,12 @@ On Ubuntu 16.04 and similar operating systems, you can install BOLeRo with
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
+If you want to install BOLeRo for Python 3 from Ubuntu, set the
+following environment variables:
+
+    export PYTHON=python3
+    export CYTHON=cython3  # make sure Cython for Python 3 is available!
+
 The installation script will create a new folder `bolero-dev` that contains
 all sources and built binaries. If you want to use BOLeRo, you have to source
 the file env.sh:

@@ -38,6 +38,14 @@ it with
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
+If you want to use another python for BOLeRo, please export these environment
+variabels (in this example we use python3 / cython3):
+
+.. code-block:: bash
+
+    export PYTHON=python3
+    export CYTHON=cython3  # make sure Cython for Python 3 is available!
+
 Download Source
 ===============
 
