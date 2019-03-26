@@ -9,6 +9,7 @@ Not released yet.
 * New representation: ProMPBehavior
 * New environment: OptimumTrajectoryCurbingObstacles
 * New optimizer: CEMOptimizer
+* New optimizer: XNESOptimizer
 
 ### Bugfixes
 

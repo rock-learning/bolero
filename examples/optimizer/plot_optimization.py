@@ -21,6 +21,8 @@ model.
 xNES is much slower than other optimizers in this simple example. It also
 converges to a very good solution before 3000 functions evaluations though.
 
+Cross Entropy Method (CEM) converges too early and stops optimizing.
+
 We compare several multimodal variants of CMA-ES on the Katsuura function.
 IPOP (increasing population size) and BIPOP (Bi-population) refer to different
 restart strategy and the "a" (active) indicates another search distribution

@@ -24,7 +24,7 @@ __all__ = [
     "CCMAESOptimizer",
     "REPSOptimizer",
     "CREPSOptimizer",
-    "XNESOptimizer"]
+    "XNESOptimizer",
     "CEMOptimizer"]
 
 from .skoptimize import SkOptOptimizer, skopt_available
