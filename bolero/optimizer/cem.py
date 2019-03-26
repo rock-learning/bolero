@@ -5,6 +5,7 @@ from bolero.optimizer import Optimizer
 from bolero.optimizer.cmaes import _bound
 from bolero.utils.validation import check_random_state, check_feedback
 
+
 class CEMOptimizer(Optimizer):
     """Cross entropy method.
 
@@ -146,13 +147,12 @@ class CEMOptimizer(Optimizer):
 
     def _update(self, samples, fitness):
         # -> Update sample distribution mean and cov
-        self.last_mean = self.mean
-        self.last_cov = self.cov
         elite_sol = int(self.n_samples_per_update * self.elite_frac)
         ranking = np.argsort(fitness, axis=0)
         update_samples = samples[ranking[:elite_sol]]
         self.mean = np.mean(update_samples, axis=0) 
-        self.cov = np.cov(update_samples, rowvar=False)
+        noise = update_samples - self.mean
+        self.cov = noise.T.dot(noise)
         self.samples = self._sample(self.n_samples_per_update)
 
     def get_best_parameters(self, method="best"):
