@@ -147,7 +147,7 @@ A variant of DMPs that works in Cartesian space is
 
     <div style='clear:both'></div>
 
-.. _dmp_beh:
+.. _promp_beh:
 
 Probabilistic Movement Primitive
 --------------------------------
