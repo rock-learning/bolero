@@ -505,7 +505,7 @@ def plot_covariance(ax, means, covariances, nstd=2):
         return vals[order], vecs[:, order]
 
     cov = np.empty((2, 2))
-    for k in range(0, len(means)):
+    for k in range(0, len(means), len(means) // 20):
         cov[0, 0] = covariances[k, 0, 0]
         cov[0, 1] = covariances[k, 0, 2]
         cov[1, 0] = covariances[k, 2, 0]
@@ -520,7 +520,7 @@ def plot_covariance(ax, means, covariances, nstd=2):
             width=width,
             height=height,
             angle=theta,
-            alpha=1,
+            alpha=0.4,
             edgecolor="none",
             facecolor="grey")
         ax.add_patch(ell)
