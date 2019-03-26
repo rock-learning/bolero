@@ -1,5 +1,6 @@
 # Authors: Jan Hendrik Metzen <jhm@informatik.uni-bremen.de>
 #          Alexander Fabisch <afabisch@informatik.uni-bremen.de>
+#          Ricardo Dominguez <riddoddo@gmail.com>
 
 import numpy as np
 from scipy.optimize import fmin_l_bfgs_b
@@ -49,7 +50,13 @@ def solve_dual_reps(R, epsilon, min_eta):
 
     # Definition of the dual function
     def g(eta):  # Objective function
-        return eta * epsilon + eta * logsumexp(R / eta, b=1.0 / len(R))
+        R_over_eta = R / eta
+        Z = np.exp(R_over_eta - R_over_eta.max())
+        log_sum_exp = logsumexp(R_over_eta, b=1.0 / len(R))
+
+        f = eta * (epsilon + log_sum_exp)
+        d_eta = epsilon + log_sum_exp - Z.dot(R_over_eta) / Z.sum()
+        return f, np.array([d_eta])
 
     # Lower bound for Lagrangian eta
     bounds = np.array([[min_eta, None]])
@@ -57,7 +64,7 @@ def solve_dual_reps(R, epsilon, min_eta):
     x0 = [1]
 
     # Perform the actual optimization of the dual function
-    r = fmin_l_bfgs_b(g, x0, approx_grad=True, bounds=bounds)
+    r = fmin_l_bfgs_b(g, x0, bounds=bounds)
 
     # Fetch optimal Lagrangian parameter eta. Corresponds to a temperature
     # of a softmax distribution
@@ -254,3 +261,12 @@ class REPSOptimizer(Optimizer):
             Is the learning of a behavior finished?
         """
         return False
+
+    def __getstate__(self):
+        d = dict(self.__dict__)
+        del d["logger"]
+        return d
+
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+        self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)

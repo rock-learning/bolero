@@ -7,6 +7,7 @@ from .creps import CREPSOptimizer
 from .acmes import ACMESOptimizer
 from .ccmaes import CCMAESOptimizer
 from .nes import XNESOptimizer
+from .cem import CEMOptimizer
 
 
 __all__ = [
@@ -24,6 +25,7 @@ __all__ = [
     "REPSOptimizer",
     "CREPSOptimizer",
     "XNESOptimizer"]
+    "CEMOptimizer"]
 
 from .skoptimize import SkOptOptimizer, skopt_available
 if skopt_available:

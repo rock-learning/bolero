@@ -16,6 +16,8 @@
 #include <cstring> // for memcpy
 #include <cstdio>
 #include <cmath>
+#include <sys/time.h>     // get time elapsed
+#include <unistd.h>
 
 using namespace configmaps;
 
@@ -31,6 +33,7 @@ namespace bolero {
       velocity = new double[dimension];
       pMin = new double[dimension];
       pMinCost = std::numeric_limits<double>::max();
+      nr_reinits = 0;
 
       for(size_t i = 0; i < dimension; ++i) {
         position[i] = double(rand()) / RAND_MAX;
@@ -55,15 +58,19 @@ namespace bolero {
     void PSOOptimizer::init(int dimension, std::string config) {
       assert(dimension > 0);
 
+      if(wasInit) {
+        deinit();
+      }
       long seed = 0;
       char *seedChar = getenv("BL_SEED");
       if(seedChar) {
         sscanf(seedChar, "%ld", &seed);
-        srand(seed);
       }
       if(seed == 0) {
-        seed = time(NULL);
-        srand(seed);
+        timeval t;
+        gettimeofday(&t, NULL);
+        long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
+        seed = ms+getpid()*1000;
       }
       std::string seedFilename = ".";
       char *logPath = getenv("BL_LOG_PATH");
@@ -73,12 +80,13 @@ namespace bolero {
       seedFilename += "/seed.txt";
       FILE *seedFile = fopen(seedFilename.c_str(), "w");
       if(seedFile) {
-        fprintf(seedFile, "seed: %ld\n", seed);
         fclose(seedFile);
       }
-
+      srand(seed);
       this->dimension = dimension;
       particleCount = 4+(int)(3*log((double)dimension));
+
+      maxReinits = -1;
 
       if(config != "")
       {
@@ -88,7 +96,11 @@ namespace bolero {
         if(map.hasKey("Optimizer")) {
             map2 = map["Optimizer"];
             if(map2->find("PopulationSize") != map2->end()) {
-            particleCount = (*map2)["PopulationSize"];
+              particleCount = (*map2)["PopulationSize"];
+            }
+            map2 = map["Optimizer"];
+            if(map2->find("MaxReinits") != map2->end()) {
+              maxReinits = (*map2)["MaxReinits"];
             }
         }
       }
@@ -108,6 +120,18 @@ namespace bolero {
       generation = 0;
       individual = 0;
       wasInit = true;
+      minReinitsPerParticle = 0;
+    }
+
+    void PSOOptimizer::deinit() {
+      if(wasInit) {
+        for(int i = 0; i < particleCount; ++i) {
+          delete particles[i];
+        }
+        delete[] particles;
+        delete[] gMin;
+        wasInit = false;
+      }
     }
 
     PSOOptimizer::~PSOOptimizer() {
@@ -118,20 +142,13 @@ namespace bolero {
           file += "/pso_best_params.dat";
           FILE *resFile = fopen(file.c_str(), "w");
           if(resFile) {
-            fprintf(resFile, "Generation %3d's best fitness: %12.6f\n",
-                    generation, gMinCost);
-            fprintf(resFile, "parameters:\n");
             for(int i=0;i<dimension;++i) {
               fprintf(resFile, "%g, ", gMin[i]);
             }
             fclose(resFile);
           }
         }
-        for(int i = 0; i < particleCount; ++i) {
-          delete particles[i];
-        }
-        delete[] particles;
-        delete[] gMin;
+        deinit();
       }
     }
 
@@ -171,15 +188,16 @@ namespace bolero {
         updateParticles();
         individual = 0;
         generation++;
-        fprintf(stdout, "Generation %3d's best fitness: %12.6f\n",
-                generation, gMinCost);
-        fprintf(stdout, "parameters: ");
-        for(int i = 0; i < dimension; ++i) {
-          fprintf(stdout, "%g, ", gMin[i]);
-        }
-        fprintf(stdout, "\n");
       }
     }
+
+    bool PSOOptimizer::isBehaviorLearningDone() const {
+      if (minReinitsPerParticle >= maxReinits && maxReinits >= 0) {
+          return true;
+      }
+      return false;
+    }
+
 
     std::vector<double*> PSOOptimizer::getNextParameterSet() const {
       std::vector<double*> parameterSet;
@@ -202,6 +220,7 @@ namespace bolero {
     }
 
     void PSOOptimizer::updateParticles() {
+      minReinitsPerParticle = std::numeric_limits<int>::max();
       for(int i = 0; i < particleCount; ++i) {
         Particle *p = particles[i];
         // update position
@@ -223,7 +242,9 @@ namespace bolero {
           for(int j = 0; j < dimension; ++j) {
             p->velocity[j] = double(rand()) / RAND_MAX;
           }
+          ++p->nr_reinits;
         }
+        minReinitsPerParticle = std::min(minReinitsPerParticle, p->nr_reinits);
       }
     }
 

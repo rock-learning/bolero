@@ -1,7 +1,4 @@
 #pragma once
-#ifndef PRIVATE
-#define PRIVATE private
-#endif
 #include <string>
 #include "QuaternionDmpConfig.h"
 #include "DMPConfig.h"
@@ -31,7 +28,6 @@ public:
   void toYamlFile(std::string filepath);
   bool isValid() const;
 
-PRIVATE:
   bool fullyInitialized;
 };
 }

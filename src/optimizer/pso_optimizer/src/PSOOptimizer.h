@@ -26,8 +26,9 @@ namespace bolero {
       double *velocity;
       double *pMin;
       double pMinCost;
+      int nr_reinits;
     };
-  
+
     class PSOOptimizer : public Optimizer {
 
     public:
@@ -42,7 +43,7 @@ namespace bolero {
       virtual void setEvaluationFeedback(const double *feedbacks,
                                          int numFeedbacks);
 
-      bool isBehaviorLearningDone() const {return false;}
+      bool isBehaviorLearningDone() const;
 
       virtual std::vector<double*> getNextParameterSet() const;
       virtual void setParameterSetFeedback(const std::vector<double> feedback);
@@ -50,7 +51,8 @@ namespace bolero {
 
     private:
       void updateParticles();
-  
+      void deinit();
+
       int individual;
       int generation;
       int particleCount;
@@ -59,6 +61,8 @@ namespace bolero {
       double gMinCost;
       double r, wp, wl, wg;
       bool wasInit;
+      int minReinitsPerParticle;
+      int maxReinits;
 
     }; // end of class definition PSOOptimizer
 

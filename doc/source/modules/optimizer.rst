@@ -62,6 +62,9 @@ BOLeRo.
    * - :ref:`XNESOptimizer <xnes_opt>`
      - similar to CMAESOptimizer
 
+   * - :ref:`CEMOptimizer <cem_opt>`
+     - similar to CMAESOptimizer
+
 
 .. _no_opt:
 
@@ -162,6 +165,15 @@ REPS
 like a black-box optimizer. The search distribution is a multivariate Gaussian.
 REPS constrains the updates of the search distribution by bounding the KL
 divergence between successive search distributions.
+
+.. _cem_opt:
+
+CEM Optimizer
+------------------
+
+:class:`CEMOptimizer` implements the popular black-box optimizer
+`Cross Entropy Method
+<https://en.wikipedia.org/wiki/Cross-entropy_method>`_. 
 
 .. _xnes_opt:
 

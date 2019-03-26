@@ -65,24 +65,17 @@ namespace bolero {
       if(config != "")
       {
         ConfigMap map = ConfigMap::fromYamlString(config);
-        ConfigMap *map2;
 
-        if(map.hasKey("Environment")) {
-            map2 = map["Environment"];
-        } else {
-            map2 = &map;
-        }
+        if(map.hasKey("enableGUI"))
+            enableGUI = map["enableGUI"];
 
-        if(map2->hasKey("enableGUI"))
-            enableGUI = (*map2)["enableGUI"];
-
-        if(map2->hasKey("graphicsUpdateTime"))
-            graphicsUpdateTime = (*map2)["graphicsUpdateTime"];
+        if(map.hasKey("graphicsUpdateTime"))
+            graphicsUpdateTime = map["graphicsUpdateTime"];
         else
             graphicsUpdateTime = 0u;
 
-        if(map2->hasKey("graphicsStepSkip"))
-            graphicsStepSkip = (*map2)["graphicsStepSkip"];
+        if(map.hasKey("graphicsStepSkip"))
+            graphicsStepSkip = map["graphicsStepSkip"];
         else
             graphicsStepSkip = 0u;
       }
@@ -163,7 +156,14 @@ namespace bolero {
       // after the init call of the mars plugin we know the number of
       // inputs and outputs
       marsPlugin->inputs = new double[getNumInputs()];
+      for(int i=0; i<getNumInputs(); ++i) {
+        marsPlugin->inputs[i] = 0.0;
+      }
+
       marsPlugin->outputs = new double[getNumOutputs()];
+      for(int i=0; i<getNumOutputs(); ++i) {
+        marsPlugin->outputs[i] = 0.0;
+      }
 
       initialized = true;
     }
@@ -173,6 +173,9 @@ namespace bolero {
       marsPlugin->doNotContinue = false;
       marsPlugin->newOutputData = false;
 
+      for(int i=0; i<getNumInputs(); ++i) {
+        marsPlugin->inputs[i] = 0.0;
+      }
       for(int i=0; i<getNumOutputs(); ++i) {
         marsPlugin->outputs[i] = 0.0;
       }
@@ -237,16 +240,16 @@ namespace bolero {
       }
 
       if(--updateCount < 0) {
-	updateCount = graphicsStepSkip;
-	if(marsThread->myApp) {
-	  marsThread->myApp->processEvents();
-	}
-	else {
-	  mars::app::MARS::control->sim->finishedDraw();
-	}
-	if(graphicsUpdateTime) {
-	  mars::utils::msleep(graphicsUpdateTime);
-	}
+        updateCount = graphicsStepSkip;
+        if(marsThread->myApp) {
+          marsThread->myApp->processEvents();
+        }
+        else {
+          mars::app::MARS::control->sim->finishedDraw();
+        }
+        if(graphicsUpdateTime) {
+          mars::utils::msleep(graphicsUpdateTime);
+        }
       }
     }
 

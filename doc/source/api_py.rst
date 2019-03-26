@@ -103,6 +103,7 @@ Optimizer classes
    SkOptOptimizer
    ACMESOptimizer
    XNESOptimizer
+   CEMOptimizer
 
 :mod:`bolero.representation`: Representation
 ============================================
@@ -128,6 +129,7 @@ Behavior classes
    CartesianDMPBehavior
    DMPSequence
    LinearBehavior
+   ProMPBehavior
 
 Policy classes
 --------------

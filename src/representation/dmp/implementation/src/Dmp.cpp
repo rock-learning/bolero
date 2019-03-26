@@ -3,6 +3,7 @@
 #include <Eigen/LU>
 #include <Eigen/StdVector>
 #include <Eigen/Geometry>
+#include <Eigen/SVD>
 #include <vector>
 #include <cassert>
 #include <stdexcept>
@@ -267,13 +268,6 @@ void imitate(
   if(regularization_coefficient < 0.0)
   {
     throw std::invalid_argument("Regularization coefficient must be >= 0!");
-  }
-  else if(regularization_coefficient == 0.0 && num_weights_per_dim >= num_T)
-  {
-    throw std::invalid_argument(
-        "If the regularization coefficient is set to zero, the number of "
-        "samples must be greater than number of weights per dimension. "
-        "Otherwise this will result in an instable learning problem.");
   }
 
   Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);
@@ -592,6 +586,18 @@ const Eigen::MatrixXd rbfDesignMatrix(
 }
 
 
+// pseudo inverse from http://eigen.tuxfamily.org/bz/show_bug.cgi?id=257
+Eigen::MatrixXd pseudoInverse(const Eigen::MatrixXd& a, double epsilon = std::numeric_limits<double>::epsilon())
+{
+  Eigen::JacobiSVD<Eigen::MatrixXd> svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+  double tolerance = epsilon * std::max(a.cols(), a.rows()) * svd.singularValues().array().abs().maxCoeff();
+
+  return svd.matrixV() * Eigen::MatrixXd( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
+      array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+}
+
+
 void ridgeRegression(
   const Eigen::MatrixXd& X,
   const Eigen::ArrayXXd& targets,
@@ -603,9 +609,9 @@ void ridgeRegression(
   const int num_features = weights.cols();
   for(int i = 0; i < num_outputs; i++)
     weights.row(i) =
-        ((X * X.transpose()
+        (pseudoInverse(X * X.transpose()
           + regularization_coefficient * Eigen::MatrixXd::Identity(num_features, num_features)
-          ).inverse()
+          )
          * X * targets.row(i).transpose().matrix()
          ).transpose();
 }
@@ -722,13 +728,6 @@ void quaternionImitate(
   if(regularization_coefficient < 0.0)
   {
     throw std::invalid_argument("Regularization coefficient must be >= 0!");
-  }
-  else if(regularization_coefficient == 0.0 && num_weights_per_dim >= num_steps)
-  {
-    throw std::invalid_argument(
-        "If the regularization coefficient is set to zero, the number of "
-        "samples must be greater than number of weights per dimension. "
-        "Otherwise this will result in an instable learning problem.");
   }
 
   Eigen::Map<const Eigen::ArrayXd> widths_array(widths, num_widths);

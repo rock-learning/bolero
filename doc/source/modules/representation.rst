@@ -74,6 +74,12 @@ BOLeRo.
      - positions, velocities, accelerations
      - weights of the internal function approximator
 
+   * - :ref:`Probabilistic Movement Primitive <promp_beh>`
+     - trajectories in joint space or Cartesian space
+     - positions, velocities
+     - positions, velocities
+     - weights of the internal function approximator
+
    * - :ref:`Sequence of DMPs <dmp_seq>`
      - trajectories in joint space
      - positions, velocities, accelerations
@@ -140,6 +146,22 @@ A variant of DMPs that works in Cartesian space is
 .. raw:: html
 
     <div style='clear:both'></div>
+
+.. _promp_beh:
+
+Probabilistic Movement Primitive
+--------------------------------
+
+Probabilistic movement primitives represent trajectories :class:`ProMPBehavior`, e.g.
+in joint space. They can generalize over several meta-parameters (goal,
+velocity at the goal, execution time) and can be learned from demonstrations.
+:class:`ProMPBehavior`.
+
+.. include:: ../gen_modules/backreferences/bolero.representation.ProMPBehavior.examples
+.. raw:: html
+
+    <div style='clear:both'></div>
+
 
 
 .. _dmp_seq:

@@ -9,6 +9,7 @@ coverageReport
 
 # Binaries
 *.pyc
+*.pyd
 *.so
 build
 
