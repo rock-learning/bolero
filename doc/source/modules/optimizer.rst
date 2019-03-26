@@ -59,6 +59,8 @@ BOLeRo.
      - 5 - 150 parameters, ill-conditioned, non-separable, unimodal objective
        functions, more sample-efficient than standard CMA-ES
 
+   * - :ref:`ACMESOptimizer <acmes_opt>`
+
 
 .. _no_opt:
 
@@ -219,3 +221,12 @@ C-CMA-ES Optimizer
 optimization domain. It works better than C-REPS for problems where the
 step size has to be adapted quickly because the step size adaptation is
 not bounded by the KL divergence like in C-REPS.
+
+.. _cem_opt:
+
+CEM Optimizer
+------------------
+
+:class:`CEMOptimizer` implements the popular black-box optimizer
+`Cross Entropy Method
+<https://en.wikipedia.org/wiki/Cross-entropy_method>`_. 

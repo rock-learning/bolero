@@ -4,7 +4,9 @@ LASA Handwriting with ProMPs
 ================================
 
 The LASA Handwriting dataset learned with ProMPs. The dataset consists of
-2D handwriting motions.
+2D handwriting motions. The first and third column of the plot represent
+demonstrations and the second and fourth column show the imitated ProMPs
+with covariances.
 """
 
 import numpy as np

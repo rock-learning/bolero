@@ -6,6 +6,7 @@ from .reps import REPSOptimizer
 from .creps import CREPSOptimizer
 from .acmes import ACMESOptimizer
 from .ccmaes import CCMAESOptimizer
+from .cem import CEMOptimizer
 
 
 __all__ = [
@@ -21,7 +22,8 @@ __all__ = [
     "ACMESOptimizer",
     "CCMAESOptimizer",
     "REPSOptimizer",
-    "CREPSOptimizer"]
+    "CREPSOptimizer",
+    "CEMOptimizer"]
 
 from .skoptimize import SkOptOptimizer, skopt_available
 if skopt_available:
