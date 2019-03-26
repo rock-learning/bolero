@@ -45,7 +45,7 @@ env = OptimumTrajectory(
     penalty_start_dist=10000.0,
     penalty_obstacle=1000.0,
     penalty_length=10.,
-    calc_acc=True,
+    hide_acc_from_interface=True,
     use_covar=True)
 opt = CMAESOptimizer(
     variance=0.1**2, random_state=0, initial_params=beh.get_params())
