@@ -2,7 +2,7 @@
 import numpy as np
 from nose.tools import assert_less, assert_greater
 from bolero.optimizer import (CMAESOptimizer, REPSOptimizer, NoOptimizer,
-                              RandomOptimizer, ACMESOptimizer)
+                              RandomOptimizer, ACMESOptimizer, XNESOptimizer)
 from bolero.environment.objective_functions import Rosenbrock
 
 
@@ -33,6 +33,14 @@ def test_acmaes():
     opt.init(n_dims)
     r = eval_loop(x, opt, n_dims)
     assert_greater(r.max(), -1e-5)
+
+
+def test_xnes():
+    x = np.zeros(n_dims)
+    opt = XNESOptimizer(x, random_state=0, log_to_stdout=False)
+    opt.init(n_dims)
+    r = eval_loop(x, opt, n_dims, n_evals=3000)
+    assert_greater(r.max(), -1e-12)
 
 
 def test_reps():

@@ -1,7 +1,6 @@
 # Author: Alexander Fabisch <afabisch@informatik.uni-bremen.de>
 
 import numpy as np
-import warnings
 from scipy.spatial.distance import pdist
 from .optimizer import Optimizer
 from ..utils.validation import check_random_state, check_feedback
@@ -22,10 +21,7 @@ def _bound(bounds, samples):
         are within the boundaries.
     """
     if bounds is not None:
-        # TODO vectorize?
-        for k in range(len(samples)):
-            samples[k] = np.maximum(samples[k], bounds[:, 0])
-            samples[k] = np.minimum(samples[k], bounds[:, 1])
+        np.clip(samples, bounds[:, 0], bounds[:, 1], out=samples)
 
 
 def inv_sqrt(cov):
@@ -231,7 +227,8 @@ class CMAESOptimizer(Optimizer):
     def _sample(self, n_samples):
         samples = self.random_state.multivariate_normal(
             self.mean, self.var * self.cov, size=n_samples)
-        _bound(self.bounds, samples)
+        if self.bounds is not None:
+            np.clip(samples, self.bounds[:, 0], self.bounds[:, 1], out=samples)
         return samples
 
     def get_next_parameters(self, params):
@@ -381,7 +378,7 @@ class CMAESOptimizer(Optimizer):
         if (self.max_condition is not None and
                 np.max(cov_diag) > self.max_condition * np.min(cov_diag)):
             self.logger.info("Stopping: %g / %g > max_condition"
-                             % (np.max(self.cov), np.min(self.cov)))
+                             % (np.max(cov_diag), np.min(cov_diag)))
             return True
 
         return False

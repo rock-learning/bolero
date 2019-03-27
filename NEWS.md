@@ -6,10 +6,11 @@ Not released yet.
 
 ### Features
 
+* Support for Python 3
 * New representation: ProMPBehavior
 * New environment: OptimumTrajectoryCurbingObstacles
 * New optimizer: CEMOptimizer
-* Support for Python 3
+* New optimizer: XNESOptimizer
 
 ### Bugfixes
 

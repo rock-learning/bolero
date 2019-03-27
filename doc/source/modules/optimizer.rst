@@ -59,7 +59,11 @@ BOLeRo.
      - 5 - 150 parameters, ill-conditioned, non-separable, unimodal objective
        functions, more sample-efficient than standard CMA-ES
 
-   * - :ref:`ACMESOptimizer <acmes_opt>`
+   * - :ref:`XNESOptimizer <xnes_opt>`
+     - similar to CMAESOptimizer
+
+   * - :ref:`CEMOptimizer <cem_opt>`
+     - similar to CMAESOptimizer
 
 
 .. _no_opt:
@@ -162,6 +166,24 @@ like a black-box optimizer. The search distribution is a multivariate Gaussian.
 REPS constrains the updates of the search distribution by bounding the KL
 divergence between successive search distributions.
 
+.. _cem_opt:
+
+CEM Optimizer
+------------------
+
+:class:`CEMOptimizer` implements the popular black-box optimizer
+`Cross Entropy Method
+<https://en.wikipedia.org/wiki/Cross-entropy_method>`_. 
+
+.. _xnes_opt:
+
+xNES
+----
+
+:class:`XNESOptimizer` is very similar to CMA-ES and it is theoretically
+justified as it follows the natural gradient. It sometimes performs worse
+though.
+
 
 Contextual Optimizers
 =====================
@@ -221,12 +243,3 @@ C-CMA-ES Optimizer
 optimization domain. It works better than C-REPS for problems where the
 step size has to be adapted quickly because the step size adaptation is
 not bounded by the KL divergence like in C-REPS.
-
-.. _cem_opt:
-
-CEM Optimizer
-------------------
-
-:class:`CEMOptimizer` implements the popular black-box optimizer
-`Cross Entropy Method
-<https://en.wikipedia.org/wiki/Cross-entropy_method>`_. 

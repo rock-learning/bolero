@@ -18,6 +18,11 @@ REPS is similarly efficient as aCMA-ES. Another variante of CMA-ES, ACM-ES,
 outperforms all other optimizers. ACM-ES uses a ranking SVM as a surrogate
 model.
 
+xNES is much slower than other optimizers in this simple example. It also
+converges to a very good solution before 3000 functions evaluations though.
+
+Cross Entropy Method (CEM) converges too early and stops optimizing.
+
 We compare several multimodal variants of CMA-ES on the Katsuura function.
 IPOP (increasing population size) and BIPOP (Bi-population) refer to different
 restart strategy and the "a" (active) indicates another search distribution
@@ -29,7 +34,8 @@ print(__doc__)
 import numpy as np
 from bolero.optimizer import (NoOptimizer, RandomOptimizer, CMAESOptimizer,
                               IPOPCMAESOptimizer, BIPOPCMAESOptimizer,
-                              REPSOptimizer, ACMESOptimizer, CEMOptimizer)
+                              REPSOptimizer, ACMESOptimizer, XNESOptimizer,
+                              CEMOptimizer)
 from bolero.environment.objective_functions import Rosenbrock, Katsuura
 import matplotlib.pyplot as plt
 
@@ -58,6 +64,7 @@ optimizers = {
                               random_state=0),
     "REPS": REPSOptimizer(x, random_state=0),
     "ACM-ES": ACMESOptimizer(x, random_state=0),
+    "XNES": XNESOptimizer(x, random_state=0),
     "CEM": CEMOptimizer(x, random_state=0)
     }
 

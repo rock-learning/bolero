@@ -3,6 +3,7 @@ from nose.tools import (assert_less, assert_greater, assert_equal,
                         assert_raises_regexp)
 from sklearn.utils.testing import assert_warns
 from numpy.testing import assert_array_almost_equal
+from nose.tools import assert_true
 from bolero.optimizer import CMAESOptimizer, fmin
 
 
@@ -143,3 +144,13 @@ def test_cmaes_get_best_params_best():
     opt.set_evaluation_feedback(np.array([0.0]))
     best_params = opt.get_best_parameters(method="best")
     assert_array_almost_equal(params, best_params)
+
+
+def test_cmaes_respects_bounds():
+    opt = CMAESOptimizer(bounds=[[-5, 4], [10, 20]], variance=10000.0,
+                         random_state=0)
+    opt.init(2)
+    params = np.empty(2)
+    opt.get_next_parameters(params)
+    assert_true(np.all(params >= np.array([-5, 10])))
+    assert_true(np.all(params <= np.array([4, 20])))
