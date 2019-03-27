@@ -64,7 +64,7 @@ class DMPSequence(BlackBoxBehavior):
             raise ValueError("Input and output dimensions must match, got "
                              "%d inputs and %d outputs" % (n_inputs, n_outputs))
 
-        self.n_task_dims = n_inputs / 3
+        self.n_task_dims = n_inputs // 3
 
         if self.execution_times is None:
             self.execution_times = np.ones(self.n_dmps)
@@ -234,7 +234,7 @@ class DMPSequence(BlackBoxBehavior):
         if self.learn_goal_velocities:
             self.subgoal_velocities = np.split(
                 goal_vels, [i * self.n_task_dims
-                            for i in xrange(1, self.n_dmps+1)])
+                            for i in range(1, self.n_dmps+1)])
 
     def set_subgoal(self, idx, subgoal):
         """Set subgoal manually.

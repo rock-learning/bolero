@@ -83,9 +83,9 @@ class Controller(Base):
         self.inputs = np.zeros(self.n_inputs)
         self.outputs = np.zeros(self.n_outputs)
 
-        if "record_trajectories" in config.keys() + kwargs.keys():
+        if "record_trajectories" in list(config.keys()) + list(kwargs.keys()):
             warnings.warn("record_trajectories is deprecated. Please use record_inputs.")
-            if "record_inputs" in config.keys() + kwargs.keys():
+            if "record_inputs" in list(config.keys()) + list(kwargs.keys()):
                 raise ValueError("Specifying record_inputs and record_trajectories (deprecated) not allowed")
             else:
                 config["record_inputs"] = config.pop("record_trajectories", False)

@@ -39,7 +39,7 @@ def eval_loop(Opt, opt, n_dims, n_iter):
     opt.init(n_dims)
     objective = Opt(0, n_dims)
     results = np.empty(n_iter)
-    for i in xrange(n_iter):
+    for i in range(n_iter):
         opt.get_next_parameters(x)
         results[i] = objective.feedback(x)
         opt.set_evaluation_feedback(results[i])

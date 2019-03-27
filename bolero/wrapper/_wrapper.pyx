@@ -5,6 +5,16 @@ import numpy as np
 from libcpp.string cimport string
 cimport _wrapper
 from ..utils.log import HideExtern
+from cpython cimport version
+
+
+cdef string get_string(str s):
+    cdef string result
+    if version.PY_MAJOR_VERSION >= 3:
+        result = s.encode("utf-8")
+    else:
+        result = s
+    return result
 
 
 cdef class CppBLLoader:
@@ -30,9 +40,9 @@ cdef class CppBLLoader:
         lib_path : str
             Path to the library file for the libManager.
         """
-        cdef char* library_file_cstr = lib_path
+        cdef string library_file = get_string(lib_path)
         with HideExtern("stderr"):
-            self.thisptr.loadLibrary(string(library_file_cstr),NULL)
+            self.thisptr.loadLibrary(library_file, NULL)
 
     def load_config_file(self, config_file):
         """Load list of libraries for the libManager from a file.
@@ -44,9 +54,9 @@ cdef class CppBLLoader:
             should contain a list of shared libraries that can be loaded
             by the libManager.
         """
-        cdef char* config_file_cstr = config_file
+        cdef string config_file_str = get_string(config_file)
         with HideExtern("stderr"):
-            self.thisptr.loadConfigFile(string(config_file_cstr))
+            self.thisptr.loadConfigFile(config_file_str)
 
     def acquire_optimizer(self, name):
         """Get an optimizer.
@@ -61,10 +71,10 @@ cdef class CppBLLoader:
         optimizer : CppOptimizer
             Optimizer instance.
         """
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         optimizer = CppOptimizer()
         with HideExtern("stderr"):
-            optimizer.thisptr = self.thisptr.acquireOptimizer(string(name_cstr))
+            optimizer.thisptr = self.thisptr.acquireOptimizer(name_str)
         return optimizer
 
     def acquire_behavior_search(self, name):
@@ -80,10 +90,10 @@ cdef class CppBLLoader:
         optimizer : CppBehaviorSearch
             Behavior search instance.
         """
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         behavior_search = CppBehaviorSearch()
         with HideExtern("stderr"):
-            behavior_search.thisptr = self.thisptr.acquireBehaviorSearch(string(name_cstr))
+            behavior_search.thisptr = self.thisptr.acquireBehaviorSearch(name_str)
         return behavior_search
 
     def acquire_environment(self, name):
@@ -99,10 +109,10 @@ cdef class CppBLLoader:
         optimizer : CppEnvironment
             Environment instance.
         """
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         environment = CppEnvironment()
         with HideExtern("stderr"):
-            environment.thisptr = self.thisptr.acquireEnvironment(string(name_cstr))
+            environment.thisptr = self.thisptr.acquireEnvironment(name_str)
         return environment
 
 
@@ -120,7 +130,6 @@ cdef class CppBLLoader:
         behavior : CppLoadableBehavior
             Behavior instance.
         """
-        cdef char* name_cstr = name
         behavior = CppLoadableBehavior()
         with HideExtern("stderr"):
             behavior.behaviorPtr = self.thisptr.acquireBehavior(name)
@@ -134,10 +143,10 @@ cdef class CppBLLoader:
         name : CppContextualEnvironment
             ContextualEnvironment instance.
         """
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         environment = CppContextualEnvironment()
         with HideExtern("stderr"):
-            environment.thisptr = self.thisptr.acquireContextualEnvironment(string(name_cstr))
+            environment.thisptr = self.thisptr.acquireContextualEnvironment(name_str)
         return environment
 
     def acquire_parameterized_environment(self, name):
@@ -146,17 +155,17 @@ cdef class CppBLLoader:
         name : CppParameterizedEnvironment
             ParameterizedEnvironment instance.
         """
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         environment = CppParameterizedEnvironment()
         with HideExtern("stderr"):
-            environment.thisptr = self.thisptr.acquireParameterizedEnvironment(string(name_cstr))
+            environment.thisptr = self.thisptr.acquireParameterizedEnvironment(name_str)
         return environment
 
     def release_library(self, name):
         """Release a C++ library."""
-        cdef char* name_cstr = name
+        cdef string name_str = get_string(name)
         with HideExtern("stderr"):
-            self.thisptr.releaseLibrary(string(name_cstr))
+            self.thisptr.releaseLibrary(name_str)
 
 
 cdef class CppOptimizer:
@@ -168,7 +177,7 @@ cdef class CppOptimizer:
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def init(self, dimension):
         """Initialize optimizer.
@@ -249,7 +258,7 @@ cdef class CppBehaviorSearch:
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def init(self, num_inputs, num_outputs):
         """Initialize the behavior search.
@@ -311,8 +320,8 @@ cdef class CppBehaviorSearch:
         result_path : string
             path in which the state should be stored
         """
-        cdef char* result_path_cstr = result_path
-        self.thisptr.writeResults(string(result_path_cstr))
+        cdef string result_path_str = get_string(result_path)
+        self.thisptr.writeResults(result_path_str)
 
     def get_behavior_from_results(self, result_path):
         """Recover search state from file.
@@ -322,9 +331,9 @@ cdef class CppBehaviorSearch:
         result_path : string
             path in which we search for the file
         """
-        cdef char* result_path_cstr = result_path
+        cdef string result_path_str = get_string(result_path)
         behavior = CppBehavior()
-        behavior.thisptr = self.thisptr.getBehaviorFromResults(string(result_path_cstr))
+        behavior.thisptr = self.thisptr.getBehaviorFromResults(result_path_str)
         return behavior
 
 
@@ -337,7 +346,7 @@ cdef class CppEnvironment:
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def init(self):
         """Initialize environment."""
@@ -454,7 +463,7 @@ cdef class CppContextualEnvironment:
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def __dealloc__(self):
         del self.thisptr
@@ -607,7 +616,7 @@ cdef class CppParameterizedEnvironment:
         del self.thisptr
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def init(self):
         """Initialize environment."""
@@ -756,7 +765,7 @@ cdef class CppBehavior:
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
-        self.config_yaml = config_yaml
+        self.config_yaml = get_string(config_yaml)
 
     def init(self, n_inputs, n_outputs):
         """Initialize the behavior.

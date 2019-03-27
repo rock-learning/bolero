@@ -4,7 +4,10 @@
 import os
 import sys
 import logging
-from cStringIO import StringIO
+try:  # Python 2
+    from cStringIO import StringIO
+except:  # Python 3
+    from io import BytesIO as StringIO
 
 
 class HideExtern(object):

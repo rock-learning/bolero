@@ -9,9 +9,11 @@ import pickle
 def assert_pickle(name, obj):
     filename = name + ".pickle"
     try:
-        pickle.dump(obj, open(filename, "w"))
+        with open(filename, "wb") as outf:
+            pickle.dump(obj, outf)
         assert_true(os.path.exists(filename))
-        pickle.load(open(filename, "r"))
+        with open(filename, "rb") as inf:
+            pickle.load(inf)
     finally:
         if os.path.exists(filename):
             os.remove(filename)
@@ -40,13 +42,6 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
         List of (name, class), where ``name`` is the class name as string
         and ``class`` is the actuall type of the class.
     """
-    def is_abstract(c):
-        if not(hasattr(c, '__abstractmethods__')):
-            return False
-        if not len(c.__abstractmethods__):
-            return False
-        return True
-
     all_classes = []
     path = root.__path__
     if verbose >= 2:
@@ -73,7 +68,7 @@ def all_subclasses(base_class, exclude_classes=[], root=bolero, verbose=0):
                   if (issubclass(c[1], base_class)
                       and c[0] != base_class.__name__)]
     # get rid of abstract base classes
-    subclasses = [c for c in subclasses if not is_abstract(c[1])]
+    subclasses = [c for c in subclasses if not inspect.isabstract(c[1])]
 
     if exclude_classes:
         subclasses = [c for c in subclasses if not c[0] in exclude_classes]

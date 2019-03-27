@@ -29,7 +29,7 @@ def test_cmaes_diagonal_cov():
 def evaluate(policy, obj):
     c1 = c2 = np.linspace(-1, 1, 11)
     C1, C2 = np.meshgrid(c1, c2)
-    test_contexts = np.array(zip(C1.ravel(), C2.ravel()))
+    test_contexts = np.array(list(zip(C1.ravel(), C2.ravel())))
     f = np.array([obj.feedback(policy(s, explore=False), s)
                   for s in test_contexts])
     f_opt = np.array([obj.f_opt(s) for s in test_contexts])

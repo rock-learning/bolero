@@ -9,6 +9,7 @@ Not released yet.
 * New representation: ProMPBehavior
 * New environment: OptimumTrajectoryCurbingObstacles
 * New optimizer: CEMOptimizer
+* Support for Python 3
 
 ### Bugfixes
 

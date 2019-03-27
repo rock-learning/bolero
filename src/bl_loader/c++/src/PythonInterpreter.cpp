@@ -11,6 +11,8 @@
 #include <cstdarg>
 #include <sstream>
 
+#warning PYTHON_VERSION
+
 
 namespace bolero { namespace bl_loader {
 
@@ -55,6 +57,40 @@ PyObjectPtr makePyObjectPtr(PyObject* p)
 //////////////////////// Helper functions //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string getString(PyObjectPtr object)
+{
+#if PYTHON_VERSION == 2
+  return PyString_AsString(object.get());
+#else
+  std::string result;
+  if(PyUnicode_Check(object.get())) {
+    PyObject* temp_bytes = PyUnicode_AsEncodedString(object.get(), "UTF-8", "strict"); // Owned reference
+    if (temp_bytes != NULL) {
+        result = PyBytes_AS_STRING(temp_bytes); // Borrowed pointer
+        Py_DECREF(temp_bytes);
+    } else {
+      throw std::runtime_error("Decoding string failed");
+    }
+  }
+  else if(PyBytes_Check(object.get())) {
+    result = PyBytes_AS_STRING(object.get()); // Borrowed pointer
+  }
+  else {
+    throw std::runtime_error("Unknown string format");
+  }
+  return result;
+#endif
+}
+
+PyObjectPtr makeString(std::string str)
+{
+#if PYTHON_VERSION == 2
+  return makePyObjectPtr(PyString_FromString(str.c_str()));
+#else
+  return makePyObjectPtr(PyUnicode_FromString(str.c_str()));
+#endif
+}
+
 void throwPythonException()
 {
   PyObject* error = PyErr_Occurred(); // Borrowed reference
@@ -66,11 +102,11 @@ void throwPythonException()
     // Exception type
     PyObjectPtr pyexception = makePyObjectPtr(PyObject_GetAttrString(
         ptype, (char*)"__name__"));
-    std::string type = PyString_AsString(pyexception.get());
+    std::string type = getString(pyexception);
 
     // Message
     PyObjectPtr pymessage = makePyObjectPtr(PyObject_Str(pvalue));
-    std::string message = PyString_AsString(pymessage.get());
+    std::string message = getString(pymessage);
 
     // Traceback
     PyObjectPtr tracebackModule = makePyObjectPtr(PyImport_ImportModule("traceback"));
@@ -82,12 +118,12 @@ void throwPythonException()
                 (char*)"OOO", ptype, pvalue == NULL ? Py_None : pvalue,
                 ptraceback == NULL ? Py_None : ptraceback));
 
-        PyObjectPtr emptyString = makePyObjectPtr(PyString_FromString(""));
+        PyObjectPtr emptyString = makeString("");
         PyObjectPtr strRetval = makePyObjectPtr(
             PyObject_CallMethod(emptyString.get(), (char*)"join", (char*)"O",
                                 tbList.get()));
 
-        traceback = PyString_AsString(strRetval.get());
+        traceback = getString(strRetval);
     }
     else
     {
@@ -159,10 +195,21 @@ struct Int
     PyObjectPtr obj;
     static Int make(int i)
     {
+#if PYTHON_VERSION == 2
         Int result = {makePyObjectPtr(PyInt_FromLong((long) i))};
+#else
+        Int result = {makePyObjectPtr(PyLong_FromLong((long) i))};
+#endif
         return result;
     }
-    const double get() { return (int)PyInt_AsLong(obj.get()); }
+    const double get()
+    {
+#if PYTHON_VERSION == 2
+        return (int)PyInt_AsLong(obj.get());
+#else
+        return (int)PyLong_AsLong(obj.get());
+#endif
+    }
 };
 
 struct Double
@@ -192,10 +239,10 @@ struct String
     PyObjectPtr obj;
     static String make(const std::string& s)
     {
-        String result = {makePyObjectPtr(PyString_FromString(s.c_str()))};
+        String result = {makeString(s)};
         return result;
     }
-    const std::string get() { return PyString_AsString(obj.get()); }
+    const std::string get() { return getString(obj); }
 };
 
 bool toVector(PyObjectPtr obj, std::vector<double>& result)
@@ -390,11 +437,29 @@ void toPyObjects(std::va_list& cppArgs, const std::list<CppType>& types, std::ve
 //////////////////////// Public interface //////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/* HACK: dummy function to avoid the following error from macro expansion
+ * .../pythonX.Y/numpy/__multiarray_api.h:1527:35: error: returning a value
+ *   from a constructor
+ * #define NUMPY_IMPORT_ARRAY_RETVAL NULL
+ */
+#if PYTHON_VERSION == 2
+void dummy_import_array()
+{
+    import_array();
+}
+#else
+int dummy_import_array()
+{
+    import_array();
+}
+#endif
+
 PythonInterpreter::PythonInterpreter()
 {
     if(!Py_IsInitialized())
         Py_Initialize();
-    import_array();
+    dummy_import_array();
 }
 
 PythonInterpreter::~PythonInterpreter()

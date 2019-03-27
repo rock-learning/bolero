@@ -18,7 +18,7 @@ def test_environments_have_default_constructor():
 
 
 def test_environments_follow_standard_protocol():
-    for _, Environment in ALL_ENVIRONMENTS:
+    for name, Environment in ALL_ENVIRONMENTS:
         env = Environment()
         env.init()
 

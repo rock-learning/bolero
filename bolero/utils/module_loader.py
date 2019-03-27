@@ -4,7 +4,10 @@ import os
 import yaml
 import warnings
 import inspect
-import StringIO
+try:  # Python 2
+    from StringIO import StringIO
+except:  # Python 3
+    from io import StringIO
 
 
 def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -211,7 +214,7 @@ def _from_dict(name, config):
                 "Empty module name. Either you tried to load a C++ library "
                 "that cannot be found or you forgot to specify the Python "
                 "package where the class '%s' is located." % type_name)
-        config_string = StringIO.StringIO()
+        config_string = StringIO()
         yaml.dump(c, config_string)
         cpp_lib.initialize_yaml(config_string.getvalue())
         config_string.close()

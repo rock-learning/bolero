@@ -1,5 +1,8 @@
 #! /bin/bash
 
+export PYTHON="${PYTHON:-python}"
+echo -e "\e[31mUsing Python: $PYTHON (located at `which $PYTHON`)\e[0m"
+
 # checking minimal dependencies on Ubuntu systems...
 if [ -f /etc/lsb-release ]; then
     if [ -z `which sudo` ];
@@ -22,17 +25,17 @@ if [ -f /etc/lsb-release ]; then
         echo "cmake not available, trying to install it with 'sudo apt-get install cmake'"
         sudo apt-get install cmake --yes
     fi
-    if [ -z `which python` ];
+    if [ -z `which $PYTHON` ];
     then
-        echo "python not available, trying to install it with 'sudo apt-get install python'"
-        sudo apt-get install python python-pip --yes
+        echo "$PYTHON not available, trying to install it with 'sudo apt-get install $PYTHON'"
+        sudo apt-get install $PYTHON $PYTHON-pip --yes
     fi
     YAML_AVAILABLE=1
-    `python -c "import yaml" 2> /dev/null` || YAML_AVAILABLE=0
+    `$PYTHON -c "import yaml" 2> /dev/null` || YAML_AVAILABLE=0
     if [ $YAML_AVAILABLE == 0 ];
     then
-          echo "python-yaml not available, trying to install it with 'sudo apt-get install python-yaml'"
-          sudo apt-get install python-yaml --yes
+          echo "$PYTHON-yaml not available, trying to install it with 'sudo apt-get install $PYTHON-yaml'"
+          sudo apt-get install $PYTHON-yaml --yes
     fi
 fi
 
@@ -43,7 +46,12 @@ DEV_DIR="$( cd "$( dirname "$0" )" && pwd )"
 if [ -f /mingw64.exe ]; then
   DEV_DIR="$(cmd //c echo $DEV_DIR)"
 fi
+echo -e "\e[31mBOLeRo development directory: $DEV_DIR\e[0m"
+
+echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
+# TODO remove branch before merging
 git clone https://github.com/rock-simulation/pybob.git
+echo -e "\e[31mDone.\e[0m"
 cd pybob
 
 # create default config for bolero
@@ -54,16 +62,50 @@ echo "defBuildType: debug" >> pybob.yml
 echo "devDir: ${DEV_DIR}" >> pybob.yml
 echo "pyScriptDir: ${DEV_DIR}/pybob" >> pybob.yml
 echo "rockFlavor: master" >> pybob.yml
+echo "numCores: 1" >> pybob.yml
 
 # clone build configuration
-./pybob.py buildconf
+echo -e "\e[31mDownloading sources...\e[0m"
+$PYTHON pybob.py buildconf
+echo -e "\e[31mDone.\e[0m"
 
 cd ..
+
+# TODO remove this before merging the branch
+echo -e "\e[31mSwitching branch of BOLeRo to fix/python3...\e[0m"
+echo "  - learning/bolero/include:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/bl_loader:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/controller:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/optimizer/cmaes_optimizer:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/optimizer/pso_optimizer:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/environment/cec13_test_functions:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/environment/function_approximation:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/environment/mountain_car:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/representation/dmp:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/src/representation/promp:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo "  - learning/bolero/bolero/wrapper:" >> autoproj/overrides.yml
+echo "      branch: fix/python3" >> autoproj/overrides.yml
+echo -e "\e[31mDone.\e[0m"
+
 source env.sh
 
 # build default packages
 cd pybob
-./pybob.py bootstrap
+echo -e "\e[31mBuilding...\e[0m"
+$PYTHON pybob.py bootstrap
+echo -e "\e[31mDone.\e[0m"
 
 echo ""
 echo "To continue working with bolero in this terminal perform:"

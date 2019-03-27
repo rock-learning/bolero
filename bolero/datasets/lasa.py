@@ -3,7 +3,10 @@ import os
 import scipy.io
 import zipfile
 import io
-import urllib2
+try:
+    from urllib2 import urlopen
+except:
+    from urllib.request import urlopen
 
 
 def load_lasa(shape_idx):
@@ -54,7 +57,7 @@ def load_lasa(shape_idx):
 
     dataset_path = get_common_dataset_path()
     if not os.path.isdir(dataset_path + "lasa_data"):
-        url = urllib2.urlopen(
+        url = urlopen(
             "http://bitbucket.org/khansari/lasahandwritingdataset/get/38304f7c0ac4.zip"
         )
         z = zipfile.ZipFile(io.BytesIO(url.read()))

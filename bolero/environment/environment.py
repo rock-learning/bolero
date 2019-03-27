@@ -4,13 +4,15 @@ from ..utils import NonContextualException
 from ..base import Base
 
 
-class Environment(Base):
+ABC = ABCMeta('ABC', (object,), {'__slots__': ()})
+
+
+class Environment(Base, ABC):
     """Common interface for environments.
 
     An environment can execute actions, measure states and compute rewards.
     It defines a learning problem.
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def init(self):
