@@ -17,7 +17,10 @@ def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def optimizer_from_yaml_string(yaml_str, conf_path=None):
     """Create optimizer object from YAML string."""
-    return from_dict(yaml.load(yaml_str)["Optimizer"])
+    map_ = yaml.load(yaml_str)
+    if not "Optimizer" in map_:
+        return from_dict(map_)
+    return from_dict(map_["Optimizer"])
 
 
 def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -27,8 +30,10 @@ def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def behavior_from_yaml_string(yaml_str, conf_path=None):
     """Create behavior object from YAML string."""
-    print(yaml_str)
-    return from_dict(yaml.load(yaml_str)["Behavior"])
+    map_ = yaml.load(yaml_str)
+    if not "Behavior" in map_:
+        return from_dict(map_)
+    return from_dict(map_["Behavior"])
 
 
 def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -38,7 +43,10 @@ def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def behavior_search_from_yaml_string(yaml_str, conf_path=None):
     """Create behavior search object from YAML string."""
-    return from_dict(yaml.load(yaml_str)["BehaviorSearch"])
+    map_ = yaml.load(yaml_str)
+    if not "BehaviorSearch" in map_:
+        return from_dict(map_)
+    return from_dict(map_["BehaviorSearch"])
 
 
 def environment_from_yaml(filename="learning_config.yml", conf_path=None):
@@ -48,7 +56,10 @@ def environment_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def environment_from_yaml_string(yaml_str, conf_path=None):
     """Create environment object from YAML string."""
-    return from_dict(yaml.load(yaml_str)["Environment"])
+    map_ = yaml.load(yaml_str)
+    if not "Environment" in map_:
+        return from_dict(map_)
+    return from_dict(map_["Environment"])
 
 
 def from_yaml(filename, conf_path=None):

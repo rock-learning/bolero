@@ -143,6 +143,7 @@ namespace bolero {
       mars::interfaces::SimulatorInterface *mars;
       mars = libManager->getLibraryAs<mars::interfaces::SimulatorInterface>("mars_sim");
       assert(mars);
+      marsPlugin->configString = config;
       marsPlugin->control = mars->getControlCenter();
       mars::interfaces::pluginStruct newplugin;
       newplugin.name = getLibName();
