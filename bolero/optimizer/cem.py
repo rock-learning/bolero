@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist
 from bolero.optimizer import Optimizer
 from bolero.optimizer.cmaes import _bound
