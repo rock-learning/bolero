@@ -49,7 +49,6 @@ fi
 echo -e "\e[31mBOLeRo development directory: $DEV_DIR\e[0m"
 
 echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
-# TODO remove branch before merging
 git clone https://github.com/rock-simulation/pybob.git
 echo -e "\e[31mDone.\e[0m"
 cd pybob
@@ -70,34 +69,6 @@ $PYTHON pybob.py buildconf
 echo -e "\e[31mDone.\e[0m"
 
 cd ..
-
-# TODO remove this before merging the branch
-echo -e "\e[31mSwitching branch of BOLeRo to fix/python3...\e[0m"
-echo "  - learning/bolero/include:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/bl_loader:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/controller:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/optimizer/cmaes_optimizer:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/optimizer/pso_optimizer:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/environment/cec13_test_functions:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/environment/function_approximation:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/environment/mountain_car:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/representation/dmp:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/src/representation/promp:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo "  - learning/bolero/bolero/wrapper:" >> autoproj/overrides.yml
-echo "      branch: fix/python3" >> autoproj/overrides.yml
-echo -e "\e[31mDone.\e[0m"
 
 source env.sh
 
