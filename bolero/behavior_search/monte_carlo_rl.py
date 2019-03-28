@@ -121,9 +121,9 @@ class MonteCarloRL(BehaviorSearch, PickableMixin):
     """Tabular Monte Carlo is a model-free reinforcement learning method.
 
     This implements the epsilon-soft on-policy Monte Carlo control algorithm
-    shown at page 120 of "Reinforcement Learning: An Introduction"
+    shown at page 101 of "Reinforcement Learning: An Introduction"
     (Sutton and Barto, 2nd edition,
-    http://people.inf.elte.hu/lorincz/Files/RL_2006/SuttonBook.pdf).
+    http://incompleteideas.net/book/bookdraft2018mar21.pdf).
     The action space and the state space must be discrete for this
     implementation.
 

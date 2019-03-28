@@ -155,7 +155,9 @@ class OpenAiGym(Environment):
         return self.done
 
     def get_feedback(self):
-        return np.asarray(self.rewards)
+        feedbacks = np.asarray(self.rewards)
+        self.rewards = []
+        return feedbacks
 
     def is_behavior_learning_done(self):
         return False
