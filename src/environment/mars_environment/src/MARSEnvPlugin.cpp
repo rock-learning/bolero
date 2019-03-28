@@ -48,7 +48,12 @@ namespace bolero {
 
       ConfigMap map;
       ConfigMap *map2;
-      map = ConfigMap::fromYamlFile("learning_config.yml");
+      if(configString.empty()) {
+        map = ConfigMap::fromYamlFile("learning_config.yml");
+      }
+      else {
+        map = ConfigMap::fromYamlString(configString);
+      }
 
       if(map.hasKey("Environment")) {
         map2 = map["Environment"];
