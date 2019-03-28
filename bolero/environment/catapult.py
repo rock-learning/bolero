@@ -220,7 +220,7 @@ class Catapult(ContextualEnvironment):
         if self.verbose >= 1:
             print("[Catapult] Hit the ground at %g (target: %g)"
                   % (hit, self._denormalize_context(self.context[0])))
-        return (-np.abs(hit - context) - self.velocity_penalty * v)[0]
+        return -np.abs(hit - np.squeeze(context)) - self.velocity_penalty * v
 
     def _shoot(self, v, theta):
         a, b, c = self._trajectory_params(v, theta)
