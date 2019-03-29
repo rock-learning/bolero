@@ -17,7 +17,7 @@ from bolero.behavior_search import QLearning
 from bolero.controller import StepBasedController
 
 
-env = OpenAiGym("FrozenLake8x8-v0", render=True, seed=1)
+env = OpenAiGym("FrozenLake8x8-v0", render=False, seed=1)
 env.init()
 bs = QLearning(env.get_discrete_action_space(), epsilon=0.2, random_state=1)
 ctrl = StepBasedController(
