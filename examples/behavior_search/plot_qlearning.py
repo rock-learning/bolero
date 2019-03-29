@@ -17,12 +17,12 @@ from bolero.behavior_search import QLearning
 from bolero.controller import StepBasedController
 
 
-env = OpenAiGym("FrozenLake-v0", render=False, seed=1)
+env = OpenAiGym("FrozenLake8x8-v0", render=True, seed=1)
 env.init()
-bs = QLearning(env.get_discrete_action_space(), random_state=1)
+bs = QLearning(env.get_discrete_action_space(), epsilon=0.2, random_state=1)
 ctrl = StepBasedController(
-    environment=env, behavior_search=bs, n_episodes=5000,
-    finish_after_convergence=True)
+    environment=env, behavior_search=bs, n_episodes=10000,
+    finish_after_convergence=True, verbose=0)
 rewards = ctrl.learn()
 
 plt.figure()

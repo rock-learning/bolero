@@ -1,4 +1,3 @@
-import logging
 import numpy as np
 from .environment import Environment
 from ..utils.log import get_logger
@@ -25,17 +24,6 @@ class IntHandler(object):
     def __call__(self, values):
         assert values.shape[0] == 1
         return np.clip(int(values[0]), 0, self.n - 1)
-
-
-class HighLowHandler(object):
-    def __init__(self, matrix):
-        self.matrix = matrix
-
-    def __call__(self, values):
-        values = np.clip(values, self.matrix[:, 0], self.matrix[:, 1])
-        for i in range(len(values)):
-            values[i] = round(values[i], self.matrix[i, 2])
-        return values
 
 
 class OpenAiGym(Environment):
@@ -107,16 +95,13 @@ class OpenAiGym(Environment):
         elif isinstance(space, gym.spaces.Discrete):
             n_dims = 1
             handler = IntHandler(space.n)
-        elif isinstance(space, gym.spaces.HighLow):
-            n_dims = space.num_rows
-            handler = HighLowHandler(space.matrix)
         elif isinstance(space, gym.spaces.Tuple):
             raise NotImplementedError("Space of type '%s' is not supported"
                                       % type(space))
         return n_dims, handler
 
     def reset(self):
-        self.outputs[:] = self.env.reset().ravel()
+        self.outputs[:] = np.asarray(self.env.reset()).ravel()
         self.rewards = []
         self.done = False
         self.step = 0
