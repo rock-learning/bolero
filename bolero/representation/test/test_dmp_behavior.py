@@ -348,3 +348,37 @@ def test_dmp_save_and_load():
     assert_array_almost_equal(xva[:n_task_dims], g, decimal=3)
     assert_equal(t, 854)
     assert_equal(beh_loaded.get_n_params(), n_task_dims * 10)
+
+
+def test_dmp_save_and_load_bug_83():
+    random_state = np.random.RandomState(0)
+
+    dmp = DMPBehavior(execution_time=1.0, dt=0.001)
+    dmp.init(6, 6)
+    x0 = np.zeros(2)
+    g = np.ones(2)
+    dmp.set_meta_parameters(["x0", "g"], [x0, g])
+    w = dmp.get_params()
+    w = random_state.randn(*w.shape) * 1000.0
+    dmp.set_params(w)
+
+    Y, Yd, Ydd = dmp.trajectory()
+
+    try:
+        dmp.save("tmp_dmp_model2.yaml")
+        dmp.save_config("tmp_dmp_config2.yaml")
+
+        dmp = DMPBehavior(configuration_file="tmp_dmp_model2.yaml")
+        dmp.init(6, 6)
+        dmp.load_config("tmp_dmp_config2.yaml")
+    finally:
+        if os.path.exists("tmp_dmp_model2.yaml"):
+            os.remove("tmp_dmp_model2.yaml")
+        if os.path.exists("tmp_dmp_config2.yaml"):
+            os.remove("tmp_dmp_config2.yaml")
+
+    Y2, Yd2, Ydd2 = dmp.trajectory()
+
+    assert_array_almost_equal(Y, Y2)
+    assert_array_almost_equal(Yd, Yd2)
+    assert_array_almost_equal(Ydd, Ydd2)
