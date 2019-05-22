@@ -37,7 +37,7 @@ def load_dmp_model(dmp, filename):
     dmp.dt = model["ts_dt"]
     dmp.n_features = dmp.widths.shape[0]
     dmp.weights = np.array(model["ft_weights"], dtype=np.float
-        ).reshape(dmp.n_task_dims, dmp.n_features).T
+        ).reshape(dmp.n_task_dims, dmp.n_features).T.copy()
 
     if dmp.execution_time != model["cs_execution_time"]:
         raise ValueError("Inconsistent execution times: %g != %g"
