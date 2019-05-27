@@ -11,6 +11,7 @@ Not released yet.
 * New environment: OptimumTrajectoryCurbingObstacles
 * New optimizer: CEMOptimizer
 * New optimizer: XNESOptimizer
+* Update docker (and Circle CI) to Ubuntu 18.04
 
 ### Bugfixes
 
