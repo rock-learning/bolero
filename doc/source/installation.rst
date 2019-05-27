@@ -7,9 +7,8 @@ Installation
 Prerequisites
 =============
 
-BOLeRo is developed for the latest Ubuntu LTS (currently 16.04), has been
-tested with 17.04 and the current version of 18.04 and its continuous
-integration runs on 14.04.
+BOLeRo is developed for the latest Ubuntu LTS (currently 18.04), has been
+tested with 16.04, 17.04 and its continuous integration runs on 14.04.
 Using it on Mac OS or Windows is possible, however, the installation might be
 more complicated. We recommend to use Docker if you want to take a quick
 look at the software. Instructions are
