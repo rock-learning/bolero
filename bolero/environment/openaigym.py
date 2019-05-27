@@ -26,6 +26,20 @@ class IntHandler(object):
         return np.clip(int(values[0]), 0, self.n - 1)
 
 
+class TupleHandler(object):
+    def __init__(self, handlers, n_dims):
+        self.handlers = handlers
+        self.n_dims = n_dims
+
+    def __call__(self, values):
+        start = 0
+        outputs = []
+        for h, s in zip(self.handlers, self.n_dims):
+            outputs.append(h(values[start:start + s]))
+            start += s
+        return outputs
+
+
 class OpenAiGym(Environment):
     """Wrapper for OpenAI Gym environments.
 
@@ -82,6 +96,8 @@ class OpenAiGym(Environment):
 
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
+        self.step_limit = np.inf
+
         if self.log_to_stdout or self.log_to_file:
             self.logger.info("Number of inputs: %d" % self.n_inputs)
             self.logger.info("Number of outputs: %d" % self.n_outputs)
@@ -96,11 +112,28 @@ class OpenAiGym(Environment):
             n_dims = 1
             handler = IntHandler(space.n)
         elif isinstance(space, gym.spaces.Tuple):
+            n_dims = 0
+            handlers = []
+            n_dims_per_subspace = []
+            for subspace in space.spaces:
+                n_dims_subspace, subspace_handler = self._init_space(subspace)
+                n_dims += n_dims_subspace
+                handlers.append(subspace_handler)
+                n_dims_per_subspace.append(n_dims_subspace)
+            handler = TupleHandler(handlers, n_dims_per_subspace)
+        else:
             raise NotImplementedError("Space of type '%s' is not supported"
                                       % type(space))
         return n_dims, handler
 
     def reset(self):
+        if hasattr(self.env.spec, "timestep_limit"):
+            self.step_limit = self.env.spec.timestep_limit
+        elif hasattr(self.env.spec, "max_episode_steps"):
+            self.step_limit = self.env.spec.max_episode_steps
+        if self.step_limit is None:
+            self.step_limit = np.inf
+
         self.outputs[:] = np.asarray(self.env.reset()).ravel()
         self.rewards = []
         self.done = False
@@ -128,8 +161,6 @@ class OpenAiGym(Environment):
         self.done = self.done or done
 
         self.step += 1
-        if self.step >= self.env.spec.timestep_limit:
-            self.done = True
 
         if self.log_to_stdout or self.log_to_file:
             self.logger.info(str(info))
@@ -137,7 +168,10 @@ class OpenAiGym(Environment):
             self.env.render()
 
     def is_evaluation_done(self):
-        return self.done
+        return self.done or self._step_limit_reached()
+
+    def _step_limit_reached(self):
+        return self.step >= self.step_limit
 
     def get_feedback(self):
         feedbacks = np.asarray(self.rewards)
@@ -156,9 +190,8 @@ class OpenAiGym(Environment):
     def get_discrete_action_space(self):
         """Get list of possible actions.
 
-        An error will be raised if the action space of the problem is not
-        discrete. The environment must be initialized before this method can
-        be called.
+        An error will be raised if the action space is not easily discretized.
+        The environment must be initialized before this method can be called.
 
         Returns
         -------
@@ -166,6 +199,6 @@ class OpenAiGym(Environment):
             Actions that the agent can take
         """
         if not hasattr(self.env.action_space, "n"):
-            raise TypeError("gym environment '%d' does not have a discrete "
-                            "action space")
+            raise TypeError("gym environment '%s' does not have a discrete "
+                            "action space" % self.env_name)
         return list(range(self.env.action_space.n))
