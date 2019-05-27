@@ -25,7 +25,7 @@ endif()
 
 option(PYTHON_SUPPORT "Enable BLLoader to load and wrap Python modules" ON)
 
-add_subdirectory(c++)
+add_subdirectory(src)
 if(PYTHON_SUPPORT)
   add_subdirectory(test)
 endif(PYTHON_SUPPORT)
