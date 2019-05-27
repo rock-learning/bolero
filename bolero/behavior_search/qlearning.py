@@ -55,9 +55,7 @@ class QLearning(BehaviorSearch, PickableMixin):
         n_outputs : int
             number of outputs of the behavior
         """
-        assert n_inputs == 1, "discrete state space required"
-        assert n_outputs == 1, "discrete action space required"
-        self.Q = defaultdict(lambda: dict((a, 0.0) for a in self.action_space))
+        self.Q = defaultdict(lambda: defaultdict(lambda: 0.0))
         self.policy = EpsilonGreedyPolicy(
             self.Q, self.action_space, self.epsilon, self.random_state)
         self.returns = defaultdict(lambda: defaultdict(lambda: []))

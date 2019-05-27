@@ -87,7 +87,7 @@ class EpsilonGreedyPolicy(Behavior):
         outputs : array-like, shape = (n_outputs,)
             outputs, e.g. next action, will be updated
         """
-        outputs[0] = self.action
+        outputs[:] = self.action
         self.actions_taken.append(self.action)
 
     def step(self):
@@ -96,15 +96,16 @@ class EpsilonGreedyPolicy(Behavior):
         Uses the inputs and meta-parameters to compute the outputs.
         """
         if self.random_state.rand() < self.epsilon:
-            self.action = self.random_state.choice(self.action_space)
+            i = self.random_state.randint(len(self.action_space))
+            self.action = self.action_space[i]
         else:
             self._select_best_action()
 
     def _select_best_action(self):
         Qs = np.array([self.Q[self.s][a] for a in self.action_space])
         best_actions = np.where(Qs == max(Qs))[0]
-        self.action = self.action_space[
-            self.random_state.choice(best_actions)]
+        i = self.random_state.randint(len(best_actions))
+        self.action = best_actions[i]
 
     def can_step(self):
         """Returns if step() can be called again.
@@ -164,7 +165,7 @@ class MonteCarloRL(BehaviorSearch, PickableMixin):
         """
         assert n_inputs == 1, "discrete state space required"
         assert n_outputs == 1, "discrete action space required"
-        self.Q = defaultdict(lambda: dict((a, 0.0) for a in self.action_space))
+        self.Q = defaultdict(lambda: defaultdict(lambda: 0.0))
         self.policy = EpsilonGreedyPolicy(
             self.Q, self.action_space, self.epsilon, self.random_state)
         self.returns = defaultdict(lambda: defaultdict(lambda: []))

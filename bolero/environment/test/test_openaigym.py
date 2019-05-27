@@ -90,11 +90,12 @@ def test_tuple_output():
 def test_tuple_input():
     env = OpenAiGym("Copy-v0")
     env.init()
+    action_space = env.get_discrete_action_space()
 
     assert_equal(env.get_num_inputs(), 3)
     assert_equal(env.get_num_outputs(), 1)
 
-    inputs = np.ones(env.get_num_inputs())
+    inputs = action_space[3]
     outputs = np.ones(env.get_num_outputs())
 
     env.reset()

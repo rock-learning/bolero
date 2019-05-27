@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import product
 from .environment import Environment
 from ..utils.log import get_logger
 try:
@@ -13,6 +14,9 @@ class BoxClipHandler(object):
         self.low = low
         self.high = high
 
+    def is_discrete(self):
+        return False
+
     def __call__(self, values):
         return np.clip(values, self.low, self.high)
 
@@ -20,6 +24,9 @@ class BoxClipHandler(object):
 class IntHandler(object):
     def __init__(self, n):
         self.n = n
+
+    def is_discrete(self):
+        return True
 
     def __call__(self, values):
         assert values.shape[0] == 1
@@ -30,6 +37,9 @@ class TupleHandler(object):
     def __init__(self, handlers, n_dims):
         self.handlers = handlers
         self.n_dims = n_dims
+
+    def is_discrete(self):
+        return all([h.is_discrete() for h in self.handlers])
 
     def __call__(self, values):
         start = 0
@@ -187,7 +197,7 @@ class OpenAiGym(Environment):
         else:
             return self.env.spec.reward_threshold
 
-    def get_discrete_action_space(self):
+    def get_discrete_action_space(self, space=None):
         """Get list of possible actions.
 
         An error will be raised if the action space is not easily discretized.
@@ -198,7 +208,16 @@ class OpenAiGym(Environment):
         action_space : iterable
             Actions that the agent can take
         """
-        if not hasattr(self.env.action_space, "n"):
+        if space is None:
+            space = self.env.action_space
+
+        if isinstance(space, gym.spaces.Discrete):
+            return list(range(space.n))
+        elif isinstance(space, gym.spaces.Tuple):
+            subspaces = [self.get_discrete_action_space(s)
+                         for s in space.spaces]
+            return list(product(*subspaces))
+        else:
             raise TypeError("gym environment '%s' does not have a discrete "
                             "action space" % self.env_name)
-        return list(range(self.env.action_space.n))
+            # ... or a conversion is not yet implemented
