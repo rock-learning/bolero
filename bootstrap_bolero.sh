@@ -1,6 +1,16 @@
 #! /bin/bash
 
 export PYTHON="${PYTHON:-python}"
+if [ -z `which $PYTHON` ];
+then
+    echo -e "\e[31mPython '$PYTHON' not found.\e[0m"
+    exit 1
+fi
+if ! [ -z "$CYTHON" ] && [ -z `which $CYTHON` ];
+then
+    echo -e "\e[31mCython '$CYTHON' not found.\e[0m"
+    exit 1
+fi
 echo -e "\e[31mUsing Python: $PYTHON (located at `which $PYTHON`)\e[0m"
 
 # checking minimal dependencies on Ubuntu systems...
