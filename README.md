@@ -16,7 +16,7 @@ the robot construction kit (Rock).
 
 ## Installation
 
-On Ubuntu 16.04 and similar operating systems, you can install BOLeRo with
+On Ubuntu 18.04 and similar operating systems, you can install BOLeRo with
 
     wget https://raw.githubusercontent.com/rock-learning/bolero/master/bootstrap_bolero.sh
     chmod +x bootstrap_bolero.sh
