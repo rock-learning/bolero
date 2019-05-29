@@ -4,10 +4,28 @@ import numpy as np
 cimport _declarations as cpp
 
 
+cpdef phase(double t, double alpha, double goal_t, double start_t):
+    """Determine phase value that corresponds to the current time in the DMP.
+
+    \param t current time, note that t is allowed to be outside of the range
+    [start_t, goal_t]
+    \param alpha constant that defines the decay rate of the phase variable
+    \param goal_t time at the end of the DMP
+    \param start_t time at the start of the DMP
+    \return phase value (z)
+    """
+    cdef double cpp_t = t
+    cdef double cpp_alpha = alpha
+    cdef double cpp_goal_t = goal_t
+    cdef double cpp_start_t = start_t
+    cdef double result = cpp.phase(cpp_t, cpp_alpha, cpp_goal_t, cpp_start_t)
+    return result
+
+
 cpdef calculate_alpha(double goal_z, double goal_t, double start_t):
     """Compute decay rate of phase variable so that a desired phase is reached in
     the end.
-    
+
     \param goal_z desired phase value
     \param goal_t time at the end of the DMP
     \param start_t time at the start of the DMP
@@ -18,9 +36,10 @@ cpdef calculate_alpha(double goal_z, double goal_t, double start_t):
     cdef double result = cpp.calculateAlpha(cpp_goal_z, cpp_goal_t, cpp_start_t)
     return result
 
+
 cpdef initialize_rbf(np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=1] centers, double goal_t, double start_t, double overlap, double alpha):
     """Initialize radial basis functions.
-    
+
     \param widths widths of the RBFs, will be initialized
     \param num_widths number of RBFs
     \param centers centers of the RBFs, will be initialized
@@ -38,14 +57,14 @@ cpdef initialize_rbf(np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=
 
 cpdef imitate(np.ndarray[double, ndim=1] T, np.ndarray[double, ndim=2] Y, np.ndarray[double, ndim=2] weights, np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=1] centers, double regularization_coefficient, double alpha_y, double beta_y, double alpha_z, bool allow_final_velocity):
     """Represent trajectory as DMP.
-    
+
     \note The final velocity will be calculated by numeric differentiation
     from the data if allow_final_velocity is true. Otherwise we will assume
     the final velocity to be zero. To reproduce the trajectory as closely as
     possible, set the initial acceleration and velocity during execution to
     zero, the final acceleration to zero and the final velocity to the value
     that has been used during imitation.
-    
+
     \param T time for each step of the trajectory
     \param num_T number of steps
     \param Y positions, contains num_T * num_dimensions entries in row-major
@@ -78,9 +97,9 @@ cpdef imitate(np.ndarray[double, ndim=1] T, np.ndarray[double, ndim=2] Y, np.nda
 
 cpdef dmp_step(double last_t, double t, np.ndarray[double, ndim=1] last_y, np.ndarray[double, ndim=1] last_yd, np.ndarray[double, ndim=1] last_ydd, np.ndarray[double, ndim=1] y, np.ndarray[double, ndim=1] yd, np.ndarray[double, ndim=1] ydd, np.ndarray[double, ndim=1] goal_y, np.ndarray[double, ndim=1] goal_yd, np.ndarray[double, ndim=1] goal_ydd, np.ndarray[double, ndim=1] start_y, np.ndarray[double, ndim=1] start_yd, np.ndarray[double, ndim=1] start_ydd, double goal_t, double start_t, np.ndarray[double, ndim=2] weights, np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=1] centers, double alpha_y, double beta_y, double alpha_z, double integration_dt):
     """Execute one step of the DMP.
-    
+
     source: http://ijr.sagepub.com/content/32/3/263.full.pdf
-    
+
     \param last_t time of last step (should equal t initially)
     \param t current time
     \param last_y last position
@@ -136,14 +155,14 @@ cpdef dmp_step(double last_t, double t, np.ndarray[double, ndim=1] last_y, np.nd
 
 cpdef quaternion_imitate(np.ndarray[double, ndim=1] T, np.ndarray[double, ndim=2] R, np.ndarray[double, ndim=2] weights, np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=1] centers, double regularization_coefficient, double alpha_r, double beta_r, double alpha_z, bool allow_final_velocity):
     """Represent trajectory as quaternion DMP.
-    
+
     \note The final velocity will be calculated by numeric differentiation
     from the data if allow_final_velocity is true. Otherwise we will assume
     the final velocity to be zero. To reproduce the trajectory as closely as
     possible, set the initial acceleration and velocity during execution to
     zero, the final acceleration to zero and the final velocity to the value
     that has been used during imitation.
-    
+
     \param T time for each step of the trajectory
     \param num_T number of steps
     \param R rotations, contains num_T * 4 entries in row-major order, i.e.
@@ -175,9 +194,9 @@ cpdef quaternion_imitate(np.ndarray[double, ndim=1] T, np.ndarray[double, ndim=2
 
 cpdef quaternion_dmp_step(double last_t, double t, np.ndarray[double, ndim=1] last_r, np.ndarray[double, ndim=1] last_rd, np.ndarray[double, ndim=1] last_rdd, np.ndarray[double, ndim=1] r, np.ndarray[double, ndim=1] rd, np.ndarray[double, ndim=1] rdd, np.ndarray[double, ndim=1] goal_r, np.ndarray[double, ndim=1] goal_rd, np.ndarray[double, ndim=1] goal_rdd, np.ndarray[double, ndim=1] start_r, np.ndarray[double, ndim=1] start_rd, np.ndarray[double, ndim=1] start_rdd, double goal_t, double start_t, np.ndarray[double, ndim=2] weights, np.ndarray[double, ndim=1] widths, np.ndarray[double, ndim=1] centers, double alpha_r, double beta_r, double alpha_z, double integration_dt):
     """Execute one step of the Quaternion DMP.
-    
+
     source: http://ieeexplore.ieee.org/document/6907291/?arnumber=6907291
-    
+
     \param last_t time of last step (should equal t initially)
     \param t current time
     \param last_r last rotation

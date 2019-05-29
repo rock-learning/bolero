@@ -3,6 +3,7 @@
 
 import numpy as np
 import heapq
+import dmp
 from .behavior_search import BehaviorSearch, PickableMixin
 from ..utils.validation import check_random_state, check_feedback
 from ..utils.log import get_logger
@@ -32,6 +33,16 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
     n_samples_per_update : integer, optional (default: 10)
         Number of roll-outs that are required for a parameter update.
 
+    reward_transformation : callable, optional (default: identity)
+        A function that transforms the rewards (usually to the interval [0, 1],
+        where 1 is best best possible value). PoWER requires the reward
+        function be an improper probability distribution, i.e. all rewards must
+        be positive. It can also be a proper probability distribution, i.e. sum
+        up to one (during an episode?), which will be beneficial for the
+        learning speed. An example for a reward transformation function is
+        lambda r: numpy.exp(s*r), where s is a scaling factor and r is the
+        reward.
+
     log_to_file: boolean or string, optional (default: False)
         Log results to given file, it will be located in the $BL_LOG_PATH
 
@@ -42,12 +53,13 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         Seed for the random number generator or RandomState object.
     """
     def __init__(self, dmp_behavior, variance=1.0, covariance=None,
-                 n_samples_per_update=10, log_to_file=False,
-                 log_to_stdout=False, random_state=None):
+                 n_samples_per_update=10, reward_transformation=lambda r: r,
+                 log_to_file=False, log_to_stdout=False, random_state=None):
         self.dmp_behavior = dmp_behavior
         self.variance = variance
         self.covariance = covariance
         self.n_samples_per_update = n_samples_per_update
+        self.reward_transformation = reward_transformation
         self.log_to_file = log_to_file
         self.log_to_stdout = log_to_stdout
         self.random_state = random_state
@@ -74,11 +86,19 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         # (return, random-value, parameters, Q values, exploration variance)
         self.best_rollouts = []
 
-        T = np.arange(
+        time = np.arange(
             0.0, self.dmp_behavior.execution_time + self.dmp_behavior.dt,
             self.dmp_behavior.dt)
-        self.basis = np.array([
-            self._dmp_activations(self._phase(t)) for t in T])
+        phases = [dmp.phase(t, self.dmp_behavior.alpha_z,
+                            self.dmp_behavior.execution_time, 0.0)
+                  for t in time]
+        self.basis = np.array([self._dmp_activations(z) for z in phases])
+        """
+        import matplotlib.pyplot as plt
+        plt.figure()
+        plt.plot(time, self.basis)
+        plt.show()
+        #"""
         self.tmp_outer = np.array([
             np.outer(self.basis[i], self.basis[i])
             for i in range(self.basis.shape[0])])
@@ -87,19 +107,16 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
             self.cov = np.ones(self.n_params)
         else:
             self.cov = np.asarray(self.covariance).copy()
+        self.cov *= self.variance
 
         self.it = 0
 
     # TODO this is copied from the DMP implementation...
-    def _dmp_activations(self, phase):
-        activations = np.exp(-self.dmp_behavior.widths * (phase - self.dmp_behavior.centers) ** 2)
+    def _dmp_activations(self, z):
+        activations = np.exp(
+            -self.dmp_behavior.widths * (z - self.dmp_behavior.centers) ** 2)
         activations /= activations.sum()
         return activations
-
-    def _phase(self, t):
-        int_dt = 0.001
-        b = max(1 - self.dmp_behavior.alpha_z * int_dt / self.dmp_behavior.execution_time, 1e-10)
-        return b ** (t / int_dt)
 
     def get_next_behavior(self):
         """Obtain next behavior for evaluation.
@@ -112,6 +129,7 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         self.noise = np.sqrt(self.cov) * self.random_state.randn(self.n_params)
         self.params = self.mean + self.noise
         self.dmp_behavior.set_params(self.params)
+        self.dmp_behavior.reset()
         return self.dmp_behavior
 
     def set_evaluation_feedback(self, feedbacks):
@@ -123,9 +141,20 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
             feedback for each step or for the episode, depends on the problem
         """
         rewards = check_feedback(feedbacks)
+        rewards = self.reward_transformation(rewards)
         q = rewards[::-1].cumsum()[::-1]
+        """
+        import matplotlib.pyplot as plt
+        plt.plot(rewards)
+        plt.plot(q)
+        plt.show()
+        #"""
         rollout = (q[0], self.random_state.rand(), self.params, q, self.cov)
         heapq.heappush(self.best_rollouts, rollout)
+
+        if self.log_to_stdout or self.log_to_file:
+            self.logger.info("Iteration #%d, return: %g" % (self.it, q[0]))
+            self.logger.info("Variance: %g" % np.mean(self.cov))
 
         self.it += 1
         if self.it % self.n_samples_per_update == 0:
@@ -147,7 +176,8 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
             q_sum = np.sum(q)
             var_nom += q_sum * (params - self.mean) ** 2
             var_dnom += q_sum
-        self.cov = var_nom / (var_dnom + 1e-10)
+        # TODO variance is growing unreasonably large without devision by 10, why?
+        self.cov = var_nom / (10 * var_dnom + 1e-10)
 
     def _update_weights(self):
         n_features = self.dmp_behavior.n_features
@@ -196,4 +226,5 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         """
         best_rollout = heapq.nlargest(1, self.best_rollouts)[0]
         self.dmp_behavior.set_params(best_rollout[2])
+        self.dmp_behavior.reset()
         return self.dmp_behavior

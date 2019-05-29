@@ -3,6 +3,22 @@
 namespace Dmp {
 
 /**
+ * Determine phase value that corresponds to the current time in the DMP.
+ * \param t current time, note that t is allowed to be outside of the range
+ *          [start_t, goal_t]
+ * \param alpha constant that defines the decay rate of the phase variable
+ * \param goal_t time at the end of the DMP
+ * \param start_t time at the start of the DMP
+ * \return phase value (z)
+ */
+const double phase(
+  const double t,
+  const double alpha,
+  const double goal_t,
+  const double start_t
+);
+
+/**
  * Compute decay rate of phase variable so that a desired phase is reached in
  * the end.
  *
