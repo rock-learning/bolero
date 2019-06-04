@@ -22,7 +22,7 @@ g = np.ones(n_task_dims)
 execution_time = 1.0
 dt = 0.01
 n_features = 6
-n_episodes = 5000
+n_episodes = 1000
 reward_transformation = lambda r: np.exp(0.001 * r)
 
 beh = DMPBehavior(execution_time, dt, n_features)

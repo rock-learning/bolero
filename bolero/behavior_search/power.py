@@ -80,6 +80,7 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
 
         self.dmp_behavior.init(n_inputs, n_outputs)
         self.mean = self.dmp_behavior.get_params()
+        self.last_mean = self.mean.copy()
         self.n_params = len(self.mean)
 
         # Entries of best_rollouts have the form:
@@ -108,6 +109,7 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         else:
             self.cov = np.asarray(self.covariance).copy()
         self.cov *= self.variance
+        self.initial_cov = self.cov.copy()
 
         self.it = 0
 
@@ -126,8 +128,8 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
         behavior : Behavior
             mapping from input to output
         """
-        self.noise = np.sqrt(self.cov) * self.random_state.randn(self.n_params)
-        self.params = self.mean + self.noise
+        noise = np.sqrt(self.cov) * self.random_state.randn(self.n_params)
+        self.params = self.mean + noise
         self.dmp_behavior.set_params(self.params)
         self.dmp_behavior.reset()
         return self.dmp_behavior
@@ -158,8 +160,8 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
 
         self.it += 1
         if self.it % self.n_samples_per_update == 0:
-            self._update_variance()
             self._update_weights()
+            self._update_variance()
 
     def _update_variance(self):
         if len(self.best_rollouts) < 2:
@@ -167,19 +169,23 @@ class PoWERWithDMP(PickableMixin, BehaviorSearch):
 
         # We use more rollouts for the variance calculation to avoid
         # rapid convergence to 0
-        var_nom = np.zeros_like(self.mean)
+        var_nom = np.zeros_like(self.last_mean)
         var_dnom = 0.0
         for _, _, params, q, _ in heapq.nlargest(30, self.best_rollouts):
             # This simplified version of the update assumes
             # * that the covariance is a diagonal matrix
             # * noise is the same over a whole rollout
             q_sum = np.sum(q)
-            var_nom += q_sum * (params - self.mean) ** 2
+            var_nom += q_sum * (params - self.last_mean) ** 2
             var_dnom += q_sum
-        # TODO variance is growing unreasonably large without devision by 10, why?
+        # TODO without division by 10 the variance grows too fast, any idea?
         self.cov = var_nom / (10 * var_dnom + 1e-10)
+        # apply and an upper and a lower limit to the exploration
+        #self.cov = np.clip(var_nom / (var_dnom + 1e-10), 0.1 * self.initial_cov, 10.0 * self.initial_cov)
 
     def _update_weights(self):
+        self.last_mean[:] = self.mean
+
         n_features = self.dmp_behavior.n_features
         n_task_dims = self.dmp_behavior.n_task_dims
 
