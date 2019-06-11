@@ -31,6 +31,7 @@
   <rosdep name="python-scipy" />
   <rosdep name="python-matplotlib" />
   <rosdep name="python-sklearn" />
+  <rosdep name="cython" />
   <depend package="learning/bolero/bolero/wrapper" />
   <depend package="learning/bolero/src/representation/promp" />
   
