@@ -52,6 +52,7 @@ namespace bolero {
     FILE *fitnessLog = NULL;
     FILE *testFitnessLog = NULL;
     bool testMode = false;
+    bool continuesReward = false;
     int testEveryXRun = 0;
     double epsilon = 0.000000001; // for testing new fitness values
 
@@ -135,6 +136,10 @@ namespace bolero {
       fprintf(stderr, "testevery: %d\n", testEveryXRun);
     }
 
+    if(map["Controller"].hasKey("ContinuesReward")) {
+      continuesReward = map["Controller"]["ContinuesReward"];
+    }
+
     environment = blLoader->acquireEnvironment(strEnvironment);
     behaviorSearch = blLoader->acquireBehaviorSearch(strBehaviorSearch);
 
@@ -174,6 +179,13 @@ namespace bolero {
         behavior->getOutputs(outputs, numOutputs);
         environment->setInputs(outputs, numOutputs);
         environment->stepAction();
+        if(continuesReward) {
+          if(!environment->isEvaluationDone() && !exitController &&
+             !testMode) {
+            num_feedbacks = environment->getFeedback(feedbacks);
+            behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
+          }
+        }
       } while(!environment->isEvaluationDone() && !exitController);
       if(exitController) break;
       /* Feedback interface need to be changed for better controller
