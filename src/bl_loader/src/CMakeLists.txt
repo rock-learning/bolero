@@ -42,14 +42,14 @@ if(PYTHON_SUPPORT)
   )
   execute_process(
       COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
-      OUTPUT_VARIABLE PYTHON_VERSION
+      OUTPUT_VARIABLE PYTHON_MAJOR_VERSION
   )
-  string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
+  string(STRIP ${PYTHON_MAJOR_VERSION} PYTHON_MAJOR_VERSION)
   message(STATUS "Python: ${PYTHON}")
   message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
-  message(STATUS "Python version: ${PYTHON_VERSION}")
+  message(STATUS "Python major version: ${PYTHON_MAJOR_VERSION}")
 
-  add_definitions(-DPYTHON_VERSION=${PYTHON_VERSION})
+  add_definitions(-DPYTHON_VERSION=${PYTHON_MAJOR_VERSION})
 
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   add_definitions(-DPYTHON_SUPPORT)
@@ -59,8 +59,8 @@ if(PYTHON_SUPPORT)
     # here we assume to search for the Python libraries provided by macports
     set(PYTHON_LIBRARY "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python")
     set(PYTHON_INCLUDE_DIR "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7")
-  elseif(${PYTHON_VERSION} EQUAL 3)
-    find_package(PythonLibs ${PYTHON_VERSION} EXACT REQUIRED)
+  elseif(${PYTHON_MAJOR_VERSION} EQUAL 3)
+    find_package(PythonLibs ${PYTHON_MAJOR_VERSION} EXACT REQUIRED)
   else()
     # HACK find_package is not able to find Python 2 include directories
     pkg_check_modules(PYTHON ${PYTHON})
