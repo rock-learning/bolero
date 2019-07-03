@@ -36,35 +36,42 @@ if(PYTHON_SUPPORT)
   else()
       set(PYTHON $ENV{PYTHON})
   endif()
-
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-  add_definitions(-DPYTHON_SUPPORT)
-  add_definitions(-DUSE_MEMORYVIEWS)
-  set(PYTHON_EXECUTABLE ${PYTHON})
-  find_package(Numpy REQUIRED)
-  if (APPLE)
-    # here we assume to search for the Python libraries provided by macports
-    set(PYTHON_LIBRARY "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python")
-    set(PYTHON_INCLUDE_DIR "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7")
-    find_package(PythonLibs REQUIRED)
-  else (APPLE)
-    pkg_check_modules(PYTHON ${PYTHON})
-  endif (APPLE)
-  message(STATUS "Python include directories: ${PYTHON_INCLUDE_DIRS}")
-  include_directories(${PYTHON_INCLUDE_DIRS})
-  message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
-  include_directories(${NUMPY_INCLUDE_DIRS})
-  link_directories(${PYTHON_LIBRARY_DIRS})
-
+  execute_process(
+      COMMAND which ${PYTHON}
+      OUTPUT_VARIABLE PYTHON_EXECUTABLE
+  )
   execute_process(
       COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
       OUTPUT_VARIABLE PYTHON_VERSION
   )
   string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
   message(STATUS "Python: ${PYTHON}")
+  message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
   message(STATUS "Python version: ${PYTHON_VERSION}")
 
   add_definitions(-DPYTHON_VERSION=${PYTHON_VERSION})
+
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+  add_definitions(-DPYTHON_SUPPORT)
+  add_definitions(-DUSE_MEMORYVIEWS)
+
+  if (APPLE)
+    # here we assume to search for the Python libraries provided by macports
+    set(PYTHON_LIBRARY "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python")
+    set(PYTHON_INCLUDE_DIR "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7")
+  elseif(${PYTHON_VERSION} EQUAL 3)
+    find_package(PythonLibs ${PYTHON_VERSION} EXACT REQUIRED)
+  else()
+    # HACK find_package is not able to find Python 2 include directories
+    pkg_check_modules(PYTHON ${PYTHON})
+  endif()
+  message(STATUS "Python include directories: ${PYTHON_INCLUDE_DIRS}")
+  include_directories(${PYTHON_INCLUDE_DIRS})
+
+  find_package(Numpy REQUIRED)
+  message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
+  include_directories(${NUMPY_INCLUDE_DIRS})
+  link_directories(${PYTHON_LIBRARY_DIRS})
 
   set(SOURCES
     ${SOURCES}
