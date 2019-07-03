@@ -51,7 +51,6 @@ if(PYTHON_SUPPORT)
 
   add_definitions(-DPYTHON_VERSION=${PYTHON_MAJOR_VERSION})
 
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   add_definitions(-DPYTHON_SUPPORT)
   add_definitions(-DUSE_MEMORYVIEWS)
 
@@ -68,8 +67,19 @@ if(PYTHON_SUPPORT)
   message(STATUS "Python include directories: ${PYTHON_INCLUDE_DIRS}")
   include_directories(${PYTHON_INCLUDE_DIRS})
 
-  find_package(Numpy REQUIRED)
-  message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
+  execute_process(
+    COMMAND ${PYTHON} -c "import numpy; print(numpy.get_include())"
+    RESULT_VARIABLE NUMPY_RESULT
+    OUTPUT_VARIABLE NUMPY_INCLUDE_DIRS
+    ERROR_VARIABLE NUMPY_ERROR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_STRIP_TRAILING_WHITESPACE
+  )
+  if(${NUMPY_RESULT} EQUAL 0)
+    message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
+  else()
+    message(FATAL_ERROR "NumPy import failure:\n${NUMPY_ERROR}")
+  endif()
   include_directories(${NUMPY_INCLUDE_DIRS})
   link_directories(${PYTHON_LIBRARY_DIRS})
 
