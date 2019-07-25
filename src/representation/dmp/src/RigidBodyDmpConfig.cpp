@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <assert.h>
 #include <yaml-cpp/yaml.h>
 
 namespace dmp
