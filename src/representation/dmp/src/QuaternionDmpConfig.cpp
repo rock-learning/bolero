@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <math.h>
+#include <assert.h>
 #include <yaml-cpp/yaml.h>
 
 using namespace std;
