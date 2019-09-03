@@ -111,6 +111,37 @@ namespace bolero {
      */
     virtual bool isBehaviorLearningDone() const = 0;
 
+    /**
+     * Check if the behavior learning can be used for parallel computing.
+     * \return if the behavior search implements parallel computing.
+     */
+    virtual bool implementsBatchComputing() const {return false;}
+
+    /**
+     * Get a batch of behaviors to test them in parallel in the environment.
+     * \return a string in yaml format with:
+     *         0: string (seralized behavior)
+     *         .: string (seralized behavior)
+     *         .: string (seralized behavior)
+     *         .: string (seralized behavior)
+     *         n: string (seralized behavior)
+     */
+    virtual std::string getBehaviorBatch() const {}
+    
+    /**
+     * Set the feedback of a batch of behaviors.
+     * \param batchFeedback array with feedback values
+     * \param numFeedbacksPerBatch number of feedback values in the array
+     *        per batch
+     */
+    virtual void setBatchFeedback(double* batchFeedback, int numFeedbacksPerBatch) {}
+
+    /**
+     * Get behavior from serialized string.
+     * \return Behavior
+     */
+    virtual Behavior* getBehaviorFromString(std::string &behavior) {}
+
   protected:
     int numAgentInputs, numAgentOutputs;
     std::string libName;

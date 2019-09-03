@@ -182,6 +182,31 @@ class BehaviorSearch(Base):
             mapping from input to output
         """
 
+    @abstractmethod
+    def implements_batch_computing(self):
+        """Check if the behavior learning implements parallel computing.
+
+        Returns
+        -------
+        parallel: bool
+            parallel computing is provided or not
+        """
+
+    @abstractmethod
+    def get_behavior_batch(self):
+        """Generates a batch of behaviors.
+
+        Returns
+        -------
+        behavior_dict: yaml string
+            returns a yaml string containg a batch of seralized behaviors:
+            0: string (seralized behavior)
+            .: string (seralized behavior)
+            .: string (seralized behavior)
+            .: string (seralized behavior)
+            n: string (seralized behavior)
+        """
+    
 
 class PickableMixin(object):
     """Use pickle to save and load behavior search states."""
