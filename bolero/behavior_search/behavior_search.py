@@ -206,7 +206,30 @@ class BehaviorSearch(Base):
             .: string (seralized behavior)
             n: string (seralized behavior)
         """
-    
+
+    @abstractmethod
+    def set_batch_feedback(self, batch_feedback, num_feedbacks_per_batch):
+        """Provides a numpy array of feedback values.
+
+        Parameters
+        ----------
+        batch_feedbacks : list of float
+            list of feedback valus with the size batch_size*num_feedbacks_per_batch
+        num_feedback_per_batch: int
+            the number of feedbacks per batch (for multiobjective optimization)
+        """
+
+    @abstractmethod
+    def get_behavior_from_string(self, behavior_string):
+        """Generates a behavior representation from a behavior seralized
+           to a string.
+
+        Parameters
+        ----------
+        behavior_string : string
+            the seralized behavior
+        """
+
 
 class PickableMixin(object):
     """Use pickle to save and load behavior search states."""

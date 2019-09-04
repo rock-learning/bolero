@@ -126,21 +126,22 @@ namespace bolero {
      *         .: string (seralized behavior)
      *         n: string (seralized behavior)
      */
-    virtual std::string getBehaviorBatch() const {}
+    virtual std::string getBehaviorBatch() const {return "";}
     
     /**
      * Set the feedback of a batch of behaviors.
-     * \param batchFeedback array with feedback values
+     * \param batchFeedback array with feedback values with the size
+              batchSize*numFeedbacksPerBatch
      * \param numFeedbacksPerBatch number of feedback values in the array
      *        per batch
      */
-    virtual void setBatchFeedback(double* batchFeedback, int numFeedbacksPerBatch) {}
+    virtual void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch) {}
 
     /**
      * Get behavior from serialized string.
      * \return Behavior
      */
-    virtual Behavior* getBehaviorFromString(std::string &behavior) {}
+    virtual Behavior* getBehaviorFromString(std::string &behavior) {return NULL;}
 
   protected:
     int numAgentInputs, numAgentOutputs;

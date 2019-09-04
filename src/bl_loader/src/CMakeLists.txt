@@ -20,6 +20,10 @@ pkg_check_modules(YAML "yaml-cpp")
 include_directories(${YAML_INCLUDE_DIRS})
 link_directories(${YAML_LIBRARY_DIRS})
 
+pkg_check_modules(CONFIGMAPS "configmaps")
+include_directories(${CONFIGMAPS_INCLUDE_DIRS})
+link_directories(${CONFIGMAPS_LIBRARY_DIRS})
+
 include_directories(src)
 
 if(UNIX)
@@ -104,6 +108,7 @@ add_library(${PROJECT_NAME}_static STATIC ${SOURCES})
 target_link_libraries(${PROJECT_NAME}
                       ${LIB_MANAGER_LIBRARIES}
                       ${EXTRA_LIBRARIES}
+                      ${CONFIGMAPS_LIBRARIES}
                       ${YAML_LIBRARIES})
 
 if(WIN32)

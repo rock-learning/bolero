@@ -180,8 +180,7 @@ namespace bolero {
         environment->setInputs(outputs, numOutputs);
         environment->stepAction();
         if(continuesReward) {
-          if(!environment->isEvaluationDone() && !exitController &&
-             !testMode) {
+          if(!environment->isEvaluationDone() && !exitController) {
             num_feedbacks = environment->getFeedback(feedbacks);
             behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
           }
