@@ -249,6 +249,46 @@ cdef class CppOptimizer:
         # TODO add this function to C++ interface
         raise NotImplementedError("Cannot obtain best parameters from C++ optimizer!")
 
+    def get_next_parameter_batch(self, p, num_p, batch_size):
+        """Get next batch of individual/parameter vector for evaluation.
+
+        Returns
+        -------
+        p : array_like, shape (n_params*batch_size,)
+        """
+        assert(p.ndim == 1)
+        cdef np.ndarray[double, ndim=1, mode="c"] params_array = np.ndarray(batch_size*num_p)
+        self.thisptr.getNextParameterSet(&params_array[0], num_p, batch_size)
+        p[:] = params_array
+
+    def set_batch_feedback(self, rewards, num_rewards_per_entry, batch_size):
+        """Set the rewards for the last returned batch of parameter sets.
+
+        Parameters
+        ----------
+        rewards : list of float
+            feedbacks for each parameter set evaluated for one episode. The
+            length of the list is batch_size*num_rewards_per_batch
+        num_rewards_per_batch: the number of rewards for individual parameter
+            set
+        """
+        assert(rewards.ndim == 1)
+        assert(rewards.shape[0] == num_rewards_per_entry*batch_size)
+        cdef np.ndarray[double, ndim=1, mode="c"] rewards_array = np.ndarray(*rewards.shape)
+        rewards_array[:] = rewards
+        self.thisptr.setParameterSetFeedback(&rewards_array[0], num_rewards_per_entry, batch_size)
+
+    def get_batch_size(self):
+        """Return the number of parameter sets per batch
+
+        Returns
+        -------
+        batch_size : int
+            Number or parameter sets per batch
+        """
+        return self.thisptr.getBatchSize()
+
+
 cdef class CppBehaviorSearch:
     cdef BehaviorSearch *thisptr
     cdef string config_yaml

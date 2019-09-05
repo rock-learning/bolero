@@ -85,8 +85,9 @@ namespace bolero {
      */
     virtual bool isBehaviorLearningDone() const = 0;
 
-    virtual std::vector<double*> getNextParameterSet() const = 0;
-    virtual void setParameterSetFeedback(const std::vector<double> feedback) = 0;
+    virtual void getNextParameterSet(double *p, int numP, int batchSize) const = 0;
+    virtual void setParameterSetFeedback(const double *feedback, int numFeedbacksPerSet, int batchSize) = 0;
+    virtual int getBatchSize() const {return 0;}
 
   protected:
     int dimension;
