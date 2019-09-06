@@ -208,7 +208,12 @@ namespace bolero {
       assert(numP == dimension);
 
       for(int i=0; i<dimension; ++i) {
-        p[i] = bestParams[i];
+        if(bestParams) {
+          p[i] = bestParams[i];
+        }
+        else {
+          p[i] = 0.0;
+        }
         saw(p+i, 0.0, 1.0);
       }
     }
