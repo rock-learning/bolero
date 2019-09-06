@@ -25,7 +25,7 @@ public:
 
   bool implementsBatchComputing() const {return true;}
   std::string getBehaviorBatch() const;
-  void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch);
+  void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch, int batchSize);
   Behavior* getBehaviorFromString(std::string &behaviorString);
 
 private:

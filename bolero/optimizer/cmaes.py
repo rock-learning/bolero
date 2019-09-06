@@ -417,6 +417,15 @@ class CMAESOptimizer(Optimizer):
         else:
             return self.best_fitness
 
+    def get_next_parameter_batch(self, params, dimension, batch_size):
+        pass
+
+    def set_batch_feedback(self, rewards, num_rewards_per_entry, batch_size):
+        pass
+
+    def get_batch_size(self):
+        return 0
+
     def __getstate__(self):
         d = dict(self.__dict__)
         del d["logger"]

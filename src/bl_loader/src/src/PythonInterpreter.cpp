@@ -455,10 +455,14 @@ int dummy_import_array()
 }
 #endif
 
+pthread_mutex_t PythonInterpreter::mutex;
+
 PythonInterpreter::PythonInterpreter()
 {
-    if(!Py_IsInitialized())
+    if(!Py_IsInitialized()) {
         Py_Initialize();
+        pthread_mutex_init (&PythonInterpreter::mutex, NULL);
+    }
     dummy_import_array();
 }
 
@@ -593,7 +597,6 @@ Function& Function::call(...)
     }
 
     state->args.clear();
-
     throwPythonException();
     return *this;
 }
@@ -656,6 +659,11 @@ Method& Method::call(...)
         state->result = makePyObjectPtr(
             PyObject_CallMethod(state->objectPtr.get(), method_name_str,
                                 format_str, args[0].get(), args[1].get()));
+        break;
+    case 3:
+        state->result = makePyObjectPtr(
+            PyObject_CallMethod(state->objectPtr.get(), method_name_str,
+                                format_str, args[0].get(), args[1].get(), args[2].get()));
         break;
     default:
         throw std::runtime_error("Cannot handle more than 2 argument");

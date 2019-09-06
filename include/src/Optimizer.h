@@ -87,7 +87,7 @@ namespace bolero {
 
     virtual void getNextParameterSet(double *p, int numP, int batchSize) const = 0;
     virtual void setParameterSetFeedback(const double *feedback, int numFeedbacksPerSet, int batchSize) = 0;
-    virtual int getBatchSize() const {return 0;}
+    virtual int getBatchSize() const = 0;
 
   protected:
     int dimension;

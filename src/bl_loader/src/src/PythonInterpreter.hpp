@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+
+#include <pthread.h>
+
 using std::shared_ptr;
 
 // TODO to allow calling functions/methods with arbitrary arguments we must
@@ -28,8 +31,9 @@ class PythonInterpreter
     PythonInterpreter();
     PythonInterpreter(const PythonInterpreter&) {}
 public:
-    ~PythonInterpreter();
     static const PythonInterpreter& instance();
+    static pthread_mutex_t mutex;
+    ~PythonInterpreter();
 
     void addToPythonpath(const std::string& path) const;
     shared_ptr<Module> import(const std::string& name) const;

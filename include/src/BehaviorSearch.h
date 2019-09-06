@@ -135,7 +135,7 @@ namespace bolero {
      * \param numFeedbacksPerBatch number of feedback values in the array
      *        per batch
      */
-    virtual void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch) {}
+    virtual void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch, int batchSize) {}
 
     /**
      * Get behavior from serialized string.

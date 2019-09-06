@@ -291,27 +291,36 @@ namespace bolero {
         return false;
     }
 
-    std::vector<double*> CMAESOptimizer::getNextParameterSet() const {
-      std::vector<double*> parameterSet;
-      double *p;
+    void CMAESOptimizer::getNextParameterSet(double *p, int numP,
+                                             int batchSize) const {
+      assert(numP == dimension);
+      assert(batchSize == lambda);
+
 
       for(int l=0; l<lambda; ++l) {
-        p = (double*)calloc(dimension, sizeof(double));
+        if(l >= batchSize) break;
         for(int i=0; i<dimension; ++i) {
-          p[i] = rgx[l][i];
-          saw(p+i, 0.0, 1.0);
+          if(i>=numP) break;
+          p[l*dimension+i] = rgx[l][i];
+          saw(p+l*dimension+i, 0.0, 1.0);
         }
-        parameterSet.push_back(p);
       }
-      return parameterSet;
     }
 
-    void CMAESOptimizer::setParameterSetFeedback(const std::vector<double> feedback) {
-      std::vector<double>::const_iterator it;
+    void CMAESOptimizer::setParameterSetFeedback(const double *feedback,
+                                                 int numFeedbacksPerSet,
+                                                 int batchSize) {
+      assert(batchSize == lambda);
 
-      for(it=feedback.begin(); it!=feedback.end(); ++it) {
-        setEvaluationFeedback(&(*it), 1);
+      for(size_t i=0; i<batchSize; ++i) {
+        if(i>=lambda) break;
+        setEvaluationFeedback(feedback+i*numFeedbacksPerSet,
+                              numFeedbacksPerSet);
       }
+    }
+
+    int CMAESOptimizer::getBatchSize() const {
+      return lambda;
     }
 
     void CMAESOptimizer::saw(double *val, double min, double max) const {
