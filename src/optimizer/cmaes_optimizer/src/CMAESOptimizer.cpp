@@ -86,14 +86,11 @@ namespace bolero {
       double *xstart = new double[dimension];
       double *sigma = new double[dimension];
 
-      for(int i=0; i<dimension; ++i) {
-        xstart[i] = 0.5;
-        sigma[i] = 1.0;
-      }
-
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
       sigmaThreshold = -1.;
+
+      double startSigma = 1.0;
 
       if(config != "")
       {
@@ -109,7 +106,14 @@ namespace bolero {
             logBest = m.get("LogBest", false);
             reinitSigma = m.get("ReinitSigma", -1.);
             sigmaThreshold = m.get("SigmaThreshold", -1.);
+            startSigma = m.get("StartSigma",1.0);
+
         }
+      }
+
+      for(int i=0; i<dimension; ++i) {
+        xstart[i] = 0.5;
+        sigma[i] = startSigma;
       }
 
       cmaes_init(&evo, NULL, dimension, xstart, sigma, seed, lambda, "non");
