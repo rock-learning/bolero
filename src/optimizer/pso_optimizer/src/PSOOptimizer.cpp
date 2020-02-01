@@ -108,6 +108,14 @@ namespace bolero {
       particles = new Particle*[particleCount];
       for(int i = 0; i < particleCount; ++i) {
         particles[i] = new Particle(dimension);
+        // set first particle to middle position
+        if (i == 0) {
+          for(size_t j = 0; j < dimension; ++j) {
+            particles[0]->position[j] = 0.5;
+            particles[0]->velocity[j] = 0;
+            particles[0]->pMin[j] = particles[0]->position[j];
+          }
+        }
       }
       gMin = new double[dimension];
       gMinCost = std::numeric_limits<double>::max();
