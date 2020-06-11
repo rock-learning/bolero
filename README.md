@@ -62,3 +62,21 @@ BOLeRo contains the following directories:
 
 BOLeRo is distributed under the
 [3-clause BSD license](https://opensource.org/licenses/BSD-3-Clause).
+
+## Cite BOLeRo
+
+We published an [article about BOLeRo](https://journals.sagepub.com/doi/10.1177/1729881420913741)
+in the International Journal of Advanced Robotic Systems. You can cite it with BibTeX:
+
+```
+@article{bolero,
+  author = {Alexander Fabisch and Malte Langosz and Frank Kirchner},
+  title ={BOLeRo: Behavior optimization and learning for robots},
+  journal = {International Journal of Advanced Robotic Systems},
+  volume = {17},
+  number = {3},
+  year = {2020},
+  doi = {10.1177/1729881420913741},
+  URL = {https://doi.org/10.1177/1729881420913741},
+  eprint = {https://doi.org/10.1177/1729881420913741}
+```
