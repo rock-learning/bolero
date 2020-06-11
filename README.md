@@ -79,4 +79,5 @@ in the International Journal of Advanced Robotic Systems. You can cite it with B
   doi = {10.1177/1729881420913741},
   URL = {https://doi.org/10.1177/1729881420913741},
   eprint = {https://doi.org/10.1177/1729881420913741}
+}
 ```
