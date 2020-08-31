@@ -15,6 +15,7 @@ pkg_check_modules(PKGCONFIG REQUIRED
                             bolero
                             bl_loader
                             configmaps
+                            lib_manager
                   )
 include_directories(${PKGCONFIG_INCLUDE_DIRS})
 link_directories(${PKGCONFIG_LIBRARY_DIRS})
