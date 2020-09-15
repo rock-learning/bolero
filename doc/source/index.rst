@@ -142,7 +142,7 @@ BOLeRo was initiated and is currently developed at the `Robotics Innovation Cent
 <http://robotik.dfki-bremen.de/en/startpage.html>`_
 of the German Research Center for Artificial Intelligence (DFKI) in Bremen,
 together with the `Robotics Group
-<http://www.informatik.uni-bremen.de/robotik/index_en.php>`_ of the University
+<https://robotik.dfki-bremen.de/en/about-us/university-of-bremen-robotics-group.html>`_ of the University
 of Bremen. BOLeRo has been funded by the German Federal Ministry for Economic
 Affairs and Energy.
 BOLeRo has been used and/or developed in the projects
