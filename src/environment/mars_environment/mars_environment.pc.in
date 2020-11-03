@@ -7,4 +7,5 @@ Name: @PROJECT_NAME@
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Libs: -L${libdir} -l@PROJECT_NAME@
+Requires: @PROJECT_DEPS@
 Cflags: -I${includedir} -I${includedir}/bolero/@PROJECT_NAME@
