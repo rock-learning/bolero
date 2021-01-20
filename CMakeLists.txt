@@ -2,8 +2,11 @@ cmake_minimum_required(VERSION 2.6)
 
 enable_testing()
 
+set(SYSTEM_CYTHON FALSE)
 if(DEFINED PYTHON_EXECUTABLE)
     message(STATUS "Using python from CMake variable.")
+    message(STATUS "Using cython from system's package manager.")
+    set(SYSTEM_CYTHON TRUE)
 elseif("$ENV{PYTHON}" STREQUAL "")
     set(PYTHON_EXECUTABLE "python")
     message(STATUS "Using default python.")
@@ -13,7 +16,16 @@ else()
 endif()
 message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
 
-if("$ENV{CYTHON}" STREQUAL "")
+execute_process(
+COMMAND ${PYTHON_EXECUTABLE} -c "import sys;print(sys.version_info.major)"
+OUTPUT_VARIABLE PYTHON_VERSION
+)
+string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
+message(STATUS "Python version: ${PYTHON_VERSION}")
+
+if(${SYSTEM_CYTHON})
+    set(CYTHON "cython${PYTHON_VERSION}")
+elseif("$ENV{CYTHON}" STREQUAL "")
     set(CYTHON "cython")
     message(STATUS "Using default cython.")
 else()
@@ -21,13 +33,6 @@ else()
     message(STATUS ${CYTHON})
 endif()
 message(STATUS "Cython executable: ${CYTHON}")
-
-execute_process(
-COMMAND ${PYTHON_EXECUTABLE} -c "import sys;print(sys.version_info.major)"
-OUTPUT_VARIABLE PYTHON_VERSION
-)
-string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
-message(STATUS "Python version: ${PYTHON_VERSION}")
 
 
 execute_process(
