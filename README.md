@@ -22,8 +22,9 @@ On Ubuntu 18.04 and similar operating systems, you can install BOLeRo with
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
-If you want to install BOLeRo for Python 3 from Ubuntu, set the
-following environment variable:
+If you want to install BOLeRo for Python 3 from Ubuntu, make sure that
+`cython3` is installed and set the following environment variable before
+you run the bootstrap script:
 
     export PYTHON=python3
 
