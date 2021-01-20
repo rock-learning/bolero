@@ -116,7 +116,7 @@ class OpenAiGym(Environment):
         return n_dims, handler
 
     def reset(self):
-        self.outputs[:] = self.env.reset().ravel()
+        self.outputs[:] = np.atleast_1d(self.env.reset()).ravel()
         self.rewards = []
         self.done = False
         self.step = 0
@@ -143,7 +143,7 @@ class OpenAiGym(Environment):
         self.done = self.done or done
 
         self.step += 1
-        if self.step >= self.env.spec.timestep_limit:
+        if self.step >= self.env.spec.max_episode_steps:
             self.done = True
 
         if self.log_to_stdout or self.log_to_file:
