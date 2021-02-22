@@ -44,7 +44,12 @@ if(PYTHON_SUPPORT)
       COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
       OUTPUT_VARIABLE PYTHON_MAJOR_VERSION
   )
+  execute_process(
+      COMMAND ${PYTHON} -c "import sys;print(sys.version_info.minor)"
+      OUTPUT_VARIABLE PYTHON_MINOR_VERSION
+  )
   string(STRIP ${PYTHON_MAJOR_VERSION} PYTHON_MAJOR_VERSION)
+  string(STRIP ${PYTHON_MINOR_VERSION} PYTHON_MINOR_VERSION)
   message(STATUS "Python: ${PYTHON}")
   message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
   message(STATUS "Python major version: ${PYTHON_MAJOR_VERSION}")
@@ -55,9 +60,7 @@ if(PYTHON_SUPPORT)
   add_definitions(-DUSE_MEMORYVIEWS)
 
   if (APPLE)
-    # here we assume to search for the Python libraries provided by macports
-    set(PYTHON_LIBRARY "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python")
-    set(PYTHON_INCLUDE_DIR "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7")
+    find_package(PythonLibs ${PYTHON_MAJOR_VERSION}.${PYTHON_MINOR_VERSION} EXACT REQUIRED)
   elseif(${PYTHON_MAJOR_VERSION} EQUAL 3)
     find_package(PythonLibs ${PYTHON_MAJOR_VERSION} EXACT REQUIRED)
   else()
