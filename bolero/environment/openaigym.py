@@ -1,5 +1,5 @@
-import logging
 import numpy as np
+from itertools import product
 from .environment import Environment
 from ..utils.log import get_logger
 try:
@@ -14,6 +14,9 @@ class BoxClipHandler(object):
         self.low = low
         self.high = high
 
+    def is_discrete(self):
+        return False
+
     def __call__(self, values):
         return np.clip(values, self.low, self.high)
 
@@ -22,20 +25,29 @@ class IntHandler(object):
     def __init__(self, n):
         self.n = n
 
+    def is_discrete(self):
+        return True
+
     def __call__(self, values):
         assert values.shape[0] == 1
         return np.clip(int(values[0]), 0, self.n - 1)
 
 
-class HighLowHandler(object):
-    def __init__(self, matrix):
-        self.matrix = matrix
+class TupleHandler(object):
+    def __init__(self, handlers, n_dims):
+        self.handlers = handlers
+        self.n_dims = n_dims
+
+    def is_discrete(self):
+        return all([h.is_discrete() for h in self.handlers])
 
     def __call__(self, values):
-        values = np.clip(values, self.matrix[:, 0], self.matrix[:, 1])
-        for i in range(len(values)):
-            values[i] = round(values[i], self.matrix[i, 2])
-        return values
+        start = 0
+        outputs = []
+        for h, s in zip(self.handlers, self.n_dims):
+            outputs.append(h(values[start:start + s]))
+            start += s
+        return outputs
 
 
 class OpenAiGym(Environment):
@@ -94,6 +106,8 @@ class OpenAiGym(Environment):
 
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
+        self.step_limit = np.inf
+
         if self.log_to_stdout or self.log_to_file:
             self.logger.info("Number of inputs: %d" % self.n_inputs)
             self.logger.info("Number of outputs: %d" % self.n_outputs)
@@ -107,16 +121,30 @@ class OpenAiGym(Environment):
         elif isinstance(space, gym.spaces.Discrete):
             n_dims = 1
             handler = IntHandler(space.n)
-        elif isinstance(space, gym.spaces.HighLow):
-            n_dims = space.num_rows
-            handler = HighLowHandler(space.matrix)
         elif isinstance(space, gym.spaces.Tuple):
+            n_dims = 0
+            handlers = []
+            n_dims_per_subspace = []
+            for subspace in space.spaces:
+                n_dims_subspace, subspace_handler = self._init_space(subspace)
+                n_dims += n_dims_subspace
+                handlers.append(subspace_handler)
+                n_dims_per_subspace.append(n_dims_subspace)
+            handler = TupleHandler(handlers, n_dims_per_subspace)
+        else:
             raise NotImplementedError("Space of type '%s' is not supported"
                                       % type(space))
         return n_dims, handler
 
     def reset(self):
-        self.outputs[:] = self.env.reset().ravel()
+        if hasattr(self.env.spec, "timestep_limit"):
+            self.step_limit = self.env.spec.timestep_limit
+        elif hasattr(self.env.spec, "max_episode_steps"):
+            self.step_limit = self.env.spec.max_episode_steps
+        if self.step_limit is None:
+            self.step_limit = np.inf
+
+        self.outputs[:] = np.asarray(self.env.reset()).ravel()
         self.rewards = []
         self.done = False
         self.step = 0
@@ -143,8 +171,6 @@ class OpenAiGym(Environment):
         self.done = self.done or done
 
         self.step += 1
-        if self.step >= self.env.spec.timestep_limit:
-            self.done = True
 
         if self.log_to_stdout or self.log_to_file:
             self.logger.info(str(info))
@@ -152,10 +178,15 @@ class OpenAiGym(Environment):
             self.env.render()
 
     def is_evaluation_done(self):
-        return self.done
+        return self.done or self._step_limit_reached()
+
+    def _step_limit_reached(self):
+        return self.step >= self.step_limit
 
     def get_feedback(self):
-        return np.asarray(self.rewards)
+        feedbacks = np.asarray(self.rewards)
+        self.rewards = []
+        return feedbacks
 
     def is_behavior_learning_done(self):
         return False
@@ -166,19 +197,27 @@ class OpenAiGym(Environment):
         else:
             return self.env.spec.reward_threshold
 
-    def get_discrete_action_space(self):
+    def get_discrete_action_space(self, space=None):
         """Get list of possible actions.
 
-        An error will be raised if the action space of the problem is not
-        discrete. The environment must be initialized before this method can
-        be called.
+        An error will be raised if the action space is not easily discretized.
+        The environment must be initialized before this method can be called.
 
         Returns
         -------
         action_space : iterable
             Actions that the agent can take
         """
-        if not hasattr(self.env.action_space, "n"):
-            raise TypeError("gym environment '%d' does not have a discrete "
-                            "action space")
-        return list(range(self.env.action_space.n))
+        if space is None:
+            space = self.env.action_space
+
+        if isinstance(space, gym.spaces.Discrete):
+            return list(range(space.n))
+        elif isinstance(space, gym.spaces.Tuple):
+            subspaces = [self.get_discrete_action_space(s)
+                         for s in space.spaces]
+            return list(product(*subspaces))
+        else:
+            raise TypeError("gym environment '%s' does not have a discrete "
+                            "action space" % self.env_name)
+            # ... or a conversion is not yet implemented
