@@ -142,7 +142,7 @@ class CMAESOptimizer(Optimizer):
         self.eigen_decomp_updated = 0
 
         if self.initial_params is None:
-            self.initial_params = np.zeros(n_params)
+            self.initial_params = np.zeros(self.n_params)
         else:
             self.initial_params = np.asarray(self.initial_params).astype(
                 np.float64, copy=True)

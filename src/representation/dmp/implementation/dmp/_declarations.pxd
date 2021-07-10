@@ -2,6 +2,9 @@ from libcpp cimport bool
 
 
 cdef extern from "../src/Dmp.h" namespace "Dmp":
+    double phase(double t, double alpha, double goal_t, double start_t) except +
+
+cdef extern from "../src/Dmp.h" namespace "Dmp":
     double calculateAlpha(double goal_z, double goal_t, double start_t) except +
 
 cdef extern from "../src/Dmp.h" namespace "Dmp":

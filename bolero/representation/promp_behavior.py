@@ -110,7 +110,6 @@ class ProMPBehavior(BlackBoxBehavior):
                  execution_time=1.0,
                  dt=0.01,
                  n_features=50,
-                 overlap=0.7,
                  configuration_file=None,
                  learn_covariance=False,
                  use_covar=False):
@@ -289,7 +288,7 @@ class ProMPBehavior(BlackBoxBehavior):
         random_variables = len(self.data.mean_)
         if self.learn_covariance:
             correlation_coefficients = (
-                len(self.data.covariance_) - random_variables) / 2
+                len(self.data.covariance_) - random_variables) // 2
             return 2 * random_variables + correlation_coefficients
         else:
             return random_variables
