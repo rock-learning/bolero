@@ -71,7 +71,7 @@ for objective_name in ["Sphere", "SchaffersF7"]:
     plt.figure(figsize=(n_generations * 3 / n_rows, 3 * n_rows))
     path = []
     for it in range(n_generations):
-        plt.subplot(n_rows, n_generations / n_rows, it + 1)
+        plt.subplot(n_rows, int(n_generations / n_rows, it + 1))
         plot_objective()
         last_mean = cmaes.mean.copy()
         path.append(last_mean)
