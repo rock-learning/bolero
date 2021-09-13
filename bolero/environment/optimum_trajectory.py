@@ -86,10 +86,15 @@ class OptimumTrajectory(Environment):
         self.g = g
         self.execution_time = execution_time
         self.dt = dt
+        task_space_dim = len(x0)
         if obstacles is None:
-            self.obstacles = np.empty((0, len(x0)))
+            self.obstacles = np.empty((0, task_space_dim))
         else:
-            self.obstacles = np.vstack(obstacles)
+            if len(obstacles[:]) % task_space_dim != 0:
+                raise ValueError("Obstacles defined by %d values. A multiple of %d (task space dimension) is required."
+                                 % (len(obstacles[:]), task_space_dim))
+            self.obstacles = np.asarray(obstacles).reshape([-1, task_space_dim])
+            assert self.obstacles.shape[1] == 2
         self.obstacle_dist = obstacle_dist
         self.penalty_start_dist = penalty_start_dist
         self.penalty_goal_dist = penalty_goal_dist

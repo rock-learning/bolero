@@ -290,7 +290,7 @@ class ProMPBehavior(BlackBoxBehavior):
         if self.learn_covariance:
             correlation_coefficients = (
                 len(self.data.covariance_) - random_variables) / 2
-            return 2 * random_variables + correlation_coefficients
+            return int(2 * random_variables + correlation_coefficients)
         else:
             return random_variables
 

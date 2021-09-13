@@ -72,7 +72,7 @@ test_contexts = np.arange(-6, 6, 0.1)
 colors = {"C-CMA-ES": "r", "C-REPS": "g"}
 plt.figure(figsize=(n_generations * 3 / n_rows, 3 * n_rows))
 for it in range(n_generations):
-    plt.subplot(n_rows, n_generations / n_rows, it + 1)
+    plt.subplot(n_rows, int(n_generations / n_rows, it + 1))
     plot_objective()
 
     contexts = random_state.rand(n_samples_per_update, 1) * 10.0 - 5.0

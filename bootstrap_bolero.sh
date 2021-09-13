@@ -6,6 +6,13 @@ then
     echo -e "\e[31mPython '$PYTHON' not found.\e[0m"
     exit 1
 fi
+CYTHON_AVAILABLE=1
+`$PYTHON -c "import Cython" 2> /dev/null` || CYTHON_AVAILABLE=0
+if [ CYTHON_AVAILABLE == 0 ];
+then
+        echo "Cython for $PYTHON not available, trying to install it with '$PYTHON -m pip install Cython'"
+        $PYTHON -m pip install Cython
+fi
 echo -e "\e[31mUsing Python: $PYTHON (located at `which $PYTHON`)\e[0m"
 
 # checking minimal dependencies on Ubuntu systems...
