@@ -49,6 +49,14 @@ if [ -f /etc/lsb-release ]; then
           echo "$PYTHON-yaml not available, trying to install it with 'sudo apt-get install $PYTHON-yaml'"
           sudo apt-get install $PYTHON-yaml --yes
     fi
+    DISTRO_AVAILABLE=1
+    `$PYTHON -c "import distro" 2> /dev/null` || DISTRO_AVAILABLE=0
+    if [ DISTRO_AVAILABLE == 0 ];
+    then
+          echo "$PYTHON-distro not available, trying to install it with 'sudo apt-get install $PYTHON-distro'"
+          sudo apt-get install $PYTHON-distro --yes
+    fi
+
 fi
 
 mkdir bolero-dev
@@ -64,9 +72,6 @@ echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
 git clone https://github.com/rock-simulation/pybob.git
 echo -e "\e[31mDone.\e[0m"
 cd pybob
-if [[ -z $QT5_UBUNTU ]]; then
-  export QT5_UBUNTU=True  # by default, assume a modern ubuntu
-fi
 
 # create default config for bolero
 echo "autoprojEnv: false" > pybob.yml
