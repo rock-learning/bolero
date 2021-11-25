@@ -64,6 +64,9 @@ echo -e "\e[31mDownloading pybob, BOLeRo's build manager...\e[0m"
 git clone https://github.com/rock-simulation/pybob.git
 echo -e "\e[31mDone.\e[0m"
 cd pybob
+if [[ -z $QT5_UBUNTU ]]; then
+  export QT5_UBUNTU=True  # by default, assume a modern ubuntu
+fi
 
 # create default config for bolero
 echo "autoprojEnv: false" > pybob.yml
