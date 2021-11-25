@@ -13,6 +13,7 @@ RUN apt-get update -qq && apt-get install -y \
   python-yaml \
   python-matplotlib \
   python-tk \
+  python-distro \
   libboost-all-dev \
   libeigen3-dev \
   libqt4-dev \
