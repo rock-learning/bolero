@@ -42,6 +42,13 @@ if [ -f /etc/lsb-release ]; then
         echo "$PYTHON not available, trying to install it with 'sudo apt-get install $PYTHON'"
         sudo apt-get install $PYTHON $PYTHON-pip --yes
     fi
+
+    if [ -f "/usr/bin/$PYTHON-config" ];
+    then
+        echo "Header files and static library for $PYTHON not available, trying to install with 'sudo apt-get install $PYTHON-dev'"
+        sudo apt-get install $PYTHON-dev --yes
+    fi
+
     YAML_AVAILABLE=1
     `$PYTHON -c "import yaml" 2> /dev/null` || YAML_AVAILABLE=0
     if [ $YAML_AVAILABLE == 0 ];
