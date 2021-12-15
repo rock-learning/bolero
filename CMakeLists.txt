@@ -27,7 +27,7 @@ message(STATUS "Python version: ${PYTHON_VERSION}")
 
 
 execute_process(
-COMMAND ${CYTHON} -${PYTHON_VERSION} bolero/utils/_ranking_svm.pyx
+COMMAND ${CYTHON}${PYTHON_VERSION} bolero/utils/_ranking_svm.pyx
 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/setup.py")
