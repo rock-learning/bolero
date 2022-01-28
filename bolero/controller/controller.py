@@ -324,6 +324,8 @@ class ContextualController(Controller):
         super(ContextualController, self).__init__(
             config, environment, behavior_search, **kwargs)
 
+        if config is None:
+            config = {}
         self._set_attribute(config, "record_contexts", False)
         self._set_attribute(config, "test_contexts", None)
 
