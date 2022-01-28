@@ -66,8 +66,8 @@ class OptimumTrajectory(Environment):
     """
 
     def __init__(self,
-                 x0=np.zeros(2),
-                 g=np.ones(2),
+                 x0=(0, 0),
+                 g=(1, 1),
                  execution_time=1.0,
                  dt=0.01,
                  obstacles=None,
@@ -82,19 +82,21 @@ class OptimumTrajectory(Environment):
                  log_to_stdout=False,
                  use_covar=False,
                  hide_acc_from_interface=False):
-        self.x0 = x0
-        self.g = g
+        self.x0 = np.asarray(x0)
+        self.g = np.asarray(g)
         self.execution_time = execution_time
         self.dt = dt
-        task_space_dim = len(x0)
         if obstacles is None:
-            self.obstacles = np.empty((0, task_space_dim))
+            self.obstacles = np.empty((0, self.n_task_dims))
         else:
-            if len(obstacles[:]) % task_space_dim != 0:
-                raise ValueError("Obstacles defined by %d values. A multiple of %d (task space dimension) is required."
-                                 % (len(obstacles[:]), task_space_dim))
-            self.obstacles = np.asarray(obstacles).reshape([-1, task_space_dim])
-            assert self.obstacles.shape[1] == 2
+            err = ValueError("Please provide an Nx%d numpy array specifying the obstacles"
+                             % self.n_task_dims)
+            try:
+                self.obstacles = np.vstack(obstacles)
+            except ValueError as e:
+                raise e  # from err # use once CI runs python3
+            if self.obstacles.shape[1] != self.n_task_dims:
+                raise err
         self.obstacle_dist = obstacle_dist
         self.penalty_start_dist = penalty_start_dist
         self.penalty_goal_dist = penalty_goal_dist
@@ -111,7 +113,6 @@ class OptimumTrajectory(Environment):
         """Initialize environment."""
         self.x0 = np.asarray(self.x0)
         self.g = np.asarray(self.g)
-        self.n_task_dims = self.x0.shape[0]
         self.recent_inputs = np.empty(self.n_task_dims * 3)
         self.logger = get_logger(self, self.log_to_file, self.log_to_stdout)
 
@@ -220,6 +221,10 @@ class OptimumTrajectory(Environment):
             Is the episode finished?
         """
         return self.t * self.dt > self.execution_time
+
+    @property
+    def n_task_dims(self):
+        return len(self.x0)
 
     def get_start_dist(self):
         """Get distance of trajectory start and desired start location.
@@ -402,20 +407,20 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
     Parameters
     ----------
     x0 : array-like, shape = (n_task_dims,), optional (default: [0, 0])
-        Initial position.
+        Initial position
 
     g : array-like, shape = (n_task_dims,), optional (default: [1, 1])
-        Goal position.
+        Goal position
 
     execution_time : float, optional (default: 1.0)
         Execution time in seconds
 
     dt : float, optional (default: 0.01)
-        Time between successive steps in seconds.
+        Time between successive steps in seconds
 
     obstacles : array-like, shape (n_obstacles, n_task_dims) (default:
         ([0.5, 0.5],))
-        List of obstacles.
+        Positions of obstacles
 
     obstacle_dist : float, optional (default: 0.1)
         Radius of the obstacles that should be avoided (penalty is zero outside
@@ -449,7 +454,7 @@ class OptimumTrajectoryCurbingObstacles(OptimumTrajectory):
     log_to_stdout: optional, boolean (default: False)
         Log to standard output
     """
-    def __init__(self, x0=np.zeros(2), g=np.ones(2), execution_time=1.0,
+    def __init__(self, x0=(0, 0), g=(1, 1), execution_time=1.0,
                  dt=0.01, obstacles=([0.5, 0.5],), obstacle_dist=0.1,
                  curbing_obstacles=0.5, penalty_start_dist=0.0,
                  penalty_goal_dist=0.0, penalty_vel=0.0, penalty_acc=0.0,
