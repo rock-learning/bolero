@@ -40,6 +40,8 @@ pkg_check_modules(MARS_INTERFACES "mars_interfaces")
 include_directories(${MARS_INTERFACES_INCLUDE_DIRS})
 link_directories(${MARS_INTERFACES_LIBRARY_DIRS})
 
+set(PROJECT_DEPS "lib_manager cfg_manager data_broker configmaps mars_app mars_utils mars_interfaces")
+
 setup_qt()
 
 include_directories(src)

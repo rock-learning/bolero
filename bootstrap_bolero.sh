@@ -6,10 +6,12 @@ then
     echo -e "\e[31mPython '$PYTHON' not found.\e[0m"
     exit 1
 fi
-if ! [ -z "$CYTHON" ] && [ -z `which $CYTHON` ];
+CYTHON_AVAILABLE=1
+`$PYTHON -c "import Cython" 2> /dev/null` || CYTHON_AVAILABLE=0
+if [ CYTHON_AVAILABLE == 0 ];
 then
-    echo -e "\e[31mCython '$CYTHON' not found.\e[0m"
-    exit 1
+        echo "Cython for $PYTHON not available, trying to install it with '$PYTHON -m pip install Cython'"
+        $PYTHON -m pip install Cython
 fi
 echo -e "\e[31mUsing Python: $PYTHON (located at `which $PYTHON`)\e[0m"
 
@@ -40,6 +42,13 @@ if [ -f /etc/lsb-release ]; then
         echo "$PYTHON not available, trying to install it with 'sudo apt-get install $PYTHON'"
         sudo apt-get install $PYTHON $PYTHON-pip --yes
     fi
+
+    if [ -f "/usr/bin/$PYTHON-config" ];
+    then
+        echo "Header files and static library for $PYTHON not available, trying to install with 'sudo apt-get install $PYTHON-dev'"
+        sudo apt-get install $PYTHON-dev --yes
+    fi
+
     YAML_AVAILABLE=1
     `$PYTHON -c "import yaml" 2> /dev/null` || YAML_AVAILABLE=0
     if [ $YAML_AVAILABLE == 0 ];
@@ -47,6 +56,14 @@ if [ -f /etc/lsb-release ]; then
           echo "$PYTHON-yaml not available, trying to install it with 'sudo apt-get install $PYTHON-yaml'"
           sudo apt-get install $PYTHON-yaml --yes
     fi
+    DISTRO_AVAILABLE=1
+    `$PYTHON -c "import distro" 2> /dev/null` || DISTRO_AVAILABLE=0
+    if [ DISTRO_AVAILABLE == 0 ];
+    then
+          echo "$PYTHON-distro not available, trying to install it with 'sudo apt-get install $PYTHON-distro'"
+          sudo apt-get install $PYTHON-distro --yes
+    fi
+
 fi
 
 mkdir bolero-dev

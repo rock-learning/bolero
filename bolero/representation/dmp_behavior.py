@@ -26,7 +26,7 @@ def load_dmp_model(dmp, filename):
     filename : string
         Name of YAML file
     """
-    model = yaml.load(open(filename, "r"))
+    model = yaml.safe_load(open(filename, "r"))
     dmp.name = model["name"]
     dmp.alpha_z = model["cs_alpha"]
     dmp.widths = np.array(model["rbf_widths"], dtype=np.float)
@@ -136,7 +136,7 @@ class DMPBehavior(BlackBoxBehavior):
 
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
-        self.n_task_dims = self.n_inputs // 3
+        self.n_task_dims = int(self.n_inputs // 3)
 
         if hasattr(self, "configuration_file"):
             load_dmp_model(self, self.configuration_file)
@@ -445,7 +445,7 @@ class DMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        config = yaml.load(open(filename, "r"))
+        config = yaml.safe_load(open(filename, "r"))
         self.execution_time = config["dmp_execution_time"]
         self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
         self.x0d = np.array(config["dmp_startVelocity"], dtype=np.float)

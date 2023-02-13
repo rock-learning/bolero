@@ -19,7 +19,7 @@ def saw(val, param_min, param_max):
 
 if len(sys.argv) >= 3:
     param_path = os.path.abspath(sys.argv[2])
-    param_file = yaml.load(open(param_path).read())["Parameters"]
+    param_file = yaml.save_load(open(param_path).read())["Parameters"]
     pso_file = open(sys.argv[1]).read().split("\n")
     pOut = pso_file[2].split(', ')
     if len(param_file) == (len(pOut) - 1):

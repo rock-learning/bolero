@@ -59,6 +59,8 @@ PyObjectPtr makePyObjectPtr(PyObject* p)
 
 std::string getString(PyObjectPtr object)
 {
+  if(!object)
+    return "";
 #if PYTHON_VERSION == 2
   return PyString_AsString(object.get());
 #else

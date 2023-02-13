@@ -1,22 +1,17 @@
-if("$ENV{PYTHON}" STREQUAL "")
-    set(PYTHON "python")
+if(DEFINED PYTHON_EXECUTABLE)
+    message(STATUS "Using python from CMake variable.")
+elseif("$ENV{PYTHON}" STREQUAL "")
+    set(PYTHON_EXECUTABLE "python")
     message(STATUS "Using default python.")
 else()
-    set(PYTHON $ENV{PYTHON})
-    message(STATUS ${PYTHON})
+    set(PYTHON_EXECUTABLE $ENV{PYTHON})
+    message(STATUS "Using python from environment variable.")
 endif()
-
-if("$ENV{CYTHON}" STREQUAL "")
-    set(CYTHON "cython")
-    message(STATUS "Using default cython.")
-else()
-    set(CYTHON $ENV{CYTHON})
-    message(STATUS ${CYTHON})
-endif()
+message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
 
 execute_process(
-COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
-OUTPUT_VARIABLE PYTHON_VERSION
+    COMMAND ${PYTHON_EXECUTABLE} -c "import sys;print(sys.version_info.major)"
+    OUTPUT_VARIABLE PYTHON_VERSION
 )
 string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
 message(STATUS "Python version: ${PYTHON_VERSION}")
@@ -36,21 +31,21 @@ if (PYTHON_SUPPORT)
     add_custom_command(
         TARGET python_setup
         PRE_BUILD
-        COMMAND ${PYTHON}
+        COMMAND ${PYTHON_EXECUTABLE}
         ARGS ${SETUP_PY} build_ext -i
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
     install(
       CODE "execute_process(
-        COMMAND ${PYTHON} ${SETUP_PY} install --prefix=${CMAKE_INSTALL_PREFIX}
+        COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} install --prefix=${CMAKE_INSTALL_PREFIX}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})"
     )
 
     # nose is the python unit testing program it will run all python unit tests
     add_test(
       NAME nosetests
-      COMMAND nosetests
+      COMMAND ${PYTHON_EXECUTABLE} -m nose
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 elseif(PYTHON_SUPPORT)

@@ -22,11 +22,11 @@ On Ubuntu 18.04 and similar operating systems, you can install BOLeRo with
     chmod +x bootstrap_bolero.sh
     ./bootstrap_bolero.sh
 
-If you want to install BOLeRo for Python 3 from Ubuntu, set the
-following environment variables:
+If you want to install BOLeRo for Python 3 from Ubuntu, make sure that
+`cython3` is installed and set the following environment variable before
+you run the bootstrap script:
 
     export PYTHON=python3
-    export CYTHON=cython3  # make sure Cython for Python 3 is available!
 
 The installation script will create a new folder `bolero-dev` that contains
 all sources and built binaries. If you want to use BOLeRo, you have to source
@@ -62,3 +62,22 @@ BOLeRo contains the following directories:
 
 BOLeRo is distributed under the
 [3-clause BSD license](https://opensource.org/licenses/BSD-3-Clause).
+
+## Cite BOLeRo
+
+We published an [article about BOLeRo](https://journals.sagepub.com/doi/10.1177/1729881420913741)
+in the International Journal of Advanced Robotic Systems. You can cite it with BibTeX:
+
+```
+@article{bolero,
+  author = {Alexander Fabisch and Malte Langosz and Frank Kirchner},
+  title ={BOLeRo: Behavior optimization and learning for robots},
+  journal = {International Journal of Advanced Robotic Systems},
+  volume = {17},
+  number = {3},
+  year = {2020},
+  doi = {10.1177/1729881420913741},
+  URL = {https://doi.org/10.1177/1729881420913741},
+  eprint = {https://doi.org/10.1177/1729881420913741}
+}
+```

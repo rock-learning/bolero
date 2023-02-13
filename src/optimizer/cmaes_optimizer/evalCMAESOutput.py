@@ -19,7 +19,7 @@ def saw(val, param_min, param_max):
 
 if len(sys.argv) >= 3:
     param_path = os.path.abspath(sys.argv[2])
-    param_file = yaml.load(open(param_path).read())["Parameters"]
+    param_file = yaml.safe_load(open(param_path).read())["Parameters"]
     cmaes = open(sys.argv[1]).read().split('\n')
     xbeststart = [l[0:9] for l in cmaes].index("xbestever") + 1
     xbestend = [l[0:6] for l in cmaes].index("xbest ")

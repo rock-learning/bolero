@@ -40,8 +40,7 @@ if(PYTHON_SUPPORT)
   else()
       set(PYTHON $ENV{PYTHON})
   endif()
-
-execute_process(
+  execute_process(
       COMMAND which ${PYTHON}
       OUTPUT_VARIABLE PYTHON_EXECUTABLE
   )
@@ -49,47 +48,47 @@ execute_process(
       COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
       OUTPUT_VARIABLE PYTHON_MAJOR_VERSION
   )
-  string(STRIP ${PYTHON_MAJOR_VERSION} PYTHON_MAJOR_VERSION)
   execute_process(
       COMMAND ${PYTHON} -c "import sys;print(sys.version_info.minor)"
       OUTPUT_VARIABLE PYTHON_MINOR_VERSION
   )
+  string(STRIP ${PYTHON_MAJOR_VERSION} PYTHON_MAJOR_VERSION)
   string(STRIP ${PYTHON_MINOR_VERSION} PYTHON_MINOR_VERSION)
   message(STATUS "Python: ${PYTHON}")
   message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
   message(STATUS "Python major version: ${PYTHON_MAJOR_VERSION}")
-  message(STATUS "Python minor version: ${PYTHON_MINOR_VERSION}")
+
   add_definitions(-DPYTHON_VERSION=${PYTHON_MAJOR_VERSION})
 
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   add_definitions(-DPYTHON_SUPPORT)
   add_definitions(-DUSE_MEMORYVIEWS)
-  set(PYTHON_EXECUTABLE ${PYTHON})
-  find_package(Numpy REQUIRED)
+
   if (APPLE)
-    # here we assume to search for the Python libraries provided by macports
     find_package(PythonLibs ${PYTHON_MAJOR_VERSION}.${PYTHON_MINOR_VERSION} EXACT REQUIRED)
   elseif(${PYTHON_MAJOR_VERSION} EQUAL 3)
     find_package(PythonLibs ${PYTHON_MAJOR_VERSION} EXACT REQUIRED)
   else()
     # HACK find_package is not able to find Python 2 include directories
     pkg_check_modules(PYTHON ${PYTHON})
-  endif (APPLE)
+  endif()
   message(STATUS "Python include directories: ${PYTHON_INCLUDE_DIRS}")
   include_directories(${PYTHON_INCLUDE_DIRS})
-  message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
-  include_directories(${NUMPY_INCLUDE_DIRS})
-  link_directories(${PYTHON_LIBRARY_DIRS})
 
   execute_process(
-      COMMAND ${PYTHON} -c "import sys;print(sys.version_info.major)"
-      OUTPUT_VARIABLE PYTHON_VERSION
+    COMMAND ${PYTHON} -c "import numpy; print(numpy.get_include())"
+    RESULT_VARIABLE NUMPY_RESULT
+    OUTPUT_VARIABLE NUMPY_INCLUDE_DIRS
+    ERROR_VARIABLE NUMPY_ERROR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_STRIP_TRAILING_WHITESPACE
   )
-  string(STRIP ${PYTHON_VERSION} PYTHON_VERSION)
-  message(STATUS "Python: ${PYTHON}")
-  message(STATUS "Python version: ${PYTHON_VERSION}")
-
-  add_definitions(-DPYTHON_VERSION=${PYTHON_VERSION})
+  if(${NUMPY_RESULT} EQUAL 0)
+    message(STATUS "Numpy include directories: ${NUMPY_INCLUDE_DIRS}")
+  else()
+    message(FATAL_ERROR "NumPy import failure:\n${NUMPY_ERROR}")
+  endif()
+  include_directories(${NUMPY_INCLUDE_DIRS})
+  link_directories(${PYTHON_LIBRARY_DIRS})
 
   set(SOURCES
     ${SOURCES}

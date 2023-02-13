@@ -64,9 +64,9 @@ BOLeRo.
 
    * - :ref:`Dummy <dummy_beh>`
      - function optimization
-     - parameters
-     - will be used as output
-     - allows direct optimization of the objective function
+     - nothing
+     - parameters will be used as output
+     - allows direct optimization of an objective function
 
    * - :ref:`Dynamical Movement Primitive <dmp_beh>`
      - trajectories in joint space or Cartesian space
