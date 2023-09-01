@@ -22,10 +22,6 @@ link_directories(${YAML_LIBRARY_DIRS})
 
 include_directories(src)
 
-if(UNIX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-
 set(SOURCES src/BLLoader.cpp)
 set(HEADERS src/BLLoader.h)
 
