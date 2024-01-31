@@ -6,6 +6,6 @@
   <depend package="simulation/lib_manager" />
   <depend package="tools/configmaps" />
   <depend package="python-dev" />
-  <rosdep name="numpy" />
+  <rosdep name="python-numpy" />
   <rosdep name="python" /> 
 </package>
