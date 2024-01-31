@@ -452,6 +452,7 @@ void dummy_import_array()
 int dummy_import_array()
 {
     import_array();
+    return NULL;
 }
 #endif
 
