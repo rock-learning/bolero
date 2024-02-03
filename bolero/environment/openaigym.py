@@ -116,7 +116,7 @@ class OpenAiGym(Environment):
         return n_dims, handler
 
     def reset(self):
-        self.outputs[:] = self.env.reset().ravel()
+        self.outputs[:] = np.atleast_1d(self.env.reset()).ravel()
         self.rewards = []
         self.done = False
         self.step = 0

@@ -1,7 +1,7 @@
 import numpy as np
 from nose.tools import (assert_less, assert_greater, assert_equal,
                         assert_raises_regexp)
-from sklearn.utils.testing import assert_warns
+from bolero.utils.validation import assert_warns
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_true
 from bolero.optimizer import CMAESOptimizer, fmin

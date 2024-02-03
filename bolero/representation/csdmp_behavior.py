@@ -446,7 +446,7 @@ class CartesianDMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        config = yaml.load(open(filename, "r"))
+        config = yaml.safe_load(open(filename, "r"))
         self.execution_time = config["executionTime"]
         self.x0 = np.array(config["startPosition"], dtype=np.float)
         self.x0d = np.array(config["startVelocity"], dtype=np.float)
