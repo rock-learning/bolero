@@ -30,6 +30,9 @@ class XNESOptimizer(Optimizer):
     n_samples_per_update : integer, optional (default: 4+int(3*log(n_params)))
         Number of roll-outs that are required for a parameter update.
 
+    adaptation_sampling : bool, optional (default: True)
+        Use adaptation sampling for learning rate of the step size
+
     bounds : array-like, shape (n_params, 2), optional (default: None)
         Upper and lower bounds for each parameter.
 
@@ -63,14 +66,15 @@ class XNESOptimizer(Optimizer):
     """
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
-            n_samples_per_update=None, bounds=None, maximize=True,
-            min_variance=2 * np.finfo(np.float).eps ** 2,
+            n_samples_per_update=None, adaptation_sampling=True, bounds=None,
+            maximize=True, min_variance=2 * np.finfo(np.float).eps ** 2,
             min_fitness_dist=2 * np.finfo(np.float).eps, max_condition=1e7,
             log_to_file=False, log_to_stdout=False, random_state=None):
         self.initial_params = initial_params
         self.variance = variance
         self.covariance = covariance
         self.n_samples_per_update = n_samples_per_update
+        self.adaptation_sampling = adaptation_sampling
         self.bounds = bounds
         self.maximize = maximize
         self.min_variance = min_variance
@@ -134,9 +138,22 @@ class XNESOptimizer(Optimizer):
         self.samples = np.empty((self.n_samples_per_update, self.n_params))
         self.fitness = np.empty(self.n_samples_per_update)
 
-        self.A = np.linalg.cholesky(self.variance * self.covariance)
-        self.learning_rate = (0.6 * (3.0 + np.log(self.n_params)) /
-                              (self.n_params * np.sqrt(self.n_params)))
+        A = np.linalg.cholesky(self.variance * self.covariance)
+        self.sigma = np.linalg.det(A) ** (1.0 / self.n_params)
+        self.B = A / self.sigma
+
+        self.sigma_old = self.sigma
+
+        self.learning_rate_mean = 1.0
+        self.learning_rate_sigma0 = (
+            (9.0 + 3.0 * np.log(self.n_params)) /
+            (5.0 * self.n_params * np.sqrt(self.n_params)))
+        self.learning_rate_sigma = self.learning_rate_sigma0
+        self.learning_rate_B = self.learning_rate_sigma
+
+        # Parameters for adaptation sampling
+        self.c = 0.1
+        self.rho = 0.5 - 1.0 / (3.0 * (self.n_params + 1.0))
 
         utilities = np.maximum(np.log1p(self.n_samples_per_update / 2.0) -
                                np.log(self.n_samples_per_update -
@@ -149,7 +166,7 @@ class XNESOptimizer(Optimizer):
     def _sample(self):
         self.noise[:, :] = self.random_state.randn(
             self.n_samples_per_update, self.n_params)
-        self.samples[:, :] = self.noise.dot(self.A.T) + self.mean
+        self.samples[:, :] = self.noise.dot(self.sigma * self.B.T) + self.mean
         if self.bounds is not None:
             np.clip(self.samples, self.bounds[:, 0], self.bounds[:, 1],
                     out=self.samples)
@@ -195,17 +212,74 @@ class XNESOptimizer(Optimizer):
 
     def _update(self, samples, fitness, it):
         # Sample weights for mean recombination
-        ranking = np.argsort(self.fitness, axis=0)  # Rank -> sample
-        ranking = np.argsort(ranking, axis=0)       # Sample -> rank
+        sample_ranking = np.argsort(self.fitness, axis=0)  # Rank -> sample
+        ranking = np.argsort(sample_ranking, axis=0)       # Sample -> rank
         utilities = self.utilities[ranking]
 
-        self.mean += self.A.dot(utilities.dot(self.noise))
-        cov_gradient = np.sum([u * np.outer(s, s)
-                               for s, u in zip(self.noise, utilities)], axis=0)
+        if self.adaptation_sampling:
+            self.learning_rate_sigma = self.adapt_learning_rate(
+                self.learning_rate_sigma, self.sigma,
+                self.samples[sample_ranking])
+            self.sigma_old = self.sigma
+
+        mean_grad = self.sigma * self.B.dot(utilities.dot(self.noise))
+        A_grad = np.sum([
+            u * np.outer(s, s) for s, u in zip(self.noise, utilities)], axis=0)
         # We don't need to subtract u * I because the utilities sum up to 0,
         # hence, the term cancels out
-        self.A = np.dot(self.A, scipy.linalg.expm(0.5 * self.learning_rate *
-                                                  cov_gradient))
+        sigma_grad = np.trace(A_grad) / self.n_params
+        B_grad = A_grad - sigma_grad * np.eye(self.n_params)
+
+        self.mean += self.learning_rate_mean * mean_grad
+        self.sigma *= np.exp(0.5 * self.learning_rate_sigma * sigma_grad)
+        self.B = np.dot(
+            self.B, scipy.linalg.expm(0.5 * self.learning_rate_B * B_grad))
+
+    def adapt_learning_rate(self, learning_rate_sigma, sigma, ordered_samples):
+        """Change learning rate for step size through adaptation sampling.
+
+        See http://schaul.site44.com/publications/bbob-xnesas.pdf for details.
+        Based on https://github.com/chanshing/xnes/blob/master/xnes.py
+        """
+        if self.sigma_old is None:
+            return sigma
+
+        BTB = np.dot(self.B.T, self.B)
+        cov = sigma ** 2 * BTB
+        sigma_candidate = sigma * np.sqrt(sigma * (1.0 / self.sigma_old))
+        cov_candidate = sigma_candidate ** 2 * BTB
+
+        try:
+            p0 = scipy.stats.multivariate_normal.logpdf(
+                ordered_samples, mean=self.mean, cov=cov)
+        except np.linalg.LinAlgError:
+            # Cholesky decomposition might fail close to convergence
+            return learning_rate_sigma
+        p1 = scipy.stats.multivariate_normal.logpdf(
+            ordered_samples, mean=self.mean, cov=cov_candidate)
+        w = np.exp(p1 - p0)
+
+        # Ignore float overflow and inf or nan in operations.
+        # This works better than trying to catch every irregularity.
+        old_err = np.seterr(all="ignore")
+
+        # Weighted-Mann-Whitney test
+        n = sum(w)
+        n_candidate = sum(w * (np.arange(self.n_samples_per_update) + 0.5))
+
+        u_mu = self.n_samples_per_update * n * 0.5
+        u_sigma_2 = (self.n_samples_per_update * n *
+                     (self.n_samples_per_update + n + 1.0) / 12.0)
+        u_sigma = np.sqrt(u_sigma_2)
+        cum = scipy.stats.norm.cdf(n_candidate, loc=u_mu, scale=u_sigma)
+        increase = cum >= self.rho
+
+        np.seterr(**old_err)
+
+        if increase:
+            return min(1.0, (1.0 + self.c) * learning_rate_sigma)
+        else:
+            return (1.0 - self.c) * learning_rate_sigma + self.c * self.learning_rate_sigma0
 
     def is_behavior_learning_done(self):
         """Check if the optimization is finished.
