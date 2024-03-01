@@ -83,8 +83,9 @@ cdef extern from "Optimizer.h" namespace "bolero":
     void getBestParameters(double *p, int numP) except +
     void setEvaluationFeedback(double *feedbacks, int numFeedbacks) except +
     bool isBehaviorLearningDone() except +
-    vector[double*] getNextParameterSet() except +
-    void setParameterSetFeedback(vector[double] feedback) except +
+    void getNextParameterSet(double *p, int numP, int bachSize) except +
+    void setParameterSetFeedback(double *feedback, int batchSize, int numFeedbacksPerSet) except +
+    int getBatchSize() except +
 
 
 cdef extern from "BLLoader.h" namespace "bolero::bl_loader":

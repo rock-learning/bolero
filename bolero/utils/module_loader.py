@@ -17,7 +17,7 @@ def optimizer_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def optimizer_from_yaml_string(yaml_str, conf_path=None):
     """Create optimizer object from YAML string."""
-    map_ = yaml.load(yaml_str)
+    map_ = yaml.safe_load(yaml_str)
     if not "Optimizer" in map_:
         return from_dict(map_)
     return from_dict(map_["Optimizer"])
@@ -30,7 +30,7 @@ def behavior_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def behavior_from_yaml_string(yaml_str, conf_path=None):
     """Create behavior object from YAML string."""
-    map_ = yaml.load(yaml_str)
+    map_ = yaml.safe_load(yaml_str)
     if not "Behavior" in map_:
         return from_dict(map_)
     return from_dict(map_["Behavior"])
@@ -43,7 +43,7 @@ def behavior_search_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def behavior_search_from_yaml_string(yaml_str, conf_path=None):
     """Create behavior search object from YAML string."""
-    map_ = yaml.load(yaml_str)
+    map_ = yaml.safe_load(yaml_str)
     if not "BehaviorSearch" in map_:
         return from_dict(map_)
     return from_dict(map_["BehaviorSearch"])
@@ -56,7 +56,7 @@ def environment_from_yaml(filename="learning_config.yml", conf_path=None):
 
 def environment_from_yaml_string(yaml_str, conf_path=None):
     """Create environment object from YAML string."""
-    map_ = yaml.load(yaml_str)
+    map_ = yaml.safe_load(yaml_str)
     if not "Environment" in map_:
         return from_dict(map_)
     return from_dict(map_["Environment"])
@@ -112,7 +112,7 @@ def __load_config_from_file(filename, conf_path=None):
         conf_filename = os.path.join(conf_path, filename)
 
     if os.path.exists(conf_filename):
-        config = yaml.load(open(conf_filename, "r"))
+        config = yaml.safe_load(open(conf_filename, "r"))
         return config
     else:
         raise ValueError("'%s' does not exist" % conf_filename)
@@ -131,7 +131,7 @@ def from_yaml_string(yaml_str):
     objects : dict
         Objects created from each entry of config with the same keys.
     """
-    return from_dict(yaml.load(yaml_str))
+    return from_dict(yaml.safe_load(yaml_str))
 
 
 def from_dict(config, name=None):

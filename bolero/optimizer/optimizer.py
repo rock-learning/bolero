@@ -143,3 +143,34 @@ class Optimizer(Base, ABC):
         p : array_like, shape (n_params,)
             Best parameter vector so far
         """
+
+    @abstractmethod
+    def get_next_parameter_batch(self, params, dimension, batch_size):
+        """Get a batch of parameter sets for parallel computing.
+
+        Returns
+        -------
+        p : array_like, shape (n_params*batch_size,)
+        """
+
+    @abstractmethod
+    def set_batch_feedback(self, rewards, num_rewards_per_entry, batch_size):
+        """Set the rewards for the last returned batch of parameter sets.
+
+        Parameters
+        ----------
+        rewards : list of float
+            feedbacks for each parameter set evaluated for one episode. The
+            length of the list is batch_size*num_rewards_per_batch
+        num_rewards_per_batch: the number of rewards for individual parameter
+            set
+        """
+
+    @abstractmethod
+    def get_batch_size(self):
+        """Set the rewards for the last returned batch of parameter sets.
+
+        Parameters
+        ----------
+        batch_size : number of parameter sets per batch
+        """

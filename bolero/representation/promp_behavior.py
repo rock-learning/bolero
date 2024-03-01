@@ -25,7 +25,7 @@ def load_promp_model(promp, filename):
     filename : string
         Name of YAML file
     """
-    model = yaml.load(open(filename, "r"))
+    model = yaml.safe_load(open(filename, "r"))
     promp.name = model["name"]
     promp.data = model["data"]
 
@@ -489,7 +489,7 @@ class ProMPBehavior(BlackBoxBehavior):
         filename : string
             Name of YAML file
         """
-        config = yaml.load(open(filename, "r"))
+        config = yaml.safe_load(open(filename, "r"))
         self.execution_time = config["promp_execution_time"]
         self.x0 = np.array(config["promp_startPosition"], dtype=np.float)
         self.x0d = np.array(config["promp_startVelocity"], dtype=np.float)

@@ -15,25 +15,36 @@ PyBehavior::PyBehavior(shared_ptr<Object> behavior)
 
 void PyBehavior::init(int numInputs, int numOutputs)
 {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
   Behavior::init(numInputs, numOutputs);
   behavior->method("init").pass(INT).pass(INT).call(numInputs, numOutputs);
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
 void PyBehavior::setInputs(const double *values, int numInputs) {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
   behavior->method("set_inputs").pass(ONEDCARRAY).call(values, numInputs);
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
 void PyBehavior::getOutputs(double *values, int numOutputs) const {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
   behavior->method("get_outputs").pass(ONEDCARRAY).call(values, numOutputs);
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
 void PyBehavior::step() {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
   behavior->method("step").call();
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
 bool PyBehavior::canStep() const
 {
-  return behavior->method("can_step").call().returnObject()->asBool();
+  pthread_mutex_lock (&PythonInterpreter::mutex);
+  bool b = behavior->method("can_step").call().returnObject()->asBool();
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
+  return b;
 }
 
 
@@ -44,6 +55,7 @@ PyBehavior* PyBehavior::fromPyObject(shared_ptr<Object> object) {
 
 void PyBehavior::setMetaParameters(const MetaParameters& params)
 {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
   // We hold copies of all the meta parameters that we use to ensure that the
   // numpy arrays do not refer to memory that has been freed already.
   metaParameters.insert(params.begin(), params.end());
@@ -61,6 +73,7 @@ void PyBehavior::setMetaParameters(const MetaParameters& params)
 
   behavior->method("set_meta_parameters")
     .pass(OBJECT).pass(OBJECT).call(&*keysObject, &*valuesObject);
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
 }}

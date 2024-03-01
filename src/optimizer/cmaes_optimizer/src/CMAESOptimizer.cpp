@@ -86,14 +86,11 @@ namespace bolero {
       double *xstart = new double[dimension];
       double *sigma = new double[dimension];
 
-      for(int i=0; i<dimension; ++i) {
-        xstart[i] = 0.5;
-        sigma[i] = 1.0;
-      }
-
       logIndividual = logGeneration = logBest = false;
       reinitSigma = -1.;
       sigmaThreshold = -1.;
+
+      double startSigma = 1.0;
 
       if(config != "")
       {
@@ -109,7 +106,14 @@ namespace bolero {
             logBest = m.get("LogBest", false);
             reinitSigma = m.get("ReinitSigma", -1.);
             sigmaThreshold = m.get("SigmaThreshold", -1.);
+            startSigma = m.get("StartSigma",1.0);
+
         }
+      }
+
+      for(int i=0; i<dimension; ++i) {
+        xstart[i] = 0.5;
+        sigma[i] = startSigma;
       }
 
       cmaes_init(&evo, NULL, dimension, xstart, sigma, seed, lambda, "non");
@@ -208,7 +212,12 @@ namespace bolero {
       assert(numP == dimension);
 
       for(int i=0; i<dimension; ++i) {
-        p[i] = bestParams[i];
+        if(bestParams) {
+          p[i] = bestParams[i];
+        }
+        else {
+          p[i] = 0.0;
+        }
         saw(p+i, 0.0, 1.0);
       }
     }
@@ -291,27 +300,36 @@ namespace bolero {
         return false;
     }
 
-    std::vector<double*> CMAESOptimizer::getNextParameterSet() const {
-      std::vector<double*> parameterSet;
-      double *p;
+    void CMAESOptimizer::getNextParameterSet(double *p, int numP,
+                                             int batchSize) const {
+      assert(numP == dimension);
+      assert(batchSize == lambda);
+
 
       for(int l=0; l<lambda; ++l) {
-        p = (double*)calloc(dimension, sizeof(double));
+        if(l >= batchSize) break;
         for(int i=0; i<dimension; ++i) {
-          p[i] = rgx[l][i];
-          saw(p+i, 0.0, 1.0);
+          if(i>=numP) break;
+          p[l*dimension+i] = rgx[l][i];
+          saw(p+l*dimension+i, 0.0, 1.0);
         }
-        parameterSet.push_back(p);
       }
-      return parameterSet;
     }
 
-    void CMAESOptimizer::setParameterSetFeedback(const std::vector<double> feedback) {
-      std::vector<double>::const_iterator it;
+    void CMAESOptimizer::setParameterSetFeedback(const double *feedback,
+                                                 int numFeedbacksPerSet,
+                                                 int batchSize) {
+      assert(batchSize == lambda);
 
-      for(it=feedback.begin(); it!=feedback.end(); ++it) {
-        setEvaluationFeedback(&(*it), 1);
+      for(size_t i=0; i<batchSize; ++i) {
+        if(i>=lambda) break;
+        setEvaluationFeedback(feedback+i*numFeedbacksPerSet,
+                              numFeedbacksPerSet);
       }
+    }
+
+    int CMAESOptimizer::getBatchSize() const {
+      return lambda;
     }
 
     void CMAESOptimizer::saw(double *val, double min, double max) const {

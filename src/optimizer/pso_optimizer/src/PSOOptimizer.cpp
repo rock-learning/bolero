@@ -108,6 +108,14 @@ namespace bolero {
       particles = new Particle*[particleCount];
       for(int i = 0; i < particleCount; ++i) {
         particles[i] = new Particle(dimension);
+        // set first particle to middle position
+        if (i == 0) {
+          for(size_t j = 0; j < dimension; ++j) {
+            particles[0]->position[j] = 0.5;
+            particles[0]->velocity[j] = 0;
+            particles[0]->pMin[j] = particles[0]->position[j];
+          }
+        }
       }
       gMin = new double[dimension];
       gMinCost = std::numeric_limits<double>::max();
@@ -199,24 +207,29 @@ namespace bolero {
     }
 
 
-    std::vector<double*> PSOOptimizer::getNextParameterSet() const {
-      std::vector<double*> parameterSet;
-      double *p;
+    void PSOOptimizer::getNextParameterSet(double *p, int numP, int batchSize) const {
+      assert(numP == dimension);
+      assert(batchSize == particleCount);
 
       for(int i=0; i<particleCount; ++i) {
-        p = (double*)calloc(dimension, sizeof(double));
-        memcpy(p, particles[i]->position, sizeof(double) * dimension);
-        parameterSet.push_back(p);
+        memcpy(p+i*numP, particles[i]->position, sizeof(double) * dimension);
       }
-      return parameterSet;
     }
 
-    void PSOOptimizer::setParameterSetFeedback(const std::vector<double> feedback) {
-      std::vector<double>::const_iterator it;
+    void PSOOptimizer::setParameterSetFeedback(const double *feedback,
+                                               int numFeedbacksPerSet,
+                                               int batchSize) {
+      assert(batchSize == particleCount);
 
-      for(it=feedback.begin(); it!=feedback.end(); ++it) {
-        setEvaluationFeedback(&(*it), 1);
+      for(size_t i=0; i<batchSize; ++i) {
+        if(i>=particleCount) break;
+        setEvaluationFeedback(feedback+i*numFeedbacksPerSet,
+                              numFeedbacksPerSet);
       }
+    }
+
+    int PSOOptimizer::getBatchSize() const {
+      return particleCount;
     }
 
     void PSOOptimizer::updateParticles() {

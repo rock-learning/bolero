@@ -23,6 +23,11 @@ public:
   bolero::Behavior* getBehaviorFromResults(const std::string &resultPath);
   bool isBehaviorLearningDone() const;
 
+  bool implementsBatchComputing() const {return true;}
+  std::string getBehaviorBatch() const;
+  void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch, int batchSize);
+  Behavior* getBehaviorFromString(std::string &behaviorString);
+
 private:
   std::string className;
   shared_ptr<Object> behaviorSearch;
