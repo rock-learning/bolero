@@ -93,6 +93,14 @@ namespace bolero {
                                        int numFeedbacks) = 0;
 
     /**
+     * Notify the BehaviorSearch that a single evaluation is
+     * finished and if it was aborted or successfull.
+     * \param aborted = 'false' on success 'true' if evaluation
+     *         was canceled
+     */
+    virtual void setEvaluationDone(bool aborted) {}
+
+    /**
      * Write results to disk.
      * \param resultPath path to result files
      */

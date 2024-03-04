@@ -64,6 +64,11 @@ bool PyEnvironment::isEvaluationDone() const {
     .call().returnObject()->asBool();
 }
 
+bool PyEnvironment::isEvaluationAborted() const {
+  return environment->method("is_evaluation_aborted")
+    .call().returnObject()->asBool();
+}
+
 bool PyEnvironment::isBehaviorLearningDone() const {
   return environment->method("is_behavior_learning_done")
     .call().returnObject()->asBool();

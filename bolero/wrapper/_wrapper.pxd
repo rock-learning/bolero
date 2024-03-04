@@ -13,6 +13,7 @@ cdef extern from "Behavior.h" namespace "bolero":
     Behavior() except +
     void init(int numInputs, int numOutputs) except +
     void setInputs(double *values, int numInputs) except +
+    void setTargetState(double *values, int numInputs) except +
     void getOutputs(double *values, int numOutputs) except +
     int getNumInputs() except +
     int getNumOutputs() except +
@@ -37,6 +38,7 @@ cdef extern from "BehaviorSearch.h" namespace "bolero":
     Behavior* getNextBehavior() except +
     Behavior* getBestBehavior() except +
     void setEvaluationFeedback(double *feedbacks, int numFeedbacks) except +
+    void setEvaluationDone(bool aborted) except +
     void writeResults(string &resultPath) except +
     Behavior* getBehaviorFromResults(string &resultPath) except +
     bool isBehaviorLearningDone() except +
@@ -57,6 +59,7 @@ cdef extern from "Environment.h" namespace "bolero":
     void stepAction() except +
     void setTestMode(bool b) except +
     bool isEvaluationDone() except +
+    bool isEvaluationAborted() except +
     int getFeedback(double *feedback) except +
     bool isBehaviorLearningDone() except +
     bool isContextual() except +

@@ -16,6 +16,7 @@ public:
   void init(int numInputs, int numOutputs);
 
   void setInputs(const double *values, int numInputs);
+  void setTargetState(const double *values, int numInputs);
   void getOutputs(double *values, int numOutputs) const;
   void setMetaParameters(const MetaParameters& params);
 

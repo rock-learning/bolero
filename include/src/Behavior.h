@@ -66,6 +66,16 @@ namespace bolero {
     virtual void setInputs(const double *values, int numInputs) = 0;
 
     /**
+     * Set inputs observerd after performing a step (next state).
+     * If the input vector consists of positions and derivatives of these,
+     * by convention all positions and all derivatives should be stored
+     * contiguously.
+     * \param values inputs e.g. current state of the system
+     * \param numInputs number of inputs
+     */
+    virtual void setTargetState(const double *values, int numInputs) {};
+
+    /**
      * Get outputs of the last step.
      * If the output vector consists of positions and derivatives of these,
      * by convention all positions and all derivatives should be stored

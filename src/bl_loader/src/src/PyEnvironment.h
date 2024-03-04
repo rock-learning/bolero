@@ -24,6 +24,7 @@ public:
   void stepAction();
 
   bool isEvaluationDone() const;
+  bool isEvaluationAborted() const;
 
   /** Get feedbacks.
    * @param[out] feedback array, will be filled with feedback values

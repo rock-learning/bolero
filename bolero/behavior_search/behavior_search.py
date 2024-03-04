@@ -142,6 +142,14 @@ class BehaviorSearch(Base):
             feedback for each step or for the episode, depends on the problem
         """
 
+    def set_evaluation_done(self, aborted):
+        """Notice that evalulation / episode is finished.
+
+        Parameters
+        ----------
+        aborted : bool if evaluation was aborted or finished successfully
+        """
+
     @abstractmethod
     def write_results(self, result_path):
         """Store current search state.

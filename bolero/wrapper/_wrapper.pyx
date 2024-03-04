@@ -352,6 +352,15 @@ cdef class CppBehaviorSearch:
         feedbacks_array[:] = feedbacks
         self.thisptr.setEvaluationFeedback(&feedbacks_array[0], feedbacks_array.shape[0])
 
+    def set_evaluation_one(self, aborted):
+        """Notice if evaluation is finished and if it was aborted.
+
+        Parameters
+        ----------
+        aborted : bool if evaluation was aborted or successfull
+        """
+        self.thisptr.setEvaluationDone(aborted)
+
     def write_results(self, result_path):
         """Store current search state.
 
@@ -457,6 +466,16 @@ cdef class CppEnvironment:
             Is the evaluation finished?
         """
         return self.thisptr.isEvaluationDone()
+
+    def is_evaluation_aborted(self):
+        """Check if the evaluation of the behavior was aborted.
+
+        Returns
+        -------
+        finished : bool
+            Is the evaluation aborted?
+        """
+        return self.thisptr.isEvaluationAborted()
 
     def get_feedback(self):
         """Get the feedbacks for the last evaluation period.
@@ -846,6 +865,19 @@ cdef class CppBehavior:
         cdef np.ndarray[double, ndim=1, mode="c"] inputs = np.ndarray(n_inputs)
         inputs[:] = values
         self.thisptr.setInputs(&inputs[0], n_inputs)
+
+    def set_target_state(self, values):
+        """Set input observed after performing a step in the environment.
+
+        Parameters
+        ----------
+        inputs : array-like, shape = [num_inputs,]
+            inputs, e.g. current state of the system
+        """
+        cdef int n_inputs = values.shape[0]
+        cdef np.ndarray[double, ndim=1, mode="c"] inputs = np.ndarray(n_inputs)
+        inputs[:] = values
+        self.thisptr.setTargetState(&inputs[0], n_inputs)
 
     def get_outputs(self, values):
         """Get outputs of the last step.

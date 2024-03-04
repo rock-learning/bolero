@@ -27,6 +27,12 @@ void PyBehavior::setInputs(const double *values, int numInputs) {
   pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
+void PyBehavior::setTargetState(const double *values, int numInputs) {
+  pthread_mutex_lock (&PythonInterpreter::mutex);
+  behavior->method("set_target_state").pass(ONEDCARRAY).call(values, numInputs);
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
+}
+
 void PyBehavior::getOutputs(double *values, int numOutputs) const {
   pthread_mutex_lock (&PythonInterpreter::mutex);
   behavior->method("get_outputs").pass(ONEDCARRAY).call(values, numOutputs);

@@ -51,6 +51,20 @@ class Behavior(Base):
             inputs, e.g. current state of the system
         """
 
+    def set_target_state(self, inputs):
+        """Set input observed after a performed step.
+
+        If the input vector consists of positions and derivatives of these,
+        by convention all positions and all derivatives should be stored
+        contiguously.
+
+        Parameters
+        ----------
+        inputs : array-like, shape = (n_inputs,)
+            inputs, e.g. current state of the system
+        """
+        pass
+
     @abstractmethod
     def get_outputs(self, outputs):
         """Get outputs of the last step.

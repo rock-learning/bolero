@@ -76,6 +76,18 @@ class Environment(Base, ABC):
             Is the evaluation finished?
         """
 
+    def is_evaluation_aborted(self):
+        """Check if the evaluation of the behavior is aborted.
+           The method is new and not implemented by all environments.
+           If the method is not implemented it will always return False.
+
+        Returns
+        -------
+        finished : bool
+            Is the evaluation aborted?
+        """
+        return False
+
     @abstractmethod
     def get_feedback(self):
         """Get the feedbacks for the last evaluation period.

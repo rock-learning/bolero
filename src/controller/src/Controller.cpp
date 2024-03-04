@@ -53,6 +53,7 @@ namespace bolero {
     FILE *testFitnessLog = NULL;
     bool testMode = false;
     bool continuousReward = false;
+    bool provideNextState = false;
     int testEveryXRun = 0;
     double epsilon = 0.000000001; // for testing new fitness values
 
@@ -140,6 +141,10 @@ namespace bolero {
       continuousReward = map["Controller"]["ContinuousReward"];
     }
 
+    if(map["Controller"].hasKey("ProvideNextState")) {
+      provideNextState = map["Controller"]["ProvideNextState"];
+    }
+
     environment = blLoader->acquireEnvironment(strEnvironment);
     behaviorSearch = blLoader->acquireBehaviorSearch(strBehaviorSearch);
 
@@ -185,6 +190,10 @@ namespace bolero {
             behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
           }
         }
+        if(provideNextState) {
+          environment->getOutputs(inputs, numInputs);
+          behavior->setTargetState(inputs, numInputs);
+        }
       } while(!environment->isEvaluationDone() && !exitController);
       if(exitController) break;
       /* Feedback interface need to be changed for better controller
@@ -222,6 +231,12 @@ namespace bolero {
           }
         }
         behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
+        if(environment->isEvaluationAborted()) {
+          behaviorSearch->setEvaluationDone(true);
+        }
+        else {
+          behaviorSearch->setEvaluationDone(false);
+        }
         if(testEveryXRun > 0) {
           if(evaluationCount%testEveryXRun == 0) {
             testMode = true;

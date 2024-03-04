@@ -69,6 +69,13 @@ namespace bolero {
       pthread_mutex_unlock (&PythonInterpreter::mutex);
     }
 
+    void PyBehaviorSearch::setEvaluationDone(bool aborted) {
+      pthread_mutex_lock (&PythonInterpreter::mutex);
+      behaviorSearch->method("set_evaluation_done")
+        .pass(BOOL).call(aborted);
+      pthread_mutex_unlock (&PythonInterpreter::mutex);
+    }
+
     void PyBehaviorSearch::writeResults(const std::string &resultPath) {
       pthread_mutex_lock (&PythonInterpreter::mutex);
       std::string path = resultPath;

@@ -108,6 +108,12 @@ namespace bolero {
     virtual bool isEvaluationDone() const = 0;
 
     /**
+     * Is the evaluation of the behavior aborted?
+     * \return is the evaluation aborted?
+     */
+    virtual bool isEvaluationAborted() {return false;}
+
+    /**
      * Get feedbacks from the last episode.
      * \param[out] feedback array, will be filled with feedbacks
      * \return how many rewards were assigned for the whole evaluation
