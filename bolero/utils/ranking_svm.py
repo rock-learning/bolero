@@ -5,7 +5,7 @@ from .validation import check_random_state
 from ._ranking_svm import optimize
 
 
-MACHINE_EPSILON = np.finfo(np.float).eps ** 2
+MACHINE_EPSILON = np.finfo(float).eps ** 2
 
 
 class RankingSVM(object):

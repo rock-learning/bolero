@@ -36,10 +36,10 @@ class XNESOptimizer(Optimizer):
     maximize : boolean, optional (default: True)
         Maximize return or minimize cost?
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance before restart
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values before restart
 
     max_condition : float optional (default: 1e7)
@@ -64,8 +64,8 @@ class XNESOptimizer(Optimizer):
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
             n_samples_per_update=None, bounds=None, maximize=True,
-            min_variance=2 * np.finfo(np.float).eps ** 2,
-            min_fitness_dist=2 * np.finfo(np.float).eps, max_condition=1e7,
+            min_variance=2 * np.finfo(float).eps ** 2,
+            min_fitness_dist=2 * np.finfo(float).eps, max_condition=1e7,
             log_to_file=False, log_to_stdout=False, random_state=None):
         self.initial_params = initial_params
         self.variance = variance

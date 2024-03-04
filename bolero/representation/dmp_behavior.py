@@ -29,14 +29,14 @@ def load_dmp_model(dmp, filename):
     model = yaml.safe_load(open(filename, "r"))
     dmp.name = model["name"]
     dmp.alpha_z = model["cs_alpha"]
-    dmp.widths = np.array(model["rbf_widths"], dtype=np.float)
-    dmp.centers = np.array(model["rbf_centers"], dtype=np.float)
+    dmp.widths = np.array(model["rbf_widths"], dtype=float)
+    dmp.centers = np.array(model["rbf_centers"], dtype=float)
     dmp.alpha_y = model["ts_alpha_z"]
     dmp.beta_y = model["ts_beta_z"]
     dmp.execution_time = model["ts_tau"]
     dmp.dt = model["ts_dt"]
     dmp.n_features = dmp.widths.shape[0]
-    dmp.weights = np.array(model["ft_weights"], dtype=np.float
+    dmp.weights = np.array(model["ft_weights"], dtype=float
         ).reshape(dmp.n_task_dims, dmp.n_features).T.copy()
 
     if dmp.execution_time != model["cs_execution_time"]:
@@ -447,9 +447,9 @@ class DMPBehavior(BlackBoxBehavior):
         """
         config = yaml.safe_load(open(filename, "r"))
         self.execution_time = config["dmp_execution_time"]
-        self.x0 = np.array(config["dmp_startPosition"], dtype=np.float)
-        self.x0d = np.array(config["dmp_startVelocity"], dtype=np.float)
-        self.x0dd = np.array(config["dmp_startAcceleration"], dtype=np.float)
-        self.g = np.array(config["dmp_endPosition"], dtype=np.float)
-        self.gd = np.array(config["dmp_endVelocity"], dtype=np.float)
-        self.gdd = np.array(config["dmp_endAcceleration"], dtype=np.float)
+        self.x0 = np.array(config["dmp_startPosition"], dtype=float)
+        self.x0d = np.array(config["dmp_startVelocity"], dtype=float)
+        self.x0dd = np.array(config["dmp_startAcceleration"], dtype=float)
+        self.g = np.array(config["dmp_endPosition"], dtype=float)
+        self.gd = np.array(config["dmp_endVelocity"], dtype=float)
+        self.gdd = np.array(config["dmp_endAcceleration"], dtype=float)

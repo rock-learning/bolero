@@ -74,7 +74,7 @@ class Catapult(ContextualEnvironment):
     def init(self):
         self.random_state = check_random_state(self.random_state)
         if hasattr(self.segments, "__iter__"):
-            self.segments = np.asarray(self.segments, dtype=np.float)
+            self.segments = np.asarray(self.segments, dtype=float)
         else:
             self.segments = self._generate_segments(self.segments)
         self._compute_surface()

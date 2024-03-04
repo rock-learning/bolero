@@ -30,10 +30,10 @@ class CEMOptimizer(Optimizer):
     elite_frac:float, optional (default: 0.5(50 %))
         Best candidate solutions for update
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance as a stopping criteria for behaviour learning
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values
 
     random_state : int, optional
@@ -42,8 +42,8 @@ class CEMOptimizer(Optimizer):
 
     def __init__(self, initial_params=None, covariance=None,
                  n_samples_per_update=None, elite_frac=0.5,
-                 bounds=None, min_fitness_dist=2 * np.finfo(np.float).eps,
-                 min_variance=2 * np.finfo(np.float).eps ** 2,
+                 bounds=None, min_fitness_dist=2 * np.finfo(float).eps,
+                 min_variance=2 * np.finfo(float).eps ** 2,
                  random_state=None, maximize=True,
                  **kwargs):
         self.initial_params = initial_params

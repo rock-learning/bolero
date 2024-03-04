@@ -243,7 +243,7 @@ class ConstantGaussianPolicy(UpperLevelPolicy):
             weights of individual samples (weight vectors)
         """
         # Avoid that all but one weights become 0
-        weights[weights == 0] = np.finfo(np.float).eps
+        weights[weights == 0] = np.finfo(float).eps
 
         self.mean = (weights * Y.T).sum(axis=1) / weights.sum()
 
@@ -490,7 +490,7 @@ class LinearGaussianPolicy(UpperLevelPolicy):
         weights = np.asarray(weights)
 
         # Avoid that all but one weights become 0
-        weights[weights == 0] = np.finfo(np.float).eps
+        weights[weights == 0] = np.finfo(float).eps
         Z = (weights.sum() ** 2 - (weights ** 2).sum()) / weights.sum()
 
         nominator = np.zeros_like(self.Sigma)

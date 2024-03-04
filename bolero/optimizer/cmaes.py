@@ -29,7 +29,7 @@ def inv_sqrt(cov):
     cov = np.triu(cov) + np.triu(cov, 1).T
     D, B = np.linalg.eigh(cov)
     # HACK: avoid numerical problems
-    D = np.maximum(D, np.finfo(np.float).eps)
+    D = np.maximum(D, np.finfo(float).eps)
     D = np.sqrt(D)
     return B.dot(np.diag(1.0 / D)).dot(B.T), B, D
 
@@ -81,10 +81,10 @@ class CMAESOptimizer(Optimizer):
     maximize : boolean, optional (default: True)
         Maximize return or minimize cost?
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance before restart
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values before restart
 
     max_condition : float optional (default: 1e7)
@@ -108,8 +108,8 @@ class CMAESOptimizer(Optimizer):
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
             n_samples_per_update=None, active=False, bounds=None, maximize=True,
-            min_variance=2 * np.finfo(np.float).eps ** 2,
-            min_fitness_dist=2 * np.finfo(np.float).eps, max_condition=1e7,
+            min_variance=2 * np.finfo(float).eps ** 2,
+            min_fitness_dist=2 * np.finfo(float).eps, max_condition=1e7,
             log_to_file=False, log_to_stdout=False, random_state=None):
         self.initial_params = initial_params
         self.variance = variance
@@ -467,10 +467,10 @@ class RestartCMAESOptimizer(CMAESOptimizer):
     maximize : optional, boolean (default: True)
         Maximize return or minimize cost?
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance before restart
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values before restart
 
     max_condition : float optional (default: 1e7)
@@ -488,8 +488,8 @@ class RestartCMAESOptimizer(CMAESOptimizer):
     def __init__(
             self, initial_params=None, variance=1.0, covariance=None,
             n_samples_per_update=None, active=False, bounds=None,
-            maximize=True, min_variance=2 * np.finfo(np.float).eps ** 2,
-            min_fitness_dist=2 * np.finfo(np.float).eps, max_condition=1e7,
+            maximize=True, min_variance=2 * np.finfo(float).eps ** 2,
+            min_fitness_dist=2 * np.finfo(float).eps, max_condition=1e7,
             log_to_file=False, log_to_stdout=False, random_state=None):
         super(RestartCMAESOptimizer, self).__init__(
             initial_params, variance, covariance, n_samples_per_update,
@@ -547,10 +547,10 @@ class IPOPCMAESOptimizer(RestartCMAESOptimizer):
     maximize : optional, boolean (default: True)
         Maximize return or minimize cost?
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance before restart
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values before restart
 
     max_condition : float optional (default: 1e7)
@@ -567,8 +567,8 @@ class IPOPCMAESOptimizer(RestartCMAESOptimizer):
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
                  n_samples_per_update=None, active=False, bounds=None,
-                 maximize=True, min_variance=2 * np.finfo(np.float).eps ** 2,
-                 min_fitness_dist=2 * np.finfo(np.float).eps,
+                 maximize=True, min_variance=2 * np.finfo(float).eps ** 2,
+                 min_fitness_dist=2 * np.finfo(float).eps,
                  max_condition=1e7, log_to_file=False, log_to_stdout=False,
                  random_state=None):
         super(IPOPCMAESOptimizer, self).__init__(
@@ -616,10 +616,10 @@ class BIPOPCMAESOptimizer(RestartCMAESOptimizer):
     maximize : optional, boolean (default: True)
         Maximize return or minimize cost?
 
-    min_variance : float, optional (default: 2 * np.finfo(np.float).eps ** 2)
+    min_variance : float, optional (default: 2 * np.finfo(float).eps ** 2)
         Minimum variance before restart
 
-    min_fitness_dist : float, optional (default: 2 * np.finfo(np.float).eps)
+    min_fitness_dist : float, optional (default: 2 * np.finfo(float).eps)
         Minimum distance between fitness values before restart
 
     max_condition : float optional (default: 1e7)
@@ -636,8 +636,8 @@ class BIPOPCMAESOptimizer(RestartCMAESOptimizer):
     """
     def __init__(self, initial_params=None, variance=1.0, covariance=None,
                  n_samples_per_update=None, active=False, bounds=None,
-                 maximize=True, min_variance=2 * np.finfo(np.float).eps ** 2,
-                 min_fitness_dist=2 * np.finfo(np.float).eps,
+                 maximize=True, min_variance=2 * np.finfo(float).eps ** 2,
+                 min_fitness_dist=2 * np.finfo(float).eps,
                  max_condition=1e7, log_to_file=False, log_to_stdout=False,
                  random_state=None):
         super(BIPOPCMAESOptimizer, self).__init__(

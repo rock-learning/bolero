@@ -6,7 +6,7 @@ from libc.stdlib cimport malloc, free
 cimport cython
 
 
-cdef double MACHINE_EPSILON = np.finfo(np.float).eps ** 2
+cdef double MACHINE_EPSILON = np.finfo(float).eps ** 2
 
 
 def optimize(np.ndarray[np.float_t, ndim=1] Ci,

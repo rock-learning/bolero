@@ -33,7 +33,7 @@ def load_promp_model(promp, filename):
     promp.overlap = model["overlap"]
     promp.n_features = promp.widths.shape[0]
     promp.weights = np.array(
-        model["ft_weights"], dtype=np.float).reshape(promp.n_task_dims,
+        model["ft_weights"], dtype=float).reshape(promp.n_task_dims,
                                                      promp.n_features).T
 
     if promp.execution_time != model["cs_execution_time"]:
@@ -491,10 +491,10 @@ class ProMPBehavior(BlackBoxBehavior):
         """
         config = yaml.safe_load(open(filename, "r"))
         self.execution_time = config["promp_execution_time"]
-        self.x0 = np.array(config["promp_startPosition"], dtype=np.float)
-        self.x0d = np.array(config["promp_startVelocity"], dtype=np.float)
-        self.g = np.array(config["promp_endPosition"], dtype=np.float)
-        self.gd = np.array(config["promp_endVelocity"], dtype=np.float)
+        self.x0 = np.array(config["promp_startPosition"], dtype=float)
+        self.x0d = np.array(config["promp_startVelocity"], dtype=float)
+        self.g = np.array(config["promp_endPosition"], dtype=float)
+        self.gd = np.array(config["promp_endVelocity"], dtype=float)
 
 
 def plot_covariance(ax, means, covariances, nstd=2):
