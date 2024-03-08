@@ -352,6 +352,19 @@ cdef class CppBehaviorSearch:
         feedbacks_array[:] = feedbacks
         self.thisptr.setEvaluationFeedback(&feedbacks_array[0], feedbacks_array.shape[0])
 
+    def set_step_feedback(self, feedbacks):
+        """Set feedback for the last step.
+
+        Parameters
+        ----------
+        feedbacks : list of float
+            feedback for each step
+        """
+        assert(feedbacks.ndim == 1)
+        cdef np.ndarray[double, ndim=1, mode="c"] feedbacks_array = np.ndarray(*feedbacks.shape)
+        feedbacks_array[:] = feedbacks
+        self.thisptr.setStepFeedback(&feedbacks_array[0], feedbacks_array.shape[0])
+
     def set_evaluation_one(self, aborted):
         """Notice if evaluation is finished and if it was aborted.
 

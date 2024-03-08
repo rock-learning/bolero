@@ -69,6 +69,14 @@ namespace bolero {
       pthread_mutex_unlock (&PythonInterpreter::mutex);
     }
 
+    void PyBehaviorSearch::setStepFeedback(
+                                           const double *feedbacks, int numFeedbacks) {
+      pthread_mutex_lock (&PythonInterpreter::mutex);
+      behaviorSearch->method("set_step_feedback")
+        .pass(ONEDCARRAY).call(feedbacks, numFeedbacks);
+      pthread_mutex_unlock (&PythonInterpreter::mutex);
+    }
+
     void PyBehaviorSearch::setEvaluationDone(bool aborted) {
       pthread_mutex_lock (&PythonInterpreter::mutex);
       behaviorSearch->method("set_evaluation_done")

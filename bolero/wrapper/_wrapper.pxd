@@ -38,6 +38,7 @@ cdef extern from "BehaviorSearch.h" namespace "bolero":
     Behavior* getNextBehavior() except +
     Behavior* getBestBehavior() except +
     void setEvaluationFeedback(double *feedbacks, int numFeedbacks) except +
+    void setStepFeedback(double *feedbacks, int numFeedbacks) except +
     void setEvaluationDone(bool aborted) except +
     void writeResults(string &resultPath) except +
     Behavior* getBehaviorFromResults(string &resultPath) except +

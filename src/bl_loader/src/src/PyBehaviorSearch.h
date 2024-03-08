@@ -19,6 +19,8 @@ public:
   bolero::Behavior* getBestBehavior();
   void setEvaluationFeedback(const double *feedbacks,
                              int numFeedbacks);
+  void setStepFeedback(const double *feedbacks,
+                       int numFeedbacks);
   void setEvaluationDone(bool aborted);
   void writeResults(const std::string &resultPath);
   bolero::Behavior* getBehaviorFromResults(const std::string &resultPath);

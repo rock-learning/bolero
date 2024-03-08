@@ -93,6 +93,16 @@ namespace bolero {
                                        int numFeedbacks) = 0;
 
     /**
+     * Notify the BehaviorSearch of the latest Step fitness
+     * Note: This method is new and not pure abstract to keep
+     * backwards compatibility.
+     * \param feedbacks feedbacks from the environment
+     * \param numFeedbacks number of feedbacks
+     */
+    virtual void setStepFeedback(const double *feedbacks,
+                                 int numFeedbacks) {};
+
+    /**
      * Notify the BehaviorSearch that a single evaluation is
      * finished and if it was aborted or successfull.
      * \param aborted = 'false' on success 'true' if evaluation

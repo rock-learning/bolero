@@ -187,7 +187,7 @@ namespace bolero {
         if(continuousReward) {
           if(!environment->isEvaluationDone() && !exitController) {
             num_feedbacks = environment->getFeedback(feedbacks);
-            behaviorSearch->setEvaluationFeedback(feedbacks, num_feedbacks);
+            behaviorSearch->setStepFeedback(feedbacks, num_feedbacks);
           }
         }
         if(provideNextState) {

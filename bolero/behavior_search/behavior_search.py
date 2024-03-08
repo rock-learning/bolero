@@ -46,6 +46,17 @@ class ContextualBehaviorSearch(Base):
             feedback for each step or for the episode, depends on the problem
         """
 
+    def set_step_feedback(self, feedbacks):
+        """Set feedback for the last step. Note: this function is new
+           and not obligatory to keep backwards compatibility.
+
+        Parameters
+        ----------
+        feedbacks : list of float
+            feedback for each step, depends on the problem
+        """
+        pass
+
     @abstractmethod
     def write_results(self, result_path):
         """Store current search state.
