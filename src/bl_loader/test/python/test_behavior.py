@@ -41,6 +41,9 @@ class TestBehavior(Behavior):
     def step(self):
         self.outputs = self.inputs * self.multiplier
         self.can_step_counter = self.can_step_counter - 1
+    
+    def finish_step(self):
+        pass
 
     def can_step(self):
         return self.can_step_counter > 0

@@ -102,7 +102,6 @@ namespace bolero {
      * Uses the inputs and meta-parameters to compute the outputs.
      */
     virtual void step() = 0;
-
     /**
      * Returns if step() can be called again.
      * \return False if the Behavior has finished executing, i.e. subsequent
@@ -111,6 +110,13 @@ namespace bolero {
      *         i.e. step() can be called at least one more time.
      *         The default implementation always returns true.
      */
+
+    virtual void finishStep() = 0;
+    /**
+     * 
+     * 
+     */
+
     virtual bool canStep() const { return true;}
 
     /**

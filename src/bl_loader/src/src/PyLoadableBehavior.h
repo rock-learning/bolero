@@ -66,6 +66,9 @@ public:
   virtual void getOutputs(double *values, int numOutputs) const;
 
   virtual void step();
+  
+  virtual void finishStep();
+
   virtual bool canStep() const;
 
 private:

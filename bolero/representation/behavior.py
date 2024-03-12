@@ -86,6 +86,11 @@ class Behavior(Base):
         Uses the inputs and meta-parameters to compute the outputs.
         """
 
+    def finish_step(self):
+        """ Compute the step after receive the set_target_state"""
+        pass
+
+
     def can_step(self):
         """Returns if step() can be called again.
 

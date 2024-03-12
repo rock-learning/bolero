@@ -107,6 +107,12 @@ void PyLoadableBehavior::step()
     throw std::runtime_error("Behavior must be initialized");
   pyBehavior->step();
 }
+void PyLoadableBehavior::finishStep()
+{
+  if(!pyBehavior)
+    throw std::runtime_error("Behavior must be initialized");
+  pyBehavior->finishStep();
+}
 
 bool PyLoadableBehavior::canStep() const
 {

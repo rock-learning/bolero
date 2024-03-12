@@ -45,6 +45,14 @@ void PyBehavior::step() {
   pthread_mutex_unlock (&PythonInterpreter::mutex);
 }
 
+void PyBehavior::finishStep() {
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
+  behavior->method("finish_step").call();
+  pthread_mutex_unlock (&PythonInterpreter::mutex);
+
+}
+
+
 bool PyBehavior::canStep() const
 {
   pthread_mutex_lock (&PythonInterpreter::mutex);

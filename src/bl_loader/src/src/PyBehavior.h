@@ -21,6 +21,8 @@ public:
   void setMetaParameters(const MetaParameters& params);
 
   void step();
+  void finishStep();
+
   bool canStep() const;
 
 private:

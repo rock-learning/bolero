@@ -193,8 +193,10 @@ namespace bolero {
         if(provideNextState) {
           environment->getOutputs(inputs, numInputs);
           behavior->setTargetState(inputs, numInputs);
+          behavior->finishStep();
         }
       } while(!environment->isEvaluationDone() && !exitController);
+
       if(exitController) break;
       /* Feedback interface need to be changed for better controller
          implementation.
