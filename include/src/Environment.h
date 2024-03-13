@@ -121,6 +121,13 @@ namespace bolero {
     virtual int getFeedback(double *feedback) const = 0;
 
     /**
+     * Get feedbacks from the last step.
+     * \param[out] feedback array, will be filled with feedbacks
+     * \return how many rewards were assigned for the whole evaluation
+     */
+      virtual int getStepFeedback(double *feedback) const {*feedback=0; return 0;}
+
+    /**
      * Check if the behavior learning is finished.
      * \return is the learning of a behavior finished?
      */
