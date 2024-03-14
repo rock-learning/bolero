@@ -505,6 +505,21 @@ cdef class CppEnvironment:
                              "wrapper code")
         return feedback[:n_feedbacks]
 
+    def get_step_feedback(self):
+        """Get the feedbacks for the last evaluated behavior step.
+
+        Returns
+        -------
+        feedback : array
+            Feedback values
+        """
+        cdef np.ndarray[double, ndim=1, mode="c"] feedback = np.ndarray(1000)
+        n_feedbacks = self.thisptr.getStepFeedback(&feedback[0])
+        if n_feedbacks > 1000:
+            raise ValueError("Collected more than 1000 feedbacks, fix the "
+                             "wrapper code")
+        return feedback[:n_feedbacks]
+
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.
 

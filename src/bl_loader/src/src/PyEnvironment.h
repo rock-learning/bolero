@@ -32,6 +32,7 @@ public:
    * for the whole evaluation
    */
   int getFeedback(double *feedback) const;
+  int getStepFeedback(double *feedback) const;
 
   bool isBehaviorLearningDone() const;
 

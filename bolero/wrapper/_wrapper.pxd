@@ -62,6 +62,7 @@ cdef extern from "Environment.h" namespace "bolero":
     bool isEvaluationDone() except +
     bool isEvaluationAborted() except +
     int getFeedback(double *feedback) except +
+    int getStepFeedback(double *feedback) except +
     bool isBehaviorLearningDone() except +
     bool isContextual() except +
 

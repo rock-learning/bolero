@@ -55,6 +55,16 @@ int PyEnvironment::getFeedback(double *feedback) const {
   return numFeedbacks;
 }
 
+int PyEnvironment::getStepFeedback(double *feedback) const {
+  shared_ptr<Object> result = environment->method("get_step_feedback")
+    .call().returnObject();
+  shared_ptr<std::vector<double> > feedbackVector = result->as1dArray();
+
+  const int numFeedbacks = (int) feedbackVector->size();
+  std::copy(feedbackVector->begin(), feedbackVector->end(), feedback);
+  return numFeedbacks;
+}
+
 void PyEnvironment::stepAction() {
   environment->method("step_action").call();
 }

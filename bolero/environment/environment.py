@@ -98,6 +98,16 @@ class Environment(Base, ABC):
             Feedback values
         """
 
+    def get_step_feedback(self):
+        """Get the feedbacks for the last evaluated behavior step.
+
+        Returns
+        -------
+        feedbacks : array
+            Feedback values
+        """
+        return [0.0]
+
     @abstractmethod
     def is_behavior_learning_done(self):
         """Check if the behavior learning is finished.

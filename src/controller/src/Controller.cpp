@@ -185,13 +185,21 @@ namespace bolero {
         environment->setInputs(outputs, numOutputs);
         environment->stepAction();
         if(continuousReward) {
-          if(!environment->isEvaluationDone() && !exitController) {
-            num_feedbacks = environment->getFeedback(feedbacks);
+          if(!exitController) {
+            num_feedbacks = environment->getStepFeedback(feedbacks);
             behaviorSearch->setStepFeedback(feedbacks, num_feedbacks);
           }
         }
         if(provideNextState) {
           environment->getOutputs(inputs, numInputs);
+          if(environment->isEvaluationDone()) {
+              if(environment->isEvaluationAborted()) {
+                behaviorSearch->setEvaluationDone(true);
+              }
+              else {
+                behaviorSearch->setEvaluationDone(false);
+              }
+          }
           behavior->setTargetState(inputs, numInputs);
           behavior->finishStep();
         }
