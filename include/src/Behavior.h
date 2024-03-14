@@ -111,11 +111,10 @@ namespace bolero {
      *         The default implementation always returns true.
      */
 
-    virtual void finishStep() = 0;
     /**
-     * 
-     * 
+     * Is called after the step is applied in the environmet.
      */
+    virtual void finishStep() {}
 
     virtual bool canStep() const { return true;}
 

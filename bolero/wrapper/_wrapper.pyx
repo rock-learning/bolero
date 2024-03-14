@@ -927,6 +927,11 @@ cdef class CppBehavior:
         """
         self.thisptr.step()
 
+    def finish_step(self):
+        """Is called after a step is applied in the environemnt
+        """
+        self.thisptr.finishStep()
+
     def can_step(self):
         """Determine if stepping is possible.
 

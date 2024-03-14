@@ -18,6 +18,7 @@ cdef extern from "Behavior.h" namespace "bolero":
     int getNumInputs() except +
     int getNumOutputs() except +
     void step() except +
+    void finishStep() except +
     bool canStep() except +
 
 cdef extern from "LoadableBehavior.h" namespace "bolero":
