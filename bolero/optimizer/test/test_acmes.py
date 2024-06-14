@@ -1,6 +1,6 @@
-from sklearn.utils.testing import assert_warns, assert_equal
+from bolero.utils.validation import assert_warns
 from bolero.optimizer import ACMESOptimizer
-from nose.tools import assert_raises_regexp
+from nose.tools import assert_raises_regexp, assert_equal
 
 
 def test_acmes_clip_samples():

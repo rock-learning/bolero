@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 import numbers
 
@@ -15,6 +16,42 @@ except:
             return seed
         raise ValueError('%r cannot be used to seed a numpy.random.RandomState'
                          ' instance' % seed)
+
+
+def assert_warns(warning_class, func, *args, **kw):
+    """Test that a certain warning occurs.
+    Parameters
+    ----------
+    warning_class : the warning class
+        The class to test for, e.g. UserWarning.
+    func : callable
+        Callable object to trigger warnings.
+    *args : the positional arguments to `func`.
+    **kw : the keyword arguments to `func`
+    Returns
+    -------
+    result : the return value of `func`
+    """
+    with warnings.catch_warnings(record=True) as w:
+        # Cause all warnings to always be triggered.
+        warnings.simplefilter("always")
+        # Trigger a warning.
+        result = func(*args, **kw)
+        if hasattr(np, 'FutureWarning'):
+            # Filter out numpy-specific warnings in numpy >= 1.9
+            w = [e for e in w
+                 if e.category is not np.VisibleDeprecationWarning]
+
+        # Verify some things
+        if not len(w) > 0:
+            raise AssertionError("No warning raised when calling %s"
+                                 % func.__name__)
+
+        found = any(warning.category is warning_class for warning in w)
+        if not found:
+            raise AssertionError("%s did not give warning: %s( is %s)"
+                                 % (func.__name__, warning_class, w))
+    return result
 
 
 def check_feedback(feedback, compute_sum=False, check_inf=True, check_nan=True):
