@@ -1,4 +1,5 @@
-from .controller import Controller, ContextualController
+from .controller import Controller, AveragingEpisodesController, \
+    ContextualController
 
 
-__all__ = ["Controller", "ContextualController"]
+__all__ = ["Controller", "AveragingEpisodesController", "ContextualController"]
