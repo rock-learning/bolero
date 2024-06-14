@@ -62,5 +62,7 @@ for it, X in enumerate(X_hist[::int(n_episodes / 10)]):
     ax.plot(X[:, 0], X[:, 1], c="k", alpha=it / 20.0, lw=3, ls="--")
 ax.set_xticks(())
 ax.set_yticks(())
+ax.set_xlabel("$x_1$")
+ax.set_ylabel("$x_2$")
 plt.legend(loc="best")
 plt.show()
