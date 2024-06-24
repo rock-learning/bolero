@@ -38,7 +38,7 @@ namespace bolero {
     Environment(lib_manager::LibManager *theManager,
                 const std::string &libName, int libVersion) :
       lib_manager::LibInterface(theManager), libName(libName),
-      libVersion(libVersion) {
+      libVersion(libVersion), behavior(NULL) {
     }
 
     virtual ~Environment() {}
@@ -91,6 +91,13 @@ namespace bolero {
     virtual void setInputs(const double *values, int numInputs) = 0;
 
     /**
+     * As alternative to use setInputs and getOutputs a Behavior can be
+     * given to the environemnt that can be directly used.
+     * \param Behavior pointer
+     */
+    virtual void setBehavior(Behavior *behavior) {this->behavior = behavior;}
+
+    /**
      * Take a step in the environment.
      */
     virtual void stepAction() = 0;
@@ -136,7 +143,7 @@ namespace bolero {
   protected:
     std::string libName;
     int libVersion;
-
+    Behavior *behavior;
   }; // end of class definition Environment
 
 } // end of namespace bolero

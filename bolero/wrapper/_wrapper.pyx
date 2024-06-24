@@ -401,10 +401,12 @@ cdef class CppBehaviorSearch:
 
 cdef class CppEnvironment:
     cdef Environment *thisptr
+    cdef PyBehavior *behavior;
     cdef string config_yaml
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
+        self.behavior = NULL
         self.config_yaml = ""
 
     def initialize_yaml(self, config_yaml):
@@ -464,6 +466,23 @@ cdef class CppEnvironment:
         cdef np.ndarray[double, ndim=1, mode="c"] inputs = np.ndarray(n_inputs)
         inputs[:] = values
         self.thisptr.setInputs(&inputs[0], n_inputs)
+
+    def set_behavior(self, behavior):
+        """Set behavior to be used in environment
+
+        Parameters
+        ----------
+        behavior : object,
+            behavior to be used
+        """
+        # todo:
+        #   - the behavior that we get is a python behavior?
+        #   - we have to create a CppBehavior wrapper
+        #   - and pass that to the CppEnvironment
+        #if !self.behavior:
+
+        #self.thisptr.setBehavior(pyBehavior)
+        pass
 
     def step_action(self):
         """Take a step in the environment.

@@ -21,6 +21,7 @@ public:
 
   void getOutputs(double *values, int numOutputs) const;
   void setInputs(const double *values, int numInputs);
+  void setBehavior(Behavior *behavior);
   void stepAction();
 
   bool isEvaluationDone() const;

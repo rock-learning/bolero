@@ -94,11 +94,15 @@ namespace bolero {
     string strEnvironment = map["Environment"]["type"];
     string strBehaviorSearch = map["BehaviorSearch"]["type"];
     int maxEvaluations = map["Controller"]["MaxEvaluations"];
+    bool pipeBehavior = false;
     bool logAllBehaviors = false;
     bool evaluateExperiment = false;
     bool logResults = false;
     string experimentDir;
 
+    if(map["Environment"].hasKey("receiveBehavior")) {
+      pipeBehavior = map["Environment"]["receiveBehavior"];
+    }
     if(map["Controller"].hasKey("LogAllBehaviors")) {
       logAllBehaviors = map["Controller"]["LogAllBehaviors"];
     }
@@ -178,11 +182,16 @@ namespace bolero {
       environment->reset();
 
       do {
-        environment->getOutputs(inputs, numInputs);
-        behavior->setInputs(inputs, numInputs);
-        behavior->step();
-        behavior->getOutputs(outputs, numOutputs);
-        environment->setInputs(outputs, numOutputs);
+        if(pipeBehavior) {
+          environment->setBehavior(behavior);
+        }
+        else {
+          environment->getOutputs(inputs, numInputs);
+          behavior->setInputs(inputs, numInputs);
+          behavior->step();
+          behavior->getOutputs(outputs, numOutputs);
+          environment->setInputs(outputs, numOutputs);
+        }
         environment->stepAction();
         if(continuousReward) {
           if(!exitController) {

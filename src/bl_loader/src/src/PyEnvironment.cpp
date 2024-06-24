@@ -1,3 +1,4 @@
+#include <Python.h>
 #include "PyEnvironment.h"
 #include <limits>
 #include <algorithm>
@@ -8,7 +9,7 @@
 namespace bolero { namespace bl_loader {
 
 PyEnvironment::PyEnvironment(lib_manager::LibManager *theManager,
-		                     const std::string libName, int libVersion)
+                         const std::string libName, int libVersion)
   : bolero::Environment(theManager, libName, libVersion), environment(0)
 {
 }
@@ -43,6 +44,20 @@ void PyEnvironment::getOutputs(double *values, int numOutputs) const {
 
 void PyEnvironment::setInputs(const double *values, int numInputs) {
   environment->method("set_inputs").pass(ONEDCARRAY).call(values, numInputs);
+}
+
+void PyEnvironment::setBehavior(Behavior *behavior) {
+/*  - we create a CppBehavior wrapper
+ *  - set the thisptr attribute to the cpp behavior ptr
+ *  - todo: check if this is working
+ *  - call the set_behavior method with the newly created CppBehavior object
+ */
+  PyObject *pyWrapper = PyImport_ImportModule("bolero.wrapper");
+  PyObject *pyBehavior = PyObject_GetAttrString(pyWrapper, "CppBehavior");
+  Py_DECREF(pyWrapper);
+  PyObject_SetAttrString(pyBehavior, "thisptr", (PyObject*)behavior);
+  environment->method("set_behavior").pass(OBJECT).call(pyBehavior);
+  Py_DECREF(pyBehavior);
 }
 
 int PyEnvironment::getFeedback(double *feedback) const {
