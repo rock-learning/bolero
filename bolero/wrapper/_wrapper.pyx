@@ -401,7 +401,7 @@ cdef class CppBehaviorSearch:
 
 cdef class CppEnvironment:
     cdef Environment *thisptr
-    cdef PyBehavior *behavior;
+    cdef Behavior *behavior;
     cdef string config_yaml
 
     def __cinit__(self):
