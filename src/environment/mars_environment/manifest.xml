@@ -3,12 +3,11 @@
     This environment evaluates a MARS scenario.
   </description>
   <depend package="learning/bolero/include" />
-  <depend package="simulation/mars/app" />
-  <depend package="simulation/mars/interfaces" />
-  <depend package="simulation/mars/common/cfg_manager" />
-  <depend package="simulation/mars/common/data_broker" />
-  <depend package="simulation/mars/common/utils" />
-  <depend package="simulation/mars/plugins/entity_view" />
+  <depend package="simulation/mars2/mars_app" />
+  <depend package="simulation/mars2/mars_interfaces" />
+  <depend package="simulation/cfg_manager" />
+  <depend package="simulation/data_broker" />
+  <depend package="simulation/utils" />
   <depend package="simulation/lib_manager" />
   <depend package="tools/configmaps" />
 </package>

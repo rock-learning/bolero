@@ -13,7 +13,7 @@
   #warning "MARSReceiver.h"
 #endif
 
-#include <mars/data_broker/ReceiverInterface.h>
+#include <data_broker/ReceiverInterface.h>
 
 namespace bolero {
   namespace mars_environment {
