@@ -11,9 +11,9 @@
 
 #include <configmaps/ConfigData.h>
 #include <lib_manager/LibManager.hpp>
-#include <mars/interfaces/sim/SimulatorInterface.h>
-#include <mars/interfaces/sim/ControlCenter.h>
-#include <mars/utils/misc.h>
+#include <mars_interfaces/sim/SimulatorInterface.h>
+#include <mars_interfaces/sim/ControlCenter.h>
+#include <mars_utils/misc.h>
 
 #include <cmath>
 #include <cstring> // needed for memcpy
@@ -33,7 +33,7 @@ namespace bolero {
 
     MARSEnvironmentHelper::~MARSEnvironmentHelper() {
       if(initialized)
-        libManager->releaseLibrary("mars_sim");
+        libManager->releaseLibrary("mars_core");
 
       //mars::app::MARS::control->sim->StopSimulation();
       marsPlugin->doNotContinue = false;
@@ -107,27 +107,32 @@ namespace bolero {
         fprintf(stderr, "Loading default core libraries...\n");
         libManager->loadLibrary("cfg_manager");
         libManager->loadLibrary("data_broker");
-        libManager->loadLibrary("mars_sim");
+        libManager->loadLibrary("mars_core");
         libManager->loadLibrary("mars_scene_loader");
-        libManager->loadLibrary("mars_entity_factory");
-        libManager->loadLibrary("mars_smurf");
-        libManager->loadLibrary("mars_smurf_loader");
+        // libManager->loadLibrary("mars_entity_factory");
+        // libManager->loadLibrary("mars_smurf");
+        // libManager->loadLibrary("mars_smurf_loader");
         if(enableGUI) {
           libManager->loadLibrary("main_gui");
           libManager->loadLibrary("mars_graphics");
           libManager->loadLibrary("mars_gui");
-          libManager->loadLibrary("entity_view");
+          libManager->loadLibrary("envire_entity_view");
+          libManager->loadLibrary("envire_mars_graphics");
         }
       }
+      libManager->loadLibrary("envire_mars_ode_physics");
+      libManager->loadLibrary("envire_mars_ode_collision");
+      libManager->loadLibrary("envire_mars_motors");
+      libManager->loadLibrary("envire_mars_sensors");
 
       fprintf(stderr, "Loading default additional libraries...\n");
       // loading errors will be silent for the following optional libraries
       if(enableGUI) {
-        libManager->loadLibrary("connexion_plugin", NULL, true);
-        libManager->loadLibrary("data_broker_gui", NULL, true);
-        libManager->loadLibrary("cfg_manager_gui", NULL, true);
-        libManager->loadLibrary("lib_manager_gui", NULL, true);
-        libManager->loadLibrary("data_broker_plotter2", NULL, true);
+        // libManager->loadLibrary("connexion_plugin", NULL, true);
+        // libManager->loadLibrary("data_broker_gui", NULL, true);
+        // libManager->loadLibrary("cfg_manager_gui", NULL, true);
+        // libManager->loadLibrary("lib_manager_gui", NULL, true);
+        // libManager->loadLibrary("data_broker_plotter2", NULL, true);
       }
 
       // load the simulation other_libs:
@@ -141,7 +146,7 @@ namespace bolero {
       marsThread->startMARS();
 
       mars::interfaces::SimulatorInterface *mars;
-      mars = libManager->getLibraryAs<mars::interfaces::SimulatorInterface>("mars_sim");
+      mars = libManager->getLibraryAs<mars::interfaces::SimulatorInterface>("mars_core");
       assert(mars);
       marsPlugin->configString = config;
       marsPlugin->control = mars->getControlCenter();
@@ -235,9 +240,15 @@ namespace bolero {
       /*
       while(!marsPlugin->finishedStep) { }
       */
-
-      while(!marsPlugin->newOutputData) {
+      while(!marsPlugin->newOutputData)
+      {
         mars::app::MARS::control->sim->step(true);
+        // HACK
+        if (behavior)
+        {
+          marsPlugin->newOutputData = false;
+          break;
+        }
       }
 
       if(--updateCount < 0) {
