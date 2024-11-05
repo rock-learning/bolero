@@ -13,10 +13,10 @@
   #warning "MARSThread.h"
 #endif
 
-#include <mars_app/MARS.hpp>
-#include <mars_app/MyApp.hpp>
-#include <mars_utils/misc.h>
-#include <mars_utils/Thread.h>
+#include <mars/app/MARS.h>
+#include <mars/app/MyApp.h>
+#include <mars/utils/misc.h>
+#include <mars/utils/Thread.h>
 
 
 namespace bolero {

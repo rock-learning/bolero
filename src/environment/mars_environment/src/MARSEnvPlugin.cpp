@@ -8,13 +8,13 @@
 
 
 #include "MARSEnvPlugin.h"
-#include <data_broker/DataBrokerInterface.h>
-#include <data_broker/DataPackage.h>
-#include <mars_interfaces/sim/SimulatorInterface.h>
-#include <mars_interfaces/sim/ControlCenter.h>
-#include <cfg_manager/CFGManagerInterface.h>
-#include <mars_utils/mathUtils.h>
-#include <mars_utils/misc.h>
+#include <mars/data_broker/DataBrokerInterface.h>
+#include <mars/data_broker/DataPackage.h>
+#include <mars/interfaces/sim/SimulatorInterface.h>
+#include <mars/interfaces/sim/ControlCenter.h>
+#include <mars/cfg_manager/CFGManagerInterface.h>
+#include <mars/utils/mathUtils.h>
+#include <mars/utils/misc.h>
 #include <math.h>
 #include <cassert>
 
@@ -78,9 +78,9 @@ namespace bolero {
 
       r = new MARSReceiver(this);
       control->dataBroker->registerTriggeredReceiver(
-        r, "mars_core", "simTime", "mars_sim/postPhysicsUpdate");
+        r, "mars_sim", "simTime", "mars_sim/postPhysicsUpdate");
       control->dataBroker->registerTriggeredReceiver(
-        r, "mars_core", "simTime", "mars_sim/prePhysicsUpdate");
+        r, "mars_sim", "simTime", "mars_sim/prePhysicsUpdate");
     }
 
     void MARSEnvPlugin::reset() {

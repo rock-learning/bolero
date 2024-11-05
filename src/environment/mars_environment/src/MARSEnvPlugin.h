@@ -15,9 +15,9 @@
 
 #include "MARSReceiver.h"
 
-#include <mars_interfaces/sim/PluginInterface.h>
-#include <mars_utils/Mutex.h>
-#include <cfg_manager/CFGManagerInterface.h>
+#include <mars/interfaces/sim/PluginInterface.h>
+#include <mars/utils/Mutex.h>
+#include <mars/cfg_manager/CFGManagerInterface.h>
 
 namespace bolero {
   namespace mars_environment {
