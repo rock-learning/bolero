@@ -16,7 +16,7 @@ else:
 
 class CleanCommand(Clean):
     description = "Remove build directories"#, and compiled file in the source tree"
- 
+
     def run(self):
         Clean.run(self)
         if os.path.exists('build'):
@@ -31,17 +31,17 @@ class CleanCommand(Clean):
                 shutil.rmtree(path)
 
 
-def configuration(parent_package='', top_path=None):
-    from numpy.distutils.misc_util import Configuration
-    config = Configuration(None, parent_package, top_path)
+# def configuration(parent_package='', top_path=None):
+#     from numpy.distutils.misc_util import Configuration
+#     config = Configuration(None, parent_package, top_path)
 
-    config.set_options(ignore_setup_xxx_py=True,
-                       assume_default_configuration=True,
-                       delegate_options_to_subpackages=True,
-                       quiet=True)
+#     config.set_options(ignore_setup_xxx_py=True,
+#                        assume_default_configuration=True,
+#                        delegate_options_to_subpackages=True,
+#                        quiet=True)
 
-    config.add_subpackage('bolero')
-    return config
+#     config.add_subpackage('bolero')
+#     return config
 
 
 def setup_package():
@@ -61,18 +61,21 @@ def setup_package():
     if (len(sys.argv) >= 2
             and ('--help' in sys.argv[1:] or sys.argv[1]
                  in ('--help-commands', 'egg_info', '--version', 'clean'))):
-        try:
-            from setuptools import setup
-            #install_requires is only available if setuptools is used
-            metadata["install_requires"] = ["PyYAML", "scipy", "numpy"]
-        except ImportError:
-            from distutils.core import setup
+        from setuptools import setup, find_packages, Extension
+        #install_requires is only available if setuptools is used
+        metadata["install_requires"] = ["PyYAML", "scipy", "numpy"]
+        metadata['packages'] = find_packages()
+        metadata['ext_modules'] = [Extension(name="bolero.utils._ranking_svm", sources=["bolero/utils/_ranking_svm.c"])]
 
     else:
-        from numpy.distutils.core import setup
-
-        metadata['configuration'] = configuration
-
+        from setuptools import setup, find_packages, Extension
+        #from numpy.distutils.core import setup
+        import numpy
+        root_path = os.environ.get("AUTOPROJ_CURRENT_ROOT")
+        root_path = os.path.join(root_path, "install/include")
+        metadata['packages'] = find_packages()
+        metadata['ext_modules'] = [Extension(name="bolero.utils._ranking_svm", sources=["bolero/utils/_ranking_svm.cpp"], include_dirs=["include/src", "src/bl_loader/src/src", root_path, numpy.get_include()]),
+                                   Extension(name="bolero.wrapper._wrapper", sources=["bolero/wrapper/_wrapper.cpp"], include_dirs=["include/src", "src/bl_loader/src/src", root_path, numpy.get_include()])]
     setup(**metadata)
 
 

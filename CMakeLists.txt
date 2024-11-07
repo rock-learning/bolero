@@ -22,7 +22,11 @@ message(STATUS "Python version: ${PYTHON_VERSION}")
 
 
 execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} -m cython -${PYTHON_VERSION} bolero/utils/_ranking_svm.pyx
+    COMMAND ${PYTHON_EXECUTABLE} -m cython -${PYTHON_VERSION} --cplus bolero/utils/_ranking_svm.pyx
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} -m cython -${PYTHON_VERSION} --cplus bolero/wrapper/_wrapper.pyx
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SETUP_PY "${CMAKE_CURRENT_SOURCE_DIR}/setup.py")
@@ -40,7 +44,7 @@ add_custom_command(
 
 install(
   CODE "execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} install --prefix=${CMAKE_INSTALL_PREFIX}
+    COMMAND pip install . --prefix=${CMAKE_INSTALL_PREFIX}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})"
 )
 

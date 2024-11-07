@@ -3,7 +3,8 @@
 cimport numpy as np
 import numpy as np
 from libcpp.string cimport string
-cimport _wrapper
+#cimport _wrapper
+cimport cython
 from ..utils.log import HideExtern
 from cpython cimport version
 
@@ -174,7 +175,7 @@ cdef class CppOptimizer:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = get_string(config_yaml)
@@ -295,7 +296,7 @@ cdef class CppBehaviorSearch:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = get_string(config_yaml)
@@ -407,7 +408,7 @@ cdef class CppEnvironment:
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
         self.behavior = NULL
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = get_string(config_yaml)
@@ -566,7 +567,7 @@ cdef class CppContextualEnvironment:
 
     def __cinit__(self):
         self.thisptr = NULL
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = get_string(config_yaml)
@@ -716,7 +717,7 @@ cdef class CppParameterizedEnvironment:
 
     def __cinit__(self):
         self.thisptr = NULL
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def __dealloc__(self):
         del self.thisptr
@@ -868,7 +869,7 @@ cdef class CppBehavior:
 
     def __cinit__(self):
         self.thisptr = NULL  # The BLLoader will delete this pointer
-        self.config_yaml = ""
+        self.config_yaml = "".encode('UTF-8')
 
     def initialize_yaml(self, config_yaml):
         self.config_yaml = get_string(config_yaml)
