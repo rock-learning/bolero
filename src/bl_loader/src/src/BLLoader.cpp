@@ -26,7 +26,7 @@ using lib_manager::LibManager;
 namespace bolero {
   namespace bl_loader {
 
-    BLLoader::BLLoader() : lib_manager::LibInterface(new LibManager())
+    BLLoader::BLLoader() : lib_manager::LibInterface(LibManager::getLibManagerSingelton())
     {
       #ifdef PYTHON_SUPPORT
         PythonInterpreter::instance().addToPythonpath(".");
