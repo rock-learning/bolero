@@ -71,11 +71,12 @@ def setup_package():
         from setuptools import setup, find_packages, Extension
         #from numpy.distutils.core import setup
         import numpy
+        from bolero.wrapper import build_info
         root_path = os.environ.get("AUTOPROJ_CURRENT_ROOT")
         root_path = os.path.join(root_path, "install/include")
         metadata['packages'] = find_packages()
         metadata['ext_modules'] = [Extension(name="bolero.utils._ranking_svm", sources=["bolero/utils/_ranking_svm.cpp"], include_dirs=["include/src", "src/bl_loader/src/src", root_path, numpy.get_include()]),
-                                   Extension(name="bolero.wrapper._wrapper", sources=["bolero/wrapper/_wrapper.cpp"], include_dirs=["include/src", "src/bl_loader/src/src", root_path, numpy.get_include()])]
+                                   Extension(name="bolero.wrapper._wrapper", sources=["bolero/wrapper/_wrapper.cpp"], include_dirs=["include/src", "src/bl_loader/src/src", root_path, numpy.get_include(),'.'] + build_info.LIB_MANAGER_INCLUDE_DIRS.split(";"))]
     setup(**metadata)
 
 
