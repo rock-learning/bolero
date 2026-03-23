@@ -162,9 +162,9 @@ struct NdArray
     }
     static const bool check(PyObjectPtr obj) { return PyArray_Check(obj.get()); }
     const unsigned size() { return PyArray_Size(obj.get()); }
-    const int ndim() { return PyArray_NDIM(obj.get()); }
-    const bool isDouble() { return PyArray_TYPE(obj.get()) == NPY_DOUBLE; }
-    const double get(unsigned i) { return *((double*)PyArray_GETPTR1(obj.get(), (npy_intp)i)); }
+    const int ndim() { return PyArray_NDIM((PyArrayObject*)obj.get()); }
+    const bool isDouble() { return PyArray_TYPE((PyArrayObject*)obj.get()) == NPY_DOUBLE; }
+    const double get(unsigned i) { return *((double*)PyArray_GETPTR1((PyArrayObject*)obj.get(), (npy_intp)i)); }
 };
 
 struct List
