@@ -49,33 +49,7 @@ namespace bolero {
         unsigned long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
         seed = ms+getpid()*1000;
       }
-      std::string seedFilename;
-      char *logPath = getenv("BL_LOG_PATH");
-      if(logPath) {
-         seedFilename = std::string(logPath) + "/seed.txt";
-         logFileInd = std::string(logPath) + "/cmaes_fitness_ind.txt";
-         logFileGen = std::string(logPath) + "/cmaes_fitness_gen.txt";
-         logFileBest = std::string(logPath) + "/cmaes_fitness_best.txt";
-      }
-      else {
-        logFileInd = "cmaes_fitness_ind.txt";
-        logFileGen = "cmaes_fitness_gen.txt";
-        logFileBest = "cmaes_fitness_best.txt";
-        seedFilename = "seed.txt";
-      }
-      FILE *seedFile = fopen(seedFilename.c_str(), "w");
-      if(seedFile) {
-        fprintf(seedFile, "seed: %ld\n", seed);
-        fclose(seedFile);
-      }
-
-      FILE *outFile = fopen(logFileInd.c_str(), "w");
-      fclose(outFile);
-      outFile = fopen(logFileGen.c_str(), "w");
-      fclose(outFile);
-      outFile = fopen(logFileBest.c_str(), "w");
-      fclose(outFile);
-
+      setLogDir("");
       best = DBL_MAX;
       bestGen = DBL_MAX;
       bestGenIndex = 0;
@@ -174,6 +148,21 @@ namespace bolero {
 
     void CMAESOptimizer::deinit() {
       if(isInit) {
+        if(logDir.empty()) {
+          char *logPath = getenv("BL_LOG_PATH");
+          if(logPath) {
+            logDir = logPath;
+          }
+        }
+        std::string file = logDir;
+        if(file.empty()) {
+          file = ".";
+        }
+        file += "/allcmaes.dat";
+        cmaes_WriteToFile(&evo, "all", file.c_str());
+        file = logDir;
+        file += "/resume.dat";
+        cmaes_WriteToFile(&evo, "resume", file.c_str());
         delete[] rgFunVal;
         rgFunVal = NULL;
         if(bestParams) delete[] bestParams;
@@ -185,15 +174,6 @@ namespace bolero {
 
     CMAESOptimizer::~CMAESOptimizer() {
       if(isInit) {
-        char *logDir = getenv("BL_LOG_PATH");
-        if(logDir) {
-          std::string file = logDir;
-          file += "/allcmaes.dat";
-          cmaes_WriteToFile(&evo, "all", file.c_str());
-          file = logDir;
-          file += "/resume.dat";
-          cmaes_WriteToFile(&evo, "resume", file.c_str());
-        }
         deinit();
       }
 
@@ -337,6 +317,41 @@ namespace bolero {
       *val = fmod(fabs(*val), range*2);
       if((*val) > range) *val = range*2 - *val;
       *val += min;
+    }
+
+    void CMAESOptimizer::setLogDir(std::string logPath) {
+      std::string seedFilename;
+      logDir = logPath;
+      if(logDir.empty()) {
+        char *logPath = getenv("BL_LOG_PATH");
+        if(logPath) {
+          logDir = logPath;
+        }
+      }
+      if(!logDir.empty()) {
+        seedFilename = logDir + "/seed.txt";
+        logFileInd = logDir + "/cmaes_fitness_ind.txt";
+        logFileGen = logDir + "/cmaes_fitness_gen.txt";
+        logFileBest = logDir + "/cmaes_fitness_best.txt";
+      }
+      else {
+        logFileInd = "cmaes_fitness_ind.txt";
+        logFileGen = "cmaes_fitness_gen.txt";
+        logFileBest = "cmaes_fitness_best.txt";
+        seedFilename = "seed.txt";
+      }
+      FILE *seedFile = fopen(seedFilename.c_str(), "w");
+      if(seedFile) {
+        fprintf(seedFile, "seed: %ld\n", seed);
+        fclose(seedFile);
+      }
+
+      FILE *outFile = fopen(logFileInd.c_str(), "w");
+      fclose(outFile);
+      outFile = fopen(logFileGen.c_str(), "w");
+      fclose(outFile);
+      outFile = fopen(logFileBest.c_str(), "w");
+      fclose(outFile);
     }
 
   } // end of namespace cmaes_optimizer

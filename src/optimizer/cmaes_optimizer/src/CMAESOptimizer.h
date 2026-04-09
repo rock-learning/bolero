@@ -32,19 +32,20 @@ namespace bolero {
 
       CREATE_MODULE_INFO();
 
-      virtual void init(int dimension, std::string config="");
-      virtual void getNextParameters(double *p, int numP);
-      virtual void getBestParameters(double *p, int numP);
+      virtual void init(int dimension, std::string config="") override;
+      virtual void getNextParameters(double *p, int numP) override;
+      virtual void getBestParameters(double *p, int numP) override;
       virtual void setEvaluationFeedback(const double *feedbacks,
-                                         int numFeedbacks);
-      virtual bool isBehaviorLearningDone() const;
+                                         int numFeedbacks) override;
+      virtual bool isBehaviorLearningDone() const override;
 
       virtual void getNextParameterSet(double *p, int numP,
-                                       int batchSize) const;
+                                       int batchSize) const override;
       virtual void setParameterSetFeedback(const double *feedback,
                                            int numFeedbacksPerSet,
-                                           int batchSize);
-      virtual int getBatchSize() const;
+                                           int batchSize) override;
+      virtual int getBatchSize() const override;
+      virtual void setLogDir(std::string logPath) override;
 
       void reinit(int dimension, int lambda=0, double *start=NULL);
       int getDimension() {return dimension;}
