@@ -37,7 +37,8 @@ namespace bolero {
               std::string libName, int libVersion)
       : lib_manager::LibInterface(theManager),
         libName(libName),
-        libVersion(libVersion) {
+        libVersion(libVersion),
+        logDir("") {
     }
 
     virtual ~Optimizer() {}
@@ -88,10 +89,11 @@ namespace bolero {
     virtual void getNextParameterSet(double *p, int numP, int batchSize) const = 0;
     virtual void setParameterSetFeedback(const double *feedback, int numFeedbacksPerSet, int batchSize) = 0;
     virtual int getBatchSize() const = 0;
+    virtual void setLogDir(std::string logDir_) {this->logDir = logDir_;}
 
   protected:
     int dimension;
-    std::string libName;
+    std::string libName, logDir;
     int libVersion;
   }; // end of class definition Optimizer
 
