@@ -35,6 +35,14 @@ namespace bolero {
     virtual ~Behavior() {}
 
     /**
+     * Serializes a Behavior to a string
+     */
+    virtual const std::string serialize() const
+    {
+        throw std::runtime_error("Used \"Behavior\" implementation is not serializable!");
+    }
+
+    /**
      * Initialize the behavior.
      * \param numInputs number of inputs
      * \param numOutputs number of outputs
