@@ -180,8 +180,10 @@ namespace bolero {
       }
 
       environment->reset();
+      // TODO: Why is pipeBehavior not here?
 
       do {
+        // TODO: Piping the behavior has to be here? Or outside this loop?
         if(pipeBehavior) {
           environment->setBehavior(behavior);
         }
@@ -230,6 +232,7 @@ namespace bolero {
       */
       num_feedbacks = environment->getFeedback(feedbacks);
       //assert(num_feedbacks == size_feedbacks);
+      // TODO: implicitly summing up fitness values everywhere in the bolero/sabre ecosystem is not a good idea
       feedback = 0.0;
       for(size_t i = 0; i < num_feedbacks; i++)
         feedback += feedbacks[i];
