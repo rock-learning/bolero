@@ -154,6 +154,20 @@ namespace bolero {
      *        per batch
      */
     virtual void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch, int batchSize) {}
+    /**
+     *
+     * Set the feedback of a batch of behaviors.
+     * \param batchFeedback array with feedback values with the size
+              batchSize*numFeedbacksPerBatch
+     * \param numFeedbacksPerBatch number of feedback values in the array
+     *        per batch
+     * \param batchSize number of batches
+     * \param individuals vector of serialized individuals passed back from evaluation which might have been modified
+     */
+    virtual void setBatchFeedback(const double* batchFeedback, int numFeedbacksPerBatch, int batchSize,  const std::vector<std::string>& individuals)
+    {
+        setBatchFeedback(batchFeedback, numFeedbacksPerBatch, batchSize);
+    }
 
     /**
      * Get behavior from serialized string.
